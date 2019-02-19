@@ -1,9 +1,6 @@
 
 call npm run tsc
 
-REM MKDIR js-src\client\lib
-REM copy src\client\lib\phaser.js js-src\client\lib\phaser.js
-
 REM Build the "build" folder
 MKDIR build
 MKDIR build\public
