@@ -1,0 +1,33 @@
+{
+  "devDependencies": {
+    "typescript": "^3.3.3"
+  },
+  "name": "SpaceAge",
+  "description": "",
+  "version": "1.0.0",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "dependencies": {
+    "@types/express": "^4.16.1",
+    "@types/node": "^11.9.4",
+    "common-js": "^0.3.8",
+    "express": "^4.16.4",
+    "ts-node-dev": "^1.0.0-pre.32"
+  },
+  "scripts": {
+    "tsc": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ToreRisinger/SpaceAge.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ToreRisinger/SpaceAge/issues"
+  },
+  "homepage": "https://github.com/ToreRisinger/SpaceAge#readme"
+}
