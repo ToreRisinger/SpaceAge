@@ -1,4 +1,5 @@
 import { CONSTANTS } from "../CONSTANTS";
+import { Com } from "../modules/Com"
 
 export class LoadScene extends Phaser.Scene{
     constructor() {
@@ -59,6 +60,8 @@ export class LoadScene extends Phaser.Scene{
         this.load.on("complete", ()=>{
 
         })
+
+        Com.init();
     }
 
     create() {

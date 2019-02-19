@@ -12,3 +12,13 @@ app.get('/', function (req, res) {
 server.listen(8081, function () {
   console.log(`Listening on ${server.address().port}`);
 });
+
+const io = require('socket.io').listen(server);
+
+ //@ts-ignore
+io.on('connection', function (socket) {
+  console.log('a user connected');
+  socket.on('disconnect', function () {
+    console.log('user disconnected');
+  });
+});

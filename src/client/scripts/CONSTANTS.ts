@@ -14,6 +14,5 @@ export const CONSTANTS = {
     SPRITE: {
         //Ship main modules
         MAIN_MODULE_I_COMMON: "main_module_I_common.png"
-    }
-    
+    } 
 }
