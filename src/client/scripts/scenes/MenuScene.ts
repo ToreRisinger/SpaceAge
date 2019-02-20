@@ -8,7 +8,7 @@ export class MenuScene extends Phaser.Scene{
     }
 
     init() {
-        console.log("MenuScene init()")
+        
     }
 
     preload() {

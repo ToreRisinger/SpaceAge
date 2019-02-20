@@ -1,4 +1,7 @@
 import { CONSTANTS } from "../CONSTANTS";
+import { GameObjectHandler } from "../modules/GameObjectHandler"
+import { EventHandler } from "../modules/EventHandler"
+import { Chat } from "../modules/Chat";
 
 export class GameScene extends Phaser.Scene{
     constructor() {
@@ -8,7 +11,7 @@ export class GameScene extends Phaser.Scene{
     }
 
     init() {
-        console.log("GameScene init()")
+        
     }
 
     preload() {
@@ -29,5 +32,11 @@ export class GameScene extends Phaser.Scene{
         });
 
         ship_sprite.play("main_module_I_common");
+    }
+
+    update() {
+        EventHandler.update();
+        GameObjectHandler.update();
+        Chat.update();
     }
 }

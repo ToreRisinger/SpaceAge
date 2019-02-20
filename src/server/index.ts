@@ -15,7 +15,7 @@ server.listen(8081, function () {
 
 const io = require('socket.io').listen(server);
 
- //@ts-ignore
+//@ts-ignore
 io.on('connection', function (socket) {
   console.log('a user connected');
   socket.on('disconnect', function () {

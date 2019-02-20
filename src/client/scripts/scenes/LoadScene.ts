@@ -1,5 +1,8 @@
 import { CONSTANTS } from "../CONSTANTS";
 import { Com } from "../modules/Com"
+import { Chat } from "../modules/Chat";
+import { EventHandler } from "../modules/EventHandler";
+import { GameObjectHandler } from "../modules/GameObjectHandler";
 
 export class LoadScene extends Phaser.Scene{
     constructor() {
@@ -9,7 +12,38 @@ export class LoadScene extends Phaser.Scene{
     }
 
     init() {
+        EventHandler.init();
+        GameObjectHandler.init();
+        Chat.init();
+        Com.init();
+    }
 
+    preload() {
+        this.loadImage();
+        this.loadAudio();
+        this.loadSprites({
+            frameHeight: 38,
+            frameWidth: 38
+        });
+
+        let loadingBar = this.add.graphics({
+            fillStyle: {
+                color: 0xffffff
+            }
+        })
+
+        this.load.on("progress", (percent : number)=>{
+            loadingBar.fillRect(0, this.game.renderer.height / 2, this.game.renderer.width * percent, 50)
+        })
+
+        this.load.on("complete", ()=>{
+
+        })
+    }
+
+    create() {
+
+        this.scene.start(CONSTANTS.SCENES.MENU);
     }
 
     loadImage() {
@@ -37,35 +71,5 @@ export class LoadScene extends Phaser.Scene{
             //@ts-ignore
             this.load.spritesheet(CONSTANTS.SPRITE[prop], CONSTANTS.SPRITE[prop], frameConfig);
         }
-    }
-
-    preload() {
-        this.loadImage();
-        this.loadAudio();
-        this.loadSprites({
-            frameHeight: 38,
-            frameWidth: 38
-        });
-
-        let loadingBar = this.add.graphics({
-            fillStyle: {
-                color: 0xffffff
-            }
-        })
-
-        this.load.on("progress", (percent : number)=>{
-            loadingBar.fillRect(0, this.game.renderer.height / 2, this.game.renderer.width * percent, 50)
-        })
-
-        this.load.on("complete", ()=>{
-
-        })
-
-        Com.init();
-    }
-
-    create() {
-
-        this.scene.start(CONSTANTS.SCENES.MENU);
     }
 }
