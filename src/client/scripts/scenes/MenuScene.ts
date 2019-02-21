@@ -1,4 +1,4 @@
-import { CONSTANTS } from "../CONSTANTS";
+import { CONSTANTS } from "../constants/CONSTANTS";
 
 export class MenuScene extends Phaser.Scene{
     constructor() {

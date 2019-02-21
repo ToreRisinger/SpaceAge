@@ -5,7 +5,7 @@ export class GameEvent {
     private eventData : any;
     private eventType : EEventType;
 
-    constructor(eventData : any, eventType: EEventType) {
+    constructor(eventType: EEventType, eventData : any) {
         this.eventData = eventData;
         this.eventType = eventType;
     }

@@ -1,8 +1,4 @@
-import { CONSTANTS } from "../CONSTANTS";
-import { Com } from "../modules/Com"
-import { Chat } from "../modules/Chat";
-import { EventHandler } from "../modules/EventHandler";
-import { GameObjectHandler } from "../modules/GameObjectHandler";
+import { CONSTANTS } from "../constants/CONSTANTS";
 
 export class LoadScene extends Phaser.Scene{
     constructor() {
@@ -12,10 +8,7 @@ export class LoadScene extends Phaser.Scene{
     }
 
     init() {
-        EventHandler.init();
-        GameObjectHandler.init();
-        Chat.init();
-        Com.init();
+        
     }
 
     preload() {

@@ -9,7 +9,7 @@ export module EventHandler {
         
     }
 
-    export function update() {
+    export function update(time : number, delta : number) {
         for(let i = 0; i < eventQueue.length; ++i) {
             let event = eventQueue.pop();
             if(event == null || subscriberMap[event.getEventType()] == null) {

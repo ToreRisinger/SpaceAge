@@ -4,7 +4,7 @@ export module Chat {
         subscribeToEvents();
     }
 
-    export function update() {
+    export function update(time : number, delta : number) {
 
     }
 

@@ -10,10 +10,10 @@ export enum EEventType {
 
     //Chat events
     CHAT_MESSAGE_EVENT,
-    CHAT_SERVER_MESSAGE_EVENT
+    CHAT_SERVER_MESSAGE_EVENT,
 
     //Game logic events
-
+    PLAYER_MOVE_EVENT
 
     /*
         SERVER EVENTS
