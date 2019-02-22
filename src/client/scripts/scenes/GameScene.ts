@@ -4,43 +4,49 @@ import { EventHandler } from "../modules/EventHandler"
 import { Chat } from "../modules/Chat";
 import { Com } from "../modules/Com"
 import { InputHandler } from "../modules/InputHandler"
+import { Camera } from "../modules/Camera";
+import { Background } from "../modules/Background";
+import { SPRITES } from "../constants/SPRITES";
 
-export class GameScene extends Phaser.Scene{
+export class GameScene extends Phaser.Scene {
     
+    private static _instance : GameScene;
+
     constructor() {
         super({
             key: CONSTANTS.SCENES.GAME
         })
+        GameScene._instance = this;
     }
 
-    static getInstance() {
-        return this;
+    static getInstance() : GameScene {
+        return GameScene._instance;
     }
 
     init() {
-        InputHandler.init(this);
+        Background.init();
+        InputHandler.init();
         EventHandler.init();
         GameObjectHandler.init();
         Chat.init();
         Com.init();
+        Camera.init();
     }
 
     preload() {
         this.anims.create({
-            key: "main_module_I_common",
+            key: SPRITES.MAIN_MODULE_I_COMMON_SPRITE.anims.ANIM_1.key,
             frameRate: 4,
             repeat: -1, //repeat forever
-            frames: this.anims.generateFrameNumbers(CONSTANTS.SPRITE.MAIN_MODULE_I_COMMON_SPRITE, {
+            frames: this.anims.generateFrameNumbers(SPRITES.MAIN_MODULE_I_COMMON_SPRITE.key, {
                 frames: [0, 1, 2, 3]
             })
         });
     }
 
     create() {
-        this.add.image(0, 0, CONSTANTS.IMAGE.SPACE_BACKGROUND_1).setOrigin(0, 0);
-        let ship_sprite: Phaser.GameObjects.Sprite = this.add.sprite(100, 100, CONSTANTS.SPRITE.MAIN_MODULE_I_COMMON_SPRITE);
-
-        ship_sprite.play("main_module_I_common");
+        Background.create();
+        GameObjectHandler.create();
     }
 
     update(time : number, delta : number) { //delta 16.666 @ 60fps
@@ -48,5 +54,16 @@ export class GameScene extends Phaser.Scene{
         EventHandler.update(time, delta);
         GameObjectHandler.update(time, delta);
         Chat.update(time, delta);
+        Camera.update(time, delta);
+        Background.update(time, delta);
+    }
+
+    addSprite(x : number, y : number, sprite : string) {
+        let ret = this.add.sprite(x, y, sprite);
+        return ret;
+    }
+
+    playAnimation(sprite : Phaser.GameObjects.Sprite, animation : string) {
+        sprite.play(animation);
     }
 }

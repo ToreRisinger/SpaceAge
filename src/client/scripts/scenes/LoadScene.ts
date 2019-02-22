@@ -1,4 +1,6 @@
 import { CONSTANTS } from "../constants/CONSTANTS";
+import { SPRITES } from "../constants/SPRITES";
+import { SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION } from "constants";
 
 export class LoadScene extends Phaser.Scene{
     constructor() {
@@ -60,9 +62,8 @@ export class LoadScene extends Phaser.Scene{
     loadSprites(frameConfig?: Phaser.Loader.FileTypes.ImageFrameConfig) {
         this.load.setPath("./assets/sprite");
         
-        for(let prop in CONSTANTS.SPRITE) {
-            //@ts-ignore
-            this.load.spritesheet(CONSTANTS.SPRITE[prop], CONSTANTS.SPRITE[prop], frameConfig);
-        }
+        Object.entries(SPRITES).forEach(
+            ([key, value]) => this.load.spritesheet(value.key, value.file, frameConfig)
+        );
     }
 }
