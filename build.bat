@@ -6,6 +6,7 @@ MKDIR build
 MKDIR build\public
 call browserify ./js-src/client/scripts/main.js -o ./build/public/bundle.js
 copy js-src\server\index.js build\index.js
+copy js-src\server\EEventType.js build\EEventType.js
 copy src\client\index.html build\public\index.html
 copy src\client\lib\phaser.js build\public\phaser.js
 
