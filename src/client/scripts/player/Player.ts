@@ -1,14 +1,14 @@
 import { GameScene } from "../scenes/GameScene";
-import { Ship } from "../ship/Ship";
+import { Ship } from "../game_objects/Ship";
 
 export class Player {
 
     private ship : Ship;
     private id : number;
 
-    constructor(id : number) {
+    constructor(id : number, ship : Ship) {
         this.id = id;
-        this.ship = new Ship();
+        this.ship = ship
     }
 
     getShip() {

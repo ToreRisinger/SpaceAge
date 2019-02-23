@@ -3,7 +3,7 @@ import { EEventType } from "../events/EEventType"
 
 export module EventHandler {
     let eventQueue: Array<GameEvent> = [];
-    let subscriberMap : { [key:number]:(eventData : any) => void } = {};
+    let subscriberMap : { [key:number]:Array<(eventData : any) => void >} = {};
 
     export function init() {
         
@@ -16,8 +16,11 @@ export module EventHandler {
                 continue;
             }
 
-            //Call callback function
-            subscriberMap[event.getEventType()](event.getEventData());
+            //Call callback functions
+            for(let i = 0; i < subscriberMap[event.getEventType()].length; i++) {
+                subscriberMap[event.getEventType()][i](event);
+            }
+           
         }
     }
 
@@ -25,7 +28,8 @@ export module EventHandler {
         eventQueue.push(event);
     }
 
-    export function subscribe(eventType : EEventType, callback : (eventData : any) => void) {
-        subscriberMap[eventType] = callback;
+    export function on(eventType : EEventType, callback : (event : GameEvent) => void) {
+        subscriberMap[eventType] = [];
+        subscriberMap[eventType].push(callback);
     }
 }

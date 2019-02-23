@@ -31,6 +31,6 @@ export module InputHandler {
     }
 
     export function onBackgroundClicked() {
-        EventHandler.pushEvent(new GameEvent(EEventType.PLAYER_MOVE_EVENT, {mouseX: mouseInput.x, mouseY: mouseInput.y}));
+        EventHandler.pushEvent(new GameEvent(EEventType.PLAYER_SET_NEW_DESTINATION_EVENT, {mouseX: mouseInput.x, mouseY: mouseInput.y}));
     }
 }

@@ -14,9 +14,12 @@ export module Camera {
     }
 
     export function update(time : number, delta : number) {
-        x = GameObjectHandler.getThisPlayer().getShip().getX();
-        y = GameObjectHandler.getThisPlayer().getShip().getY();
-        camera.centerOn(x, y);
+        let player = GameObjectHandler.getThisPlayer();
+        if(player != null && player != undefined) {
+            x = GameObjectHandler.getThisPlayer().getShip().getX();
+            y = GameObjectHandler.getThisPlayer().getShip().getY();
+            camera.centerOn(x, y);
+        }
     }
 
     export function getX() {
