@@ -1,50 +1,58 @@
 import { EventHandler } from "./EventHandler"
 import { EEventType } from "../events/EEventType"
-import { Player } from "../player/Player";
 import { CONSTANTS } from "../constants/CONSTANTS";
 import { Ship } from "../game_objects/Ship";
+import { GameObject } from "../game_objects/GameObject";
+import { Camera } from "./Camera";
+import { GameEvent } from "../events/GameEvent";
 
 export module GameObjectHandler {
 
-    let thisPlayerId : number = 0;
-    let playerMap : { [key:number]:Player} = {};
+    let thisShipId : number = -1;
+    let gameObjects : { [key:number]:GameObject} = {};
 
     export function init() {
         subscribeToEvents();
     }
 
     export function create() {  
-        playerMap[thisPlayerId] = new Player(thisPlayerId, new Ship()); 
-        playerMap[thisPlayerId].getShip().setX(0);
-        playerMap[thisPlayerId].getShip().setY(0);
+        //playerMap[thisPlayerId] = new Player(thisPlayerId, new Ship()); 
+        //playerMap[thisPlayerId].getShip().setX(0);
+        //playerMap[thisPlayerId].getShip().setY(0);
     }
 
     export function update(time : number, delta : number) {
 
     }
 
-    export function getThisPlayer() {
-        return playerMap[thisPlayerId];
+    export function getShipX() {
+        return gameObjects[thisShipId].getX();
     }
 
-    function onPlayerIdReceived(eventData : any) {
-        thisPlayerId = eventData.playerId;
+    export function getShipY() {
+        return gameObjects[thisShipId].getY();
     }
 
-    function onPlayerLoad(eventData : any) {
-        playerMap[thisPlayerId].getShip().setX(eventData.x);
-        playerMap[thisPlayerId].getShip().setY(eventData.y);
+    function onPlayerLoad(eventData : GameEvent) {
+        console.log("onPlayerLoad");
+        let data : any = eventData.getEventData();
+        let ship = data.ship;
+        thisShipId = ship.id;
+        gameObjects[thisShipId] = new Ship();
+        gameObjects[thisShipId].setX(ship.x);
+        gameObjects[thisShipId].setY(ship.y);
+        Camera.centerCamera(true);
     }
 
-    function onPlayerConnect(eventData : any) {
+    function onPlayerConnect(eventData : GameEvent) {
 
     }
 
-    function onPlayerDisconnect(eventData : any) {
+    function onPlayerDisconnect(eventData : GameEvent) {
         
     }
 
-    function onNewPlayerPositions(eventData : any) {
+    function onNewPlayerPositions(eventData : GameEvent) {
         
     }
 

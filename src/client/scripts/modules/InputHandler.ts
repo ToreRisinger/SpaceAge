@@ -3,6 +3,7 @@ import { EventHandler } from "./EventHandler"
 import { GameEvent } from "../events/GameEvent"
 import { EEventType } from "../events/EEventType"
 import { Background } from "./Background";
+import { Utils } from "./Utils";
 
 export module InputHandler {
 
@@ -31,6 +32,7 @@ export module InputHandler {
     }
 
     export function onBackgroundClicked() {
-        EventHandler.pushEvent(new GameEvent(EEventType.PLAYER_SET_NEW_DESTINATION_EVENT, {mouseX: mouseInput.x, mouseY: mouseInput.y}));
+        let newDestination : Phaser.Math.Vector2 = Utils.screenVecToMapVec(new Phaser.Math.Vector2(mouseInput.x, mouseInput.y));
+        EventHandler.pushEvent(new GameEvent(EEventType.PLAYER_SET_NEW_DESTINATION_EVENT, {mouseX: newDestination.x, mouseY: newDestination.y}));
     }
 }

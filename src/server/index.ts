@@ -16,39 +16,76 @@ server.listen(8081, function () {
 });
 
 const io = require('socket.io').listen(server);
+let SHIPS : { [key:number]: Object} = {};
+let PLAYERS : { [key:number]: any} = {};
 
-let players : { [key:number]: Object} = {};
+let nextPlayerId = 0;
+let nextGameObjectId = 0;
 
 //@ts-ignore
 io.on('connection', function (socket) {
+
   console.log('a user connected');
-  let playerId = loadPlayerId();
-  let player : any = loadPlayer(playerId);
-  players[playerId] = player;
-  socket.emit('ServerEvent', {type: EEventType.PLAYER_LOAD_EVENT, data: player});
+  let playerId = nextPlayerId++;
+  let shipId = nextGameObjectId++;
+
+  createNewPlayer(playerId, shipId, socket);
+
+  socket.emit('ServerEvent', {type: EEventType.PLAYER_LOAD_EVENT, 
+    data: {
+      ship : PLAYERS[playerId].ship
+    }
+  });
 
   socket.on('disconnect', function () {
     console.log('user disconnected');
-    delete players[playerId];
+    delete SHIPS[shipId];
+    delete PLAYERS[playerId];
   });
 
-  socket.on('ClientEvent', function(data : any){
-    handleClientEvent(player, data);
+  socket.on('ClientEvent', function(event : any){
+    handleClientEvent(PLAYERS[playerId], event);
   });
 });
 
-//TODO this shall take login credentials and return id from database
-function loadPlayerId() {
-  let min = 0;
-  let max = 10000000000;
-  return Math.floor(Math.random()*(max-min+1)+min);
+//Server functions
+function handleClientEvent(player : any, event : any) {
+   console.log("---ClientEvent---");
+   console.log(event);
+
+   switch(event.type)  {
+     case EEventType.PLAYER_SET_NEW_DESTINATION_EVENT : {
+       onPlayerSetNewDestinationEvent(player, event.data.mouseX, event.data.mouseY);
+       break;
+     }
+     default: {
+       break;
+     }
+   }
 }
 
-//TODO this shall take player id and return player object from database
-function loadPlayer(id : number) {
-  return {x: 0, y: 0};
+function createNewPlayer(playerId : number, shipId : number, socket : any) {
+  let ship : Object = {
+    id: shipId,
+    x : 0,
+    y : 0,
+    isMoving : false,
+    destinationX : 0,
+    destinationY : 0
+  }
+  
+  let newPlayer : Object = {
+    socket : socket,
+    ship : ship
+  }
+
+  PLAYERS[playerId] = newPlayer;
+  SHIPS[shipId] = ship;
 }
 
-function handleClientEvent(player : any, eventData : any) {
-  console.log("handleClientEvent");
+//Server event functions
+function onPlayerSetNewDestinationEvent(player : any, x : number, y : number) {
+  player.ship.isMoving = true;
+  player.ship.destinationX = x;
+  player.ship.destinationY = y;
 }

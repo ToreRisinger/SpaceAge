@@ -13,7 +13,7 @@ export module Com {
         subscribeToEvents();
 
         socket.on('ServerEvent', (event : any) => {
-            EventHandler.pushEvent(new GameEvent(event.data, event.type))
+            EventHandler.pushEvent(new GameEvent(event.type, event.data))
         });
     }
 
@@ -22,6 +22,6 @@ export module Com {
     }
 
     function onClientEvent(event : GameEvent) {
-        socket.emit('ClientEvent', {type: event.getEventType, data: event.getEventData})
+        socket.emit('ClientEvent', {type: event.getEventType(), data: event.getEventData()})
     }
 }
