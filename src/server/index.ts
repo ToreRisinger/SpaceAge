@@ -1,4 +1,5 @@
 import { EEventType } from "./EEventType"
+import { Ship } from "../client/scripts/game_objects/Ship";
 
 const express = require('express');
 const app = express();
@@ -16,43 +17,80 @@ server.listen(8081, function () {
 });
 
 const io = require('socket.io').listen(server);
-let SHIPS : { [key:number]: Object} = {};
-let PLAYERS : { [key:number]: any} = {};
 
+/* Globals */
+let SHIPS = new Map<number, any>();
+let PLAYERS = new Map<number, any>();
 let nextPlayerId = 0;
 let nextGameObjectId = 0;
 
 //@ts-ignore
 io.on('connection', function (socket) {
-
   console.log('a user connected');
   let playerId = nextPlayerId++;
   let shipId = nextGameObjectId++;
 
-  createNewPlayer(playerId, shipId, socket);
-
+  let newPlayer : any = createNewPlayer(playerId, shipId, socket);
+  PLAYERS.set(playerId, newPlayer);
+  SHIPS.set(shipId, newPlayer.ship);
   socket.emit('ServerEvent', {type: EEventType.PLAYER_LOAD_EVENT, 
     data: {
-      ship : PLAYERS[playerId].ship
+      ship : PLAYERS.get(playerId).ship
     }
   });
 
   socket.on('disconnect', function () {
     console.log('user disconnected');
-    delete SHIPS[shipId];
-    delete PLAYERS[playerId];
+    SHIPS.delete(shipId);
+    PLAYERS.delete(playerId);
   });
 
   socket.on('ClientEvent', function(event : any){
-    handleClientEvent(PLAYERS[playerId], event);
+    handleClientEvent(PLAYERS.get(playerId), event);
   });
 });
 
-//Server functions
-function handleClientEvent(player : any, event : any) {
-   console.log("---ClientEvent---");
-   console.log(event);
+setInterval(update, 1000/25);
 
+//Server functions
+function update() {
+  updateShipPositions();
+  sendPlayerPositions();
+}
+
+function updateShipPositions() {
+  SHIPS.forEach((ship: any, key: number) => {
+    if(ship.isMoving) {
+      let xLength = ship.destinationX - ship.x;
+      let yLength = ship.destinationY - ship.y;
+      let length = Math.sqrt((xLength * xLength) + (yLength * yLength));
+      if(length <= ship.speed) {
+        ship.isMoving = false;
+        ship.x = ship.destinationX;
+        ship.y = ship.destinationY;
+      } else {
+        ship.x = ship.x + (xLength / length) * ship.speed;
+        ship.y = ship.y + (yLength / length) * ship.speed;
+      }
+    }
+  });
+}
+
+function sendPlayerPositions() {
+  function createPlayerPositionPacket() {
+    let result: Array<any> = [];
+    PLAYERS.forEach((player: any, key: number) => {
+      result.push(player.ship);
+    });
+    return result;
+  }
+  let packet : any = createPlayerPositionPacket()
+  PLAYERS.forEach((player: any, key: number) => {
+    player.socket.emit('ServerEvent', {type: EEventType.ALL_PLAYER_POSITIONS_EVENT, data: packet})
+  });
+}
+
+function handleClientEvent(player : any, event : any) {
    switch(event.type)  {
      case EEventType.PLAYER_SET_NEW_DESTINATION_EVENT : {
        onPlayerSetNewDestinationEvent(player, event.data.mouseX, event.data.mouseY);
@@ -69,6 +107,7 @@ function createNewPlayer(playerId : number, shipId : number, socket : any) {
     id: shipId,
     x : 0,
     y : 0,
+    speed: 2,
     isMoving : false,
     destinationX : 0,
     destinationY : 0
@@ -79,13 +118,17 @@ function createNewPlayer(playerId : number, shipId : number, socket : any) {
     ship : ship
   }
 
-  PLAYERS[playerId] = newPlayer;
-  SHIPS[shipId] = ship;
+  return newPlayer;
 }
 
 //Server event functions
-function onPlayerSetNewDestinationEvent(player : any, x : number, y : number) {
-  player.ship.isMoving = true;
-  player.ship.destinationX = x;
-  player.ship.destinationY = y;
+function onPlayerSetNewDestinationEvent(player : any, newDestinationX : number, newDestinationY : number) {
+  let xLength = player.ship.x - newDestinationX;
+  let yLength = player.ship.y - newDestinationY;
+  let length = Math.sqrt(xLength * xLength + yLength * yLength);
+  if(length != 0) {
+    player.ship.isMoving = true;
+    player.ship.destinationX = newDestinationX;
+    player.ship.destinationY = newDestinationY;
+  } 
 }

@@ -22,7 +22,11 @@ export module GameObjectHandler {
     }
 
     export function update(time : number, delta : number) {
-
+        console.log(thisShipId);
+        console.log(gameObjects);
+        if( gameObjects[thisShipId] != undefined) {
+            //console.log("x: " + gameObjects[thisShipId].getX() + ", y: " +  gameObjects[thisShipId].getY());
+        }
     }
 
     export function getShipX() {
@@ -34,33 +38,40 @@ export module GameObjectHandler {
     }
 
     function onPlayerLoad(eventData : GameEvent) {
-        console.log("onPlayerLoad");
         let data : any = eventData.getEventData();
         let ship = data.ship;
         thisShipId = ship.id;
-        gameObjects[thisShipId] = new Ship();
-        gameObjects[thisShipId].setX(ship.x);
-        gameObjects[thisShipId].setY(ship.y);
+        if(gameObjects[thisShipId] == undefined) {
+            gameObjects[thisShipId] = new Ship();
+            gameObjects[thisShipId].setX(ship.x);
+            gameObjects[thisShipId].setY(ship.y);
+        }
+        
         Camera.centerCamera(true);
     }
 
-    function onPlayerConnect(eventData : GameEvent) {
+    function onPlayerConnect(event : GameEvent) {
 
     }
 
-    function onPlayerDisconnect(eventData : GameEvent) {
+    function onPlayerDisconnect(event : GameEvent) {
         
     }
 
-    function onNewPlayerPositions(eventData : GameEvent) {
-        
+    function onNewPlayerPositions(event : GameEvent) {
+        let shipArray : Array<any> = event.getEventData();
+        shipArray.forEach((ship: any) => {
+           if(gameObjects[ship.id] == null || gameObjects[ship.id] == undefined) {
+               gameObjects[ship.id] = new Ship();
+           }
+           gameObjects[ship.id].setPos(ship.x, ship.y);
+        });
     }
 
     function subscribeToEvents() {
         EventHandler.on(EEventType.PLAYER_CONNECTED_EVENT, onPlayerConnect);
         EventHandler.on(EEventType.PLAYER_DISCONNECTED_EVENT, onPlayerDisconnect);
-        EventHandler.on(EEventType.PLAYER_POSITION_EVENT, onNewPlayerPositions);
-        EventHandler.on(EEventType.PLAYER_POSITION_EVENT, onNewPlayerPositions);
+        EventHandler.on(EEventType.ALL_PLAYER_POSITIONS_EVENT, onNewPlayerPositions);
         EventHandler.on(EEventType.PLAYER_LOAD_EVENT, onPlayerLoad);
     }
 }

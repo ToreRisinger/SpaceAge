@@ -21,7 +21,7 @@ export module Camera {
     export function update(time : number, delta : number) {
         if(centerCameraOnShip) {
             x = GameObjectHandler.getShipX();
-            y = GameObjectHandler.getShipX();
+            y = GameObjectHandler.getShipY();
             camera.centerOn(x, y);
         }
     }

@@ -20,7 +20,7 @@ export class Ship extends GameObject {
 
     public setPos(x : number, y : number) {
         this.x = x;
-        this.x = y;
+        this.y = y;
         this.updateSpritePosition();
     }
 
