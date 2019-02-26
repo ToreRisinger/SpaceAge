@@ -9,42 +9,38 @@ import { GameEvent } from "../events/GameEvent";
 export module GameObjectHandler {
 
     let thisShipId : number = -1;
-    let gameObjects : { [key:number]:GameObject} = {};
+    let gameObjects = new Map<number, GameObject>();//{ [key:number]:GameObject} = {};
 
     export function init() {
         subscribeToEvents();
     }
 
     export function create() {  
-        //playerMap[thisPlayerId] = new Player(thisPlayerId, new Ship()); 
-        //playerMap[thisPlayerId].getShip().setX(0);
-        //playerMap[thisPlayerId].getShip().setY(0);
+
     }
 
     export function update(time : number, delta : number) {
-        console.log(thisShipId);
-        console.log(gameObjects);
-        if( gameObjects[thisShipId] != undefined) {
-            //console.log("x: " + gameObjects[thisShipId].getX() + ", y: " +  gameObjects[thisShipId].getY());
-        }
+        gameObjects.forEach((object: GameObject, key: number) => {
+            object.update();
+        });
+        
     }
 
-    export function getShipX() {
-        return gameObjects[thisShipId].getX();
-    }
-
-    export function getShipY() {
-        return gameObjects[thisShipId].getY();
+    export function getShip() {
+        return gameObjects.get(thisShipId);
     }
 
     function onPlayerLoad(eventData : GameEvent) {
         let data : any = eventData.getEventData();
         let ship = data.ship;
         thisShipId = ship.id;
-        if(gameObjects[thisShipId] == undefined) {
-            gameObjects[thisShipId] = new Ship();
-            gameObjects[thisShipId].setX(ship.x);
-            gameObjects[thisShipId].setY(ship.y);
+        if(gameObjects.get(thisShipId) == undefined) {
+            let newShip : Ship = new Ship();
+            newShip.setPos(new Phaser.Math.Vector2(ship.x, ship.y));
+            gameObjects.set(thisShipId, newShip);
+            let thisShip : Ship = (<Ship>gameObjects.get(thisShipId));
+            thisShip.setDestinationPos(new Phaser.Math.Vector2(ship.destinationX, ship.destinationY));
+            thisShip.setIsMoving(ship.isMoving); 
         }
         
         Camera.centerCamera(true);
@@ -61,11 +57,18 @@ export module GameObjectHandler {
     function onNewPlayerPositions(event : GameEvent) {
         let shipArray : Array<any> = event.getEventData();
         shipArray.forEach((ship: any) => {
-           if(gameObjects[ship.id] == null || gameObjects[ship.id] == undefined) {
-               gameObjects[ship.id] = new Ship();
-           }
-           gameObjects[ship.id].setPos(ship.x, ship.y);
+            if(gameObjects.get(ship.id) == undefined) {
+                gameObjects.set(ship.id, new Ship());
+            }
+            let currentShip : Ship = (<Ship>gameObjects.get(ship.id));
+            currentShip.setPos(new Phaser.Math.Vector2(ship.x, ship.y));
+            currentShip.setDestinationPos(new Phaser.Math.Vector2(ship.destinationX, ship.destinationY));
+            currentShip.setIsMoving(ship.isMoving); 
         });
+    }
+
+    function onNewShipDestination(event : GameEvent) {
+
     }
 
     function subscribeToEvents() {
@@ -73,5 +76,6 @@ export module GameObjectHandler {
         EventHandler.on(EEventType.PLAYER_DISCONNECTED_EVENT, onPlayerDisconnect);
         EventHandler.on(EEventType.ALL_PLAYER_POSITIONS_EVENT, onNewPlayerPositions);
         EventHandler.on(EEventType.PLAYER_LOAD_EVENT, onPlayerLoad);
+        EventHandler.on(EEventType.PLAYER_SET_NEW_DESTINATION_EVENT, onNewShipDestination);
     }
 }

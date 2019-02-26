@@ -1,5 +1,6 @@
 import { GameObjectHandler } from "./GameObjectHandler";
 import { GameScene } from "../scenes/GameScene";
+import { GameObject } from "../game_objects/GameObject";
 
 export module Camera {
 
@@ -20,9 +21,13 @@ export module Camera {
 
     export function update(time : number, delta : number) {
         if(centerCameraOnShip) {
-            x = GameObjectHandler.getShipX();
-            y = GameObjectHandler.getShipY();
-            camera.centerOn(x, y);
+            let ship : GameObject | undefined =  GameObjectHandler.getShip();
+            if(ship != undefined){
+                x = ship.getPos().x;
+                y = ship.getPos().y;
+                camera.centerOn(x, y);
+            }
+           
         }
     }
 

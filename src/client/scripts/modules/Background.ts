@@ -12,7 +12,7 @@ export module Background {
     }
 
     export function create() {
-        background = GameScene.getInstance().add.sprite(0, 0, CONSTANTS.IMAGE.SPACE_BACKGROUND_1);//.setOrigin(0, 0);
+        background = GameScene.getInstance().add.sprite(0, 0, CONSTANTS.IMAGE.SPACE_BACKGROUND_1);
         background.setInteractive();
         background.on('pointerdown', InputHandler.onBackgroundClicked);
     }

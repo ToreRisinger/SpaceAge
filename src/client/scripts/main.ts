@@ -10,7 +10,7 @@ let game = new Phaser.Game({
     scene:[
         LoadScene, MenuScene, GameScene
     ],
-    render: {
-        pixelArt:true
-    }
+    //render: {
+     //   pixelArt:true
+    //}
 });

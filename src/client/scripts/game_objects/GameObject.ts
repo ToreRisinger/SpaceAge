@@ -1,31 +1,20 @@
 export class GameObject {
 
-    protected x : number;
-    protected y : number;
+    protected posVec : Phaser.Math.Vector2;
 
     constructor() {
-        this.x = 0;
-        this.y = 0;
+        this.posVec = new Phaser.Math.Vector2(0, 0);
     }
 
-    public getX() {
-        return this.x;
+    public getPos() {
+        return this.posVec;
     }
 
-    public setX(x : number) {
-        this.x = x;
+    public setPos(posVec : Phaser.Math.Vector2) {
+        this.posVec = posVec;
     }
 
-    public  getY() {
-        return this.y;
-    }
-
-    public setY(y : number) {
-        this.y = y;
-    }
-
-    public setPos(x : number, y : number) {
-        this.x = x;
-        this.x = y;
+    public update() {
+        
     }
 }
