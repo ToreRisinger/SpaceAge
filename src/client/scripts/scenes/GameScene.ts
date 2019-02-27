@@ -7,6 +7,7 @@ import { InputHandler } from "../modules/InputHandler"
 import { Camera } from "../modules/Camera";
 import { Background } from "../modules/Background";
 import { SPRITES } from "../constants/SPRITES";
+import { Graphics } from "../modules/Graphics";
 
 export class GameScene extends Phaser.Scene {
     
@@ -31,6 +32,7 @@ export class GameScene extends Phaser.Scene {
         Chat.init();
         Com.init();
         Camera.init();
+        Graphics.init();
     }
 
     preload() {
@@ -47,6 +49,7 @@ export class GameScene extends Phaser.Scene {
     create() {
         Background.create();
         GameObjectHandler.create();
+        Graphics.create();
     }
 
     update(time : number, delta : number) { //delta 16.666 @ 60fps
@@ -56,6 +59,7 @@ export class GameScene extends Phaser.Scene {
         Chat.update(time, delta);
         Camera.update(time, delta);
         Background.update(time, delta);
+        Graphics.update(time, delta);
     }
 
     addSprite(x : number, y : number, sprite : string) {

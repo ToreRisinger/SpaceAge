@@ -5,6 +5,7 @@ import { Ship } from "../game_objects/Ship";
 import { GameObject } from "../game_objects/GameObject";
 import { Camera } from "./Camera";
 import { GameEvent } from "../events/GameEvent";
+import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
 
 export module GameObjectHandler {
 
@@ -37,6 +38,7 @@ export module GameObjectHandler {
         if(gameObjects.get(thisShipId) == undefined) {
             let newShip : Ship = new Ship();
             newShip.setPos(new Phaser.Math.Vector2(ship.x, ship.y));
+            newShip.setShipDepth(DRAW_LAYERS.THIS_PLAYER_SHIP_LAYER);
             gameObjects.set(thisShipId, newShip);
             let thisShip : Ship = (<Ship>gameObjects.get(thisShipId));
             thisShip.setDestinationPos(new Phaser.Math.Vector2(ship.destinationX, ship.destinationY));
@@ -58,7 +60,13 @@ export module GameObjectHandler {
         let shipArray : Array<any> = event.getEventData();
         shipArray.forEach((ship: any) => {
             if(gameObjects.get(ship.id) == undefined) {
+                let newShip : Ship = new Ship();
                 gameObjects.set(ship.id, new Ship());
+                if(ship.id == thisShipId) {
+                    newShip.setShipDepth(DRAW_LAYERS.THIS_PLAYER_SHIP_LAYER);
+                } else {
+                    newShip.setShipDepth(DRAW_LAYERS.OTHER_SHIP_LAYER);
+                }
             }
             let currentShip : Ship = (<Ship>gameObjects.get(ship.id));
             currentShip.setPos(new Phaser.Math.Vector2(ship.x, ship.y));
