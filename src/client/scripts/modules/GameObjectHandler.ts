@@ -38,13 +38,14 @@ export module GameObjectHandler {
         if(gameObjects.get(thisShipId) == undefined) {
             let newShip : Ship = new Ship();
             newShip.setPos(new Phaser.Math.Vector2(ship.x, ship.y));
-            newShip.setShipDepth(DRAW_LAYERS.THIS_PLAYER_SHIP_LAYER);
+           
             gameObjects.set(thisShipId, newShip);
             let thisShip : Ship = (<Ship>gameObjects.get(thisShipId));
             thisShip.setDestinationPos(new Phaser.Math.Vector2(ship.destinationX, ship.destinationY));
             thisShip.setIsMoving(ship.isMoving); 
         }
-        
+        //@ts-ignore
+        gameObjects.get(thisShipId).setShipDepth(DRAW_LAYERS.THIS_PLAYER_SHIP_LAYER);
         Camera.centerCamera(true);
     }
 
@@ -61,7 +62,7 @@ export module GameObjectHandler {
         shipArray.forEach((ship: any) => {
             if(gameObjects.get(ship.id) == undefined) {
                 let newShip : Ship = new Ship();
-                gameObjects.set(ship.id, new Ship());
+                gameObjects.set(ship.id, newShip);
                 if(ship.id == thisShipId) {
                     newShip.setShipDepth(DRAW_LAYERS.THIS_PLAYER_SHIP_LAYER);
                 } else {
