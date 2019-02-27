@@ -17,4 +17,8 @@ export class GameObject {
     public update() {
         
     }
+
+    public destroy() {
+        
+    }
 }

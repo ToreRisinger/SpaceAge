@@ -7,7 +7,7 @@ export enum EEventType {
     //Player events
     PLAYER_CONNECTED_EVENT,
     PLAYER_DISCONNECTED_EVENT,
-    ALL_PLAYER_POSITIONS_EVENT,
+    GAME_OBJECT_UPDATE_EVENT,
 
     //Chat events
     CHAT_MESSAGE_EVENT,

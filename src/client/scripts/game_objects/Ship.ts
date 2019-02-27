@@ -9,8 +9,6 @@ export class Ship extends GameObject {
     private shipModules : Object;
     //@ts-ignore
     private sprite : Phaser.GameObjects.Sprite;
-    private destinationLine : Phaser.GameObjects.Line | undefined;
-    
 
     constructor() {
         super();
@@ -48,6 +46,11 @@ export class Ship extends GameObject {
     public setShipDepth(value : number) {
         this.sprite.setDepth(value);
     }
+
+    public destroy() {
+        this.sprite.destroy();
+    }
+
     private createSprite() {
         this.sprite = GameScene.getInstance().addSprite(this.posVec.x, this.posVec.y, SHIP_MODULES.MAIN_MODULE_I_COMMON.sprite);
         GameScene.getInstance().playAnimation(this.sprite, SHIP_MODULES.MAIN_MODULE_I_COMMON.animation);

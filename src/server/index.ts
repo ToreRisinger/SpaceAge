@@ -43,6 +43,7 @@ io.on('connection', function (socket) {
     console.log('user disconnected');
     SHIPS.delete(shipId);
     PLAYERS.delete(playerId);
+    sendPlayerDisconnected(shipId);
   });
 
   socket.on('ClientEvent', function(event : any){
@@ -55,7 +56,7 @@ setInterval(update, 1000/25);
 //Server functions
 function update() {
   updateShipPositions();
-  sendPlayerPositions();
+  sendGameObjectUpdate();
 }
 
 function updateShipPositions() {
@@ -76,17 +77,27 @@ function updateShipPositions() {
   });
 }
 
-function sendPlayerPositions() {
-  function createPlayerPositionPacket() {
+function sendGameObjectUpdate() {
+  function createGameObjectUpdatePacket() {
     let result: Array<any> = [];
     PLAYERS.forEach((player: any, key: number) => {
       result.push(player.ship);
     });
     return result;
   }
-  let packet : any = createPlayerPositionPacket()
+  let packet : any = createGameObjectUpdatePacket()
   PLAYERS.forEach((player: any, key: number) => {
-    player.socket.emit('ServerEvent', {type: EEventType.ALL_PLAYER_POSITIONS_EVENT, data: packet})
+    player.socket.emit('ServerEvent', {type: EEventType.GAME_OBJECT_UPDATE_EVENT, data: packet})
+  });
+}
+
+function sendPlayerDisconnected(disconnectedShipId : number) {
+  function createPlayerDisconnectedPacket() {
+    return {shipId : disconnectedShipId};
+  }
+  let packet : any = createPlayerDisconnectedPacket()
+  PLAYERS.forEach((player: any, key: number) => {
+    player.socket.emit('ServerEvent', {type: EEventType.PLAYER_DISCONNECTED_EVENT, data: packet})
   });
 }
 

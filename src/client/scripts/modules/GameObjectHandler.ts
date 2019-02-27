@@ -54,10 +54,10 @@ export module GameObjectHandler {
     }
 
     function onPlayerDisconnect(event : GameEvent) {
-        
+        destroyGameObject(event.getEventData().shipId);
     }
 
-    function onNewPlayerPositions(event : GameEvent) {
+    function onGameObjectUpdate(event : GameEvent) {
         let shipArray : Array<any> = event.getEventData();
         shipArray.forEach((ship: any) => {
             if(gameObjects.get(ship.id) == undefined) {
@@ -83,8 +83,16 @@ export module GameObjectHandler {
     function subscribeToEvents() {
         EventHandler.on(EEventType.PLAYER_CONNECTED_EVENT, onPlayerConnect);
         EventHandler.on(EEventType.PLAYER_DISCONNECTED_EVENT, onPlayerDisconnect);
-        EventHandler.on(EEventType.ALL_PLAYER_POSITIONS_EVENT, onNewPlayerPositions);
+        EventHandler.on(EEventType.GAME_OBJECT_UPDATE_EVENT, onGameObjectUpdate);
         EventHandler.on(EEventType.PLAYER_LOAD_EVENT, onPlayerLoad);
         EventHandler.on(EEventType.PLAYER_SET_NEW_DESTINATION_EVENT, onNewShipDestination);
+    }
+
+    function destroyGameObject(objectId : number) {
+        let object : GameObject | undefined = gameObjects.get(objectId);
+        if(object != undefined) {
+            object.destroy();
+            gameObjects.delete(objectId);
+        }
     }
 }
