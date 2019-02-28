@@ -5,12 +5,11 @@ import { Ship } from "../game_objects/Ship";
 import { GameObject } from "../game_objects/GameObject";
 import { Camera } from "./Camera";
 import { GameEvent } from "../events/GameEvent";
-import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
 
 export module GameObjectHandler {
 
     let thisShipId : number = -1;
-    let gameObjects = new Map<number, GameObject>();//{ [key:number]:GameObject} = {};
+    let gameObjects = new Map<number, GameObject>();
 
     export function init() {
         subscribeToEvents();
@@ -45,7 +44,7 @@ export module GameObjectHandler {
             thisShip.setIsMoving(ship.isMoving); 
         }
         //@ts-ignore
-        gameObjects.get(thisShipId).setShipDepth(DRAW_LAYERS.THIS_PLAYER_SHIP_LAYER);
+        gameObjects.get(thisShipId).setToThisPlayerShip();
         Camera.centerCamera(true);
     }
 
@@ -64,9 +63,7 @@ export module GameObjectHandler {
                 let newShip : Ship = new Ship();
                 gameObjects.set(ship.id, newShip);
                 if(ship.id == thisShipId) {
-                    newShip.setShipDepth(DRAW_LAYERS.THIS_PLAYER_SHIP_LAYER);
-                } else {
-                    newShip.setShipDepth(DRAW_LAYERS.OTHER_SHIP_LAYER);
+                    newShip.setToThisPlayerShip();
                 }
             }
             let currentShip : Ship = (<Ship>gameObjects.get(ship.id));

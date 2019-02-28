@@ -21,14 +21,7 @@ export module InputHandler {
     }
 
     export function update(time : number, delta : number) {
-        /*
-        if(mouseInput.isDown && !mouseWasPressedPreviousFrame) {
-            mouseWasPressedPreviousFrame = true;
-            EventHandler.pushEvent(new GameEvent(EEventType.PLAYER_MOVE_EVENT, {mouseX: mouseInput.x, mouseY: mouseInput.y}));
-        } else if(!mouseInput.isDown) {
-            mouseWasPressedPreviousFrame = false;
-        }
-        */
+        
     }
 
     export function onBackgroundClicked() {

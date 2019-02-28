@@ -16,10 +16,7 @@ export class LoadScene extends Phaser.Scene{
     preload() {
         this.loadImage();
         this.loadAudio();
-        this.loadSprites({
-            frameHeight: 38,
-            frameWidth: 38
-        });
+        this.loadSprites();
 
         let loadingBar = this.add.graphics({
             fillStyle: {
@@ -37,7 +34,6 @@ export class LoadScene extends Phaser.Scene{
     }
 
     create() {
-
         this.scene.start(CONSTANTS.SCENES.MENU);
     }
 
@@ -59,11 +55,11 @@ export class LoadScene extends Phaser.Scene{
         }
     }
 
-    loadSprites(frameConfig?: Phaser.Loader.FileTypes.ImageFrameConfig) {
+    loadSprites() {
         this.load.setPath("./assets/sprite");
         
         Object.entries(SPRITES).forEach(
-            ([key, value]) => this.load.spritesheet(value.key, value.file, frameConfig)
+            ([key, value]) => this.load.spritesheet(value.key, value.file, {frameHeight: value.height, frameWidth: value.width})
         );
     }
 }
