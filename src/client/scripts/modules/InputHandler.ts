@@ -1,7 +1,6 @@
 import { GameScene } from "../scenes/GameScene"
 import { EventHandler } from "./EventHandler"
-import { GameEvent } from "../events/GameEvent"
-import { EEventType } from "../../../shared/EEventType"
+import { Events } from "../../../shared/Events"
 import { Utils } from "./Utils";
 
 export module InputHandler {
@@ -25,6 +24,10 @@ export module InputHandler {
 
     export function onBackgroundClicked() {
         let newDestination : Phaser.Math.Vector2 = Utils.screenVecToMapVec(new Phaser.Math.Vector2(mouseInput.x, mouseInput.y));
-        EventHandler.pushEvent(new GameEvent(EEventType.PLAYER_SET_NEW_DESTINATION_EVENT, {mouseX: newDestination.x, mouseY: newDestination.y}));
+        let event : Events.PLAYER_SET_NEW_DESTINATION_EVENT_CONFIG = {
+            eventId : Events.EEventType.PLAYER_SET_NEW_DESTINATION_EVENT,
+            data : { destinationX: newDestination.x, destinationY: newDestination.y}
+        }
+        EventHandler.pushEvent(event);
     }
 }

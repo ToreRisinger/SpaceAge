@@ -1,4 +1,4 @@
-import { EEventType } from "./shared/EEventType"
+import { Events } from "./shared/Events"
 
 const express = require('express');
 const app = express();
@@ -25,6 +25,24 @@ let nextGameObjectId = 0;
 
 //@ts-ignore
 io.on('connection', function (socket) {
+  function createPlayerLoadEventPacket(ship : any) {
+    let packet : Events.PLAYER_LOAD_EVENT_CONFIG = {
+      eventId : Events.EEventType.PLAYER_LOAD_EVENT,
+      data : {
+        ship : {
+          destinationX : ship.destinationX,
+          destinationY : ship.destinationY,
+          id : ship.id,
+          isMoving : ship.isMoving,
+          speed : ship.speed,
+          x : ship.x,
+          y : ship.y
+        }
+      }
+    }
+
+    return packet;
+  }
   console.log('a user connected');
   let playerId = nextPlayerId++;
   let shipId = nextGameObjectId++;
@@ -32,11 +50,7 @@ io.on('connection', function (socket) {
   let newPlayer : any = createNewPlayer(playerId, shipId, socket);
   PLAYERS.set(playerId, newPlayer);
   SHIPS.set(shipId, newPlayer.ship);
-  socket.emit('ServerEvent', {type: EEventType.PLAYER_LOAD_EVENT, 
-    data: {
-      ship : PLAYERS.get(playerId).ship
-    }
-  });
+  socket.emit('ServerEvent', createPlayerLoadEventPacket(PLAYERS.get(playerId).ship));
 
   socket.on('disconnect', function () {
     console.log('user disconnected');
@@ -77,16 +91,24 @@ function updateShipPositions() {
 }
 
 function sendGameObjectUpdate() {
-  function createGameObjectUpdatePacket() {
-    let result: Array<any> = [];
+  function createShipsUpdatePacket() {
+    let shipArray: Array<Events.SHIP_CONFIG> = [];
     PLAYERS.forEach((player: any, key: number) => {
-      result.push(player.ship);
+      shipArray.push(player.ship);
     });
-    return result;
+
+    let packet : Events.SHIPS_UPDATE_EVENT_CONFIG = {
+      eventId : Events.EEventType.SHIPS_UPDATE_EVENT,
+      data : {
+        ships : shipArray
+      }
+    }
+    
+    return packet;
   }
-  let packet : any = createGameObjectUpdatePacket()
+  let packet : any = createShipsUpdatePacket()
   PLAYERS.forEach((player: any, key: number) => {
-    player.socket.emit('ServerEvent', {type: EEventType.GAME_OBJECT_UPDATE_EVENT, data: packet})
+    player.socket.emit('ServerEvent', packet)
   });
 }
 
@@ -96,14 +118,14 @@ function sendPlayerDisconnected(disconnectedShipId : number) {
   }
   let packet : any = createPlayerDisconnectedPacket()
   PLAYERS.forEach((player: any, key: number) => {
-    player.socket.emit('ServerEvent', {type: EEventType.PLAYER_DISCONNECTED_EVENT, data: packet})
+    player.socket.emit('ServerEvent', {type: Events.EEventType.PLAYER_DISCONNECTED_EVENT, data: packet})
   });
 }
 
-function handleClientEvent(player : any, event : any) {
-   switch(event.type)  {
-     case EEventType.PLAYER_SET_NEW_DESTINATION_EVENT : {
-       onPlayerSetNewDestinationEvent(player, event.data.mouseX, event.data.mouseY);
+function handleClientEvent(player : any, event : Events.GameEvent) {
+   switch(event.eventId)  {
+     case Events.EEventType.PLAYER_SET_NEW_DESTINATION_EVENT : {
+       onPlayerSetNewDestinationEvent(player, event);
        break;
      }
      default: {
@@ -132,13 +154,13 @@ function createNewPlayer(playerId : number, shipId : number, socket : any) {
 }
 
 //Server event functions
-function onPlayerSetNewDestinationEvent(player : any, newDestinationX : number, newDestinationY : number) {
-  let xLength = player.ship.x - newDestinationX;
-  let yLength = player.ship.y - newDestinationY;
+function onPlayerSetNewDestinationEvent(player : any, event : Events.PLAYER_SET_NEW_DESTINATION_EVENT_CONFIG) {
+  let xLength = player.ship.x - event.data.destinationX;
+  let yLength = player.ship.y - event.data.destinationY;
   let length = Math.sqrt(xLength * xLength + yLength * yLength);
   if(length != 0) {
     player.ship.isMoving = true;
-    player.ship.destinationX = newDestinationX;
-    player.ship.destinationY = newDestinationY;
+    player.ship.destinationX = event.data.destinationX;
+    player.ship.destinationY = event.data.destinationY;
   } 
 }

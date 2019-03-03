@@ -10,7 +10,7 @@ interface IShipModule {
     thrust : number
 }
 
-export var OK : IShipModule = {
+export var TEST : IShipModule = {
     sprite : SPRITES.MAIN_MODULE_I_COMMON_SPRITE.key,
     animation : SPRITES.MAIN_MODULE_I_COMMON_SPRITE.anims.ANIM_1.key,
     cargo : 1,
@@ -20,6 +20,8 @@ export var OK : IShipModule = {
     thrust : 10
 }
 export const SHIP_MODULES = {
+    TEST,
+    
     MAIN_MODULE_I_COMMON : {
         sprite : SPRITES.MAIN_MODULE_I_COMMON_SPRITE.key,
         animation : SPRITES.MAIN_MODULE_I_COMMON_SPRITE.anims.ANIM_1.key,

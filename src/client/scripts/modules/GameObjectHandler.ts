@@ -1,9 +1,8 @@
 import { EventHandler } from "./EventHandler"
-import { EEventType } from "../../../shared/EEventType"
+import { Events } from "../../../shared/Events"
 import { Ship } from "../game_objects/Ship";
 import { GameObject } from "../game_objects/GameObject";
 import { Camera } from "./Camera";
-import { GameEvent } from "../events/GameEvent";
 
 export module GameObjectHandler {
 
@@ -29,8 +28,8 @@ export module GameObjectHandler {
         return gameObjects.get(thisShipId);
     }
 
-    function onPlayerLoad(eventData : GameEvent) {
-        let data : any = eventData.getEventData();
+    function onPlayerLoad(eventData : Events.PLAYER_LOAD_EVENT_CONFIG) {
+        let data : any = eventData.data;
         let ship = data.ship;
         thisShipId = ship.id;
         if(gameObjects.get(thisShipId) == undefined) {
@@ -47,16 +46,16 @@ export module GameObjectHandler {
         Camera.centerCamera(true);
     }
 
-    function onPlayerConnect(event : GameEvent) {
+    function onPlayerConnect(event : Events.GameEvent) {
 
     }
 
-    function onPlayerDisconnect(event : GameEvent) {
-        destroyGameObject(event.getEventData().shipId);
+    function onPlayerDisconnect(event : Events.GameEvent) {
+        destroyGameObject(event.data.shipId);
     }
 
-    function onGameObjectUpdate(event : GameEvent) {
-        let shipArray : Array<any> = event.getEventData();
+    function onShipsUpdate(event : Events.SHIPS_UPDATE_EVENT_CONFIG) {
+        let shipArray : Array<Events.SHIP_CONFIG> = event.data.ships;
         shipArray.forEach((ship: any) => {
             if(gameObjects.get(ship.id) == undefined) {
                 let newShip : Ship = new Ship();
@@ -72,16 +71,16 @@ export module GameObjectHandler {
         });
     }
 
-    function onNewShipDestination(event : GameEvent) {
+    function onNewShipDestination(event : Events.GameEvent) {
 
     }
 
     function subscribeToEvents() {
-        EventHandler.on(EEventType.PLAYER_CONNECTED_EVENT, onPlayerConnect);
-        EventHandler.on(EEventType.PLAYER_DISCONNECTED_EVENT, onPlayerDisconnect);
-        EventHandler.on(EEventType.GAME_OBJECT_UPDATE_EVENT, onGameObjectUpdate);
-        EventHandler.on(EEventType.PLAYER_LOAD_EVENT, onPlayerLoad);
-        EventHandler.on(EEventType.PLAYER_SET_NEW_DESTINATION_EVENT, onNewShipDestination);
+        EventHandler.on(Events.EEventType.PLAYER_CONNECTED_EVENT, onPlayerConnect);
+        EventHandler.on(Events.EEventType.PLAYER_DISCONNECTED_EVENT, onPlayerDisconnect);
+        EventHandler.on(Events.EEventType.SHIPS_UPDATE_EVENT, onShipsUpdate);
+        EventHandler.on(Events.EEventType.PLAYER_LOAD_EVENT, onPlayerLoad);
+        EventHandler.on(Events.EEventType.PLAYER_SET_NEW_DESTINATION_EVENT, onNewShipDestination);
     }
 
     function destroyGameObject(objectId : number) {

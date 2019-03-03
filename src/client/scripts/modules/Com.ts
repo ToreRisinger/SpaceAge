@@ -1,6 +1,5 @@
-import { GameEvent } from "../events/GameEvent"
 import { EventHandler } from "./EventHandler"
-import { EEventType } from "../../../shared/EEventType"
+import { Events } from "../../../shared/Events"
 
 export module Com {
 
@@ -13,15 +12,15 @@ export module Com {
         subscribeToEvents();
 
         socket.on('ServerEvent', (event : any) => {
-            EventHandler.pushEvent(new GameEvent(event.type, event.data))
+            EventHandler.pushEvent(event)
         });
     }
 
     function subscribeToEvents() {
-        EventHandler.on(EEventType.PLAYER_SET_NEW_DESTINATION_EVENT, onClientEvent);
+        EventHandler.on(Events.EEventType.PLAYER_SET_NEW_DESTINATION_EVENT, onClientEvent);
     }
 
-    function onClientEvent(event : GameEvent) {
-        socket.emit('ClientEvent', {type: event.getEventType(), data: event.getEventData()})
+    function onClientEvent(event : Events.GameEvent) {
+        socket.emit('ClientEvent', event)
     }
 }
