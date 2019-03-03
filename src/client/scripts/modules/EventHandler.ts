@@ -1,12 +1,12 @@
 import { GameEvent } from "../events/GameEvent"
-import { EEventType } from "../events/EEventType"
+import { EEventType } from "../../../shared/EEventType"
 
 export module EventHandler {
     let eventQueue: Array<GameEvent> = [];
     let subscriberMap : { [key:number]:Array<(eventData : any) => void >} = {};
 
     export function init() {
-        
+        Object.values(EEventType).forEach(enumValue => subscriberMap[enumValue] = []);
     }
 
     export function update(time : number, delta : number) {
@@ -29,7 +29,6 @@ export module EventHandler {
     }
 
     export function on(eventType : EEventType, callback : (event : GameEvent) => void) {
-        subscriberMap[eventType] = [];
         subscriberMap[eventType].push(callback);
     }
 }

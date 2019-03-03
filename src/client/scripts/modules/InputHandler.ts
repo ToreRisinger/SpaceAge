@@ -1,8 +1,7 @@
 import { GameScene } from "../scenes/GameScene"
 import { EventHandler } from "./EventHandler"
 import { GameEvent } from "../events/GameEvent"
-import { EEventType } from "../events/EEventType"
-import { Background } from "./Background";
+import { EEventType } from "../../../shared/EEventType"
 import { Utils } from "./Utils";
 
 export module InputHandler {

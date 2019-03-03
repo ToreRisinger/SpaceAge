@@ -1,6 +1,5 @@
 import { EventHandler } from "./EventHandler"
-import { EEventType } from "../events/EEventType"
-import { CONSTANTS } from "../constants/CONSTANTS";
+import { EEventType } from "../../../shared/EEventType"
 import { Ship } from "../game_objects/Ship";
 import { GameObject } from "../game_objects/GameObject";
 import { Camera } from "./Camera";

@@ -1,6 +1,8 @@
 import { CONSTANTS } from "../constants/CONSTANTS";
 import { SPRITES } from "../constants/SPRITES";
 import { SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION } from "constants";
+import { EventHandler } from "../modules/EventHandler";
+import { Com } from "../modules/Com";
 
 export class LoadScene extends Phaser.Scene{
     constructor() {
@@ -10,27 +12,14 @@ export class LoadScene extends Phaser.Scene{
     }
 
     init() {
-        
+        EventHandler.init();
+        Com.init();
     }
 
     preload() {
         this.loadImage();
         this.loadAudio();
         this.loadSprites();
-
-        let loadingBar = this.add.graphics({
-            fillStyle: {
-                color: 0xffffff
-            }
-        })
-
-        this.load.on("progress", (percent : number)=>{
-            loadingBar.fillRect(0, this.game.renderer.height / 2, this.game.renderer.width * percent, 50)
-        })
-
-        this.load.on("complete", ()=>{
-
-        })
     }
 
     create() {

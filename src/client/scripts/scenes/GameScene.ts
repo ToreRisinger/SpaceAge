@@ -27,10 +27,8 @@ export class GameScene extends Phaser.Scene {
     init() {
         Background.init();
         InputHandler.init();
-        EventHandler.init();
         GameObjectHandler.init();
-        Chat.init();
-        Com.init();
+        Chat.init(); 
         Camera.init();
         Graphics.init();
     }

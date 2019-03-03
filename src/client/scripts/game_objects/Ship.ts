@@ -13,6 +13,7 @@ export class Ship extends GameObject {
 
     private shipModules : Object;
 
+    //TODO take an 2d array of MODULE enums. and a ShipProperties interface object. Everything is sent from server.
     constructor() {
         super();
 

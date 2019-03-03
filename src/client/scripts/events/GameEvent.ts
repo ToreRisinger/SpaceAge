@@ -1,4 +1,4 @@
-import { EEventType } from "./EEventType";
+import { EEventType } from "../../../shared/EEventType";
 
 export class GameEvent {
 

@@ -1,5 +1,4 @@
-import { EEventType } from "./EEventType"
-import { Ship } from "../client/scripts/game_objects/Ship";
+import { EEventType } from "./shared/EEventType"
 
 const express = require('express');
 const app = express();

@@ -1,6 +1,6 @@
 import { GameEvent } from "../events/GameEvent"
 import { EventHandler } from "./EventHandler"
-import { EEventType } from "../events/EEventType"
+import { EEventType } from "../../../shared/EEventType"
 
 export module Com {
 
