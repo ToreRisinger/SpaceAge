@@ -1,6 +1,6 @@
 import { GameScene } from "../scenes/GameScene"
 import { EventHandler } from "./EventHandler"
-import { Events } from "../../../shared/Events"
+import { Events } from "../../../shared/scripts/Events"
 import { Utils } from "./Utils";
 
 export module InputHandler {

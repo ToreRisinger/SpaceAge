@@ -1,9 +1,9 @@
 import { EventHandler } from "./EventHandler"
-import { Events } from "../../../shared/Events"
+import { Events } from "../../../shared/scripts/Events"
 import { Ship } from "../game_objects/Ship";
 import { GameObject } from "../game_objects/GameObject";
 import { Camera } from "./Camera";
-import { DataObjects } from "../../../shared/DataObjects";
+import { DataObjects } from "../../../shared/scripts/DataObjects";
 
 export module GameObjectHandler {
 

@@ -1,5 +1,5 @@
-import { Events } from "./shared/Events"
-import { DataObjects } from "./shared/DataObjects";
+import { Events } from "./shared/scripts/Events"
+import { DataObjects } from "./shared/scripts/DataObjects";
 
 const express = require('express');
 const app = express();

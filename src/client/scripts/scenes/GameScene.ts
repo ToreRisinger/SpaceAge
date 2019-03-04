@@ -2,7 +2,6 @@ import { CONSTANTS } from "../constants/CONSTANTS";
 import { GameObjectHandler } from "../modules/GameObjectHandler"
 import { EventHandler } from "../modules/EventHandler"
 import { Chat } from "../modules/Chat";
-import { Com } from "../modules/Com"
 import { InputHandler } from "../modules/InputHandler"
 import { Camera } from "../modules/Camera";
 import { Background } from "../modules/Background";
