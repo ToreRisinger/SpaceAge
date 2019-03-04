@@ -3,6 +3,7 @@ import { Events } from "../../../shared/Events"
 import { Ship } from "../game_objects/Ship";
 import { GameObject } from "../game_objects/GameObject";
 import { Camera } from "./Camera";
+import { DataObjects } from "../../../shared/DataObjects";
 
 export module GameObjectHandler {
 
@@ -50,12 +51,12 @@ export module GameObjectHandler {
 
     }
 
-    function onPlayerDisconnect(event : Events.GameEvent) {
+    function onPlayerDisconnect(event : Events.PLAYER_DISCONNECTED_EVENT_CONFIG) {
         destroyGameObject(event.data.shipId);
     }
 
     function onShipsUpdate(event : Events.SHIPS_UPDATE_EVENT_CONFIG) {
-        let shipArray : Array<Events.SHIP_CONFIG> = event.data.ships;
+        let shipArray : Array<DataObjects.Ship> = event.data.ships;
         shipArray.forEach((ship: any) => {
             if(gameObjects.get(ship.id) == undefined) {
                 let newShip : Ship = new Ship();
@@ -71,7 +72,7 @@ export module GameObjectHandler {
         });
     }
 
-    function onNewShipDestination(event : Events.GameEvent) {
+    function onNewShipDestination(event : Events.PLAYER_SET_NEW_DESTINATION_EVENT_CONFIG) {
 
     }
 

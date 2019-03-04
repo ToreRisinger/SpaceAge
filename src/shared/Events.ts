@@ -1,3 +1,5 @@
+import { DataObjects } from "./DataObjects"
+
 
 export module Events {
 
@@ -29,19 +31,9 @@ export module Events {
         data : any
     }
 
-    export interface SHIP_CONFIG {
-        id: number,
-        x : number,
-        y : number,
-        speed: number,
-        isMoving : boolean,
-        destinationX : number,
-        destinationY : number
-    }
-
     export interface PLAYER_LOAD_EVENT_CONFIG extends GameEvent {
         data : {
-            ship : SHIP_CONFIG
+            ship : DataObjects.Ship
         }
     }
 
@@ -54,7 +46,13 @@ export module Events {
 
     export interface SHIPS_UPDATE_EVENT_CONFIG extends GameEvent {
         data : {
-            ships : Array<SHIP_CONFIG>
+            ships : Array<DataObjects.Ship>
+        }
+    }
+
+    export interface PLAYER_DISCONNECTED_EVENT_CONFIG extends GameEvent {
+        data : {
+            shipId : number 
         }
     }
 }
