@@ -5,9 +5,12 @@ export module DataObjects {
         x : number,
         y : number,
         speed: number,
+        maxSpeed: number,
         isMoving : boolean,
         destinationX : number,
-        destinationY : number
+        destinationY : number,
+        acceleration : number,
+        velVec : Array<number>
     }
 
     export interface Player {

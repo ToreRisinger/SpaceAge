@@ -1,6 +1,7 @@
 import { Events } from "./shared/scripts/Events"
 import { DataObjects } from "./shared/scripts/DataObjects";
 
+const math = require('mathjs')
 const express = require('express');
 const app = express();
 const server = require('http').Server(app);
@@ -17,6 +18,10 @@ server.listen(8081, function () {
 });
 
 const io = require('socket.io').listen(server);
+
+math.length = function vec2Length(vec2 : Array<number>) {
+  return Math.sqrt((vec2[0] * vec2[0]) + (vec2[1] * vec2[1]));
+};
 
 /* Globals */
 let SHIPS = new Map<number, DataObjects.Ship>();
@@ -39,7 +44,6 @@ io.on('connection', function (socket) {
   console.log('a user connected');
   let playerId = nextPlayerId++;
   let shipId = nextGameObjectId++;
-
   let newPlayer : DataObjects.Player = createNewPlayer(playerId, shipId, socket);
   PLAYERS.set(playerId, newPlayer);
   SHIPS.set(shipId, newPlayer.ship);
@@ -59,7 +63,7 @@ io.on('connection', function (socket) {
   });
 });
 
-setInterval(update, 1000/25);
+setInterval(update, 1000/100);
 
 //Server functions
 function update() {
@@ -68,19 +72,61 @@ function update() {
 }
 
 function updateShipPositions() {
-  SHIPS.forEach((ship: DataObjects.Ship, key: number) => {
-    if(ship.isMoving) {
-      let xLength = ship.destinationX - ship.x;
-      let yLength = ship.destinationY - ship.y;
-      let length = Math.sqrt((xLength * xLength) + (yLength * yLength));
-      if(length <= ship.speed) {
-        ship.isMoving = false;
-        ship.x = ship.destinationX;
-        ship.y = ship.destinationY;
+  function getMidPointVec(shipToDestVec :  Array<number>, goodVelVecComp : Array<number>, badVelVecComp : Array<number>) {
+    function getDivider(goodVelVecComp : Array<number>, badVelVecComp : Array<number>) {
+      if(math.length(badVelVecComp) != 0) {
+        return math.length(goodVelVecComp) / (math.length(goodVelVecComp) + (math.length(badVelVecComp) * 30));;
       } else {
-        ship.x = ship.x + (xLength / length) * ship.speed;
-        ship.y = ship.y + (yLength / length) * ship.speed;
+        return 1;
       }
+    }
+
+    let divider = getDivider(goodVelVecComp, badVelVecComp);
+
+    let midPointVec = math.multiply(shipToDestVec, divider);
+    return  midPointVec;
+  }
+  function calculateNewVelocityVector(shipToDestVec : Array<number>, shipVelVec : Array<number>, shipAcceleration : number) {
+    let newVelVec = [0, 0];
+    //let destVec = [ship.destinationX, ship.destinationY];
+    //let shipPosVec = [ship.x, ship.y];
+    //let shipToDestVec = math.subtract(destVec, shipPosVec);
+
+    let normalizedShipToDestVec = math.multiply(shipToDestVec, 1/math.length(shipToDestVec));
+    let goodVelVecComp = math.multiply(normalizedShipToDestVec, math.multiply(shipVelVec, normalizedShipToDestVec));
+    let badVelVecComp = math.subtract(shipVelVec, goodVelVecComp);
+
+    let midPoint = getMidPointVec(shipToDestVec, goodVelVecComp, badVelVecComp);
+    let nrOfUpdatesUntilReachDestination = math.multiply(math.length(shipToDestVec), 1/math.length(goodVelVecComp));
+    let nrOfStepsNeededToDecelerate = math.multiply(math.length(goodVelVecComp), 1/shipAcceleration)
+    if(nrOfUpdatesUntilReachDestination < nrOfStepsNeededToDecelerate) {
+      midPoint = [0, 0];
+    }
+
+    let velVecToMidPoint = math.subtract(midPoint, shipVelVec);
+    let normalizedVelVecToMidPoint = math.multiply(velVecToMidPoint, 1/math.length(velVecToMidPoint));
+    let acceleration = shipAcceleration;
+   
+    let directionVecAdjustmentVec = math.multiply(normalizedVelVecToMidPoint, acceleration);
+    newVelVec = math.add(shipVelVec, directionVecAdjustmentVec);
+
+    return newVelVec;
+  }
+
+
+  SHIPS.forEach((ship: DataObjects.Ship, key: number) => {
+    let destVec = [ship.destinationX, ship.destinationY];
+    let shipPosVec = [ship.x, ship.y];
+    let shipToDestVec = math.subtract(destVec, shipPosVec);
+
+    if(math.length(shipToDestVec) < ship.acceleration) {
+      ship.isMoving = false;
+    }
+    
+    if(ship.isMoving) {
+      ship.velVec = calculateNewVelocityVector(shipToDestVec, ship.velVec, ship.acceleration);
+      ship.x = ship.x + ship.velVec[0];
+      ship.y = ship.y + ship.velVec[1];
     }
   });
 }
@@ -137,7 +183,10 @@ function createNewPlayer(playerId : number, shipId : number, socket : any) {
     speed: 2,
     isMoving : false,
     destinationX : 0,
-    destinationY : 0
+    destinationY : 0,
+    acceleration : 0.1,
+    velVec : [0, 0],
+    maxSpeed : 10
   }
   
   let newPlayer : DataObjects.Player = {
