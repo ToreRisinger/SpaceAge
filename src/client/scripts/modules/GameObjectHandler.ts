@@ -14,10 +14,6 @@ export module GameObjectHandler {
         subscribeToEvents();
     }
 
-    export function create() {  
-
-    }
-
     export function update(time : number, delta : number) {
         gameObjects.forEach((object: GameObject, key: number) => {
             object.update();
@@ -29,7 +25,7 @@ export module GameObjectHandler {
         return gameObjects.get(thisShipId);
     }
 
-    function onPlayerLoad(eventData : Events.PLAYER_LOAD_EVENT_CONFIG) {
+    function onPlayerLoad(eventData : Events.INITAL_GAME_LOAD_EVENT_CONFIG) {
         //TODO, it takes some time before this event comes. 
         //Show loading screen while waiting for this event
         let data : any = eventData.data;
@@ -83,7 +79,7 @@ export module GameObjectHandler {
         EventHandler.on(Events.EEventType.PLAYER_CONNECTED_EVENT, onPlayerConnect);
         EventHandler.on(Events.EEventType.PLAYER_DISCONNECTED_EVENT, onPlayerDisconnect);
         EventHandler.on(Events.EEventType.SHIPS_UPDATE_EVENT, onShipsUpdate);
-        EventHandler.on(Events.EEventType.PLAYER_LOAD_EVENT, onPlayerLoad);
+        EventHandler.on(Events.EEventType.INITAL_GAME_LOAD_EVENT, onPlayerLoad);
         EventHandler.on(Events.EEventType.PLAYER_SET_NEW_DESTINATION_EVENT, onNewShipDestination);
     }
 

@@ -7,6 +7,8 @@ import { Camera } from "../modules/Camera";
 import { Background } from "../modules/Background";
 import { SPRITES } from "../constants/SPRITES";
 import { Graphics } from "../modules/Graphics";
+import { Com } from "../modules/Com";
+import { GameStates } from "../modules/GameStates";
 
 export class GameScene extends Phaser.Scene {
     
@@ -24,15 +26,16 @@ export class GameScene extends Phaser.Scene {
     }
 
     init() {
-        Background.init();
-        InputHandler.init();
-        GameObjectHandler.init();
-        Chat.init(); 
-        Camera.init();
-        Graphics.init();
+        
     }
 
     preload() {
+        this.loadImage();
+        this.loadAudio();
+        this.loadSprites();
+    }
+
+    create() {
         this.anims.create({
             key: SPRITES.MAIN_MODULE_I_COMMON_SPRITE.anims.ANIM_1.key,
             frameRate: 4,
@@ -41,12 +44,16 @@ export class GameScene extends Phaser.Scene {
                 frames: [0, 1, 2, 3]
             })
         });
-    }
 
-    create() {
-        Background.create();
-        GameObjectHandler.create();
-        Graphics.create();
+        EventHandler.init();
+        GameStates.init();
+        Background.init();
+        InputHandler.init();
+        GameObjectHandler.init();
+        Chat.init(); 
+        Camera.init();
+        Graphics.init();
+        Com.init();
     }
 
     update(time : number, delta : number) { //delta 16.666 @ 60fps
@@ -66,5 +73,31 @@ export class GameScene extends Phaser.Scene {
 
     playAnimation(sprite : Phaser.GameObjects.Sprite, animation : string) {
         sprite.play(animation);
+    }
+
+    loadImage() {
+        this.load.setPath("./assets/image");
+
+        for(let prop in CONSTANTS.IMAGE) {
+            //@ts-ignore
+            this.load.image(CONSTANTS.IMAGE[prop], CONSTANTS.IMAGE[prop]);
+        }
+    }
+
+    loadAudio() {
+        this.load.setPath("./assets/audio");
+        
+        for(let prop in CONSTANTS.AUDIO) {
+            //@ts-ignore
+            this.load.image(CONSTANTS.AUDIO[prop], CONSTANTS.AUDIO[prop]);
+        }
+    }
+
+    loadSprites() {
+        this.load.setPath("./assets/sprite");
+        
+        Object.entries(SPRITES).forEach(
+            ([key, value]) => this.load.spritesheet(value.key, value.file, {frameHeight: value.height, frameWidth: value.width})
+        );
     }
 }

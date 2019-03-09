@@ -17,6 +17,7 @@ export module Camera {
         height = camera.height;
         x = 0;
         y = 0;
+        camera.centerOn(x, y);
     }
 
     export function update(time : number, delta : number) {

@@ -32,8 +32,8 @@ let nextGameObjectId = 0;
 //@ts-ignore
 io.on('connection', function (socket) {
   function createPlayerLoadEventPacket(ship : DataObjects.Ship) {
-    let packet : Events.PLAYER_LOAD_EVENT_CONFIG = {
-      eventId : Events.EEventType.PLAYER_LOAD_EVENT,
+    let packet : Events.INITAL_GAME_LOAD_EVENT_CONFIG = {
+      eventId : Events.EEventType.INITAL_GAME_LOAD_EVENT,
       data : {
         ship : ship
       }
@@ -76,7 +76,11 @@ function updateShipPositions() {
     function getDivider(goodVelVecComp : Array<number>, badVelVecComp : Array<number>) {
       if(math.length(badVelVecComp) != 0) {
         let lengthOfBadVelVecComp = math.length(badVelVecComp);
-        let divider = lengthOfBadVelVecComp * lengthOfBadVelVecComp * lengthOfBadVelVecComp * lengthOfBadVelVecComp * lengthOfBadVelVecComp;
+        let lengthOfBadVelVecCompSquared1 = lengthOfBadVelVecComp * lengthOfBadVelVecComp;
+        let lengthOfBadVelVecCompSquared2 = lengthOfBadVelVecCompSquared1 * lengthOfBadVelVecCompSquared1;
+        let lengthOfBadVelVecCompSquared3 = lengthOfBadVelVecCompSquared2 * lengthOfBadVelVecCompSquared2;
+        let lengthOfBadVelVecCompSquared4 = lengthOfBadVelVecCompSquared3 * lengthOfBadVelVecCompSquared3;
+        let divider = lengthOfBadVelVecCompSquared4 * 40;
         return math.length(goodVelVecComp) / (math.length(goodVelVecComp) + divider);
       } else {
         return 1;
@@ -100,9 +104,7 @@ function updateShipPositions() {
 
     let velVecToMidPoint = math.subtract(midPoint, shipVelVec);
     let normalizedVelVecToMidPoint = math.multiply(velVecToMidPoint, 1/math.length(velVecToMidPoint));
-    let acceleration = shipAcceleration;
-   
-    let directionVecAdjustmentVec = math.multiply(normalizedVelVecToMidPoint, acceleration);
+    let directionVecAdjustmentVec = math.multiply(normalizedVelVecToMidPoint, shipAcceleration);
     newVelVec = math.add(shipVelVec, directionVecAdjustmentVec);
 
     return newVelVec;
@@ -117,7 +119,7 @@ function updateShipPositions() {
     let goodVelVecComp = math.multiply(normalizedShipToDestVec, math.multiply(ship.velVec, normalizedShipToDestVec));
     let badVelVecComp = math.subtract(ship.velVec, goodVelVecComp);
     
-    if(math.length(shipToDestVec) < 1 && goodVelVecComp < 1) {
+    if(math.length(shipToDestVec) < 1 && math.length(goodVelVecComp) < 1) {
       ship.isMoving = false;
       ship.x = ship.destinationX;
       ship.y = ship.destinationY;

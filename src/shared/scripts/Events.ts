@@ -7,7 +7,7 @@ export module Events {
         /*
             CLIENT EVENTS
         */
-        PLAYER_LOAD_EVENT,
+        INITAL_GAME_LOAD_EVENT,
 
         //Player events
         PLAYER_CONNECTED_EVENT,
@@ -19,7 +19,10 @@ export module Events {
         CHAT_SERVER_MESSAGE_EVENT,
 
         //Game logic events
-        PLAYER_SET_NEW_DESTINATION_EVENT
+        PLAYER_SET_NEW_DESTINATION_EVENT,
+
+        //GameState changes events
+        SPACE_SCENE_GAME_STATE_EVENT
 
         /*
             SERVER EVENTS
@@ -31,7 +34,7 @@ export module Events {
         data : any
     }
 
-    export interface PLAYER_LOAD_EVENT_CONFIG extends GameEvent {
+    export interface INITAL_GAME_LOAD_EVENT_CONFIG extends GameEvent {
         data : {
             ship : DataObjects.Ship
         }

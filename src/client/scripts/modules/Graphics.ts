@@ -12,11 +12,6 @@ export module Graphics {
     let circleGraphics : Phaser.GameObjects.Graphics;
 
     export function init() {
-        
-
-    }
-
-    export function create() {
         lineGraphics = GameScene.getInstance().add.graphics({lineStyle : { width: 1, color: 0x7F7F7F}});
         line = new Phaser.Geom.Line(0, 0, 0, 0);
 
