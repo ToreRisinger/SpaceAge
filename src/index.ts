@@ -63,7 +63,7 @@ io.on('connection', function (socket) {
   });
 });
 
-setInterval(update, 1000/100);
+setInterval(update, 1000/25);
 
 //Server functions
 function update() {
@@ -75,7 +75,9 @@ function updateShipPositions() {
   function getMidPointVec(shipToDestVec :  Array<number>, goodVelVecComp : Array<number>, badVelVecComp : Array<number>) {
     function getDivider(goodVelVecComp : Array<number>, badVelVecComp : Array<number>) {
       if(math.length(badVelVecComp) != 0) {
-        return math.length(goodVelVecComp) / (math.length(goodVelVecComp) + (math.length(badVelVecComp) * 30));;
+        let lengthOfBadVelVecComp = math.length(badVelVecComp);
+        let divider = lengthOfBadVelVecComp * lengthOfBadVelVecComp * lengthOfBadVelVecComp * lengthOfBadVelVecComp * lengthOfBadVelVecComp;
+        return math.length(goodVelVecComp) / (math.length(goodVelVecComp) + divider);
       } else {
         return 1;
       }
@@ -86,15 +88,8 @@ function updateShipPositions() {
     let midPointVec = math.multiply(shipToDestVec, divider);
     return  midPointVec;
   }
-  function calculateNewVelocityVector(shipToDestVec : Array<number>, shipVelVec : Array<number>, shipAcceleration : number) {
+  function calculateNewVelocityVector(shipToDestVec : Array<number>, shipVelVec : Array<number>, goodVelVecComp : Array<number>, badVelVecComp : Array<number>, shipAcceleration : number) {
     let newVelVec = [0, 0];
-    //let destVec = [ship.destinationX, ship.destinationY];
-    //let shipPosVec = [ship.x, ship.y];
-    //let shipToDestVec = math.subtract(destVec, shipPosVec);
-
-    let normalizedShipToDestVec = math.multiply(shipToDestVec, 1/math.length(shipToDestVec));
-    let goodVelVecComp = math.multiply(normalizedShipToDestVec, math.multiply(shipVelVec, normalizedShipToDestVec));
-    let badVelVecComp = math.subtract(shipVelVec, goodVelVecComp);
 
     let midPoint = getMidPointVec(shipToDestVec, goodVelVecComp, badVelVecComp);
     let nrOfUpdatesUntilReachDestination = math.multiply(math.length(shipToDestVec), 1/math.length(goodVelVecComp));
@@ -118,13 +113,18 @@ function updateShipPositions() {
     let destVec = [ship.destinationX, ship.destinationY];
     let shipPosVec = [ship.x, ship.y];
     let shipToDestVec = math.subtract(destVec, shipPosVec);
-
-    if(math.length(shipToDestVec) < ship.acceleration) {
-      ship.isMoving = false;
-    }
+    let normalizedShipToDestVec = math.multiply(shipToDestVec, 1/math.length(shipToDestVec));
+    let goodVelVecComp = math.multiply(normalizedShipToDestVec, math.multiply(ship.velVec, normalizedShipToDestVec));
+    let badVelVecComp = math.subtract(ship.velVec, goodVelVecComp);
     
+    if(math.length(shipToDestVec) < 1 && goodVelVecComp < 1) {
+      ship.isMoving = false;
+      ship.x = ship.destinationX;
+      ship.y = ship.destinationY;
+    }
+     
     if(ship.isMoving) {
-      ship.velVec = calculateNewVelocityVector(shipToDestVec, ship.velVec, ship.acceleration);
+      ship.velVec = calculateNewVelocityVector(shipToDestVec, ship.velVec, goodVelVecComp, badVelVecComp, ship.acceleration);
       ship.x = ship.x + ship.velVec[0];
       ship.y = ship.y + ship.velVec[1];
     }
@@ -149,7 +149,7 @@ function sendGameObjectUpdate() {
   }
   let packet : any = createShipsUpdatePacket()
   PLAYERS.forEach((player: DataObjects.Player, key: number) => {
-    player.socket.emit('ServerEvent', packet)
+    player.socket.emit("ServerEvent", packet);
   });
 }
 

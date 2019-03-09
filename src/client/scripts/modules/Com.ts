@@ -4,15 +4,15 @@ import { Events } from "../../../shared/scripts/Events"
 export module Com {
 
     let socket : any;
-
     export function init() {
+
         //@ts-ignore
         socket = io();
 
         subscribeToEvents();
 
         socket.on('ServerEvent', (event : any) => {
-            EventHandler.pushEvent(event)
+            EventHandler.pushEvent(event);  
         });
     }
 

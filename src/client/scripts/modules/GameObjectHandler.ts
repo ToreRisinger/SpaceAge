@@ -30,6 +30,8 @@ export module GameObjectHandler {
     }
 
     function onPlayerLoad(eventData : Events.PLAYER_LOAD_EVENT_CONFIG) {
+        //TODO, it takes some time before this event comes. 
+        //Show loading screen while waiting for this event
         let data : any = eventData.data;
         let ship = data.ship;
         thisShipId = ship.id;
@@ -63,6 +65,7 @@ export module GameObjectHandler {
                 gameObjects.set(ship.id, newShip);
                 if(ship.id == thisShipId) {
                     newShip.setToThisPlayerShip();
+                    Camera.centerCamera(true);
                 }
             }
             let currentShip : Ship = (<Ship>gameObjects.get(ship.id));

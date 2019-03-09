@@ -27,7 +27,6 @@ export module Camera {
                 y = ship.getPos().y;
                 camera.centerOn(x, y);
             }
-           
         }
     }
 
