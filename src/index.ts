@@ -80,7 +80,7 @@ function updateShipPositions() {
         let lengthOfBadVelVecCompSquared2 = lengthOfBadVelVecCompSquared1 * lengthOfBadVelVecCompSquared1;
         let lengthOfBadVelVecCompSquared3 = lengthOfBadVelVecCompSquared2 * lengthOfBadVelVecCompSquared2;
         let lengthOfBadVelVecCompSquared4 = lengthOfBadVelVecCompSquared3 * lengthOfBadVelVecCompSquared3;
-        let divider = lengthOfBadVelVecCompSquared4 * 40;
+        let divider = lengthOfBadVelVecCompSquared4;
         return math.length(goodVelVecComp) / (math.length(goodVelVecComp) + divider);
       } else {
         return 1;
