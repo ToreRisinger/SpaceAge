@@ -3,59 +3,58 @@ import { GameScene } from "../scenes/GameScene"
 import { GameObject } from "./GameObject";
 import { SPRITES } from "../constants/SPRITES";
 import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
+import { DataObjects } from "../../../shared/scripts/DataObjects"
 
 export class Ship extends GameObject {
 
-    private isMoving : boolean = false;
-    private destinationPosVec : Phaser.Math.Vector2;
+    //@ts-ignore
     private sprite : Phaser.GameObjects.Sprite;
+    //@ts-ignore
     private outLineSprite : Phaser.GameObjects.Sprite;
-
+    //@ts-ignore
     private shipModules : Object;
 
-    //TODO take an 2d array of MODULE enums. and a ShipProperties interface object. Everything is sent from server.
-    constructor() {
-        super();
+    private ship_config : DataObjects.Ship_Config;
 
-        this.destinationPosVec = new Phaser.Math.Vector2(this.posVec.x, this.posVec.y);
+    constructor(ship_config : DataObjects.Ship_Config) {
+        super(ship_config);
+        this.ship_config = ship_config;
 
+        this.buildShip();
+    }
+
+    private buildShip() {
         this.shipModules = SHIP_MODULES.MAIN_MODULE_I_COMMON;
-        this.sprite = GameScene.getInstance().addSprite(this.posVec.x, this.posVec.y, SHIP_MODULES.MAIN_MODULE_I_COMMON.sprite);
+        this.sprite = GameScene.getInstance().addSprite(this.ship_config.x, this.ship_config.y, SHIP_MODULES.MAIN_MODULE_I_COMMON.sprite);
         GameScene.getInstance().playAnimation(this.sprite, SHIP_MODULES.MAIN_MODULE_I_COMMON.animation);
         this.sprite.setInteractive();
         this.sprite.on('pointerover', () => {this.outLineSprite.setVisible(true) });
         this.sprite.on('pointerout', () => { this.outLineSprite.setVisible(false) });
 
-        this.outLineSprite = GameScene.getInstance().addSprite(this.posVec.x, this.posVec.y, SPRITES.MODULE_OUTLINE_RED.key);
+        this.outLineSprite = GameScene.getInstance().addSprite(this.ship_config.x, this.ship_config.y, SPRITES.MODULE_OUTLINE_RED.key);
         this.outLineSprite.setVisible(false);
 
         this.sprite.setDepth(DRAW_LAYERS.OTHER_SHIP_LAYER);
         this.outLineSprite.setDepth(DRAW_LAYERS.OTHER_SHIP_OUTLINE_LAYER);
     }
 
+    public updateDataObjectConfig(ship_config : DataObjects.Ship_Config) {
+        super.updateDataObjectConfig(ship_config);
+        this.ship_config = ship_config;
+        this.updateSpritePosition();
+        //this.buildShip();
+    }
+
     public update() {
         
     }
 
-    public setPos(posVec : Phaser.Math.Vector2) {
-        this.posVec = posVec;
-        this.updateSpritePosition();
-    }
-
-    public setDestinationPos(destinationPosVec : Phaser.Math.Vector2) {
-        this.destinationPosVec = destinationPosVec;  
+    public getIsMoving() {
+        return this.ship_config.isMoving;
     }
 
     public getDestinationPos() {
-        return this.destinationPosVec;
-    }
-
-    public setIsMoving(newIsMoving : boolean) {
-        this.isMoving = newIsMoving;
-    }
-
-    public getIsMoving() {
-        return this.isMoving;
+        return new Phaser.Math.Vector2(this.ship_config.destinationX, this.ship_config.destinationY);
     }
 
     public destroy() {
@@ -69,7 +68,7 @@ export class Ship extends GameObject {
     }
 
     private updateSpritePosition() {
-        this.sprite.setPosition(this.posVec.x, this.posVec.y);
-        this.outLineSprite.setPosition(this.posVec.x, this.posVec.y);
+        this.sprite.setPosition(this.ship_config.x, this.ship_config.y);
+        this.outLineSprite.setPosition(this.ship_config.x, this.ship_config.y);
     }
 }

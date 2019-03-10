@@ -11,7 +11,7 @@ export module GameObjectHandler {
     let gameObjects = new Map<number, GameObject>();
 
     export function init() {
-        subscribeToEvents();
+        subscribeToInitialEvents();
     }
 
     export function update(time : number, delta : number) {
@@ -25,24 +25,18 @@ export module GameObjectHandler {
         return gameObjects.get(thisShipId);
     }
 
-    function onPlayerLoad(eventData : Events.INITAL_GAME_LOAD_EVENT_CONFIG) {
-        //TODO, it takes some time before this event comes. 
-        //Show loading screen while waiting for this event
+    function onInitialGameLoad(eventData : Events.INITAL_GAME_LOAD_EVENT_CONFIG) {
         let data : any = eventData.data;
-        let ship = data.ship;
+        let ship : DataObjects.Ship_Config = data.ship; 
+        let newShip : Ship = new Ship(ship);
+      
         thisShipId = ship.id;
-        if(gameObjects.get(thisShipId) == undefined) {
-            let newShip : Ship = new Ship();
-            newShip.setPos(new Phaser.Math.Vector2(ship.x, ship.y));
-           
-            gameObjects.set(thisShipId, newShip);
-            let thisShip : Ship = (<Ship>gameObjects.get(thisShipId));
-            thisShip.setDestinationPos(new Phaser.Math.Vector2(ship.destinationX, ship.destinationY));
-            thisShip.setIsMoving(ship.isMoving); 
-        }
+        gameObjects.set(thisShipId, newShip);
         //@ts-ignore
         gameObjects.get(thisShipId).setToThisPlayerShip();
         Camera.centerCamera(true);
+
+        subscribeToEvents();
     }
 
     function onPlayerConnect(event : Events.GameEvent) {
@@ -54,20 +48,16 @@ export module GameObjectHandler {
     }
 
     function onShipsUpdate(event : Events.SHIPS_UPDATE_EVENT_CONFIG) {
-        let shipArray : Array<DataObjects.Ship> = event.data.ships;
-        shipArray.forEach((ship: any) => {
-            if(gameObjects.get(ship.id) == undefined) {
-                let newShip : Ship = new Ship();
-                gameObjects.set(ship.id, newShip);
-                if(ship.id == thisShipId) {
-                    newShip.setToThisPlayerShip();
-                    Camera.centerCamera(true);
-                }
+        let shipArray : Array<DataObjects.Ship_Config> = event.data.ships;
+        shipArray.forEach((ship_config: DataObjects.Ship_Config) => {
+            if(gameObjects.get(ship_config.id) == undefined) {
+                let newShip : Ship = new Ship(ship_config);
+                gameObjects.set(ship_config.id, newShip);
+            } else {
+                //@ts-ignore
+                let oldShip : Ship = gameObjects.get(ship_config.id);
+                oldShip.updateDataObjectConfig(ship_config);
             }
-            let currentShip : Ship = (<Ship>gameObjects.get(ship.id));
-            currentShip.setPos(new Phaser.Math.Vector2(ship.x, ship.y));
-            currentShip.setDestinationPos(new Phaser.Math.Vector2(ship.destinationX, ship.destinationY));
-            currentShip.setIsMoving(ship.isMoving); 
         });
     }
 
@@ -75,11 +65,18 @@ export module GameObjectHandler {
 
     }
 
+    function subscribeToInitialEvents() {
+        //EventHandler.on(Events.EEventType.PLAYER_CONNECTED_EVENT, onPlayerConnect);
+        //EventHandler.on(Events.EEventType.PLAYER_DISCONNECTED_EVENT, onPlayerDisconnect);
+        //EventHandler.on(Events.EEventType.SHIPS_UPDATE_EVENT, onShipsUpdate);
+        EventHandler.on(Events.EEventType.INITAL_GAME_LOAD_EVENT, onInitialGameLoad);
+        //EventHandler.on(Events.EEventType.PLAYER_SET_NEW_DESTINATION_EVENT, onNewShipDestination);
+    }
+
     function subscribeToEvents() {
         EventHandler.on(Events.EEventType.PLAYER_CONNECTED_EVENT, onPlayerConnect);
         EventHandler.on(Events.EEventType.PLAYER_DISCONNECTED_EVENT, onPlayerDisconnect);
         EventHandler.on(Events.EEventType.SHIPS_UPDATE_EVENT, onShipsUpdate);
-        EventHandler.on(Events.EEventType.INITAL_GAME_LOAD_EVENT, onPlayerLoad);
         EventHandler.on(Events.EEventType.PLAYER_SET_NEW_DESTINATION_EVENT, onNewShipDestination);
     }
 

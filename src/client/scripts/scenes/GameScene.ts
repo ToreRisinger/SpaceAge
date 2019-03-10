@@ -41,7 +41,7 @@ export class GameScene extends Phaser.Scene {
             frameRate: 4,
             repeat: -1, //repeat forever
             frames: this.anims.generateFrameNumbers(SPRITES.MAIN_MODULE_I_COMMON_SPRITE.key, {
-                frames: [0, 1, 2, 3]
+                frames: [0, 1, 2, 3, 4, 5, 6, 7]
             })
         });
 

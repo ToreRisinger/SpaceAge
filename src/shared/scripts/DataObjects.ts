@@ -1,10 +1,13 @@
 export module DataObjects {
 
-    export interface Ship {
-        id: number,
+    export interface Game_Object_Config {
+        id : number,
         x : number,
-        y : number,
-        speed: number,
+        y : number
+    }
+
+    export interface Ship_Config extends Game_Object_Config {
+        speed: number
         maxSpeed: number,
         isMoving : boolean,
         destinationX : number,
@@ -15,6 +18,6 @@ export module DataObjects {
 
     export interface Player {
         socket: any,
-        ship: Ship
+        ship: Ship_Config
     }
 }

@@ -24,14 +24,14 @@ math.length = function vec2Length(vec2 : Array<number>) {
 };
 
 /* Globals */
-let SHIPS = new Map<number, DataObjects.Ship>();
+let SHIPS = new Map<number, DataObjects.Ship_Config>();
 let PLAYERS = new Map<number, DataObjects.Player>();
 let nextPlayerId = 0;
 let nextGameObjectId = 0;
 
 //@ts-ignore
 io.on('connection', function (socket) {
-  function createPlayerLoadEventPacket(ship : DataObjects.Ship) {
+  function createPlayerLoadEventPacket(ship : DataObjects.Ship_Config) {
     let packet : Events.INITAL_GAME_LOAD_EVENT_CONFIG = {
       eventId : Events.EEventType.INITAL_GAME_LOAD_EVENT,
       data : {
@@ -111,7 +111,7 @@ function updateShipPositions() {
   }
 
 
-  SHIPS.forEach((ship: DataObjects.Ship, key: number) => {
+  SHIPS.forEach((ship: DataObjects.Ship_Config, key: number) => {
     let destVec = [ship.destinationX, ship.destinationY];
     let shipPosVec = [ship.x, ship.y];
     let shipToDestVec = math.subtract(destVec, shipPosVec);
@@ -135,7 +135,7 @@ function updateShipPositions() {
 
 function sendGameObjectUpdate() {
   function createShipsUpdatePacket() {
-    let shipArray: Array<DataObjects.Ship> = [];
+    let shipArray: Array<DataObjects.Ship_Config> = [];
     PLAYERS.forEach((player: DataObjects.Player, key: number) => {
       shipArray.push(player.ship);
     });
@@ -178,7 +178,7 @@ function handleClientEvent(player : DataObjects.Player, event : Events.GameEvent
 }
 
 function createNewPlayer(playerId : number, shipId : number, socket : any) {
-  let ship : DataObjects.Ship = {
+  let ship : DataObjects.Ship_Config = {
     id: shipId,
     x : 0,
     y : 0,

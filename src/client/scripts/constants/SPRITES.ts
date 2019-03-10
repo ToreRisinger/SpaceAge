@@ -1,16 +1,16 @@
 export const SPRITES = {
     //Ship main modules
     MAIN_MODULE_I_COMMON_SPRITE: {
-        key: "main_module_I_common",
-        file: "main_module_I_common.png",
+        key: "main_module_I",
+        file: "main_module_I.png",
         width: 38,
         height: 38,
         anims: {
             ANIM_1: {
-                key: "main_module_I_common",
+                key: "main_module_I",
                 frameRate: 4,
                 repeat: -1, //forever
-                frames: [0, 1, 2, 3]
+                frames: [0, 1, 2, 3, 4, 5, 6, 7]
             }
         }
     },

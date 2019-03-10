@@ -1,21 +1,23 @@
+import { DataObjects } from "../../../shared/scripts/DataObjects";
+
 export class GameObject {
 
-    protected posVec : Phaser.Math.Vector2;
+    private game_object_config : DataObjects.Game_Object_Config;
 
-    constructor() {
-        this.posVec = new Phaser.Math.Vector2(0, 0);
+    constructor(game_object_config : DataObjects.Game_Object_Config) {
+        this.game_object_config = game_object_config;
     }
 
     public getPos() {
-        return this.posVec;
-    }
-
-    public setPos(posVec : Phaser.Math.Vector2) {
-        this.posVec = posVec;
+        return new Phaser.Math.Vector2(this.game_object_config.x, this.game_object_config.y);
     }
 
     public update() {
         
+    }
+
+    public updateDataObjectConfig(game_object_config : DataObjects.Game_Object_Config) {
+        this.game_object_config = game_object_config;
     }
 
     public destroy() {

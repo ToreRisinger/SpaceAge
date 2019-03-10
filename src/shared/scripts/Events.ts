@@ -36,7 +36,7 @@ export module Events {
 
     export interface INITAL_GAME_LOAD_EVENT_CONFIG extends GameEvent {
         data : {
-            ship : DataObjects.Ship
+            ship : DataObjects.Ship_Config
         }
     }
 
@@ -49,7 +49,7 @@ export module Events {
 
     export interface SHIPS_UPDATE_EVENT_CONFIG extends GameEvent {
         data : {
-            ships : Array<DataObjects.Ship>
+            ships : Array<DataObjects.Ship_Config>
         }
     }
 
