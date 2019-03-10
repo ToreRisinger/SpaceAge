@@ -11,8 +11,8 @@ interface IShipModule {
 }
 
 export var TEST : IShipModule = {
-    sprite : SPRITES.MAIN_MODULE_I_COMMON_SPRITE.key,
-    animation : SPRITES.MAIN_MODULE_I_COMMON_SPRITE.anims.ANIM_1.key,
+    sprite : SPRITES.MAIN_MODULE_I.key,
+    animation : SPRITES.MAIN_MODULE_I.anims.ANIM_1.key,
     cargo : 1,
     weight : 20,
     hull : 20,
@@ -23,8 +23,8 @@ export const SHIP_MODULES = {
     TEST,
     
     MAIN_MODULE_I_COMMON : {
-        sprite : SPRITES.MAIN_MODULE_I_COMMON_SPRITE.key,
-        animation : SPRITES.MAIN_MODULE_I_COMMON_SPRITE.anims.ANIM_1.key,
+        sprite : SPRITES.MAIN_MODULE_I.key,
+        animation : SPRITES.MAIN_MODULE_I.anims.ANIM_1.key,
         cargo : 1,
         weight : 20,
         hull : 20,

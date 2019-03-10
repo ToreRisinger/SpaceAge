@@ -37,10 +37,10 @@ export class GameScene extends Phaser.Scene {
 
     create() {
         this.anims.create({
-            key: SPRITES.MAIN_MODULE_I_COMMON_SPRITE.anims.ANIM_1.key,
+            key: SPRITES.MAIN_MODULE_I.anims.ANIM_1.key,
             frameRate: 4,
             repeat: -1, //repeat forever
-            frames: this.anims.generateFrameNumbers(SPRITES.MAIN_MODULE_I_COMMON_SPRITE.key, {
+            frames: this.anims.generateFrameNumbers(SPRITES.MAIN_MODULE_I.key, {
                 frames: [0, 1, 2, 3, 4, 5, 6, 7]
             })
         });
