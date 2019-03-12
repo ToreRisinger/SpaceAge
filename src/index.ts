@@ -188,7 +188,31 @@ function createNewPlayer(playerId : number, shipId : number, socket : any) {
     destinationY : 0,
     acceleration : 0.1,
     velVec : [0, 0],
-    maxSpeed : 10
+    maxSpeed : 10,
+    modules : [[]],
+    properties : {
+      acceleration : 0,
+      armor : 0,
+      armor_explosion_resistance : 0,
+      armor_heat_resistance : 0,
+      armor_impact_resistance : 0,
+      armor_repair : 0,
+      avoidance_systems : 0,
+      cargo_hold : 0,
+      energy_grid : 0,
+      gravity_detection_range : 0,
+      hull : 0,
+      max_speed : 0,
+      shield : 0,
+      shield_explosion_resistance : 0,
+      shield_generation : 0,
+      shield_heat_resistance : 0,
+      shield_impact_resistance : 0,
+      targeting_systems : 0,
+      thrust : 0,
+      vision_range : 0,
+      weight : 0
+    }
   }
   
   let newPlayer : DataObjects.Player = {

@@ -96,19 +96,17 @@ export class GameScene extends Phaser.Scene {
 
     createAnimations() {
         Object.entries(SPRITES).forEach(
-            ([key, sprite]) => Object.entries(sprite.anims).forEach(
-                ([key, value]) =>  this.anims.create({
+            ([key, sprite]) => this.anims.create({
+                //@ts-ignore
+                key: sprite.anim.key,
+                //@ts-ignore
+                frameRate: sprite.anim.frameRate,
+                repeat: -1, //repeat forever
+                frames: this.anims.generateFrameNumbers(sprite.key, {
                     //@ts-ignore
-                    key: value.key,
-                    //@ts-ignore
-                    frameRate: value.frameRate,
-                    repeat: -1, //repeat forever
-                    frames: this.anims.generateFrameNumbers(sprite.key, {
-                        //@ts-ignore
-                        frames: value.frames
-                    })
+                    frames: sprite.anim.frames
                 })
-            )
+            })
         );
     }
 }
