@@ -124,6 +124,48 @@ export const SPRITES = {
         }
     },
 
+    SUPPORT_MODULE_I: {
+        key: "support_module_I",
+        file: "modules/support_module_I.png",
+        width: 38,
+        height: 38,
+        anims: { }
+    },
+
+    //Weapon modules
+
+    LASER_MODULE_I: {
+        key: "laser_module_I",
+        file: "modules/laser_module_I.png",
+        width: 38,
+        height: 38,
+        anims: { }
+    },
+
+    MINING_LASER_MODULE_I: {
+        key: "mining_laser_module_I",
+        file: "modules/mining_laser_module_I.png",
+        width: 38,
+        height: 38,
+        anims: { }
+    },
+
+    MISSLE_MODULE_I: {
+        key: "missile_module_I",
+        file: "modules/missile_module_I.png",
+        width: 38,
+        height: 38,
+        anims: { }
+    },
+
+    TURRET_MODULE_I: {
+        key: "turret_module_I",
+        file: "modules/turret_module_I.png",
+        width: 38,
+        height: 38,
+        anims: { }
+    },
+
     //Outlines
     MODULE_OUTLINE_RED: {
         key: "module_outline_red",

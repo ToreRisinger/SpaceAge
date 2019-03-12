@@ -36,14 +36,7 @@ export class GameScene extends Phaser.Scene {
     }
 
     create() {
-        this.anims.create({
-            key: SPRITES.MAIN_MODULE_I.anims.ANIM_1.key,
-            frameRate: 4,
-            repeat: -1, //repeat forever
-            frames: this.anims.generateFrameNumbers(SPRITES.MAIN_MODULE_I.key, {
-                frames: [0, 1, 2, 3, 4, 5, 6, 7]
-            })
-        });
+        this.createAnimations();
 
         EventHandler.init();
         GameStates.init();
@@ -98,6 +91,24 @@ export class GameScene extends Phaser.Scene {
         
         Object.entries(SPRITES).forEach(
             ([key, value]) => this.load.spritesheet(value.key, value.file, {frameHeight: value.height, frameWidth: value.width})
+        );
+    }
+
+    createAnimations() {
+        Object.entries(SPRITES).forEach(
+            ([key, sprite]) => Object.entries(sprite.anims).forEach(
+                ([key, value]) =>  this.anims.create({
+                    //@ts-ignore
+                    key: value.key,
+                    //@ts-ignore
+                    frameRate: value.frameRate,
+                    repeat: -1, //repeat forever
+                    frames: this.anims.generateFrameNumbers(sprite.key, {
+                        //@ts-ignore
+                        frames: value.frames
+                    })
+                })
+            )
         );
     }
 }

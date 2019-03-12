@@ -42,7 +42,6 @@ export class Ship extends GameObject {
         super.updateDataObjectConfig(ship_config);
         this.ship_config = ship_config;
         this.updateSpritePosition();
-        //this.buildShip();
     }
 
     public update() {
