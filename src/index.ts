@@ -1,5 +1,6 @@
 import { Events } from "./shared/scripts/Events"
 import { DataObjects } from "./shared/scripts/DataObjects";
+import { SHIP_MODULE_TYPE_ENUM } from "./shared/scripts/SHIP_MODULE_TYPE_ENUM";
 
 const math = require('mathjs')
 const express = require('express');
@@ -42,9 +43,9 @@ io.on('connection', function (socket) {
     return packet;
   }
   console.log('a user connected');
-  let playerId = nextPlayerId++;
-  let shipId = nextGameObjectId++;
-  let newPlayer : DataObjects.Player = createNewPlayer(playerId, shipId, socket);
+  let playerId = nextPlayerId++; //TODO get this from database
+  let shipId = nextGameObjectId++; //TODO get this from database
+  let newPlayer : DataObjects.Player = loadPlayerFromDB(playerId, shipId, socket);
   PLAYERS.set(playerId, newPlayer);
   SHIPS.set(shipId, newPlayer.ship);
   //@ts-ignore
@@ -177,7 +178,8 @@ function handleClientEvent(player : DataObjects.Player, event : Events.GameEvent
    }
 }
 
-function createNewPlayer(playerId : number, shipId : number, socket : any) {
+function loadPlayerFromDB(playerId : number, shipId : number, socket : any) {
+  
   let ship : DataObjects.Ship_Config = {
     id: shipId,
     x : 0,
@@ -189,31 +191,48 @@ function createNewPlayer(playerId : number, shipId : number, socket : any) {
     acceleration : 0.1,
     velVec : [0, 0],
     maxSpeed : 10,
-    modules : [[]],
+    modules : [[
+                  {id: 0, properties: [], quality: 1, module_type: SHIP_MODULE_TYPE_ENUM.POWER_GENERATOR_MODULE_I},
+                  {id: 0, properties: [], quality: 1, module_type: SHIP_MODULE_TYPE_ENUM.SHIELD_GENERATOR_MODULE_I},
+                  {id: 0, properties: [], quality: 1, module_type: SHIP_MODULE_TYPE_ENUM.ENGINE_MODULE_I}
+                ],
+                [
+                  {id: 0, properties: [], quality: 1, module_type: SHIP_MODULE_TYPE_ENUM.LASER_MODULE_I},
+                  {id: 0, properties: [], quality: 1, module_type: SHIP_MODULE_TYPE_ENUM.MAIN_MODULE_I},
+                  {id: 0, properties: [], quality: 1, module_type: SHIP_MODULE_TYPE_ENUM.CARGO_HOLD_MODULE_I}
+                ],
+                [
+                  {id: 0, properties: [], quality: 1, module_type: SHIP_MODULE_TYPE_ENUM.AVOIDANCE_SYSTEM_MODULE_I},
+                  {id: 0, properties: [], quality: 1, module_type: SHIP_MODULE_TYPE_ENUM.REPAIR_FACILITY_MODULE_I},
+                  {id: 0, properties: [], quality: 1, module_type: SHIP_MODULE_TYPE_ENUM.SHIP_PLATING_MODULE_I}
+                ]
+              ],
     properties : {
-      acceleration : 0,
-      armor : 0,
-      armor_explosion_resistance : 0,
-      armor_heat_resistance : 0,
-      armor_impact_resistance : 0,
-      armor_repair : 0,
-      avoidance_systems : 0,
-      cargo_hold : 0,
-      energy_grid : 0,
-      gravity_detection_range : 0,
-      hull : 0,
-      max_speed : 0,
-      shield : 0,
-      shield_explosion_resistance : 0,
-      shield_generation : 0,
-      shield_heat_resistance : 0,
-      shield_impact_resistance : 0,
-      targeting_systems : 0,
-      thrust : 0,
-      vision_range : 0,
-      weight : 0
+      [DataObjects.Ship_Property_Type_Enum.acceleration] : 0,
+      [DataObjects.Ship_Property_Type_Enum.armor] : 0,
+      [DataObjects.Ship_Property_Type_Enum.armor_explosion_resistance] : 0,
+      [DataObjects.Ship_Property_Type_Enum.armor_heat_resistance] : 0,
+      [DataObjects.Ship_Property_Type_Enum.armor_impact_resistance] : 0,
+      [DataObjects.Ship_Property_Type_Enum.armor_repair] : 0,
+      [DataObjects.Ship_Property_Type_Enum.avoidance_systems] : 0,
+      [DataObjects.Ship_Property_Type_Enum.cargo_hold] : 0,
+      [DataObjects.Ship_Property_Type_Enum.energy_grid] : 0,
+      [DataObjects.Ship_Property_Type_Enum.gravity_detection_range] : 0,
+      [DataObjects.Ship_Property_Type_Enum.hull] : 0,
+      [DataObjects.Ship_Property_Type_Enum.max_speed] : 0,
+      [DataObjects.Ship_Property_Type_Enum.shield] : 0,
+      [DataObjects.Ship_Property_Type_Enum.shield_explosion_resistance] : 0,
+      [DataObjects.Ship_Property_Type_Enum.shield_generation] : 0,
+      [DataObjects.Ship_Property_Type_Enum.shield_heat_resistance] : 0,
+      [DataObjects.Ship_Property_Type_Enum.shield_impact_resistance] : 0,
+      [DataObjects.Ship_Property_Type_Enum.targeting_systems] : 0,
+      [DataObjects.Ship_Property_Type_Enum.thrust] : 0,
+      [DataObjects.Ship_Property_Type_Enum.vision_range] : 0,
+      [DataObjects.Ship_Property_Type_Enum.weight] : 0
     }
   }
+
+
   
   let newPlayer : DataObjects.Player = {
     socket : socket,

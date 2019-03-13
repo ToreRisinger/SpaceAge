@@ -1,9 +1,10 @@
-import { SHIP_MODULES } from "../constants/SHIP_MODULES"
 import { GameScene } from "../scenes/GameScene"
 import { GameObject } from "./GameObject";
 import { SPRITES } from "../constants/SPRITES";
 import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
 import { DataObjects } from "../../../shared/scripts/DataObjects"
+import { SHIP_MODULE_TYPE_ENUM } from "../../../shared/scripts/SHIP_MODULE_TYPE_ENUM";
+import { SHIP_MODULE_TYPES } from "../constants/SHIP_MODULES";
 
 export class Ship extends GameObject {
 
@@ -24,9 +25,9 @@ export class Ship extends GameObject {
     }
 
     private buildShip() {
-        this.shipModules = SHIP_MODULES.MAIN_MODULE_I_COMMON;
-        this.sprite = GameScene.getInstance().addSprite(this.ship_config.x, this.ship_config.y, SHIP_MODULES.MAIN_MODULE_I_COMMON.sprite);
-        GameScene.getInstance().playAnimation(this.sprite, SHIP_MODULES.MAIN_MODULE_I_COMMON.animation);
+        this.shipModules = SHIP_MODULE_TYPES[SHIP_MODULE_TYPE_ENUM.MAIN_MODULE_I];
+        this.sprite = GameScene.getInstance().addSprite(this.ship_config.x, this.ship_config.y,  SHIP_MODULE_TYPES[SHIP_MODULE_TYPE_ENUM.MAIN_MODULE_I].sprite);
+        GameScene.getInstance().playAnimation(this.sprite, SHIP_MODULE_TYPES[SHIP_MODULE_TYPE_ENUM.MAIN_MODULE_I].animation.key);
         this.sprite.setInteractive();
         this.sprite.on('pointerover', () => {this.outLineSprite.setVisible(true) });
         this.sprite.on('pointerout', () => { this.outLineSprite.setVisible(false) });
