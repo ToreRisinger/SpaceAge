@@ -95,8 +95,8 @@ export class GameScene extends Phaser.Scene {
     }
 
     createAnimations() {
-        Object.entries(SPRITES).forEach(
-            ([key, sprite]) => this.anims.create({
+       Object.values(SPRITES).filter(o => o.anim != undefined).forEach(
+            sprite => this.anims.create({
                 //@ts-ignore
                 key: sprite.anim.key,
                 //@ts-ignore
@@ -107,6 +107,6 @@ export class GameScene extends Phaser.Scene {
                     frames: sprite.anim.frames
                 })
             })
-        );
+       );
     }
 }

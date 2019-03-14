@@ -12,11 +12,11 @@ export const SHIP_MODULE_TYPES = {
     //Modules
     [SHIP_MODULE_TYPE_ENUM.CARGO_HOLD_MODULE_I] : {
         sprite : SPRITES.CARGO_HOLD_MODULE_I.key,
-        animation : SPRITES.CARGO_HOLD_MODULE_I.anim,
+        animation : undefined,
     },
     [SHIP_MODULE_TYPE_ENUM.SHIP_PLATING_MODULE_I] : {
         sprite : SPRITES.SHIP_PLATING_MODULE_I.key,
-        animation : SPRITES.SHIP_PLATING_MODULE_I.anim,
+        animation : undefined,
     },
     [SHIP_MODULE_TYPE_ENUM.REPAIR_FACILITY_MODULE_I] : {
         sprite : SPRITES.REPAIR_FACILITY_MODULE_I.key,
@@ -32,11 +32,11 @@ export const SHIP_MODULE_TYPES = {
     },
     [SHIP_MODULE_TYPE_ENUM.AVOIDANCE_SYSTEM_MODULE_I] : {
         sprite : SPRITES.AVOIDANCE_SYSTEM_MODULE_I.key,
-        animation : SPRITES.AVOIDANCE_SYSTEM_MODULE_I.anim,
+        animation : undefined,
     },
     [SHIP_MODULE_TYPE_ENUM.POWER_GENERATOR_MODULE_I] : {
         sprite : SPRITES.POWER_GENERATOR_MODULE_I.key,
-        animation : SPRITES.POWER_GENERATOR_MODULE_I.anim,
+        animation : undefined,
     },
     [SHIP_MODULE_TYPE_ENUM.RADAR_MODULE_I] : {
         sprite : SPRITES.RADAR_MODULE_I.key,
@@ -48,25 +48,25 @@ export const SHIP_MODULE_TYPES = {
     },
     [SHIP_MODULE_TYPE_ENUM.SUPPORT_MODULE_I] : {
         sprite : SPRITES.SUPPORT_MODULE_I.key,
-        animation : SPRITES.SUPPORT_MODULE_I.anim,
+        animation : undefined,
     },
 
     //Weapon modules
     [SHIP_MODULE_TYPE_ENUM.LASER_MODULE_I] : {
         sprite : SPRITES.LASER_MODULE_I.key,
-        animation : SPRITES.LASER_MODULE_I.anim,
+        animation : undefined,
     },
     [SHIP_MODULE_TYPE_ENUM.MINING_LASER_MODULE_I] : {
         sprite : SPRITES.MINING_LASER_MODULE_I.key,
-        animation : SPRITES.MINING_LASER_MODULE_I.anim,
+        animation : undefined,
     },
     [SHIP_MODULE_TYPE_ENUM.MISSLE_MODULE_I] : {
         sprite : SPRITES.MISSLE_MODULE_I.key,
-        animation : SPRITES.MISSLE_MODULE_I.anim,
+        animation : undefined,
     },
     [SHIP_MODULE_TYPE_ENUM.TURRET_MODULE_I] : {
         sprite : SPRITES.TURRET_MODULE_I.key,
-        animation : SPRITES.TURRET_MODULE_I.anim,
+        animation : undefined,
     }
 }
 

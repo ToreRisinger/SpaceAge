@@ -1,3 +1,4 @@
+import { SHIP_MODULE_TYPE_ENUM } from "./SHIP_MODULE_TYPE_ENUM";
 
 export module DataObjects {
 
@@ -52,7 +53,7 @@ export module DataObjects {
 
     export interface Module_Config extends Identifiable_Object_Config {
         quality : number,      // 1-5
-        module_type : number,
+        module_type : SHIP_MODULE_TYPE_ENUM,
         properties : Array<Ship_Property_Config>
     }
 
@@ -67,7 +68,7 @@ export module DataObjects {
         destinationY : number,
         acceleration : number,
         velVec : Array<number>
-        modules : Array<Array<Module_Config>>
+        modules : Array<{ module: Module_Config, x : number, y : number }>
         properties : {
             [Ship_Property_Type_Enum.thrust] : number,                            // N
             [Ship_Property_Type_Enum.max_speed] : number,                         // m/s

@@ -28,12 +28,11 @@ export module GameObjectHandler {
     function onInitialGameLoad(eventData : Events.INITAL_GAME_LOAD_EVENT_CONFIG) {
         let data : any = eventData.data;
         let ship : DataObjects.Ship_Config = data.ship; 
-        let newShip : Ship = new Ship(ship);
+        let newShip : Ship = new Ship(ship, true);
       
         thisShipId = ship.id;
         gameObjects.set(thisShipId, newShip);
         //@ts-ignore
-        gameObjects.get(thisShipId).setToThisPlayerShip();
         Camera.centerCamera(true);
 
         subscribeToEvents();
@@ -51,7 +50,7 @@ export module GameObjectHandler {
         let shipArray : Array<DataObjects.Ship_Config> = event.data.ships;
         shipArray.forEach((ship_config: DataObjects.Ship_Config) => {
             if(gameObjects.get(ship_config.id) == undefined) {
-                let newShip : Ship = new Ship(ship_config);
+                let newShip : Ship = new Ship(ship_config, false);
                 gameObjects.set(ship_config.id, newShip);
             } else {
                 //@ts-ignore
