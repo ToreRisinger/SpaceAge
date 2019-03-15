@@ -1,18 +1,17 @@
 import { DataObjects } from "../shared/scripts/DataObjects";
 import { SHIP_MODULE_TYPE_ENUM } from "../shared/scripts/SHIP_MODULE_TYPE_ENUM";
+import { IdHandler } from "./IdHandler";
+import { ItemFactory } from "./ItemFactory";
 
 export module Database {
 
-    let nextPlayerId = 0;
-    let nextGameObjectId = 0;
-
     export function getPlayerId(username : string) {
-      return nextPlayerId++;
+      return IdHandler.getNewPlayerId();
     }
 
     export function getPlayer(playerId : number, socket : any) {
         let ship : DataObjects.Ship_Config = {
-          id: nextGameObjectId,
+          id: IdHandler.getNewGameObjectId(),
           x : 0,
           y : 0,
           speed: 2,
@@ -23,15 +22,16 @@ export module Database {
           velVec : [0, 0],
           maxSpeed : 10,
           modules : [
-                        {module: {id: 0, properties: [], quality: 1, module_type: SHIP_MODULE_TYPE_ENUM.POWER_GENERATOR_MODULE_I}, x: -1, y : -1},
-                        {module: {id: 0, properties: [], quality: 1, module_type: SHIP_MODULE_TYPE_ENUM.SHIELD_GENERATOR_MODULE_I}, x: 0, y : -1},
-                        {module: {id: 0, properties: [], quality: 1, module_type: SHIP_MODULE_TYPE_ENUM.ENGINE_MODULE_I}, x: 1, y : -1},
-                        {module: {id: 0, properties: [], quality: 1, module_type: SHIP_MODULE_TYPE_ENUM.LASER_MODULE_I}, x: -1, y : 0},
-                        {module: {id: 0, properties: [], quality: 1, module_type: SHIP_MODULE_TYPE_ENUM.MAIN_MODULE_I}, x: 0, y : 0},
-                        {module: {id: 0, properties: [], quality: 1, module_type: SHIP_MODULE_TYPE_ENUM.CARGO_HOLD_MODULE_I}, x: 1, y : 0},
-                        {module: {id: 0, properties: [], quality: 1, module_type: SHIP_MODULE_TYPE_ENUM.AVOIDANCE_SYSTEM_MODULE_I}, x: -1, y : 1},
-                        {module: {id: 0, properties: [], quality: 1, module_type: SHIP_MODULE_TYPE_ENUM.REPAIR_FACILITY_MODULE_I}, x: 0, y : 1},
-                        {module: {id: 0, properties: [], quality: 1, module_type: SHIP_MODULE_TYPE_ENUM.SHIP_PLATING_MODULE_I}, x: 1, y : 1}
+                        //TODO load from data base, dont create new shit
+                        {module: ItemFactory.createModule(SHIP_MODULE_TYPE_ENUM.POWER_GENERATOR_MODULE_I, 1), x: -1, y : -1},
+                        {module: ItemFactory.createModule(SHIP_MODULE_TYPE_ENUM.SHIELD_GENERATOR_MODULE_I, 1), x: 0, y : -1},
+                        {module: ItemFactory.createModule(SHIP_MODULE_TYPE_ENUM.ENGINE_MODULE_I, 1), x: 1, y : -1},
+                        {module: ItemFactory.createModule(SHIP_MODULE_TYPE_ENUM.LASER_MODULE_I, 1), x: -1, y : 0},
+                        {module: ItemFactory.createModule(SHIP_MODULE_TYPE_ENUM.MAIN_MODULE_I, 1), x: 0, y : 0},
+                        {module: ItemFactory.createModule(SHIP_MODULE_TYPE_ENUM.CARGO_HOLD_MODULE_I, 1), x: 1, y : 0},
+                        {module: ItemFactory.createModule(SHIP_MODULE_TYPE_ENUM.AVOIDANCE_SYSTEM_MODULE_I, 1), x: -1, y : 1},
+                        {module: ItemFactory.createModule(SHIP_MODULE_TYPE_ENUM.REPAIR_FACILITY_MODULE_I, 1), x: 0, y : 1},
+                        {module: ItemFactory.createModule(SHIP_MODULE_TYPE_ENUM.SHIP_PLATING_MODULE_I, 1), x: 1, y : 1}
                     ],
           properties : {
             [DataObjects.Ship_Property_Type_Enum.acceleration] : 0,
@@ -61,9 +61,6 @@ export module Database {
           socket : socket,
           ship : ship
         }
-
-        nextGameObjectId++;
-
         return newPlayer;
     }
 

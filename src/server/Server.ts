@@ -30,25 +30,25 @@ export module Server {
     function setupOnConnection() {
         //@ts-ignore
         io.on('connection', function (socket) {
-            console.log('a user connected');
-            let playerId = Database.getPlayerId("toreman"); //TODO get username from login screen
-            let newPlayer : DataObjects.Player = Database.getPlayer(playerId, socket);
-            PLAYERS.set(playerId, newPlayer);
-            SHIPS.set(newPlayer.ship.id, newPlayer.ship);
+          console.log('a user connected');
+          let playerId = Database.getPlayerId("toreman"); //TODO get username from login screen
+          let newPlayer : DataObjects.Player = Database.getPlayer(playerId, socket);
+          PLAYERS.set(playerId, newPlayer);
+          SHIPS.set(newPlayer.ship.id, newPlayer.ship);
+          //@ts-ignore
+          socket.emit('ServerEvent', PacketFactory.createPlayerLoadEventPacket(PLAYERS.get(playerId).ship));
+      
+          socket.on('disconnect', function () {
+            console.log('user disconnected');
+            SHIPS.delete(newPlayer.ship.id);
+            PLAYERS.delete(playerId);
+            sendPlayerDisconnected(newPlayer.ship.id);
+          });
+      
+          socket.on('ClientEvent', function(event : Events.GameEvent){
             //@ts-ignore
-            socket.emit('ServerEvent', PacketFactory.createPlayerLoadEventPacket(PLAYERS.get(playerId).ship));
-        
-            socket.on('disconnect', function () {
-              console.log('user disconnected');
-              SHIPS.delete(newPlayer.ship.id);
-              PLAYERS.delete(playerId);
-              sendPlayerDisconnected(newPlayer.ship.id);
-            });
-        
-            socket.on('ClientEvent', function(event : Events.GameEvent){
-              //@ts-ignore
-              handleClientEvent(PLAYERS.get(playerId), event);
-            });
+            handleClientEvent(PLAYERS.get(playerId), event);
+          });
         });
     }
 
@@ -160,5 +160,4 @@ export module Server {
         player.ship.destinationY = event.data.destinationY;
       } 
     }
-
 }
