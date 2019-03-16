@@ -57,12 +57,25 @@ export module Database {
             [DataObjects.Ship_Property_Type_Enum.weight] : 0
           }
         }  
+
+        let updatedShip = updateShipProperties(ship);
+
         let newPlayer : DataObjects.Player = {
           socket : socket,
-          ship : ship
+          ship : updatedShip
         }
+
         return newPlayer;
     }
 
+    function updateShipProperties(ship : DataObjects.Ship_Config) : DataObjects.Ship_Config {
+      let newShip = ship;
+      newShip.modules.forEach(
+        module => module.module.properties.forEach(
+          moduleProp => ship.properties[moduleProp.property] = ship.properties[moduleProp.property] + moduleProp.value
+        )
+      );
+      return newShip;
+    }
 
 }

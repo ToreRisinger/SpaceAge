@@ -59,7 +59,7 @@ export module DataObjects {
         percent_decrease,
     }
     
-    export interface Ship_Property_Config {
+    export interface IModulePropery {
         property : Ship_Property_Type_Enum,
         modifier : Ship_Propery_Modifier_Enum,
         value : number;
@@ -68,7 +68,7 @@ export module DataObjects {
     export interface IModule extends Identifiable_Object_Config {
         quality : number,      // 1-5
         module_type : ShipModules.SHIP_MODULE_TYPE_ENUM,
-        properties : Array<Ship_Property_Config>
+        properties : Array<IModulePropery>
     }
 
     export interface ModulePropertyGenerationConfig {

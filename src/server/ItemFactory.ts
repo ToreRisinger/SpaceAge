@@ -10,14 +10,32 @@ export module ItemFactory {
     
     export function createModule(shipModuleType : ShipModules.SHIP_MODULE_TYPE_ENUM, quality : number) : DataObjects.IModule {
         return {id: IdHandler.getNewItemId(), 
-                properties: generatePropertiesForModule(shipModuleType, quality), 
+                properties: generateModuleProperties(shipModuleType, quality), 
                 quality: quality, 
                 module_type: shipModuleType};
     }
 
-    function generatePropertiesForModule(shipModuleType : ShipModules.SHIP_MODULE_TYPE_ENUM, quality : number) : Array<DataObjects.Ship_Property_Config> {
-        let result = new Array<DataObjects.Ship_Property_Config>();
+    function generateModuleProperties(shipModuleType : ShipModules.SHIP_MODULE_TYPE_ENUM, quality : number) : Array<DataObjects.IModulePropery> {
+        let result = new Array<DataObjects.IModulePropery>();
+        let shipModuleInfo : DataObjects.IShipModuleInfo = ShipModules.getModuleInfo(shipModuleType);
+        shipModuleInfo.properties.base.forEach(
+            obj => result.push(generateModuleProperty(obj))
+        );
         return result;
+    }
+
+    function generateModuleProperty(modulePropertyGenerationConfig : DataObjects.ModulePropertyGenerationConfig) : DataObjects.IModulePropery {
+        return { 
+            property : modulePropertyGenerationConfig.property,
+            modifier : modulePropertyGenerationConfig.modifier,
+            value : generateModulePropertyValue(modulePropertyGenerationConfig.min, modulePropertyGenerationConfig.max)
+        }
+    }
+
+    function generateModulePropertyValue(min : number, max : number) : number {
+        let naturalMin = Math.ceil(min);
+        let naturalMax = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
 }
