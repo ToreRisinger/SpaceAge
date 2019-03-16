@@ -1,10 +1,10 @@
 import { Events } from "../shared/scripts/Events";
-import { DataObjects } from "../shared/scripts/DataObjects";
+import { DataObjects } from "../shared/scripts/ObjectInterfaces";
 
 
 export module PacketFactory {
 
-    export function createPlayerLoadEventPacket(ship : DataObjects.Ship_Config) {
+    export function createPlayerLoadEventPacket(ship : DataObjects.IShip) {
         let packet : Events.INITAL_GAME_LOAD_EVENT_CONFIG = {
             eventId : Events.EEventType.INITAL_GAME_LOAD_EVENT,
             data : {
@@ -15,9 +15,9 @@ export module PacketFactory {
         return packet;
     }
 
-    export function createShipsUpdatePacket(PLAYERS :  Map<number, DataObjects.Player>) {
-        let shipArray: Array<DataObjects.Ship_Config> = [];
-        PLAYERS.forEach((player: DataObjects.Player, key: number) => {
+    export function createShipsUpdatePacket(PLAYERS :  Map<number, DataObjects.IPlayer>) {
+        let shipArray: Array<DataObjects.IShip> = [];
+        PLAYERS.forEach((player: DataObjects.IPlayer, key: number) => {
           shipArray.push(player.ship);
         });
     

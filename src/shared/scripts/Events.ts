@@ -1,4 +1,4 @@
-import { DataObjects } from "./DataObjects"
+import { DataObjects } from "./ObjectInterfaces"
 
 
 export module Events {
@@ -36,7 +36,7 @@ export module Events {
 
     export interface INITAL_GAME_LOAD_EVENT_CONFIG extends GameEvent {
         data : {
-            ship : DataObjects.Ship_Config
+            ship : DataObjects.IShip
         }
     }
 
@@ -49,7 +49,7 @@ export module Events {
 
     export interface SHIPS_UPDATE_EVENT_CONFIG extends GameEvent {
         data : {
-            ships : Array<DataObjects.Ship_Config>
+            ships : Array<DataObjects.IShip>
         }
     }
 

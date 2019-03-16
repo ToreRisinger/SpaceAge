@@ -1,4 +1,4 @@
-import { DataObjects } from "../shared/scripts/DataObjects";
+import { DataObjects } from "../shared/scripts/ObjectInterfaces";
 import { Events } from "../shared/scripts/Events";
 import { Database } from "./Database";
 import { PacketFactory } from "./PacketFactory"
@@ -13,8 +13,8 @@ export module Server {
 
     let io : any;
     /* Globals */
-    let SHIPS = new Map<number, DataObjects.Ship_Config>();
-    let PLAYERS = new Map<number, DataObjects.Player>();
+    let SHIPS = new Map<number, DataObjects.IShip>();
+    let PLAYERS = new Map<number, DataObjects.IPlayer>();
 
     export function start(server : any) {
       server.listen(8081, function () {
@@ -32,7 +32,7 @@ export module Server {
         io.on('connection', function (socket) {
           console.log('a user connected');
           let playerId = Database.getPlayerId("toreman"); //TODO get username from login screen
-          let newPlayer : DataObjects.Player = Database.getPlayer(playerId, socket);
+          let newPlayer : DataObjects.IPlayer = Database.getPlayer(playerId, socket);
           PLAYERS.set(playerId, newPlayer);
           SHIPS.set(newPlayer.ship.id, newPlayer.ship);
           //@ts-ignore
@@ -101,7 +101,7 @@ export module Server {
           return newVelVec;
         }
         
-        SHIPS.forEach((ship: DataObjects.Ship_Config, key: number) => {
+        SHIPS.forEach((ship: DataObjects.IShip, key: number) => {
           let destVec = [ship.destinationX, ship.destinationY];
           let shipPosVec = [ship.x, ship.y];
           let shipToDestVec = math.subtract(destVec, shipPosVec);
@@ -125,19 +125,19 @@ export module Server {
 
     function sendGameObjectUpdate() {
       let packet : any = PacketFactory.createShipsUpdatePacket(PLAYERS);
-      PLAYERS.forEach((player: DataObjects.Player, key: number) => {
+      PLAYERS.forEach((player: DataObjects.IPlayer, key: number) => {
         player.socket.emit("ServerEvent", packet);
       });
     }
 
     function sendPlayerDisconnected(disconnectedShipId : number) {
       let packet : any = PacketFactory.createPlayerDisconnectedPacket(disconnectedShipId);
-      PLAYERS.forEach((player: DataObjects.Player, key: number) => {
+      PLAYERS.forEach((player: DataObjects.IPlayer, key: number) => {
         player.socket.emit('ServerEvent', {type: Events.EEventType.PLAYER_DISCONNECTED_EVENT, data: packet})
       });
     }
 
-    function handleClientEvent(player : DataObjects.Player, event : Events.GameEvent) {
+    function handleClientEvent(player : DataObjects.IPlayer, event : Events.GameEvent) {
       switch(event.eventId)  {
         case Events.EEventType.PLAYER_SET_NEW_DESTINATION_EVENT : {
           onPlayerSetNewDestinationEvent(player, event);
@@ -150,7 +150,7 @@ export module Server {
     }
 
     //Server event functions
-    function onPlayerSetNewDestinationEvent(player : DataObjects.Player, event : Events.PLAYER_SET_NEW_DESTINATION_EVENT_CONFIG) {
+    function onPlayerSetNewDestinationEvent(player : DataObjects.IPlayer, event : Events.PLAYER_SET_NEW_DESTINATION_EVENT_CONFIG) {
       let xLength = player.ship.x - event.data.destinationX;
       let yLength = player.ship.y - event.data.destinationY;
       let length = Math.sqrt(xLength * xLength + yLength * yLength);

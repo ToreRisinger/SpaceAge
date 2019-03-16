@@ -1,4 +1,4 @@
-import { DataObjects } from "../shared/scripts/DataObjects";
+import { DataObjects } from "../shared/scripts/ObjectInterfaces";
 import { IdHandler } from "./IdHandler";
 import { ItemFactory } from "./ItemFactory";
 import { ShipModules } from "../shared/scripts/ShipModules"
@@ -10,7 +10,7 @@ export module Database {
     }
 
     export function getPlayer(playerId : number, socket : any) {
-        let ship : DataObjects.Ship_Config = {
+        let ship : DataObjects.IShip = {
           id: IdHandler.getNewGameObjectId(),
           x : 0,
           y : 0,
@@ -34,33 +34,33 @@ export module Database {
                         {module: ItemFactory.createModule(ShipModules.SHIP_MODULE_TYPE_ENUM.SHIP_PLATING_MODULE_I, 1), x: 1, y : 1}
                     ],
           properties : {
-            [DataObjects.Ship_Property_Type_Enum.acceleration] : 0,
-            [DataObjects.Ship_Property_Type_Enum.armor] : 0,
-            [DataObjects.Ship_Property_Type_Enum.armor_explosion_resistance] : 0,
-            [DataObjects.Ship_Property_Type_Enum.armor_heat_resistance] : 0,
-            [DataObjects.Ship_Property_Type_Enum.armor_impact_resistance] : 0,
-            [DataObjects.Ship_Property_Type_Enum.armor_repair] : 0,
-            [DataObjects.Ship_Property_Type_Enum.avoidance_systems] : 0,
-            [DataObjects.Ship_Property_Type_Enum.cargo_hold] : 0,
-            [DataObjects.Ship_Property_Type_Enum.energy_grid] : 0,
-            [DataObjects.Ship_Property_Type_Enum.gravity_detection_range] : 0,
-            [DataObjects.Ship_Property_Type_Enum.hull] : 0,
-            [DataObjects.Ship_Property_Type_Enum.max_speed] : 0,
-            [DataObjects.Ship_Property_Type_Enum.shield] : 0,
-            [DataObjects.Ship_Property_Type_Enum.shield_explosion_resistance] : 0,
-            [DataObjects.Ship_Property_Type_Enum.shield_generation] : 0,
-            [DataObjects.Ship_Property_Type_Enum.shield_heat_resistance] : 0,
-            [DataObjects.Ship_Property_Type_Enum.shield_impact_resistance] : 0,
-            [DataObjects.Ship_Property_Type_Enum.targeting_systems] : 0,
-            [DataObjects.Ship_Property_Type_Enum.thrust] : 0,
-            [DataObjects.Ship_Property_Type_Enum.vision_range] : 0,
-            [DataObjects.Ship_Property_Type_Enum.weight] : 0
+            [DataObjects.ShipProperyTypeEnum.acceleration] : 0,
+            [DataObjects.ShipProperyTypeEnum.armor] : 0,
+            [DataObjects.ShipProperyTypeEnum.armor_explosion_resistance] : 0,
+            [DataObjects.ShipProperyTypeEnum.armor_heat_resistance] : 0,
+            [DataObjects.ShipProperyTypeEnum.armor_impact_resistance] : 0,
+            [DataObjects.ShipProperyTypeEnum.armor_repair] : 0,
+            [DataObjects.ShipProperyTypeEnum.avoidance_systems] : 0,
+            [DataObjects.ShipProperyTypeEnum.cargo_hold] : 0,
+            [DataObjects.ShipProperyTypeEnum.energy_grid] : 0,
+            [DataObjects.ShipProperyTypeEnum.gravity_detection_range] : 0,
+            [DataObjects.ShipProperyTypeEnum.hull] : 0,
+            [DataObjects.ShipProperyTypeEnum.max_speed] : 0,
+            [DataObjects.ShipProperyTypeEnum.shield] : 0,
+            [DataObjects.ShipProperyTypeEnum.shield_explosion_resistance] : 0,
+            [DataObjects.ShipProperyTypeEnum.shield_generation] : 0,
+            [DataObjects.ShipProperyTypeEnum.shield_heat_resistance] : 0,
+            [DataObjects.ShipProperyTypeEnum.shield_impact_resistance] : 0,
+            [DataObjects.ShipProperyTypeEnum.targeting_systems] : 0,
+            [DataObjects.ShipProperyTypeEnum.thrust] : 0,
+            [DataObjects.ShipProperyTypeEnum.vision_range] : 0,
+            [DataObjects.ShipProperyTypeEnum.weight] : 0
           }
         }  
 
         let updatedShip = updateShipProperties(ship);
 
-        let newPlayer : DataObjects.Player = {
+        let newPlayer : DataObjects.IPlayer = {
           socket : socket,
           ship : updatedShip
         }
@@ -68,7 +68,7 @@ export module Database {
         return newPlayer;
     }
 
-    function updateShipProperties(ship : DataObjects.Ship_Config) : DataObjects.Ship_Config {
+    function updateShipProperties(ship : DataObjects.IShip) : DataObjects.IShip {
       let newShip = ship;
       newShip.modules.forEach(
         module => module.module.properties.forEach(

@@ -1,4 +1,4 @@
-import { DataObjects } from "../../../shared/scripts/DataObjects";
+import { DataObjects } from "../../../shared/scripts/ObjectInterfaces";
 import { GameScene } from "../scenes/GameScene";
 import { SPRITES } from "../../../shared/scripts/SPRITES";
 import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";

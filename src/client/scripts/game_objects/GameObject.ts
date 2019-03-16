@@ -1,10 +1,10 @@
-import { DataObjects } from "../../../shared/scripts/DataObjects";
+import { DataObjects } from "../../../shared/scripts/ObjectInterfaces";
 
 export class GameObject {
 
-    private game_object_config : DataObjects.Game_Object_Config;
+    private game_object_config : DataObjects.IGameObject;
 
-    constructor(game_object_config : DataObjects.Game_Object_Config) {
+    constructor(game_object_config : DataObjects.IGameObject) {
         this.game_object_config = game_object_config;
     }
 
@@ -16,7 +16,7 @@ export class GameObject {
         
     }
 
-    public updateDataObjectConfig(game_object_config : DataObjects.Game_Object_Config) {
+    public updateDataObjectConfig(game_object_config : DataObjects.IGameObject) {
         this.game_object_config = game_object_config;
     }
 

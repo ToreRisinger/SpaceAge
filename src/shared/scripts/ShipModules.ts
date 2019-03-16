@@ -1,4 +1,4 @@
-import { DataObjects } from "./DataObjects";
+import { DataObjects } from "./ObjectInterfaces";
 import { SPRITES } from "./SPRITES";
 
 
@@ -35,40 +35,40 @@ export module ShipModules {
             properties : {
                 base: [
                     {
-                        property: DataObjects.Ship_Property_Type_Enum.armor,
+                        property: DataObjects.ShipProperyTypeEnum.armor,
                         max : 20,
                         min : 10,
-                        modifier : DataObjects.Ship_Propery_Modifier_Enum.increase
+                        modifier : DataObjects.ShipPropertyModifierEnum.increase
                     },
                     {
-                        property: DataObjects.Ship_Property_Type_Enum.thrust,
+                        property: DataObjects.ShipProperyTypeEnum.thrust,
                         max : 20,
                         min : 10,
-                        modifier : DataObjects.Ship_Propery_Modifier_Enum.increase
+                        modifier : DataObjects.ShipPropertyModifierEnum.increase
                     },
                     {
-                        property: DataObjects.Ship_Property_Type_Enum.vision_range,
+                        property: DataObjects.ShipProperyTypeEnum.vision_range,
                         max : 20,
                         min : 10,
-                        modifier : DataObjects.Ship_Propery_Modifier_Enum.increase
+                        modifier : DataObjects.ShipPropertyModifierEnum.increase
                     },
                     {
-                        property: DataObjects.Ship_Property_Type_Enum.cargo_hold,
+                        property: DataObjects.ShipProperyTypeEnum.cargo_hold,
                         max : 20,
                         min : 10,
-                        modifier : DataObjects.Ship_Propery_Modifier_Enum.increase
+                        modifier : DataObjects.ShipPropertyModifierEnum.increase
                     },
                     {
-                        property: DataObjects.Ship_Property_Type_Enum.energy_grid,
+                        property: DataObjects.ShipProperyTypeEnum.energy_grid,
                         max : 5,
                         min : 3,
-                        modifier : DataObjects.Ship_Propery_Modifier_Enum.increase
+                        modifier : DataObjects.ShipPropertyModifierEnum.increase
                     },
                     {
-                        property: DataObjects.Ship_Property_Type_Enum.weight,
+                        property: DataObjects.ShipProperyTypeEnum.weight,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.Ship_Propery_Modifier_Enum.increase
+                        modifier : DataObjects.ShipPropertyModifierEnum.increase
                     }
                 ],
                 possibleExtraProps : []
@@ -82,30 +82,30 @@ export module ShipModules {
             properties : {
                 base: [
                     {
-                        property: DataObjects.Ship_Property_Type_Enum.avoidance_systems,
+                        property: DataObjects.ShipProperyTypeEnum.avoidance_systems,
                         max : 4,
                         min : 1,
-                        modifier : DataObjects.Ship_Propery_Modifier_Enum.increase
+                        modifier : DataObjects.ShipPropertyModifierEnum.increase
                     },
                     {
-                        property: DataObjects.Ship_Property_Type_Enum.weight,
+                        property: DataObjects.ShipProperyTypeEnum.weight,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.Ship_Propery_Modifier_Enum.increase
+                        modifier : DataObjects.ShipPropertyModifierEnum.increase
                     }
                 ],
                 possibleExtraProps : [
                     {
-                        property: DataObjects.Ship_Property_Type_Enum.vision_range,
+                        property: DataObjects.ShipProperyTypeEnum.vision_range,
                         max : 4,
                         min : 1,
-                        modifier : DataObjects.Ship_Propery_Modifier_Enum.increase
+                        modifier : DataObjects.ShipPropertyModifierEnum.increase
                     },
                     {
-                        property: DataObjects.Ship_Property_Type_Enum.armor,
+                        property: DataObjects.ShipProperyTypeEnum.armor,
                         max : 4,
                         min : 1,
-                        modifier : DataObjects.Ship_Propery_Modifier_Enum.increase
+                        modifier : DataObjects.ShipPropertyModifierEnum.increase
                     }
                 ]
             }
@@ -116,42 +116,42 @@ export module ShipModules {
             properties : {
                 base: [
                     {
-                        property: DataObjects.Ship_Property_Type_Enum.cargo_hold,
+                        property: DataObjects.ShipProperyTypeEnum.cargo_hold,
                         max : 20,
                         min : 10,
-                        modifier : DataObjects.Ship_Propery_Modifier_Enum.increase
+                        modifier : DataObjects.ShipPropertyModifierEnum.increase
                     },
                     {
-                        property: DataObjects.Ship_Property_Type_Enum.weight,
+                        property: DataObjects.ShipProperyTypeEnum.weight,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.Ship_Propery_Modifier_Enum.increase
+                        modifier : DataObjects.ShipPropertyModifierEnum.increase
                     }
                 ],
                 possibleExtraProps : [
                     {
-                        property: DataObjects.Ship_Property_Type_Enum.armor,
+                        property: DataObjects.ShipProperyTypeEnum.armor,
                         max : 2,
                         min : 1,
-                        modifier : DataObjects.Ship_Propery_Modifier_Enum.increase
+                        modifier : DataObjects.ShipPropertyModifierEnum.increase
                     },
                     {
-                        property: DataObjects.Ship_Property_Type_Enum.armor_explosion_resistance,
+                        property: DataObjects.ShipProperyTypeEnum.armor_explosion_resistance,
                         max : 2,
                         min : 1,
-                        modifier : DataObjects.Ship_Propery_Modifier_Enum.increase
+                        modifier : DataObjects.ShipPropertyModifierEnum.increase
                     },
                     {
-                        property: DataObjects.Ship_Property_Type_Enum.armor_heat_resistance,
+                        property: DataObjects.ShipProperyTypeEnum.armor_heat_resistance,
                         max : 2,
                         min : 1,
-                        modifier : DataObjects.Ship_Propery_Modifier_Enum.increase
+                        modifier : DataObjects.ShipPropertyModifierEnum.increase
                     },
                     {
-                        property: DataObjects.Ship_Property_Type_Enum.armor_impact_resistance,
+                        property: DataObjects.ShipProperyTypeEnum.armor_impact_resistance,
                         max : 2,
                         min : 1,
-                        modifier : DataObjects.Ship_Propery_Modifier_Enum.increase
+                        modifier : DataObjects.ShipPropertyModifierEnum.increase
                     }
                 ]
             }
@@ -162,16 +162,16 @@ export module ShipModules {
             properties : {
                 base: [
                     {
-                        property: DataObjects.Ship_Property_Type_Enum.thrust,
+                        property: DataObjects.ShipProperyTypeEnum.thrust,
                         max : 4,
                         min : 1,
-                        modifier : DataObjects.Ship_Propery_Modifier_Enum.increase
+                        modifier : DataObjects.ShipPropertyModifierEnum.increase
                     },
                     {
-                        property: DataObjects.Ship_Property_Type_Enum.weight,
+                        property: DataObjects.ShipProperyTypeEnum.weight,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.Ship_Propery_Modifier_Enum.increase
+                        modifier : DataObjects.ShipPropertyModifierEnum.increase
                     }
                 ],
                 possibleExtraProps : []
@@ -183,16 +183,16 @@ export module ShipModules {
             properties : {
                 base: [
                     {
-                        property: DataObjects.Ship_Property_Type_Enum.energy_grid,
+                        property: DataObjects.ShipProperyTypeEnum.energy_grid,
                         max : 4,
                         min : 2,
-                        modifier : DataObjects.Ship_Propery_Modifier_Enum.increase
+                        modifier : DataObjects.ShipPropertyModifierEnum.increase
                     },
                     {
-                        property: DataObjects.Ship_Property_Type_Enum.weight,
+                        property: DataObjects.ShipProperyTypeEnum.weight,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.Ship_Propery_Modifier_Enum.increase
+                        modifier : DataObjects.ShipPropertyModifierEnum.increase
                     }
                 ],
                 possibleExtraProps : []
@@ -204,16 +204,16 @@ export module ShipModules {
             properties : {
                 base: [
                     {
-                        property: DataObjects.Ship_Property_Type_Enum.vision_range,
+                        property: DataObjects.ShipProperyTypeEnum.vision_range,
                         max : 4,
                         min : 2,
-                        modifier : DataObjects.Ship_Propery_Modifier_Enum.increase
+                        modifier : DataObjects.ShipPropertyModifierEnum.increase
                     },
                     {
-                        property: DataObjects.Ship_Property_Type_Enum.weight,
+                        property: DataObjects.ShipProperyTypeEnum.weight,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.Ship_Propery_Modifier_Enum.increase
+                        modifier : DataObjects.ShipPropertyModifierEnum.increase
                     }
                 ],
                 possibleExtraProps : []
@@ -225,16 +225,16 @@ export module ShipModules {
             properties : {
                 base: [
                     {
-                        property: DataObjects.Ship_Property_Type_Enum.armor_repair,
+                        property: DataObjects.ShipProperyTypeEnum.armor_repair,
                         max : 4,
                         min : 2,
-                        modifier : DataObjects.Ship_Propery_Modifier_Enum.increase
+                        modifier : DataObjects.ShipPropertyModifierEnum.increase
                     },
                     {
-                        property: DataObjects.Ship_Property_Type_Enum.weight,
+                        property: DataObjects.ShipProperyTypeEnum.weight,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.Ship_Propery_Modifier_Enum.increase
+                        modifier : DataObjects.ShipPropertyModifierEnum.increase
                     }
                 ],
                 possibleExtraProps : []
@@ -246,16 +246,16 @@ export module ShipModules {
             properties : {
                 base: [
                     {
-                        property: DataObjects.Ship_Property_Type_Enum.shield_generation,
+                        property: DataObjects.ShipProperyTypeEnum.shield_generation,
                         max : 4,
                         min : 2,
-                        modifier : DataObjects.Ship_Propery_Modifier_Enum.increase
+                        modifier : DataObjects.ShipPropertyModifierEnum.increase
                     },
                     {
-                        property: DataObjects.Ship_Property_Type_Enum.weight,
+                        property: DataObjects.ShipProperyTypeEnum.weight,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.Ship_Propery_Modifier_Enum.increase
+                        modifier : DataObjects.ShipPropertyModifierEnum.increase
                     }
                 ],
                 possibleExtraProps : []
@@ -267,16 +267,16 @@ export module ShipModules {
             properties : {
                 base: [
                     {
-                        property: DataObjects.Ship_Property_Type_Enum.armor,
+                        property: DataObjects.ShipProperyTypeEnum.armor,
                         max : 4,
                         min : 2,
-                        modifier : DataObjects.Ship_Propery_Modifier_Enum.increase
+                        modifier : DataObjects.ShipPropertyModifierEnum.increase
                     },
                     {
-                        property: DataObjects.Ship_Property_Type_Enum.weight,
+                        property: DataObjects.ShipProperyTypeEnum.weight,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.Ship_Propery_Modifier_Enum.increase
+                        modifier : DataObjects.ShipPropertyModifierEnum.increase
                     }
                 ],
                 possibleExtraProps : []
@@ -288,10 +288,10 @@ export module ShipModules {
             properties : {
                 base: [
                     {
-                        property: DataObjects.Ship_Property_Type_Enum.weight,
+                        property: DataObjects.ShipProperyTypeEnum.weight,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.Ship_Propery_Modifier_Enum.increase
+                        modifier : DataObjects.ShipPropertyModifierEnum.increase
                     }
                 ],
                 possibleExtraProps : []
@@ -303,16 +303,16 @@ export module ShipModules {
             properties : {
                 base: [
                     {
-                        property: DataObjects.Ship_Property_Type_Enum.targeting_systems,
+                        property: DataObjects.ShipProperyTypeEnum.targeting_systems,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.Ship_Propery_Modifier_Enum.increase
+                        modifier : DataObjects.ShipPropertyModifierEnum.increase
                     },
                     {
-                        property: DataObjects.Ship_Property_Type_Enum.weight,
+                        property: DataObjects.ShipProperyTypeEnum.weight,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.Ship_Propery_Modifier_Enum.increase
+                        modifier : DataObjects.ShipPropertyModifierEnum.increase
                     }
                 ],
                 possibleExtraProps : []
@@ -326,16 +326,16 @@ export module ShipModules {
             properties : {
                 base: [
                     {
-                        property: DataObjects.Ship_Property_Type_Enum.armor,
+                        property: DataObjects.ShipProperyTypeEnum.armor,
                         max : 2,
                         min : 1,
-                        modifier : DataObjects.Ship_Propery_Modifier_Enum.increase
+                        modifier : DataObjects.ShipPropertyModifierEnum.increase
                     },
                     {
-                        property: DataObjects.Ship_Property_Type_Enum.weight,
+                        property: DataObjects.ShipProperyTypeEnum.weight,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.Ship_Propery_Modifier_Enum.increase
+                        modifier : DataObjects.ShipPropertyModifierEnum.increase
                     }
                 ],
                 possibleExtraProps : []
@@ -347,16 +347,16 @@ export module ShipModules {
             properties : {
                 base: [
                     {
-                        property: DataObjects.Ship_Property_Type_Enum.armor,
+                        property: DataObjects.ShipProperyTypeEnum.armor,
                         max : 2,
                         min : 1,
-                        modifier : DataObjects.Ship_Propery_Modifier_Enum.increase
+                        modifier : DataObjects.ShipPropertyModifierEnum.increase
                     },
                     {
-                        property: DataObjects.Ship_Property_Type_Enum.weight,
+                        property: DataObjects.ShipProperyTypeEnum.weight,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.Ship_Propery_Modifier_Enum.increase
+                        modifier : DataObjects.ShipPropertyModifierEnum.increase
                     }
                 ],
                 possibleExtraProps : []
@@ -368,16 +368,16 @@ export module ShipModules {
             properties : {
                 base: [
                     {
-                        property: DataObjects.Ship_Property_Type_Enum.armor,
+                        property: DataObjects.ShipProperyTypeEnum.armor,
                         max : 2,
                         min : 1,
-                        modifier : DataObjects.Ship_Propery_Modifier_Enum.increase
+                        modifier : DataObjects.ShipPropertyModifierEnum.increase
                     },
                     {
-                        property: DataObjects.Ship_Property_Type_Enum.weight,
+                        property: DataObjects.ShipProperyTypeEnum.weight,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.Ship_Propery_Modifier_Enum.increase
+                        modifier : DataObjects.ShipPropertyModifierEnum.increase
                     }
                 ],
                 possibleExtraProps : []
@@ -389,16 +389,16 @@ export module ShipModules {
             properties : {
                 base: [
                     {
-                        property: DataObjects.Ship_Property_Type_Enum.armor,
+                        property: DataObjects.ShipProperyTypeEnum.armor,
                         max : 2,
                         min : 1,
-                        modifier : DataObjects.Ship_Propery_Modifier_Enum.increase
+                        modifier : DataObjects.ShipPropertyModifierEnum.increase
                     },
                     {
-                        property: DataObjects.Ship_Property_Type_Enum.weight,
+                        property: DataObjects.ShipProperyTypeEnum.weight,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.Ship_Propery_Modifier_Enum.increase
+                        modifier : DataObjects.ShipPropertyModifierEnum.increase
                     }
                 ],
                 possibleExtraProps : []

@@ -1,5 +1,5 @@
 import { IdHandler } from "./IdHandler";
-import { DataObjects } from "../shared/scripts/DataObjects";
+import { DataObjects } from "../shared/scripts/ObjectInterfaces";
 import { ShipModules } from "../shared/scripts/ShipModules";
 
 export module ItemFactory {
