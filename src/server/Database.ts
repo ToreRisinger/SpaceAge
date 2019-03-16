@@ -1,7 +1,7 @@
 import { DataObjects } from "../shared/scripts/DataObjects";
-import { SHIP_MODULE_TYPE_ENUM } from "../shared/scripts/SHIP_MODULE_TYPE_ENUM";
 import { IdHandler } from "./IdHandler";
 import { ItemFactory } from "./ItemFactory";
+import { ShipModules } from "../shared/scripts/ShipModules"
 
 export module Database {
 
@@ -23,15 +23,15 @@ export module Database {
           maxSpeed : 10,
           modules : [
                         //TODO load from data base, dont create new shit
-                        {module: ItemFactory.createModule(SHIP_MODULE_TYPE_ENUM.POWER_GENERATOR_MODULE_I, 1), x: -1, y : -1},
-                        {module: ItemFactory.createModule(SHIP_MODULE_TYPE_ENUM.SHIELD_GENERATOR_MODULE_I, 1), x: 0, y : -1},
-                        {module: ItemFactory.createModule(SHIP_MODULE_TYPE_ENUM.ENGINE_MODULE_I, 1), x: 1, y : -1},
-                        {module: ItemFactory.createModule(SHIP_MODULE_TYPE_ENUM.LASER_MODULE_I, 1), x: -1, y : 0},
-                        {module: ItemFactory.createModule(SHIP_MODULE_TYPE_ENUM.MAIN_MODULE_I, 1), x: 0, y : 0},
-                        {module: ItemFactory.createModule(SHIP_MODULE_TYPE_ENUM.CARGO_HOLD_MODULE_I, 1), x: 1, y : 0},
-                        {module: ItemFactory.createModule(SHIP_MODULE_TYPE_ENUM.AVOIDANCE_SYSTEM_MODULE_I, 1), x: -1, y : 1},
-                        {module: ItemFactory.createModule(SHIP_MODULE_TYPE_ENUM.REPAIR_FACILITY_MODULE_I, 1), x: 0, y : 1},
-                        {module: ItemFactory.createModule(SHIP_MODULE_TYPE_ENUM.SHIP_PLATING_MODULE_I, 1), x: 1, y : 1}
+                        {module: ItemFactory.createModule(ShipModules.SHIP_MODULE_TYPE_ENUM.POWER_GENERATOR_MODULE_I, 1), x: -1, y : -1},
+                        {module: ItemFactory.createModule(ShipModules.SHIP_MODULE_TYPE_ENUM.SHIELD_GENERATOR_MODULE_I, 1), x: 0, y : -1},
+                        {module: ItemFactory.createModule(ShipModules.SHIP_MODULE_TYPE_ENUM.ENGINE_MODULE_I, 1), x: 1, y : -1},
+                        {module: ItemFactory.createModule(ShipModules.SHIP_MODULE_TYPE_ENUM.LASER_MODULE_I, 1), x: -1, y : 0},
+                        {module: ItemFactory.createModule(ShipModules.SHIP_MODULE_TYPE_ENUM.MAIN_MODULE_I, 1), x: 0, y : 0},
+                        {module: ItemFactory.createModule(ShipModules.SHIP_MODULE_TYPE_ENUM.CARGO_HOLD_MODULE_I, 1), x: 1, y : 0},
+                        {module: ItemFactory.createModule(ShipModules.SHIP_MODULE_TYPE_ENUM.AVOIDANCE_SYSTEM_MODULE_I, 1), x: -1, y : 1},
+                        {module: ItemFactory.createModule(ShipModules.SHIP_MODULE_TYPE_ENUM.REPAIR_FACILITY_MODULE_I, 1), x: 0, y : 1},
+                        {module: ItemFactory.createModule(ShipModules.SHIP_MODULE_TYPE_ENUM.SHIP_PLATING_MODULE_I, 1), x: 1, y : 1}
                     ],
           properties : {
             [DataObjects.Ship_Property_Type_Enum.acceleration] : 0,

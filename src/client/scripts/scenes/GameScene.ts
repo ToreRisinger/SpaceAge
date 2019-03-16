@@ -5,7 +5,7 @@ import { Chat } from "../modules/Chat";
 import { InputHandler } from "../modules/InputHandler"
 import { Camera } from "../modules/Camera";
 import { Background } from "../modules/Background";
-import { SPRITES } from "../constants/SPRITES";
+import { SPRITES } from "../../../shared/scripts/SPRITES";
 import { Graphics } from "../modules/Graphics";
 import { Com } from "../modules/Com";
 import { GameStates } from "../modules/GameStates";
@@ -90,21 +90,21 @@ export class GameScene extends Phaser.Scene {
         this.load.setPath("./assets/sprite");
         
         Object.entries(SPRITES).forEach(
-            ([key, value]) => this.load.spritesheet(value.key, value.file, {frameHeight: value.height, frameWidth: value.width})
+            ([key, value]) => this.load.spritesheet(value.sprite.key, value.sprite.file, {frameHeight: value.sprite.height, frameWidth: value.sprite.width})
         );
     }
 
     createAnimations() {
-       Object.values(SPRITES).filter(o => o.anim != undefined).forEach(
+       Object.values(SPRITES).filter(o => o.animation != undefined).forEach(
             sprite => this.anims.create({
                 //@ts-ignore
-                key: sprite.anim.key,
+                key: sprite.animation.key,
                 //@ts-ignore
-                frameRate: sprite.anim.frameRate,
+                frameRate: sprite.animation.frameRate,
                 repeat: -1, //repeat forever
-                frames: this.anims.generateFrameNumbers(sprite.key, {
+                frames: this.anims.generateFrameNumbers(sprite.sprite.key, {
                     //@ts-ignore
-                    frames: sprite.anim.frames
+                    frames: sprite.animation.frames
                 })
             })
        );

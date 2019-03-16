@@ -1,8 +1,8 @@
 import { DataObjects } from "../../../shared/scripts/DataObjects";
 import { GameScene } from "../scenes/GameScene";
-import { SHIP_MODULE_TYPES } from "../constants/SHIP_MODULES";
-import { SPRITES } from "../constants/SPRITES";
+import { SPRITES } from "../../../shared/scripts/SPRITES";
 import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
+import { ShipModules } from "../../../shared/scripts/ShipModules"
 
 export class ShipSprite {
 
@@ -12,10 +12,10 @@ export class ShipSprite {
     private shipSpriteOutlineGroup : Phaser.GameObjects.Group;
 
     private posVec : Phaser.Math.Vector2;
-    private shipModules : Array<{ module: DataObjects.Module_Config, x : number, y : number }>;
+    private shipModules : Array<{ module: DataObjects.IModule, x : number, y : number }>;
     private thisPlayerShip : boolean;
 
-    constructor(shipModules :  Array<{ module: DataObjects.Module_Config, x : number, y : number }>, posVec : Phaser.Math.Vector2, thisPlayerShip : boolean) {
+    constructor(shipModules :  Array<{ module: DataObjects.IModule, x : number, y : number }>, posVec : Phaser.Math.Vector2, thisPlayerShip : boolean) {
         this.shipModules = shipModules;
         this.posVec = posVec;
         this.thisPlayerShip = thisPlayerShip;
@@ -41,11 +41,11 @@ export class ShipSprite {
         this.shipSpriteOutlineGroup = GameScene.getInstance().add.group();
         for(let i = 0; i < this.shipModules.length; i++) {
             let module = this.shipModules[i];
-            let module_sprite = GameScene.getInstance().addSprite(this.posVec.x + module.x * 38, this.posVec.x + module.y * 38, SHIP_MODULE_TYPES[module.module.module_type].sprite);
-            let module_outline_sprite = GameScene.getInstance().addSprite(this.posVec.x + module.x * 38, this.posVec.x + module.y * 38, SPRITES.MODULE_OUTLINE_RED.key);
-            if(SHIP_MODULE_TYPES[module.module.module_type].animation != undefined) {
+            let module_sprite = GameScene.getInstance().addSprite(this.posVec.x + module.x * 38, this.posVec.x + module.y * 38, ShipModules.getModuleInfo(module.module.module_type).sprite.key);
+            let module_outline_sprite = GameScene.getInstance().addSprite(this.posVec.x + module.x * 38, this.posVec.x + module.y * 38, SPRITES.MODULE_OUTLINE_RED.sprite.key);
+            if(ShipModules.getModuleInfo(module.module.module_type).animation != undefined) {
                 //@ts-ignore
-                GameScene.getInstance().playAnimation(module_sprite, SHIP_MODULE_TYPES[module.module.module_type].animation.key);
+                GameScene.getInstance().playAnimation(module_sprite, ShipModules.getModuleInfo(module.module.module_type).animation.key);
             }
 
             module_sprite.setInteractive();

@@ -1,4 +1,4 @@
-import { SHIP_MODULE_TYPE_ENUM } from "./SHIP_MODULE_TYPE_ENUM";
+import { ShipModules } from "./ShipModules"
 
 export module DataObjects {
 
@@ -9,6 +9,20 @@ export module DataObjects {
     export interface Game_Object_Config extends Identifiable_Object_Config {
         x : number,
         y : number
+    }
+
+    export interface ISprite {
+        key: string,
+        file: string,
+        width: number,
+        height: number
+    }
+
+    export interface IAnimation {
+        key: string,
+        frameRate: number,
+        repeat: number, 
+        frames: Array<number>
     }
   
     /**
@@ -51,10 +65,28 @@ export module DataObjects {
         value : number;
     }
 
-    export interface Module_Config extends Identifiable_Object_Config {
+    export interface IModule extends Identifiable_Object_Config {
         quality : number,      // 1-5
-        module_type : SHIP_MODULE_TYPE_ENUM,
+        module_type : ShipModules.SHIP_MODULE_TYPE_ENUM,
         properties : Array<Ship_Property_Config>
+    }
+
+    export interface ModulePropertyGenerationConfig {
+        property : DataObjects.Ship_Property_Type_Enum,
+        modifier : DataObjects.Ship_Propery_Modifier_Enum,
+        min : number,
+        max : number
+    }
+
+    export interface IModuleTypeProperties {
+        base : Array<ModulePropertyGenerationConfig>,
+        possibleExtraProps : Array<ModulePropertyGenerationConfig>
+    }
+
+    export interface IShipModuleInfo {
+        sprite : ISprite,
+        animation : IAnimation | undefined,
+        properties : IModuleTypeProperties
     }
 
     /**
@@ -68,7 +100,7 @@ export module DataObjects {
         destinationY : number,
         acceleration : number,
         velVec : Array<number>
-        modules : Array<{ module: Module_Config, x : number, y : number }>
+        modules : Array<{ module: IModule, x : number, y : number }>
         properties : {
             [Ship_Property_Type_Enum.thrust] : number,                            // N
             [Ship_Property_Type_Enum.max_speed] : number,                         // m/s

@@ -1,10 +1,5 @@
-import { GameScene } from "../scenes/GameScene"
 import { GameObject } from "./GameObject";
-import { SPRITES } from "../constants/SPRITES";
-import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
 import { DataObjects } from "../../../shared/scripts/DataObjects"
-import { SHIP_MODULE_TYPE_ENUM } from "../../../shared/scripts/SHIP_MODULE_TYPE_ENUM";
-import { SHIP_MODULE_TYPES } from "../constants/SHIP_MODULES";
 import { ShipSprite } from "./ShipSprite";
 
 export class Ship extends GameObject {
