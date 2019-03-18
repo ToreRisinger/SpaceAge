@@ -4,6 +4,14 @@ import { SPRITES } from "../../../shared/scripts/SPRITES";
 import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
 import { ShipModules } from "../../../shared/scripts/ShipModules"
 
+interface IShipModuleWithSprite { 
+    module: DataObjects.IModule, 
+    x : number, 
+    y : number, 
+    sprite : Phaser.GameObjects.Sprite, 
+    outlineSprite : Phaser.GameObjects.Sprite
+}
+
 export class ShipSprite {
 
     //@ts-ignore
@@ -12,74 +20,77 @@ export class ShipSprite {
     private shipSpriteOutlineGroup : Phaser.GameObjects.Group;
 
     private posVec : Phaser.Math.Vector2;
-    private shipModules : Array<{ module: DataObjects.IModule, x : number, y : number }>;
+
+    //@ts-ignore
+    private shipModulesWithSprites : Array<IShipModuleWithSprite>;
     private thisPlayerShip : boolean;
 
     constructor(shipModules :  Array<{ module: DataObjects.IModule, x : number, y : number }>, posVec : Phaser.Math.Vector2, thisPlayerShip : boolean) {
-        this.shipModules = shipModules;
         this.posVec = posVec;
         this.thisPlayerShip = thisPlayerShip;
-        this.buildSprite();
+        this.buildSprite(shipModules);
     }
 
     public updateSpritePosition(newPosVec : Phaser.Math.Vector2) {
-        let oldPos = this.posVec;
-        //@ts-ignore
-        Phaser.Actions.Call(this.shipSpriteGroup.getChildren(), function(sprite : Phaser.GameObjects.Sprite) {
-            sprite.setPosition(newPosVec.x + sprite.x - oldPos.x, newPosVec.y + sprite.y - oldPos.y);
-          }, this);
-        //@ts-ignore
-        Phaser.Actions.Call(this.shipSpriteOutlineGroup.getChildren(), function(sprite : Phaser.GameObjects.Sprite) {
-            sprite.setPosition(newPosVec.x + sprite.x - oldPos.x, newPosVec.y + sprite.y - oldPos.y);
-          }, this);
+        function setModulePosition(module : IShipModuleWithSprite, newPosVec : Phaser.Math.Vector2) {
+            module.sprite.x = Math.floor(newPosVec.x) + module.x * 38;
+            module.sprite.y = Math.floor(newPosVec.y) + module.y * 38;
+            module.outlineSprite.x = Math.floor(newPosVec.x) + module.x * 38;
+            module.outlineSprite.y = Math.floor(newPosVec.y) + module.y * 38;
+        }
 
-        this.posVec = newPosVec;
+        this.shipModulesWithSprites.forEach(module => setModulePosition(module, newPosVec))
     }
 
-    private buildSprite() {
-        this.shipSpriteGroup = GameScene.getInstance().add.group();
-        this.shipSpriteOutlineGroup = GameScene.getInstance().add.group();
-        for(let i = 0; i < this.shipModules.length; i++) {
-            let module = this.shipModules[i];
-            let module_sprite = GameScene.getInstance().addSprite(this.posVec.x + module.x * 38, this.posVec.x + module.y * 38, ShipModules.getModuleInfo(module.module.module_type).sprite.key);
-            let module_outline_sprite = GameScene.getInstance().addSprite(this.posVec.x + module.x * 38, this.posVec.x + module.y * 38, SPRITES.MODULE_OUTLINE_RED.sprite.key);
+    private buildSprite(shipModules :  Array<{ module: DataObjects.IModule, x : number, y : number }>) {
+        this.shipModulesWithSprites = new Array<IShipModuleWithSprite>();
+        for(let i = 0; i < shipModules.length; i++) {
+            let shipModule = shipModules[i];
+            let sprite = GameScene.getInstance().addSprite(this.posVec.x + shipModule.x * 38, this.posVec.x + shipModule.y * 38, ShipModules.getModuleInfo(shipModule.module.module_type).sprite.key);
+            let outlineSprite = GameScene.getInstance().addSprite(this.posVec.x + shipModule.x * 38, this.posVec.x + shipModule.y * 38, SPRITES.MODULE_OUTLINE_RED.sprite.key);
+            let module = {
+                module : shipModule.module,
+                x : shipModule.x,
+                y : shipModule.y,
+                sprite : sprite,
+                outlineSprite : outlineSprite
+            }
+                
             if(ShipModules.getModuleInfo(module.module.module_type).animation != undefined) {
                 //@ts-ignore
-                GameScene.getInstance().playAnimation(module_sprite, ShipModules.getModuleInfo(module.module.module_type).animation.key);
+                GameScene.getInstance().playAnimation(module.sprite, ShipModules.getModuleInfo(module.module.module_type).animation.key);
             }
 
-            module_sprite.setInteractive();
-            module_sprite.on('pointerover', () => {
-                this.shipSpriteOutlineGroup.getChildren().forEach(sprite => {
+            module.sprite.setInteractive();
+            module.sprite.on('pointerover', () => {
+                this.shipModulesWithSprites.forEach(module => {
                     //@ts-ignore
-                    sprite.setVisible(true) 
+                    module.outlineSprite.setVisible(true) 
                 })
             });
-            module_sprite.on('pointerout', () =>  {
-                this.shipSpriteOutlineGroup.getChildren().forEach(sprite => {
+            module.sprite.on('pointerout', () =>  {
+                this.shipModulesWithSprites.forEach(module => {
                     //@ts-ignore
-                    sprite.setVisible(false) 
+                    module.outlineSprite.setVisible(false) 
                 })
             });
             
-            module_outline_sprite.setVisible(false);
+            module.outlineSprite.setVisible(false);
 
             if(this.thisPlayerShip) {
-                module_sprite.setDepth(DRAW_LAYERS.THIS_PLAYER_SHIP_LAYER);
-                module_outline_sprite.setDepth(DRAW_LAYERS.THIS_PLAYER_SHIP_OUTLINE_LAYER);
+                module.sprite.setDepth(DRAW_LAYERS.THIS_PLAYER_SHIP_LAYER);
+                module.outlineSprite.setDepth(DRAW_LAYERS.THIS_PLAYER_SHIP_OUTLINE_LAYER);
             } else {
-                module_sprite.setDepth(DRAW_LAYERS.OTHER_SHIP_LAYER);
-                module_outline_sprite.setDepth(DRAW_LAYERS.OTHER_SHIP_OUTLINE_LAYER);
+                module.sprite.setDepth(DRAW_LAYERS.OTHER_SHIP_LAYER);
+                module.outlineSprite.setDepth(DRAW_LAYERS.OTHER_SHIP_OUTLINE_LAYER);
             }
-
-            this.shipSpriteGroup.add(module_sprite);
-            this.shipSpriteOutlineGroup.add(module_outline_sprite);
+            this.shipModulesWithSprites.push(module);
         }
     }
 
     public destroy() {
-        this.shipSpriteGroup.destroy();
-        this.shipSpriteOutlineGroup.destroy();
+        this.shipModulesWithSprites.forEach(module => module.sprite.destroy());
+        this.shipModulesWithSprites.forEach(module => module.outlineSprite.destroy());
     }
 
 }

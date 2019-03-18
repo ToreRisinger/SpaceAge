@@ -47,6 +47,8 @@ export class GameScene extends Phaser.Scene {
         Camera.init();
         Graphics.init();
         Com.init();
+
+        this.scale.on('resize', this.resize, this);
     }
 
     update(time : number, delta : number) { //delta 16.666 @ 60fps
@@ -108,5 +110,13 @@ export class GameScene extends Phaser.Scene {
                 })
             })
        );
+    }
+
+    resize (gameSize : Phaser.Structs.Size, baseSize : Phaser.Structs.Size, displaySize : Phaser.Structs.Size)
+    {
+        var width = gameSize.width;
+        var height = gameSize.height;
+
+        Camera.setSize(width, height);
     }
 }

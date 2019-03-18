@@ -6,8 +6,8 @@ export module Camera {
 
     let centerCameraOnShip : boolean = false;
     let camera : Phaser.Cameras.Scene2D.Camera;
-    let x : number;
-    let y : number;
+    let x : integer;
+    let y : integer;
     let width : number;
     let height : number;
 
@@ -17,15 +17,20 @@ export module Camera {
         height = camera.height;
         x = 0;
         y = 0;
+
         camera.centerOn(x, y);
     }
 
     export function update(time : number, delta : number) {
+        centerOnPlayer();
+    }
+
+    function centerOnPlayer() {
         if(centerCameraOnShip) {
             let ship : GameObject | undefined =  GameObjectHandler.getShip();
             if(ship != undefined){
-                x = ship.getPos().x;
-                y = ship.getPos().y;
+                x = Math.floor(ship.getPos().x);
+                y = Math.floor(ship.getPos().y);
                 camera.centerOn(x, y);
             }
         }
@@ -41,6 +46,14 @@ export module Camera {
 
     export function getWidth() {
         return width;
+    }
+
+    export function setSize(w : number, h : number) {
+        camera.width = w;
+        width = camera.width;
+        camera.height = h;
+        height = camera.height;
+        centerOnPlayer();
     }
 
     export function getHeight() {

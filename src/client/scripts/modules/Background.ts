@@ -16,6 +16,10 @@ export module Background {
 
         createLoadingScreen();
         createBackground();   
+
+        //Todo, make the background very big, so it fits big screens
+        spaceBackground.setDisplaySize(4000, 4000);
+        //loadingBackground.setDisplaySize(w, h);
     }
 
     export function update(time : number, delta : number) {
