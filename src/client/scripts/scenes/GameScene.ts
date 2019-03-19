@@ -9,6 +9,7 @@ import { SPRITES } from "../../../shared/scripts/SPRITES";
 import { Graphics } from "../modules/Graphics";
 import { Com } from "../modules/Com";
 import { GameStates } from "../modules/GameStates";
+import { GUI } from "../modules/GUI";
 
 export class GameScene extends Phaser.Scene {
     
@@ -47,7 +48,8 @@ export class GameScene extends Phaser.Scene {
         Camera.init();
         Graphics.init();
         Com.init();
-
+        GUI.init();
+        
         this.scale.on('resize', this.resize, this);
     }
 
@@ -59,6 +61,7 @@ export class GameScene extends Phaser.Scene {
         Camera.update(time, delta);
         Background.update(time, delta);
         Graphics.update(time, delta);
+        GUI.update(time, delta);
     }
 
     addSprite(x : number, y : number, sprite : string) {
