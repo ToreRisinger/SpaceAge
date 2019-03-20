@@ -2,7 +2,6 @@ import { CONSTANTS } from "../constants/CONSTANTS";
 import { GameObjectHandler } from "../modules/GameObjectHandler"
 import { EventHandler } from "../modules/EventHandler"
 import { Chat } from "../modules/Chat";
-import { InputHandler } from "../modules/InputHandler"
 import { Camera } from "../modules/Camera";
 import { Background } from "../modules/Background";
 import { SPRITES } from "../../../shared/scripts/SPRITES";
@@ -42,7 +41,6 @@ export class GameScene extends Phaser.Scene {
         EventHandler.init();
         GameStates.init();
         Background.init();
-        InputHandler.init();
         GameObjectHandler.init();
         Chat.init(); 
         Camera.init();
@@ -54,7 +52,6 @@ export class GameScene extends Phaser.Scene {
     }
 
     update(time : number, delta : number) { //delta 16.666 @ 60fps
-        InputHandler.update(time, delta);
         EventHandler.update(time, delta);
         GameObjectHandler.update(time, delta);
         Chat.update(time, delta);

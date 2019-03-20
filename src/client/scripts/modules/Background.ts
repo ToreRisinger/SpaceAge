@@ -1,10 +1,10 @@
 import { CONSTANTS } from "../constants/CONSTANTS";
 import { Camera } from "./Camera"
-import { InputHandler } from "./InputHandler"
 import { GameScene } from "../scenes/GameScene"
 import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
 import { EventHandler } from "./EventHandler";
 import { Events } from "../../../shared/scripts/Events";
+import { GUI } from "./GUI";
 
 export module Background {
 
@@ -17,9 +17,7 @@ export module Background {
         createLoadingScreen();
         createBackground();   
 
-        //Todo, make the background very big, so it fits big screens
         spaceBackground.setDisplaySize(4000, 4000);
-        //loadingBackground.setDisplaySize(w, h);
     }
 
     export function update(time : number, delta : number) {
@@ -42,7 +40,7 @@ export module Background {
     function createBackground() {
         spaceBackground = GameScene.getInstance().add.sprite(0, 0, CONSTANTS.IMAGE.SPACE_BACKGROUND_1);
         spaceBackground.setInteractive();
-        spaceBackground.on('pointerdown', InputHandler.onBackgroundClicked);
+        spaceBackground.on('pointerdown', GUI.onBackgroundClicked);
         spaceBackground.setDepth(DRAW_LAYERS.BACKGROUND_LAYER);
 
         spaceBackground.setX(Camera.getX());

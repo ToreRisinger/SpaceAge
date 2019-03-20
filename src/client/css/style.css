@@ -30,3 +30,12 @@ body {
     top: 10px;
     padding: 10px;
 }
+
+.Unselectable {
+    khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+} 
