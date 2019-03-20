@@ -8,6 +8,14 @@ body {
     background-color: black;
 }
 
+.UIComponent {
+    background-color: rgba(0, 0, 0, 0.5);/*rgba(180, 180, 256, 0.2);*/
+    color: rgba(195, 145, 120);/*white;*/
+    font-family: consolas;
+    z-index: 12;
+    font-size: 12px;
+}
+
 #game_root_container {
     overflow: hidden;
     width: 100%;
@@ -17,18 +25,26 @@ body {
     border: 0;
 }
 
-.UIComponent {
-    background-color: rgba(180, 180, 256, 0.2);
-    color: white;
-    font-family: monospace;
-    z-index: 12;
-}
-
 #coord_display {
     position: absolute;
     right: 10px;
     top: 10px;
     padding: 10px;
+}
+
+#ship_hud_display {
+    margin: auto;  
+    position: absolute;
+    left:0;
+    right: 0;
+    bottom: 10px;
+    height: 75px;
+    width: 150px; 
+}
+
+#ship_hud_speed_display {
+    height: 25px;
+    background-color: rgba(0, 0, 0, 0.0);
 }
 
 .Unselectable {
