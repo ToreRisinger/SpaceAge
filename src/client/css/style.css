@@ -9,8 +9,8 @@ body {
 }
 
 .UIComponent {
-    background-color: rgba(0, 0, 0, 0.5);/*rgba(180, 180, 256, 0.2);*/
-    color: rgba(195, 145, 120);/*white;*/
+    background-color: rgba(0, 0, 0, 0.7);/*rgba(180, 180, 256, 0.2);*/
+    color: rgba(195, 145, 120);
     font-family: consolas;
     z-index: 12;
     font-size: 12px;
@@ -38,13 +38,36 @@ body {
     left:0;
     right: 0;
     bottom: 10px;
-    height: 75px;
+    height: 105px;
     width: 150px; 
 }
 
 #ship_hud_speed_display {
+    margin-top: 5px;
     height: 25px;
     background-color: rgba(0, 0, 0, 0.0);
+    text-align: center;
+}
+
+#ship_hud_shield_display {
+    height: 25px;
+    background-color: rgba(0, 0, 0, 0.0);
+    text-align: center;
+    color: rgba(86, 156, 214);
+}
+
+#ship_hud_armor_display {
+    height: 25px;
+    background-color: rgba(0, 0, 0, 0.0);
+    text-align: center;
+    color: rgba(156, 220, 254);
+}
+
+#ship_hud_hull_display {
+    height: 25px;
+    background-color: rgba(0, 0, 0, 0.0);
+    text-align: center;
+    color:white;
 }
 
 .Unselectable {

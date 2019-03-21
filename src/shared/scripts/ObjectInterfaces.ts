@@ -28,7 +28,7 @@ export module DataObjects {
     /**
      * MODULE
      */
-    export enum ShipProperyTypeEnum {
+    export enum ShipStatTypeEnum {
         thrust,
         max_speed,
         weight,
@@ -52,41 +52,41 @@ export module DataObjects {
         acceleration,
     }
 
-    export enum ShipPropertyModifierEnum {
+    export enum ShipStatModifierEnum {
         increase,
         decrease,
         percent_increase,
         percent_decrease,
     }
     
-    export interface IModulePropery {
-        property : ShipProperyTypeEnum,
-        modifier : ShipPropertyModifierEnum,
+    export interface IModuleStat {
+        property : ShipStatTypeEnum,
+        modifier : ShipStatModifierEnum,
         value : number;
     }
 
     export interface IModule extends IIdentifiableObject {
         quality : number,      // 1-5
         module_type : ShipModules.SHIP_MODULE_TYPE_ENUM,
-        properties : Array<IModulePropery>
+        stats : Array<IModuleStat>
     }
 
-    export interface ModulePropertyGenerationConfig {
-        property : DataObjects.ShipProperyTypeEnum,
-        modifier : DataObjects.ShipPropertyModifierEnum,
+    export interface ModuleStatGenerationConfig {
+        stat : DataObjects.ShipStatTypeEnum,
+        modifier : DataObjects.ShipStatModifierEnum,
         min : number,
         max : number
     }
 
     export interface IModuleTypeProperties {
-        base : Array<ModulePropertyGenerationConfig>,
-        possibleExtraProps : Array<ModulePropertyGenerationConfig>
+        base : Array<ModuleStatGenerationConfig>,
+        possibleExtraStats : Array<ModuleStatGenerationConfig>
     }
 
     export interface IShipModuleInfo {
         sprite : ISprite,
         animation : IAnimation | undefined,
-        properties : IModuleTypeProperties
+        stats : IModuleTypeProperties
     }
 
     /**
@@ -101,28 +101,33 @@ export module DataObjects {
         acceleration : number,
         velVec : Array<number>
         modules : Array<{ module: IModule, x : number, y : number }>
+        stats : {
+            [ShipStatTypeEnum.thrust] : number,                            // N
+            [ShipStatTypeEnum.max_speed] : number,                         // m/s
+            [ShipStatTypeEnum.weight] : number,                            // kg
+            [ShipStatTypeEnum.hull] : number,
+            [ShipStatTypeEnum.armor] : number,
+            [ShipStatTypeEnum.shield] : number,
+            [ShipStatTypeEnum.vision_range] : number,                      // m
+            [ShipStatTypeEnum.gravity_detection_range] : number,           // m
+            [ShipStatTypeEnum.shield_generation] : number,
+            [ShipStatTypeEnum.armor_repair] : number,
+            [ShipStatTypeEnum.armor_impact_resistance] : number,
+            [ShipStatTypeEnum.armor_heat_resistance] : number,
+            [ShipStatTypeEnum.armor_explosion_resistance] : number,
+            [ShipStatTypeEnum.shield_impact_resistance] : number,
+            [ShipStatTypeEnum.shield_heat_resistance] : number,
+            [ShipStatTypeEnum.shield_explosion_resistance] : number,
+            [ShipStatTypeEnum.targeting_systems] : number,
+            [ShipStatTypeEnum.avoidance_systems] : number,
+            [ShipStatTypeEnum.energy_grid] : number,
+            [ShipStatTypeEnum.cargo_hold] : number,                        // m2
+            [ShipStatTypeEnum.acceleration] : number                       // m/t2
+        }
         properties : {
-            [ShipProperyTypeEnum.thrust] : number,                            // N
-            [ShipProperyTypeEnum.max_speed] : number,                         // m/s
-            [ShipProperyTypeEnum.weight] : number,                            // kg
-            [ShipProperyTypeEnum.hull] : number,
-            [ShipProperyTypeEnum.armor] : number,
-            [ShipProperyTypeEnum.shield] : number,
-            [ShipProperyTypeEnum.vision_range] : number,                      // m
-            [ShipProperyTypeEnum.gravity_detection_range] : number,           // m
-            [ShipProperyTypeEnum.shield_generation] : number,
-            [ShipProperyTypeEnum.armor_repair] : number,
-            [ShipProperyTypeEnum.armor_impact_resistance] : number,
-            [ShipProperyTypeEnum.armor_heat_resistance] : number,
-            [ShipProperyTypeEnum.armor_explosion_resistance] : number,
-            [ShipProperyTypeEnum.shield_impact_resistance] : number,
-            [ShipProperyTypeEnum.shield_heat_resistance] : number,
-            [ShipProperyTypeEnum.shield_explosion_resistance] : number,
-            [ShipProperyTypeEnum.targeting_systems] : number,
-            [ShipProperyTypeEnum.avoidance_systems] : number,
-            [ShipProperyTypeEnum.energy_grid] : number,
-            [ShipProperyTypeEnum.cargo_hold] : number,                        // m2
-            [ShipProperyTypeEnum.acceleration] : number                       // m/t2
+            currentArmor: number,
+            currentHull : number,
+            currentShield : number
         }
     }
     

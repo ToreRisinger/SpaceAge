@@ -116,7 +116,14 @@ export module Server {
           }
            
           if(ship.isMoving) {
-            ship.velVec = calculateNewVelocityVector(shipToDestVec, ship.velVec, goodVelVecComp, badVelVecComp, ship.acceleration);
+            let newVelVec =  calculateNewVelocityVector(shipToDestVec, ship.velVec, goodVelVecComp, badVelVecComp, ship.acceleration);
+            let newVelVecLength = math.length(newVelVec);
+
+            if(newVelVecLength > ship.maxSpeed) {
+              ship.velVec = math.multiply(ship.velVec, ship.maxSpeed/newVelVecLength)
+            }
+
+            ship.velVec = newVelVec;
             ship.x = ship.x + ship.velVec[0];
             ship.y = ship.y + ship.velVec[1];
           }

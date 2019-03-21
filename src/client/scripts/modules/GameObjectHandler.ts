@@ -21,7 +21,8 @@ export module GameObjectHandler {
         
     }
 
-    export function getShip() {
+    export function getShip() : Ship {
+        //@ts-ignore
         return gameObjects.get(thisShipId);
     }
 

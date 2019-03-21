@@ -41,4 +41,8 @@ export class Ship extends GameObject {
     public destroy() {
         this.shipSprite.destroy();
     }
+
+    public getShipData() :  DataObjects.IShip {
+        return this.ship_config;
+    }
 }

@@ -32,46 +32,46 @@ export module ShipModules {
         [SHIP_MODULE_TYPE_ENUM.MAIN_MODULE_I] : {
             animation : SPRITES.MAIN_MODULE_I.animation,
             sprite : SPRITES.MAIN_MODULE_I.sprite,
-            properties : {
+            stats : {
                 base: [
                     {
-                        property: DataObjects.ShipProperyTypeEnum.armor,
+                        stat: DataObjects.ShipStatTypeEnum.armor,
                         max : 20,
                         min : 10,
-                        modifier : DataObjects.ShipPropertyModifierEnum.increase
+                        modifier : DataObjects.ShipStatModifierEnum.increase
                     },
                     {
-                        property: DataObjects.ShipProperyTypeEnum.thrust,
+                        stat: DataObjects.ShipStatTypeEnum.thrust,
                         max : 20,
                         min : 10,
-                        modifier : DataObjects.ShipPropertyModifierEnum.increase
+                        modifier : DataObjects.ShipStatModifierEnum.increase
                     },
                     {
-                        property: DataObjects.ShipProperyTypeEnum.vision_range,
+                        stat: DataObjects.ShipStatTypeEnum.vision_range,
                         max : 20,
                         min : 10,
-                        modifier : DataObjects.ShipPropertyModifierEnum.increase
+                        modifier : DataObjects.ShipStatModifierEnum.increase
                     },
                     {
-                        property: DataObjects.ShipProperyTypeEnum.cargo_hold,
+                        stat: DataObjects.ShipStatTypeEnum.cargo_hold,
                         max : 20,
                         min : 10,
-                        modifier : DataObjects.ShipPropertyModifierEnum.increase
+                        modifier : DataObjects.ShipStatModifierEnum.increase
                     },
                     {
-                        property: DataObjects.ShipProperyTypeEnum.energy_grid,
+                        stat: DataObjects.ShipStatTypeEnum.energy_grid,
                         max : 5,
                         min : 3,
-                        modifier : DataObjects.ShipPropertyModifierEnum.increase
+                        modifier : DataObjects.ShipStatModifierEnum.increase
                     },
                     {
-                        property: DataObjects.ShipProperyTypeEnum.weight,
+                        stat: DataObjects.ShipStatTypeEnum.weight,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.ShipPropertyModifierEnum.increase
+                        modifier : DataObjects.ShipStatModifierEnum.increase
                     }
                 ],
-                possibleExtraProps : []
+                possibleExtraStats : []
             }
         },
 
@@ -79,33 +79,33 @@ export module ShipModules {
         [SHIP_MODULE_TYPE_ENUM.AVOIDANCE_SYSTEM_MODULE_I] : {
             animation : SPRITES.AVOIDANCE_SYSTEM_MODULE_I.animation,
             sprite : SPRITES.AVOIDANCE_SYSTEM_MODULE_I.sprite,
-            properties : {
+            stats : {
                 base: [
                     {
-                        property: DataObjects.ShipProperyTypeEnum.avoidance_systems,
+                        stat: DataObjects.ShipStatTypeEnum.avoidance_systems,
                         max : 4,
                         min : 1,
-                        modifier : DataObjects.ShipPropertyModifierEnum.increase
+                        modifier : DataObjects.ShipStatModifierEnum.increase
                     },
                     {
-                        property: DataObjects.ShipProperyTypeEnum.weight,
+                        stat: DataObjects.ShipStatTypeEnum.weight,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.ShipPropertyModifierEnum.increase
+                        modifier : DataObjects.ShipStatModifierEnum.increase
                     }
                 ],
-                possibleExtraProps : [
+                possibleExtraStats : [
                     {
-                        property: DataObjects.ShipProperyTypeEnum.vision_range,
+                        stat: DataObjects.ShipStatTypeEnum.vision_range,
                         max : 4,
                         min : 1,
-                        modifier : DataObjects.ShipPropertyModifierEnum.increase
+                        modifier : DataObjects.ShipStatModifierEnum.increase
                     },
                     {
-                        property: DataObjects.ShipProperyTypeEnum.armor,
+                        stat: DataObjects.ShipStatTypeEnum.armor,
                         max : 4,
                         min : 1,
-                        modifier : DataObjects.ShipPropertyModifierEnum.increase
+                        modifier : DataObjects.ShipStatModifierEnum.increase
                     }
                 ]
             }
@@ -113,45 +113,45 @@ export module ShipModules {
         [SHIP_MODULE_TYPE_ENUM.CARGO_HOLD_MODULE_I] : {
             animation : SPRITES.CARGO_HOLD_MODULE_I.animation,
             sprite : SPRITES.CARGO_HOLD_MODULE_I.sprite,
-            properties : {
+            stats : {
                 base: [
                     {
-                        property: DataObjects.ShipProperyTypeEnum.cargo_hold,
+                        stat: DataObjects.ShipStatTypeEnum.cargo_hold,
                         max : 20,
                         min : 10,
-                        modifier : DataObjects.ShipPropertyModifierEnum.increase
+                        modifier : DataObjects.ShipStatModifierEnum.increase
                     },
                     {
-                        property: DataObjects.ShipProperyTypeEnum.weight,
+                        stat: DataObjects.ShipStatTypeEnum.weight,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.ShipPropertyModifierEnum.increase
+                        modifier : DataObjects.ShipStatModifierEnum.increase
                     }
                 ],
-                possibleExtraProps : [
+                possibleExtraStats : [
                     {
-                        property: DataObjects.ShipProperyTypeEnum.armor,
+                        stat: DataObjects.ShipStatTypeEnum.armor,
                         max : 2,
                         min : 1,
-                        modifier : DataObjects.ShipPropertyModifierEnum.increase
+                        modifier : DataObjects.ShipStatModifierEnum.increase
                     },
                     {
-                        property: DataObjects.ShipProperyTypeEnum.armor_explosion_resistance,
+                        stat: DataObjects.ShipStatTypeEnum.armor_explosion_resistance,
                         max : 2,
                         min : 1,
-                        modifier : DataObjects.ShipPropertyModifierEnum.increase
+                        modifier : DataObjects.ShipStatModifierEnum.increase
                     },
                     {
-                        property: DataObjects.ShipProperyTypeEnum.armor_heat_resistance,
+                        stat: DataObjects.ShipStatTypeEnum.armor_heat_resistance,
                         max : 2,
                         min : 1,
-                        modifier : DataObjects.ShipPropertyModifierEnum.increase
+                        modifier : DataObjects.ShipStatModifierEnum.increase
                     },
                     {
-                        property: DataObjects.ShipProperyTypeEnum.armor_impact_resistance,
+                        stat: DataObjects.ShipStatTypeEnum.armor_impact_resistance,
                         max : 2,
                         min : 1,
-                        modifier : DataObjects.ShipPropertyModifierEnum.increase
+                        modifier : DataObjects.ShipStatModifierEnum.increase
                     }
                 ]
             }
@@ -159,163 +159,163 @@ export module ShipModules {
         [SHIP_MODULE_TYPE_ENUM.ENGINE_MODULE_I] : {
             animation : SPRITES.ENGINE_MODULE_I.animation,
             sprite : SPRITES.ENGINE_MODULE_I.sprite,
-            properties : {
+            stats : {
                 base: [
                     {
-                        property: DataObjects.ShipProperyTypeEnum.thrust,
+                        stat: DataObjects.ShipStatTypeEnum.thrust,
                         max : 4,
                         min : 1,
-                        modifier : DataObjects.ShipPropertyModifierEnum.increase
+                        modifier : DataObjects.ShipStatModifierEnum.increase
                     },
                     {
-                        property: DataObjects.ShipProperyTypeEnum.weight,
+                        stat: DataObjects.ShipStatTypeEnum.weight,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.ShipPropertyModifierEnum.increase
+                        modifier : DataObjects.ShipStatModifierEnum.increase
                     }
                 ],
-                possibleExtraProps : []
+                possibleExtraStats : []
             }
         },
         [SHIP_MODULE_TYPE_ENUM.POWER_GENERATOR_MODULE_I] : {
             animation : SPRITES.POWER_GENERATOR_MODULE_I.animation,
             sprite : SPRITES.POWER_GENERATOR_MODULE_I.sprite,
-            properties : {
+            stats : {
                 base: [
                     {
-                        property: DataObjects.ShipProperyTypeEnum.energy_grid,
+                        stat: DataObjects.ShipStatTypeEnum.energy_grid,
                         max : 4,
                         min : 2,
-                        modifier : DataObjects.ShipPropertyModifierEnum.increase
+                        modifier : DataObjects.ShipStatModifierEnum.increase
                     },
                     {
-                        property: DataObjects.ShipProperyTypeEnum.weight,
+                        stat: DataObjects.ShipStatTypeEnum.weight,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.ShipPropertyModifierEnum.increase
+                        modifier : DataObjects.ShipStatModifierEnum.increase
                     }
                 ],
-                possibleExtraProps : []
+                possibleExtraStats : []
             }
         },
         [SHIP_MODULE_TYPE_ENUM.RADAR_MODULE_I] : {
             animation : SPRITES.RADAR_MODULE_I.animation,
             sprite : SPRITES.RADAR_MODULE_I.sprite,
-            properties : {
+            stats : {
                 base: [
                     {
-                        property: DataObjects.ShipProperyTypeEnum.vision_range,
+                        stat: DataObjects.ShipStatTypeEnum.vision_range,
                         max : 4,
                         min : 2,
-                        modifier : DataObjects.ShipPropertyModifierEnum.increase
+                        modifier : DataObjects.ShipStatModifierEnum.increase
                     },
                     {
-                        property: DataObjects.ShipProperyTypeEnum.weight,
+                        stat: DataObjects.ShipStatTypeEnum.weight,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.ShipPropertyModifierEnum.increase
+                        modifier : DataObjects.ShipStatModifierEnum.increase
                     }
                 ],
-                possibleExtraProps : []
+                possibleExtraStats : []
             }
         },
         [SHIP_MODULE_TYPE_ENUM.REPAIR_FACILITY_MODULE_I] : {
             animation : SPRITES.REPAIR_FACILITY_MODULE_I.animation,
             sprite : SPRITES.REPAIR_FACILITY_MODULE_I.sprite,
-            properties : {
+            stats : {
                 base: [
                     {
-                        property: DataObjects.ShipProperyTypeEnum.armor_repair,
+                        stat: DataObjects.ShipStatTypeEnum.armor_repair,
                         max : 4,
                         min : 2,
-                        modifier : DataObjects.ShipPropertyModifierEnum.increase
+                        modifier : DataObjects.ShipStatModifierEnum.increase
                     },
                     {
-                        property: DataObjects.ShipProperyTypeEnum.weight,
+                        stat: DataObjects.ShipStatTypeEnum.weight,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.ShipPropertyModifierEnum.increase
+                        modifier : DataObjects.ShipStatModifierEnum.increase
                     }
                 ],
-                possibleExtraProps : []
+                possibleExtraStats : []
             }
         },
         [SHIP_MODULE_TYPE_ENUM.SHIELD_GENERATOR_MODULE_I] : {
             animation : SPRITES.SHIELD_GENERATOR_MODULE_I.animation,
             sprite : SPRITES.SHIELD_GENERATOR_MODULE_I.sprite,
-            properties : {
+            stats : {
                 base: [
                     {
-                        property: DataObjects.ShipProperyTypeEnum.shield_generation,
+                        stat: DataObjects.ShipStatTypeEnum.shield_generation,
                         max : 4,
                         min : 2,
-                        modifier : DataObjects.ShipPropertyModifierEnum.increase
+                        modifier : DataObjects.ShipStatModifierEnum.increase
                     },
                     {
-                        property: DataObjects.ShipProperyTypeEnum.weight,
+                        stat: DataObjects.ShipStatTypeEnum.weight,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.ShipPropertyModifierEnum.increase
+                        modifier : DataObjects.ShipStatModifierEnum.increase
                     }
                 ],
-                possibleExtraProps : []
+                possibleExtraStats : []
             }
         },
         [SHIP_MODULE_TYPE_ENUM.SHIP_PLATING_MODULE_I] : {
             animation : SPRITES.SHIP_PLATING_MODULE_I.animation,
             sprite : SPRITES.SHIP_PLATING_MODULE_I.sprite,
-            properties : {
+            stats : {
                 base: [
                     {
-                        property: DataObjects.ShipProperyTypeEnum.armor,
+                        stat: DataObjects.ShipStatTypeEnum.armor,
                         max : 4,
                         min : 2,
-                        modifier : DataObjects.ShipPropertyModifierEnum.increase
+                        modifier : DataObjects.ShipStatModifierEnum.increase
                     },
                     {
-                        property: DataObjects.ShipProperyTypeEnum.weight,
+                        stat: DataObjects.ShipStatTypeEnum.weight,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.ShipPropertyModifierEnum.increase
+                        modifier : DataObjects.ShipStatModifierEnum.increase
                     }
                 ],
-                possibleExtraProps : []
+                possibleExtraStats : []
             }
         },
         [SHIP_MODULE_TYPE_ENUM.SUPPORT_MODULE_I] : {
             animation : SPRITES.SUPPORT_MODULE_I.animation,
             sprite : SPRITES.SUPPORT_MODULE_I.sprite,
-            properties : {
+            stats : {
                 base: [
                     {
-                        property: DataObjects.ShipProperyTypeEnum.weight,
+                        stat: DataObjects.ShipStatTypeEnum.weight,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.ShipPropertyModifierEnum.increase
+                        modifier : DataObjects.ShipStatModifierEnum.increase
                     }
                 ],
-                possibleExtraProps : []
+                possibleExtraStats : []
             }
         },
         [SHIP_MODULE_TYPE_ENUM.TARGETING_SYSTEM_MODULE_I] : {
             animation : SPRITES.TARGETING_SYSTEM_MODULE_I.animation,
             sprite : SPRITES.TARGETING_SYSTEM_MODULE_I.sprite,
-            properties : {
+            stats : {
                 base: [
                     {
-                        property: DataObjects.ShipProperyTypeEnum.targeting_systems,
+                        stat: DataObjects.ShipStatTypeEnum.targeting_systems,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.ShipPropertyModifierEnum.increase
+                        modifier : DataObjects.ShipStatModifierEnum.increase
                     },
                     {
-                        property: DataObjects.ShipProperyTypeEnum.weight,
+                        stat: DataObjects.ShipStatTypeEnum.weight,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.ShipPropertyModifierEnum.increase
+                        modifier : DataObjects.ShipStatModifierEnum.increase
                     }
                 ],
-                possibleExtraProps : []
+                possibleExtraStats : []
             }
         },
 
@@ -323,85 +323,85 @@ export module ShipModules {
         [SHIP_MODULE_TYPE_ENUM.LASER_MODULE_I] : {
             animation : SPRITES.LASER_MODULE_I.animation,
             sprite : SPRITES.LASER_MODULE_I.sprite,
-            properties : {
+            stats : {
                 base: [
                     {
-                        property: DataObjects.ShipProperyTypeEnum.armor,
+                        stat: DataObjects.ShipStatTypeEnum.armor,
                         max : 2,
                         min : 1,
-                        modifier : DataObjects.ShipPropertyModifierEnum.increase
+                        modifier : DataObjects.ShipStatModifierEnum.increase
                     },
                     {
-                        property: DataObjects.ShipProperyTypeEnum.weight,
+                        stat: DataObjects.ShipStatTypeEnum.weight,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.ShipPropertyModifierEnum.increase
+                        modifier : DataObjects.ShipStatModifierEnum.increase
                     }
                 ],
-                possibleExtraProps : []
+                possibleExtraStats : []
             }
         },
         [SHIP_MODULE_TYPE_ENUM.MINING_LASER_MODULE_I] : {
             animation : SPRITES.MINING_LASER_MODULE_I.animation,
             sprite : SPRITES.MINING_LASER_MODULE_I.sprite,
-            properties : {
+            stats : {
                 base: [
                     {
-                        property: DataObjects.ShipProperyTypeEnum.armor,
+                        stat: DataObjects.ShipStatTypeEnum.armor,
                         max : 2,
                         min : 1,
-                        modifier : DataObjects.ShipPropertyModifierEnum.increase
+                        modifier : DataObjects.ShipStatModifierEnum.increase
                     },
                     {
-                        property: DataObjects.ShipProperyTypeEnum.weight,
+                        stat: DataObjects.ShipStatTypeEnum.weight,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.ShipPropertyModifierEnum.increase
+                        modifier : DataObjects.ShipStatModifierEnum.increase
                     }
                 ],
-                possibleExtraProps : []
+                possibleExtraStats : []
             }
         },
         [SHIP_MODULE_TYPE_ENUM.MISSLE_MODULE_I] : {
             animation : SPRITES.MISSLE_MODULE_I.animation,
             sprite : SPRITES.MISSLE_MODULE_I.sprite,
-            properties : {
+            stats : {
                 base: [
                     {
-                        property: DataObjects.ShipProperyTypeEnum.armor,
+                        stat: DataObjects.ShipStatTypeEnum.armor,
                         max : 2,
                         min : 1,
-                        modifier : DataObjects.ShipPropertyModifierEnum.increase
+                        modifier : DataObjects.ShipStatModifierEnum.increase
                     },
                     {
-                        property: DataObjects.ShipProperyTypeEnum.weight,
+                        stat: DataObjects.ShipStatTypeEnum.weight,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.ShipPropertyModifierEnum.increase
+                        modifier : DataObjects.ShipStatModifierEnum.increase
                     }
                 ],
-                possibleExtraProps : []
+                possibleExtraStats : []
             }
         },
         [SHIP_MODULE_TYPE_ENUM.TURRET_MODULE_I] : {
             animation : SPRITES.TURRET_MODULE_I.animation,
             sprite : SPRITES.TURRET_MODULE_I.sprite,
-            properties : {
+            stats : {
                 base: [
                     {
-                        property: DataObjects.ShipProperyTypeEnum.armor,
+                        stat: DataObjects.ShipStatTypeEnum.armor,
                         max : 2,
                         min : 1,
-                        modifier : DataObjects.ShipPropertyModifierEnum.increase
+                        modifier : DataObjects.ShipStatModifierEnum.increase
                     },
                     {
-                        property: DataObjects.ShipProperyTypeEnum.weight,
+                        stat: DataObjects.ShipStatTypeEnum.weight,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.ShipPropertyModifierEnum.increase
+                        modifier : DataObjects.ShipStatModifierEnum.increase
                     }
                 ],
-                possibleExtraProps : []
+                possibleExtraStats : []
             }
         }
     }

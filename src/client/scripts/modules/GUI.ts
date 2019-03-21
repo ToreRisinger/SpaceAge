@@ -4,10 +4,16 @@ import { GameScene } from "../scenes/GameScene";
 import { Events } from "../../../shared/scripts/Events";
 import { Utils } from "./Utils";
 import { EventHandler } from "./EventHandler";
+import { Ship } from "../game_objects/Ship";
 
 export module GUI {
 
     let coordinateDisplay : HTMLElement | null;
+    let shipHud : HTMLElement | null;
+    let shipHudSpeed : HTMLElement | null;
+    let ship_hud_shield_display : HTMLElement | null;
+    let ship_hud_armor_display : HTMLElement | null;
+    let ship_hud_hull_display : HTMLElement | null;
     let mouseInput : Phaser.Input.Pointer;
     let mouseManager : Phaser.Input.Mouse.MouseManager;
     let backgroundClickedThisFrame : boolean;
@@ -16,7 +22,6 @@ export module GUI {
 
 
     export function init() {
-
         let gameScene : GameScene = GameScene.getInstance();
         mouseInput = gameScene.input.activePointer;
         mouseManager = gameScene.input.mouse;
@@ -24,6 +29,12 @@ export module GUI {
         mouseManager.disableContextMenu();
 
         coordinateDisplay = document.getElementById("coord_display");
+        shipHud = document.getElementById("ship_hud_display");
+        shipHudSpeed = document.getElementById("ship_hud_speed_display");
+        ship_hud_shield_display = document.getElementById("ship_hud_shield_display");
+        ship_hud_armor_display = document.getElementById("ship_hud_armor_display");
+        ship_hud_hull_display = document.getElementById("ship_hud_hull_display");
+
         backgroundClickedThisFrame = false;
         htmlElementClickedThisFrame = false;
         counterToFireNewDestination = 0;
@@ -32,10 +43,20 @@ export module GUI {
     }
 
     export function update(time : number, delta : number) {
-        let ship : GameObject | undefined =  GameObjectHandler.getShip();
+        let ship : Ship | undefined =  GameObjectHandler.getShip();
         if(ship != undefined){
             //@ts-ignore
             coordinateDisplay.textContent = "(" + Math.floor(ship.getPos().x) + ", " + Math.floor(ship.getPos().y) + ")";
+            //@ts-ignore
+            shipHudSpeed.textContent = Math.floor(new Phaser.Math.Vector2(ship.getShipData().velVec[0], ship.getShipData().velVec[1]).length()) + " m/s";
+            //@ts-ignore
+            ship_hud_shield_display.textContent = ship.getShipData().properties.currentShield;
+            //@ts-ignore
+            ship_hud_armor_display.textContent = ship.getShipData().properties.currentArmor;
+            //@ts-ignore
+            ship_hud_hull_display.textContent = ship.getShipData().properties.currentHull;
+
+
         }
 
         //TODO new phaser version hopefully makes it possible for
@@ -79,10 +100,23 @@ export module GUI {
         }
         EventHandler.pushEvent(event);
     }
+
     function setupOnClickFunctions() {
         //@ts-ignore
-        coordinateDisplay.onclick = function() {
-            htmlElementClickedThisFrame = true;
-        }
+        coordinateDisplay.onclick = doNothing;
+        //@ts-ignore
+        shipHud.onclick = doNothing;
+        //@ts-ignore
+        shipHudSpeed.onclick = doNothing;
+        //@ts-ignore
+        ship_hud_shield_display.onclick = doNothing;
+        //@ts-ignore
+        ship_hud_armor_display.onclick = doNothing;
+        //@ts-ignore
+        ship_hud_hull_display.onclick = doNothing;
+    }
+
+    function doNothing() {
+        htmlElementClickedThisFrame = true;
     }
 }
