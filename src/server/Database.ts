@@ -81,6 +81,8 @@ export module Database {
         )
       );
 
+      newShip.stats[DataObjects.ShipStatTypeEnum.hull] = newShip.stats[DataObjects.ShipStatTypeEnum.weight]; //TODO
+
       newShip.properties.currentArmor = newShip.stats[DataObjects.ShipStatTypeEnum.armor];
       newShip.properties.currentShield = newShip.stats[DataObjects.ShipStatTypeEnum.shield];
       newShip.properties.currentHull = newShip.stats[DataObjects.ShipStatTypeEnum.hull];

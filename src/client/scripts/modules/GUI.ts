@@ -14,6 +14,9 @@ export module GUI {
     let ship_hud_shield_display : HTMLElement | null;
     let ship_hud_armor_display : HTMLElement | null;
     let ship_hud_hull_display : HTMLElement | null;
+    let left_menu : HTMLElement | null;
+
+
     let mouseInput : Phaser.Input.Pointer;
     let mouseManager : Phaser.Input.Mouse.MouseManager;
     let backgroundClickedThisFrame : boolean;
@@ -34,6 +37,7 @@ export module GUI {
         ship_hud_shield_display = document.getElementById("ship_hud_shield_display");
         ship_hud_armor_display = document.getElementById("ship_hud_armor_display");
         ship_hud_hull_display = document.getElementById("ship_hud_hull_display");
+        left_menu = document.getElementById("left_menu");
 
         backgroundClickedThisFrame = false;
         htmlElementClickedThisFrame = false;
@@ -114,6 +118,8 @@ export module GUI {
         ship_hud_armor_display.onclick = doNothing;
         //@ts-ignore
         ship_hud_hull_display.onclick = doNothing;
+        //@ts-ignore
+        left_menu.onclick = doNothing;
     }
 
     function doNothing() {

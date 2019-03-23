@@ -70,6 +70,20 @@ body {
     color:white;
 }
 
+#left_menu {
+    position: absolute;
+    height: 100%;
+    margin-left: 0;
+    width: 35px;
+}
+
+#left_menu_ship_button {
+    height: 75px;
+    background-color: rgba(0, 0, 0, 0.0);
+    text-align: center;
+    color:white;
+}
+
 .Unselectable {
     khtml-user-select: none;
     -moz-user-select: none;
