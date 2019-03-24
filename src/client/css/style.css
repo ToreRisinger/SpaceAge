@@ -74,14 +74,27 @@ body {
     position: absolute;
     height: 100%;
     margin-left: 0;
-    width: 35px;
+    width: 36px;
 }
 
 #left_menu_ship_button {
-    height: 75px;
+    height: 60px;
+    margin-top: 0px;
     background-color: rgba(0, 0, 0, 0.0);
     text-align: center;
     color:white;
+}
+
+#left_menu_ship_button:hover { 
+    background-color: rgba(355, 355, 355, 0.2);
+}
+
+#left_menu_ship_button_icon {
+    width: 30px;
+    height: 30px;
+    margin-left: 3px;
+    margin-right: 3px;
+    margin-top: 15px;
 }
 
 .Unselectable {
