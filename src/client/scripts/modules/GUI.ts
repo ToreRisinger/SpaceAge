@@ -15,7 +15,8 @@ export module GUI {
     let ship_hud_armor_display : HTMLElement | null;
     let ship_hud_hull_display : HTMLElement | null;
     let left_menu : HTMLElement | null;
-
+    let left_menu_ship_button : HTMLElement | null;
+    let ship_window : HTMLElement | null;
 
     let mouseInput : Phaser.Input.Pointer;
     let mouseManager : Phaser.Input.Mouse.MouseManager;
@@ -38,6 +39,8 @@ export module GUI {
         ship_hud_armor_display = document.getElementById("ship_hud_armor_display");
         ship_hud_hull_display = document.getElementById("ship_hud_hull_display");
         left_menu = document.getElementById("left_menu");
+        left_menu_ship_button = document.getElementById("left_menu_ship_button");
+        ship_window = document.getElementById("ship_window");
 
         backgroundClickedThisFrame = false;
         htmlElementClickedThisFrame = false;
@@ -59,8 +62,6 @@ export module GUI {
             ship_hud_armor_display.textContent = ship.getShipData().properties.currentArmor;
             //@ts-ignore
             ship_hud_hull_display.textContent = ship.getShipData().properties.currentHull;
-
-
         }
 
         //TODO new phaser version hopefully makes it possible for
@@ -120,9 +121,32 @@ export module GUI {
         ship_hud_hull_display.onclick = doNothing;
         //@ts-ignore
         left_menu.onclick = doNothing;
+        //@ts-ignore
+        left_menu_ship_button.onclick = openShipButtonClicked;
+        //@ts-ignore
+        ship_window.onclick = doNothing;
     }
 
     function doNothing() {
         htmlElementClickedThisFrame = true;
+    }
+
+    function openShipButtonClicked() {
+        closeAllOtherWindows();
+
+        //@ts-ignore
+        let visibility = window.getComputedStyle(ship_window, null).getPropertyValue("visibility");
+        //@ts-ignore
+        if(visibility == 'hidden') {
+            //@ts-ignore
+            ship_window.style.visibility = 'visible'; 
+        } else {
+            //@ts-ignore
+            ship_window.style.visibility = 'hidden'; 
+        }
+    }
+
+    function closeAllOtherWindows() {
+
     }
 }
