@@ -3,7 +3,7 @@ import { Events } from "../../../shared/scripts/Events"
 import { Ship } from "../game_objects/Ship";
 import { GameObject } from "../game_objects/GameObject";
 import { Camera } from "./Camera";
-import { DataObjects } from "../../../shared/scripts/ObjectInterfaces";
+import { ObjectInterfaces } from "../../../shared/scripts/ObjectInterfaces";
 
 export module GameObjectHandler {
 
@@ -28,7 +28,7 @@ export module GameObjectHandler {
 
     function onInitialGameLoad(eventData : Events.INITAL_GAME_LOAD_EVENT_CONFIG) {
         let data : any = eventData.data;
-        let ship : DataObjects.IShip = data.ship; 
+        let ship : ObjectInterfaces.IShip = data.ship; 
         let newShip : Ship = new Ship(ship, true);
       
         thisShipId = ship.id;
@@ -48,8 +48,8 @@ export module GameObjectHandler {
     }
 
     function onShipsUpdate(event : Events.SHIPS_UPDATE_EVENT_CONFIG) {
-        let shipArray : Array<DataObjects.IShip> = event.data.ships;
-        shipArray.forEach((ship_config: DataObjects.IShip) => {
+        let shipArray : Array<ObjectInterfaces.IShip> = event.data.ships;
+        shipArray.forEach((ship_config: ObjectInterfaces.IShip) => {
             if(gameObjects.get(ship_config.id) == undefined) {
                 let newShip : Ship = new Ship(ship_config, false);
                 gameObjects.set(ship_config.id, newShip);

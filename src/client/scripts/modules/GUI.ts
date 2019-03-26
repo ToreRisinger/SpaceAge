@@ -1,10 +1,10 @@
-import { GameObject } from "../game_objects/GameObject";
 import { GameObjectHandler } from "./GameObjectHandler";
 import { GameScene } from "../scenes/GameScene";
 import { Events } from "../../../shared/scripts/Events";
 import { Utils } from "./Utils";
 import { EventHandler } from "./EventHandler";
 import { Ship } from "../game_objects/Ship";
+import { ObjectInterfaces } from "../../../shared/scripts/ObjectInterfaces"
 
 export module GUI {
 
@@ -18,12 +18,33 @@ export module GUI {
     let left_menu_ship_button : HTMLElement | null;
     let ship_window : HTMLElement | null;
 
+    let swsc_thrust : HTMLElement;
+    let swsc_max_speed : HTMLElement;
+    let swsc_weight : HTMLElement;
+    let swsc_hull : HTMLElement;
+    let swsc_armor : HTMLElement;
+    let swsc_shield : HTMLElement;
+    let swsc_vision_range : HTMLElement;
+    let swsc_gravity_detection_range : HTMLElement;
+    let swsc_shield_generation : HTMLElement;
+    let swsc_armor_repair : HTMLElement;
+    let swsc_armor_impact_resistance : HTMLElement;
+    let swsc_armor_heat_resistance : HTMLElement;
+    let swsc_armor_explosion_resistance : HTMLElement;
+    let swsc_shield_impact_resistance : HTMLElement;
+    let swsc_shield_heat_resistance : HTMLElement;
+    let swsc_shield_explosion_resistance : HTMLElement;
+    let swsc_targeting_systems : HTMLElement;
+    let swsc_avoidance_systems : HTMLElement;
+    let swsc_enery_grid : HTMLElement;
+    let swsc_cargo_hold : HTMLElement;
+    let swsc_acceleration : HTMLElement;
+
     let mouseInput : Phaser.Input.Pointer;
     let mouseManager : Phaser.Input.Mouse.MouseManager;
     let backgroundClickedThisFrame : boolean;
     let htmlElementClickedThisFrame : boolean;
     let counterToFireNewDestination : number;
-
 
     export function init() {
         let gameScene : GameScene = GameScene.getInstance();
@@ -42,11 +63,56 @@ export module GUI {
         left_menu_ship_button = document.getElementById("left_menu_ship_button");
         ship_window = document.getElementById("ship_window");
 
+        //@ts-ignore
+        swsc_thrust = document.getElementById("swsc_thrust");
+        //@ts-ignore
+        swsc_max_speed = document.getElementById("swsc_max_speed");
+        //@ts-ignore
+        //@ts-ignore
+        swsc_weight = document.getElementById("swsc_weight");
+        //@ts-ignore
+        swsc_hull = document.getElementById("swsc_hull");
+        //@ts-ignore
+        swsc_armor = document.getElementById("swsc_armor");
+        //@ts-ignore
+        swsc_shield = document.getElementById("swsc_shield");
+        //@ts-ignore
+        swsc_vision_range = document.getElementById("swsc_vision_range");
+        //@ts-ignore
+        swsc_gravity_detection_range = document.getElementById("swsc_gravity_detection_range");
+        //@ts-ignore
+        swsc_shield_generation = document.getElementById("swsc_shield_generation");
+        //@ts-ignore
+        swsc_armor_repair = document.getElementById("swsc_armor_repair");
+        //@ts-ignore
+        swsc_armor_impact_resistance = document.getElementById("swsc_armor_impact_resistance");
+        //@ts-ignore
+        swsc_armor_heat_resistance = document.getElementById("swsc_armor_heat_resistance");
+        //@ts-ignore
+        swsc_armor_explosion_resistance = document.getElementById("swsc_armor_explosion_resistance");
+        //@ts-ignore
+        swsc_shield_impact_resistance = document.getElementById("swsc_shield_impact_resistance");
+        //@ts-ignore
+        swsc_shield_heat_resistance = document.getElementById("swsc_shield_heat_resistance");
+        //@ts-ignore
+        swsc_shield_explosion_resistance = document.getElementById("swsc_shield_explosion_resistance");
+        //@ts-ignore
+        swsc_targeting_systems = document.getElementById("swsc_targeting_systems");
+        //@ts-ignore
+        swsc_avoidance_systems = document.getElementById("swsc_avoidance_systems");
+        //@ts-ignore
+        swsc_enery_grid = document.getElementById("swsc_enery_grid");
+        //@ts-ignore
+        swsc_cargo_hold = document.getElementById("swsc_cargo_hold");
+        //@ts-ignore
+        swsc_acceleration = document.getElementById("swsc_acceleration");
+
         backgroundClickedThisFrame = false;
         htmlElementClickedThisFrame = false;
         counterToFireNewDestination = 0;
 
         setupOnClickFunctions(); 
+        subscribeToEvents();
     }
 
     export function update(time : number, delta : number) {
@@ -148,5 +214,35 @@ export module GUI {
 
     function closeAllOtherWindows() {
 
+    }
+
+    function onSpaceSceneGameEvent() {
+        let ship : Ship =  GameObjectHandler.getShip();
+        
+        swsc_thrust.textContent = String(ship.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.thrust]);
+        swsc_max_speed.textContent = String(ship.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.max_speed]);
+        swsc_weight.textContent = String(ship.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.weight]);
+        swsc_hull.textContent = String(ship.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.hull]);
+        swsc_armor.textContent = String(ship.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.armor]);
+        swsc_shield.textContent = String(ship.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.shield]);
+        swsc_vision_range.textContent = String(ship.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.vision_range]);
+        swsc_gravity_detection_range.textContent = String(ship.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.gravity_detection_range]);
+        swsc_shield_generation.textContent = String(ship.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.shield_generation]);
+        swsc_armor_repair.textContent = String(ship.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.armor_repair]);
+        swsc_armor_impact_resistance.textContent = String(ship.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.armor_impact_resistance]);
+        swsc_armor_heat_resistance.textContent = String(ship.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.armor_heat_resistance]);
+        swsc_armor_explosion_resistance.textContent = String(ship.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.armor_explosion_resistance]);
+        swsc_shield_impact_resistance.textContent = String(ship.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.shield_impact_resistance]);
+        swsc_shield_heat_resistance.textContent = String(ship.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.shield_heat_resistance]);
+        swsc_shield_explosion_resistance.textContent = String(ship.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.shield_explosion_resistance]);
+        swsc_targeting_systems.textContent = String(ship.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.targeting_systems]);
+        swsc_avoidance_systems.textContent = String(ship.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.avoidance_systems]);
+        swsc_enery_grid.textContent = String(ship.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.energy_grid]);
+        swsc_cargo_hold.textContent = String(ship.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.cargo_hold]);
+        swsc_acceleration.textContent = String(ship.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.acceleration]);
+    }
+
+    function subscribeToEvents() {
+        EventHandler.on(Events.EEventType.SPACE_SCENE_GAME_STATE_EVENT, onSpaceSceneGameEvent);
     }
 }

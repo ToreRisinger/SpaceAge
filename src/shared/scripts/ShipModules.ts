@@ -1,4 +1,4 @@
-import { DataObjects } from "./ObjectInterfaces";
+import { ObjectInterfaces } from "./ObjectInterfaces";
 import { SPRITES } from "./SPRITES";
 
 
@@ -27,7 +27,7 @@ export module ShipModules {
         TURRET_MODULE_I
     }
 
-    const moduleTypeToProperyMap : { [key: number]: DataObjects.IShipModuleInfo } = {
+    const moduleTypeToProperyMap : { [key: number]: ObjectInterfaces.IShipModuleInfo } = {
         /* MAIN MODULES */
         [SHIP_MODULE_TYPE_ENUM.MAIN_MODULE_I] : {
             animation : SPRITES.MAIN_MODULE_I.animation,
@@ -35,40 +35,40 @@ export module ShipModules {
             stats : {
                 base: [
                     {
-                        stat: DataObjects.ShipStatTypeEnum.armor,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.armor,
                         max : 20,
                         min : 10,
-                        modifier : DataObjects.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     },
                     {
-                        stat: DataObjects.ShipStatTypeEnum.thrust,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.thrust,
                         max : 20,
                         min : 10,
-                        modifier : DataObjects.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     },
                     {
-                        stat: DataObjects.ShipStatTypeEnum.vision_range,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.vision_range,
                         max : 20,
                         min : 10,
-                        modifier : DataObjects.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     },
                     {
-                        stat: DataObjects.ShipStatTypeEnum.cargo_hold,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.cargo_hold,
                         max : 20,
                         min : 10,
-                        modifier : DataObjects.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     },
                     {
-                        stat: DataObjects.ShipStatTypeEnum.energy_grid,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.energy_grid,
                         max : 5,
                         min : 3,
-                        modifier : DataObjects.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     },
                     {
-                        stat: DataObjects.ShipStatTypeEnum.weight,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.weight,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     }
                 ],
                 possibleExtraStats : []
@@ -82,30 +82,30 @@ export module ShipModules {
             stats : {
                 base: [
                     {
-                        stat: DataObjects.ShipStatTypeEnum.avoidance_systems,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.avoidance_systems,
                         max : 4,
                         min : 1,
-                        modifier : DataObjects.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     },
                     {
-                        stat: DataObjects.ShipStatTypeEnum.weight,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.weight,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     }
                 ],
                 possibleExtraStats : [
                     {
-                        stat: DataObjects.ShipStatTypeEnum.vision_range,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.vision_range,
                         max : 4,
                         min : 1,
-                        modifier : DataObjects.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     },
                     {
-                        stat: DataObjects.ShipStatTypeEnum.armor,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.armor,
                         max : 4,
                         min : 1,
-                        modifier : DataObjects.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     }
                 ]
             }
@@ -116,42 +116,42 @@ export module ShipModules {
             stats : {
                 base: [
                     {
-                        stat: DataObjects.ShipStatTypeEnum.cargo_hold,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.cargo_hold,
                         max : 20,
                         min : 10,
-                        modifier : DataObjects.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     },
                     {
-                        stat: DataObjects.ShipStatTypeEnum.weight,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.weight,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     }
                 ],
                 possibleExtraStats : [
                     {
-                        stat: DataObjects.ShipStatTypeEnum.armor,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.armor,
                         max : 2,
                         min : 1,
-                        modifier : DataObjects.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     },
                     {
-                        stat: DataObjects.ShipStatTypeEnum.armor_explosion_resistance,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.armor_explosion_resistance,
                         max : 2,
                         min : 1,
-                        modifier : DataObjects.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     },
                     {
-                        stat: DataObjects.ShipStatTypeEnum.armor_heat_resistance,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.armor_heat_resistance,
                         max : 2,
                         min : 1,
-                        modifier : DataObjects.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     },
                     {
-                        stat: DataObjects.ShipStatTypeEnum.armor_impact_resistance,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.armor_impact_resistance,
                         max : 2,
                         min : 1,
-                        modifier : DataObjects.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     }
                 ]
             }
@@ -162,16 +162,16 @@ export module ShipModules {
             stats : {
                 base: [
                     {
-                        stat: DataObjects.ShipStatTypeEnum.thrust,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.thrust,
                         max : 4,
                         min : 1,
-                        modifier : DataObjects.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     },
                     {
-                        stat: DataObjects.ShipStatTypeEnum.weight,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.weight,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     }
                 ],
                 possibleExtraStats : []
@@ -183,16 +183,16 @@ export module ShipModules {
             stats : {
                 base: [
                     {
-                        stat: DataObjects.ShipStatTypeEnum.energy_grid,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.energy_grid,
                         max : 4,
                         min : 2,
-                        modifier : DataObjects.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     },
                     {
-                        stat: DataObjects.ShipStatTypeEnum.weight,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.weight,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     }
                 ],
                 possibleExtraStats : []
@@ -204,16 +204,16 @@ export module ShipModules {
             stats : {
                 base: [
                     {
-                        stat: DataObjects.ShipStatTypeEnum.vision_range,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.vision_range,
                         max : 4,
                         min : 2,
-                        modifier : DataObjects.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     },
                     {
-                        stat: DataObjects.ShipStatTypeEnum.weight,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.weight,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     }
                 ],
                 possibleExtraStats : []
@@ -225,16 +225,16 @@ export module ShipModules {
             stats : {
                 base: [
                     {
-                        stat: DataObjects.ShipStatTypeEnum.armor_repair,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.armor_repair,
                         max : 4,
                         min : 2,
-                        modifier : DataObjects.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     },
                     {
-                        stat: DataObjects.ShipStatTypeEnum.weight,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.weight,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     }
                 ],
                 possibleExtraStats : []
@@ -246,16 +246,16 @@ export module ShipModules {
             stats : {
                 base: [
                     {
-                        stat: DataObjects.ShipStatTypeEnum.shield_generation,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.shield_generation,
                         max : 4,
                         min : 2,
-                        modifier : DataObjects.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     },
                     {
-                        stat: DataObjects.ShipStatTypeEnum.weight,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.weight,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     }
                 ],
                 possibleExtraStats : []
@@ -267,16 +267,16 @@ export module ShipModules {
             stats : {
                 base: [
                     {
-                        stat: DataObjects.ShipStatTypeEnum.armor,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.armor,
                         max : 4,
                         min : 2,
-                        modifier : DataObjects.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     },
                     {
-                        stat: DataObjects.ShipStatTypeEnum.weight,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.weight,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     }
                 ],
                 possibleExtraStats : []
@@ -288,10 +288,10 @@ export module ShipModules {
             stats : {
                 base: [
                     {
-                        stat: DataObjects.ShipStatTypeEnum.weight,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.weight,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     }
                 ],
                 possibleExtraStats : []
@@ -303,16 +303,16 @@ export module ShipModules {
             stats : {
                 base: [
                     {
-                        stat: DataObjects.ShipStatTypeEnum.targeting_systems,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.targeting_systems,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     },
                     {
-                        stat: DataObjects.ShipStatTypeEnum.weight,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.weight,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     }
                 ],
                 possibleExtraStats : []
@@ -326,16 +326,16 @@ export module ShipModules {
             stats : {
                 base: [
                     {
-                        stat: DataObjects.ShipStatTypeEnum.armor,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.armor,
                         max : 2,
                         min : 1,
-                        modifier : DataObjects.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     },
                     {
-                        stat: DataObjects.ShipStatTypeEnum.weight,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.weight,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     }
                 ],
                 possibleExtraStats : []
@@ -347,16 +347,16 @@ export module ShipModules {
             stats : {
                 base: [
                     {
-                        stat: DataObjects.ShipStatTypeEnum.armor,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.armor,
                         max : 2,
                         min : 1,
-                        modifier : DataObjects.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     },
                     {
-                        stat: DataObjects.ShipStatTypeEnum.weight,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.weight,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     }
                 ],
                 possibleExtraStats : []
@@ -368,16 +368,16 @@ export module ShipModules {
             stats : {
                 base: [
                     {
-                        stat: DataObjects.ShipStatTypeEnum.armor,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.armor,
                         max : 2,
                         min : 1,
-                        modifier : DataObjects.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     },
                     {
-                        stat: DataObjects.ShipStatTypeEnum.weight,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.weight,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     }
                 ],
                 possibleExtraStats : []
@@ -389,16 +389,16 @@ export module ShipModules {
             stats : {
                 base: [
                     {
-                        stat: DataObjects.ShipStatTypeEnum.armor,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.armor,
                         max : 2,
                         min : 1,
-                        modifier : DataObjects.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     },
                     {
-                        stat: DataObjects.ShipStatTypeEnum.weight,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.weight,
                         max : 30,
                         min : 30,
-                        modifier : DataObjects.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     }
                 ],
                 possibleExtraStats : []
@@ -406,7 +406,7 @@ export module ShipModules {
         }
     }
 
-    export function getModuleInfo(moduleType : SHIP_MODULE_TYPE_ENUM) : DataObjects.IShipModuleInfo {
+    export function getModuleInfo(moduleType : SHIP_MODULE_TYPE_ENUM) : ObjectInterfaces.IShipModuleInfo {
         return moduleTypeToProperyMap[moduleType];
     }
 }

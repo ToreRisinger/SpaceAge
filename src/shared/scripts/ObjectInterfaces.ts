@@ -1,6 +1,6 @@
 import { ShipModules } from "./ShipModules"
 
-export module DataObjects {
+export module ObjectInterfaces {
 
     export interface IIdentifiableObject {
         id : number,
@@ -72,8 +72,8 @@ export module DataObjects {
     }
 
     export interface ModuleStatGenerationConfig {
-        stat : DataObjects.ShipStatTypeEnum,
-        modifier : DataObjects.ShipStatModifierEnum,
+        stat : ObjectInterfaces.ShipStatTypeEnum,
+        modifier : ObjectInterfaces.ShipStatModifierEnum,
         min : number,
         max : number
     }
@@ -102,14 +102,14 @@ export module DataObjects {
         velVec : Array<number>
         modules : Array<{ module: IModule, x : number, y : number }>
         stats : {
-            [ShipStatTypeEnum.thrust] : number,                            // N
-            [ShipStatTypeEnum.max_speed] : number,                         // m/s
-            [ShipStatTypeEnum.weight] : number,                            // kg
+            [ShipStatTypeEnum.thrust] : number,
+            [ShipStatTypeEnum.max_speed] : number,
+            [ShipStatTypeEnum.weight] : number,
             [ShipStatTypeEnum.hull] : number,
             [ShipStatTypeEnum.armor] : number,
             [ShipStatTypeEnum.shield] : number,
-            [ShipStatTypeEnum.vision_range] : number,                      // m
-            [ShipStatTypeEnum.gravity_detection_range] : number,           // m
+            [ShipStatTypeEnum.vision_range] : number,
+            [ShipStatTypeEnum.gravity_detection_range] : number,
             [ShipStatTypeEnum.shield_generation] : number,
             [ShipStatTypeEnum.armor_repair] : number,
             [ShipStatTypeEnum.armor_impact_resistance] : number,
@@ -121,8 +121,8 @@ export module DataObjects {
             [ShipStatTypeEnum.targeting_systems] : number,
             [ShipStatTypeEnum.avoidance_systems] : number,
             [ShipStatTypeEnum.energy_grid] : number,
-            [ShipStatTypeEnum.cargo_hold] : number,                        // m2
-            [ShipStatTypeEnum.acceleration] : number                       // m/t2
+            [ShipStatTypeEnum.cargo_hold] : number,
+            [ShipStatTypeEnum.acceleration] : number
         }
         properties : {
             currentArmor: number,

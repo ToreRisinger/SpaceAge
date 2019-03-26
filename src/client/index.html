@@ -15,10 +15,18 @@
     <div id="game_root_container">
         <div id="coord_display" class="UIComponent Unselectable"></div>
         <div id="ship_hud_display" class="UIComponent Unselectable">
-            <div id="ship_hud_speed_display" class="UIComponent Unselectable"></div>
-            <div id="ship_hud_shield_display" class="UIComponent Unselectable"></div>
-            <div id="ship_hud_armor_display" class="UIComponent Unselectable"></div>
-            <div id="ship_hud_hull_display" class="UIComponent Unselectable"></div>
+            <div id="ship_hud_speed_display" class="UIComponent Unselectable">
+                <span class="Tooltip Unselectable UIComponent">Velocity</span>
+            </div>
+            <div id="ship_hud_shield_display" class="UIComponent Unselectable">
+                <span class="Tooltip Unselectable UIComponent">Shield</span>
+            </div>
+            <div id="ship_hud_armor_display" class="UIComponent Unselectable">
+                <span class="Tooltip Unselectable UIComponent">Armor</span>
+            </div>
+            <div id="ship_hud_hull_display" class="UIComponent Unselectable">
+                <span class="Tooltip Unselectable UIComponent">Hull</span>
+            </div>
         </div>
         <div id="left_menu" class="UIComponent Unselectable">
             <div id="left_menu_ship_button" class="UIComponent Unselectable">
@@ -28,22 +36,8 @@
 
         <!-- Windows -->
         <div id="ship_window" class="UIComponent Unselectable">
+            <div id="ship_window_title" class="UIComponent Unselectable">Ship</div>
             <table class="UIComponent Unselectable swst">
-                <tr class="swsr">
-                  <th class="swsc">Thrust: </th>
-                  <th id="swsc_thrust" class="swsc"></th> 
-                  <th class="swsc">N</th>
-                </tr>
-                <tr class="swsr">
-                    <th class="swsc">Max velocity: </th>
-                    <th id="swsc_max_speed" class="swsc"></th> 
-                    <th class="swsc">m/s</th>
-                </tr>
-                <tr class="swsr">
-                    <th class="swsc">Mass: </th>
-                    <th id="swsc_weight" class="swsc"></th> 
-                    <th class="swsc">kg</th>
-                </tr>
                 <tr class="swsr">
                     <th class="swsc">Hull: </th>
                     <th id="swsc_hull" class="swsc"></th> 
@@ -70,11 +64,6 @@
                     <th class="swsc">m</th>
                 </tr>
                 <tr class="swsr">
-                    <th class="swsc">Shield generation: </th>
-                    <th id="swsc_shield_generation" class="swsc"></th> 
-                    <th class="swsc">p/s</th>
-                </tr>
-                <tr class="swsr">
                     <th class="swsc">Armor repair: </th>
                     <th id="swsc_armor_repair" class="swsc"></th> 
                     <th class="swsc">p/s</th>
@@ -94,6 +83,11 @@
                     <th id="swsc_armor_explosion_resistance" class="swsc"></th> 
                     <th class="swsc">%</th>
                 </tr>
+                <tr class="swsr">
+                        <th class="swsc">Shield generation: </th>
+                        <th id="swsc_shield_generation" class="swsc"></th> 
+                        <th class="swsc">p/s</th>
+                    </tr>
                 <tr class="swsr">
                     <th class="swsc">Shield impact resistance: </th>
                     <th id="swsc_shield_impact_resistance" class="swsc"></th> 
@@ -125,7 +119,7 @@
                     <th class="swsc">points</th>
                 </tr>
                 <tr class="swsr">
-                    <th class="swsc">cargo_hold: </th>
+                    <th class="swsc">Cargo Hold: </th>
                     <th id="swsc_cargo_hold" class="swsc"></th> 
                     <th class="swsc">m<sup>2</sup></th>
                 </tr>
@@ -133,6 +127,21 @@
                     <th class="swsc">Acceleration: </th>
                     <th id="swsc_acceleration" class="swsc"></th> 
                     <th class="swsc">m/t<sup>2</sup></th>
+                </tr>
+                <tr class="swsr">
+                    <th class="swsc">Thrust: </th>
+                    <th id="swsc_thrust" class="swsc"></th> 
+                    <th class="swsc">N</th>
+                </tr>
+                <tr class="swsr">
+                    <th class="swsc">Max velocity: </th>
+                    <th id="swsc_max_speed" class="swsc"></th> 
+                    <th class="swsc">m/s</th>
+                </tr>
+                <tr class="swsr">
+                    <th class="swsc">Mass: </th>
+                    <th id="swsc_weight" class="swsc"></th> 
+                    <th class="swsc">kg</th>
                 </tr>
               </table>
         </div>

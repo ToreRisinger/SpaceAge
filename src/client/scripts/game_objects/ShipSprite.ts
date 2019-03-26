@@ -1,11 +1,11 @@
-import { DataObjects } from "../../../shared/scripts/ObjectInterfaces";
+import { ObjectInterfaces } from "../../../shared/scripts/ObjectInterfaces";
 import { GameScene } from "../scenes/GameScene";
 import { SPRITES } from "../../../shared/scripts/SPRITES";
 import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
 import { ShipModules } from "../../../shared/scripts/ShipModules"
 
 interface IShipModuleWithSprite { 
-    module: DataObjects.IModule, 
+    module: ObjectInterfaces.IModule, 
     x : number, 
     y : number, 
     sprite : Phaser.GameObjects.Sprite, 
@@ -25,7 +25,7 @@ export class ShipSprite {
     private shipModulesWithSprites : Array<IShipModuleWithSprite>;
     private thisPlayerShip : boolean;
 
-    constructor(shipModules :  Array<{ module: DataObjects.IModule, x : number, y : number }>, posVec : Phaser.Math.Vector2, thisPlayerShip : boolean) {
+    constructor(shipModules :  Array<{ module: ObjectInterfaces.IModule, x : number, y : number }>, posVec : Phaser.Math.Vector2, thisPlayerShip : boolean) {
         this.posVec = posVec;
         this.thisPlayerShip = thisPlayerShip;
         this.buildSprite(shipModules);
@@ -42,7 +42,7 @@ export class ShipSprite {
         this.shipModulesWithSprites.forEach(module => setModulePosition(module, newPosVec))
     }
 
-    private buildSprite(shipModules :  Array<{ module: DataObjects.IModule, x : number, y : number }>) {
+    private buildSprite(shipModules :  Array<{ module: ObjectInterfaces.IModule, x : number, y : number }>) {
         this.shipModulesWithSprites = new Array<IShipModuleWithSprite>();
         for(let i = 0; i < shipModules.length; i++) {
             let shipModule = shipModules[i];

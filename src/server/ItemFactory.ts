@@ -1,5 +1,5 @@
 import { IdHandler } from "./IdHandler";
-import { DataObjects } from "../shared/scripts/ObjectInterfaces";
+import { ObjectInterfaces } from "../shared/scripts/ObjectInterfaces";
 import { ShipModules } from "../shared/scripts/ShipModules";
 
 export module ItemFactory {
@@ -8,23 +8,23 @@ export module ItemFactory {
 
     }
     
-    export function createModule(shipModuleType : ShipModules.SHIP_MODULE_TYPE_ENUM, quality : number) : DataObjects.IModule {
+    export function createModule(shipModuleType : ShipModules.SHIP_MODULE_TYPE_ENUM, quality : number) : ObjectInterfaces.IModule {
         return {id: IdHandler.getNewItemId(), 
                 stats: generateModuleProperties(shipModuleType, quality), 
                 quality: quality, 
                 module_type: shipModuleType};
     }
 
-    function generateModuleProperties(shipModuleType : ShipModules.SHIP_MODULE_TYPE_ENUM, quality : number) : Array<DataObjects.IModuleStat> {
-        let result = new Array<DataObjects.IModuleStat>();
-        let shipModuleInfo : DataObjects.IShipModuleInfo = ShipModules.getModuleInfo(shipModuleType);
+    function generateModuleProperties(shipModuleType : ShipModules.SHIP_MODULE_TYPE_ENUM, quality : number) : Array<ObjectInterfaces.IModuleStat> {
+        let result = new Array<ObjectInterfaces.IModuleStat>();
+        let shipModuleInfo : ObjectInterfaces.IShipModuleInfo = ShipModules.getModuleInfo(shipModuleType);
         shipModuleInfo.stats.base.forEach(
             obj => result.push(generateModuleProperty(obj))
         );
         return result;
     }
 
-    function generateModuleProperty(modulePropertyGenerationConfig : DataObjects.ModuleStatGenerationConfig) : DataObjects.IModuleStat {
+    function generateModuleProperty(modulePropertyGenerationConfig : ObjectInterfaces.ModuleStatGenerationConfig) : ObjectInterfaces.IModuleStat {
         return { 
             property : modulePropertyGenerationConfig.stat,
             modifier : modulePropertyGenerationConfig.modifier,
