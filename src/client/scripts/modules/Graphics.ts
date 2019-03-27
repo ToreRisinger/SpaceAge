@@ -2,6 +2,7 @@ import { GameScene } from "../scenes/GameScene";
 import { GameObjectHandler } from "./GameObjectHandler";
 import { Ship } from "../game_objects/Ship";
 import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
+import { Camera } from "./Camera";
 
 
 export module Graphics {
@@ -12,23 +13,34 @@ export module Graphics {
     let circleGraphics : Phaser.GameObjects.Graphics;
 
     export function init() {
-        lineGraphics = GameScene.getInstance().add.graphics({lineStyle : { width: 1, color: 0x7F7F7F}});
+        
         line = new Phaser.Geom.Line(0, 0, 0, 0);
-
-        circleGraphics = GameScene.getInstance().add.graphics({lineStyle : { width: 1, color: 0x7F7F7F}});
         circle = new Phaser.Geom.Circle(0, 0, 0);
+
+        createNewLineGraphics(Camera.getZoom());
     }
 
     export function update(time : number, delta : number) {
-        let ship : Ship | undefined = <Ship>GameObjectHandler.getShip();
+        let cameraZoom = Camera.getZoom();
+
         lineGraphics.clear();
         circleGraphics.clear();
+
+        createNewLineGraphics(cameraZoom);
+
+        let ship : Ship | undefined = <Ship>GameObjectHandler.getShip();
+       
         if(ship != undefined && ship.getIsMoving()) {
             line.setTo(ship.getPos().x, ship.getPos().y, ship.getDestinationPos().x, ship.getDestinationPos().y);
             lineGraphics.strokeLineShape(line).setDepth(DRAW_LAYERS.DESTINATION_LINE_LAYER);
 
-            circle.setTo(ship.getDestinationPos().x, ship.getDestinationPos().y, 5);
+            circle.setTo(ship.getDestinationPos().x, ship.getDestinationPos().y, 5 * cameraZoom);
             circleGraphics.strokeCircleShape(circle).setDepth(DRAW_LAYERS.DESTINATION_LINE_LAYER);
         }
+    }
+
+    function createNewLineGraphics(lineWidth : number) {
+        lineGraphics = GameScene.getInstance().add.graphics({lineStyle : { width: lineWidth, color: 0x7F7F7F}});
+        circleGraphics = GameScene.getInstance().add.graphics({lineStyle : { width: lineWidth, color: 0x7F7F7F}});
     }
 }

@@ -5,6 +5,7 @@ import { Utils } from "./Utils";
 import { EventHandler } from "./EventHandler";
 import { Ship } from "../game_objects/Ship";
 import { ObjectInterfaces } from "../../../shared/scripts/ObjectInterfaces"
+import { Camera } from "./Camera";
 
 export module GUI {
 
@@ -159,7 +160,7 @@ export module GUI {
     }
 
     function newDestination() {
-        let newDestination : Phaser.Math.Vector2 = Utils.screenVecToMapVec(new Phaser.Math.Vector2(mouseInput.x, mouseInput.y));
+        let newDestination : Phaser.Math.Vector2 = Utils.screenVecToMapVec(new Phaser.Math.Vector2(mouseInput.x * Camera.getZoom(), mouseInput.y * Camera.getZoom()));
         let event : Events.PLAYER_SET_NEW_DESTINATION_EVENT_CONFIG = {
             eventId : Events.EEventType.PLAYER_SET_NEW_DESTINATION_EVENT,
             data : { 

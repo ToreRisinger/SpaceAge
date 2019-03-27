@@ -10,6 +10,11 @@ export module Camera {
     let y : integer;
     let width : number;
     let height : number;
+    let upKey : Phaser.Input.Keyboard.Key;
+    let downKey : Phaser.Input.Keyboard.Key;
+    let currentZoom : number;
+    let maxZoom : number;
+    let minZoom : number;
 
     export function init() {
         camera = GameScene.getInstance().cameras.cameras[0];
@@ -19,6 +24,15 @@ export module Camera {
         y = 0;
 
         camera.centerOn(x, y);
+        upKey = GameScene.getInstance().input.keyboard.addKey('up');
+        downKey = GameScene.getInstance().input.keyboard.addKey('down');
+
+        currentZoom = 1;
+        minZoom = 1;
+        maxZoom = 32;
+
+        upKey.on('down', onUpKeyPressed);
+        downKey.on('down', onDownKeyPressed);
     }
 
     export function update(time : number, delta : number) {
@@ -45,7 +59,11 @@ export module Camera {
     }
 
     export function getWidth() {
-        return width;
+        return width * currentZoom;
+    }
+
+    export function getHeight() {
+        return height * currentZoom;
     }
 
     export function setSize(w : number, h : number) {
@@ -56,11 +74,25 @@ export module Camera {
         centerOnPlayer();
     }
 
-    export function getHeight() {
-        return height;
-    }
-
     export function centerCamera(value : boolean) {
         centerCameraOnShip = value;
+    }
+
+    export function getZoom() {
+        return currentZoom;
+    }
+
+    function onUpKeyPressed(event : any) {
+        if(currentZoom < maxZoom) {
+            currentZoom = currentZoom * 2;
+            camera.zoom = camera.zoom / 2;
+        }
+    }
+
+    function onDownKeyPressed(event : any) {
+        if(currentZoom > minZoom) {
+            currentZoom = currentZoom / 2;
+            camera.zoom = camera.zoom * 2;
+        }
     }
 }

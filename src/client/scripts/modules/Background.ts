@@ -10,6 +10,7 @@ export module Background {
 
     let loadingBackground : Phaser.GameObjects.Sprite;
     let spaceBackground : Phaser.GameObjects.Sprite;
+    let BACKRGOUND_SIZE : number = 4000;
 
     export function init() {
         subscribeToEvents();
@@ -17,12 +18,16 @@ export module Background {
         createLoadingScreen();
         createBackground();   
 
-        spaceBackground.setDisplaySize(4000, 4000);
+        spaceBackground.setDisplaySize(BACKRGOUND_SIZE, BACKRGOUND_SIZE);
+        loadingBackground.setDisplaySize(BACKRGOUND_SIZE, BACKRGOUND_SIZE);
     }
 
     export function update(time : number, delta : number) {
+        let newBackgroundSize = BACKRGOUND_SIZE * Camera.getZoom();
         spaceBackground.setX(Camera.getX());
         spaceBackground.setY(Camera.getY());
+        spaceBackground.setDisplaySize(newBackgroundSize, newBackgroundSize);
+        
     }
 
     function onSpaceSceneStart() {
