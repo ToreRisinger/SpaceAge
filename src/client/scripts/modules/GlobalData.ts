@@ -16,5 +16,8 @@ export module GlobalData {
     /* Server */
     export let ping : number = 1;
 
+    /* Input */
+    export let mouseX : number = 0;
+    export let mouseY : number = 0;
 
 }

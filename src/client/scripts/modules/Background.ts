@@ -20,6 +20,7 @@ export module Background {
 
         spaceBackground.setDisplaySize(BACKRGOUND_SIZE, BACKRGOUND_SIZE);
         loadingBackground.setDisplaySize(BACKRGOUND_SIZE, BACKRGOUND_SIZE);
+        spaceBackground.on('pointerdown', onBackgroundClicked);
     }
 
     export function update(time : number, delta : number) {
@@ -48,7 +49,7 @@ export module Background {
     function createBackground() {
         spaceBackground = GameScene.getInstance().add.sprite(0, 0, CONSTANTS.IMAGE.SPACE_BACKGROUND_1);
         spaceBackground.setInteractive();
-        
+        spaceBackground.on('pointerdown', onBackgroundClicked);
         spaceBackground.setDepth(DRAW_LAYERS.BACKGROUND_LAYER);
 
         spaceBackground.setX(GlobalData.cameraX);
@@ -57,5 +58,16 @@ export module Background {
 
     function subscribeToEvents() {
         EventHandler.on(Events.EEventType.SPACE_SCENE_GAME_STATE_EVENT, onSpaceSceneStart);
+    }
+
+    function onBackgroundClicked() {
+        let event : Events.BACKGROUND_CLICKED_EVENT_CONFIG = {
+            eventId : Events.EEventType.BACKGROUND_CLICKED_EVENT,
+            data : {
+                mouseX : GlobalData.mouseX,
+                mouseY : GlobalData.mouseY
+            }
+        }
+        EventHandler.pushEvent(event);
     }
 }

@@ -133,7 +133,7 @@ export module GUI {
         handleHTMLBlockPhaserInputWorkaround();
     }
 
-    export function onBackgroundClicked(event : Events.BACKGROUND_CLICKED_EVENT_CONFIG) {
+    function onBackgroundClicked(event : Events.BACKGROUND_CLICKED_EVENT_CONFIG) {
         backgroundClickedThisFrame = true;
         backgroundClickedX = event.data.mouseX;
         backgroundClickedY = event.data.mouseY;

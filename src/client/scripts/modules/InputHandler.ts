@@ -2,6 +2,7 @@ import { GameScene } from "../scenes/GameScene";
 import { EventHandler } from "./EventHandler";
 import { Events } from "../../../shared/scripts/Events";
 import { Background } from "./Background";
+import { GlobalData } from "./GlobalData";
 
 export module InputHandler {
 
@@ -22,23 +23,11 @@ export module InputHandler {
         mouseInput = gameScene.input.activePointer;
         mouseManager = gameScene.input.mouse;
         mouseManager.disableContextMenu();
-
-        Background.getSpaceBackground().on('pointerdown', onBackgroundClicked);
     }
 
     export function update(time : number, delta : number) {
-
-    }
-
-    function onBackgroundClicked() {
-        let event : Events.BACKGROUND_CLICKED_EVENT_CONFIG = {
-            eventId : Events.EEventType.BACKGROUND_CLICKED_EVENT,
-            data : {
-                mouseX : mouseInput.x,
-                mouseY : mouseInput.y
-            }
-        }
-        EventHandler.pushEvent(event);
+        GlobalData.mouseX = mouseInput.x;
+        GlobalData.mouseY = mouseInput.y;
     }
 
     function onKeyUpPressed() {
