@@ -22,7 +22,12 @@ export module Events {
         PLAYER_SET_NEW_DESTINATION_EVENT,
 
         //GameState changes events
-        SPACE_SCENE_GAME_STATE_EVENT
+        SPACE_SCENE_GAME_STATE_EVENT,
+
+        //Input
+        KEY_PRESSED_EVENT,
+        MOUSE_PRESSED_EVENT,
+        BACKGROUND_CLICKED_EVENT,
 
         /*
             SERVER EVENTS
@@ -58,5 +63,27 @@ export module Events {
             shipId : number 
         }
     }
+
+    export interface KEY_PRESSED_EVENT_CONFIG extends GameEvent {
+        data : {
+            key : String
+        }
+    }
+
+    export interface MOUSE_PRESSED_EVENT_CONFIG extends GameEvent {
+        data : {
+            mouseX : number;
+            mouseY : number;
+        }
+    }
+
+    export interface BACKGROUND_CLICKED_EVENT_CONFIG extends GameEvent {
+        data : {
+            mouseX : number;
+            mouseY : number;
+        }
+    }
+
+    
 }
 

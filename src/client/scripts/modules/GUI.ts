@@ -40,18 +40,16 @@ export module GUI {
     let swsc_cargo_hold : HTMLElement;
     let swsc_acceleration : HTMLElement;
 
-    let mouseInput : Phaser.Input.Pointer;
-    let mouseManager : Phaser.Input.Mouse.MouseManager;
     let backgroundClickedThisFrame : boolean;
+    let backgroundClickedX : number;
+    let backgroundClickedY : number;
     let htmlElementClickedThisFrame : boolean;
     let counterToFireNewDestination : number;
 
     export function init() {
         let gameScene : GameScene = GameScene.getInstance();
-        mouseInput = gameScene.input.activePointer;
-        mouseManager = gameScene.input.mouse;
+       
         gameScene.input.mouse.capture = true;
-        mouseManager.disableContextMenu();
 
         coordinateDisplay = document.getElementById("coord_display");
         shipHud = document.getElementById("ship_hud_display");
@@ -135,8 +133,10 @@ export module GUI {
         handleHTMLBlockPhaserInputWorkaround();
     }
 
-    export function onBackgroundClicked() {
+    export function onBackgroundClicked(event : Events.BACKGROUND_CLICKED_EVENT_CONFIG) {
         backgroundClickedThisFrame = true;
+        backgroundClickedX = event.data.mouseX;
+        backgroundClickedY = event.data.mouseY;
     }
 
     function handleHTMLBlockPhaserInputWorkaround() {
@@ -159,7 +159,7 @@ export module GUI {
     }
 
     function newDestination() {
-        let newDestination : Phaser.Math.Vector2 = Utils.screenVecToMapVec(new Phaser.Math.Vector2(mouseInput.x * GlobalData.cameraZoom, mouseInput.y * GlobalData.cameraZoom));
+        let newDestination : Phaser.Math.Vector2 = Utils.screenVecToMapVec(new Phaser.Math.Vector2(backgroundClickedX * GlobalData.cameraZoom, backgroundClickedY * GlobalData.cameraZoom));
         let event : Events.PLAYER_SET_NEW_DESTINATION_EVENT_CONFIG = {
             eventId : Events.EEventType.PLAYER_SET_NEW_DESTINATION_EVENT,
             data : { 
@@ -245,5 +245,6 @@ export module GUI {
 
     function subscribeToEvents() {
         EventHandler.on(Events.EEventType.SPACE_SCENE_GAME_STATE_EVENT, onSpaceSceneGameEvent);
+        EventHandler.on(Events.EEventType.BACKGROUND_CLICKED_EVENT, onBackgroundClicked);
     }
 }

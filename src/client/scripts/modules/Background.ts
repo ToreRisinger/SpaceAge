@@ -29,6 +29,10 @@ export module Background {
         spaceBackground.setDisplaySize(newBackgroundSize, newBackgroundSize);
     }
 
+    export function getSpaceBackground() {
+        return spaceBackground;
+    }
+
     function onSpaceSceneStart() {
         loadingBackground.destroy();
     }
@@ -44,7 +48,7 @@ export module Background {
     function createBackground() {
         spaceBackground = GameScene.getInstance().add.sprite(0, 0, CONSTANTS.IMAGE.SPACE_BACKGROUND_1);
         spaceBackground.setInteractive();
-        spaceBackground.on('pointerdown', GUI.onBackgroundClicked);
+        
         spaceBackground.setDepth(DRAW_LAYERS.BACKGROUND_LAYER);
 
         spaceBackground.setX(GlobalData.cameraX);

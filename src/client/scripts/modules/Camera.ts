@@ -1,6 +1,8 @@
 import { GameScene } from "../scenes/GameScene";
 import { GameObject } from "../game_objects/GameObject";
 import { GlobalData } from "./GlobalData";
+import { EventHandler } from "./EventHandler";
+import { Events } from "../../../shared/scripts/Events";
 
 export module Camera {
 
@@ -9,8 +11,6 @@ export module Camera {
     let y : integer;
     let width : number;
     let height : number;
-    let upKey : Phaser.Input.Keyboard.Key;
-    let downKey : Phaser.Input.Keyboard.Key;
     let currentZoom : number;
     let maxZoom : number;
     let minZoom : number;
@@ -23,15 +23,12 @@ export module Camera {
         y = 0;
 
         camera.centerOn(x, y);
-        upKey = GameScene.getInstance().input.keyboard.addKey('up');
-        downKey = GameScene.getInstance().input.keyboard.addKey('down');
 
         currentZoom = 1;
         minZoom = 1;
         maxZoom = 32;
 
-        upKey.on('down', onUpKeyPressed);
-        downKey.on('down', onDownKeyPressed);
+        subscribeToEvents();
     }
 
     export function update(time : number, delta : number) {
@@ -61,17 +58,31 @@ export module Camera {
         } 
     }
 
-    function onUpKeyPressed(event : any) {
+    function onKeyPressed(event : Events.KEY_PRESSED_EVENT_CONFIG) {
+        if(event.data.key == "up") {
+            onKeyUpPressed();
+        }
+
+        if(event.data.key == "down") {
+            onDownKeyPressed();
+        }
+    }
+
+    function onKeyUpPressed() {
         if(currentZoom < maxZoom) {
             currentZoom = currentZoom * 2;
             camera.zoom = camera.zoom / 2;
         }
     }
 
-    function onDownKeyPressed(event : any) {
+    function onDownKeyPressed() {
         if(currentZoom > minZoom) {
             currentZoom = currentZoom / 2;
             camera.zoom = camera.zoom * 2;
         }
+    }
+
+    function subscribeToEvents() {
+        EventHandler.on(Events.EEventType.KEY_PRESSED_EVENT, onKeyPressed);
     }
 }
