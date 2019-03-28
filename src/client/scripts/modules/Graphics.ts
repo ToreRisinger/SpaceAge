@@ -3,6 +3,7 @@ import { GameObjectHandler } from "./GameObjectHandler";
 import { Ship } from "../game_objects/Ship";
 import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
 import { Camera } from "./Camera";
+import { ObjectInterfaces } from "../../../shared/scripts/ObjectInterfaces";
 
 
 export module Graphics {
@@ -30,12 +31,20 @@ export module Graphics {
 
         let ship : Ship | undefined = <Ship>GameObjectHandler.getShip();
        
-        if(ship != undefined && ship.getIsMoving()) {
-            line.setTo(ship.getPos().x, ship.getPos().y, ship.getDestinationPos().x, ship.getDestinationPos().y);
-            lineGraphics.strokeLineShape(line).setDepth(DRAW_LAYERS.DESTINATION_LINE_LAYER);
+        if(ship != undefined) {
+            if(ship.getIsMoving()) {
+                line.setTo(ship.getPos().x, ship.getPos().y, ship.getDestinationPos().x, ship.getDestinationPos().y);
+                lineGraphics.strokeLineShape(line).setDepth(DRAW_LAYERS.DESTINATION_LINE_LAYER);
+    
+                circle.setTo(ship.getDestinationPos().x, ship.getDestinationPos().y, 5 * cameraZoom);
+                circleGraphics.strokeCircleShape(circle).setDepth(DRAW_LAYERS.DESTINATION_LINE_LAYER);
+            }
+            
+            circle.setTo(ship.getShipData().x, ship.getShipData().y, ship.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.radar_range]);
+            circleGraphics.strokeCircleShape(circle).setDepth(DRAW_LAYERS.GRAPHICS_LAYER);
 
-            circle.setTo(ship.getDestinationPos().x, ship.getDestinationPos().y, 5 * cameraZoom);
-            circleGraphics.strokeCircleShape(circle).setDepth(DRAW_LAYERS.DESTINATION_LINE_LAYER);
+            circle.setTo(ship.getShipData().x, ship.getShipData().y, ship.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.gravity_detection_range]);
+            circleGraphics.strokeCircleShape(circle).setDepth(DRAW_LAYERS.GRAPHICS_LAYER);
         }
     }
 

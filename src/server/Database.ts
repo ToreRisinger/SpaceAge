@@ -53,7 +53,7 @@ export module Database {
             [ObjectInterfaces.ShipStatTypeEnum.shield_impact_resistance] : 0,
             [ObjectInterfaces.ShipStatTypeEnum.targeting_systems] : 0,
             [ObjectInterfaces.ShipStatTypeEnum.thrust] : 0,
-            [ObjectInterfaces.ShipStatTypeEnum.vision_range] : 0,
+            [ObjectInterfaces.ShipStatTypeEnum.radar_range] : 0,
             [ObjectInterfaces.ShipStatTypeEnum.weight] : 0
           },
           properties : {

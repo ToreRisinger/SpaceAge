@@ -226,7 +226,7 @@ export module GUI {
         swsc_hull.textContent = String(ship.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.hull]);
         swsc_armor.textContent = String(ship.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.armor]);
         swsc_shield.textContent = String(ship.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.shield]);
-        swsc_vision_range.textContent = String(ship.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.vision_range]);
+        swsc_vision_range.textContent = String(ship.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.radar_range]);
         swsc_gravity_detection_range.textContent = String(ship.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.gravity_detection_range]);
         swsc_shield_generation.textContent = String(ship.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.shield_generation]);
         swsc_armor_repair.textContent = String(ship.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.armor_repair]);

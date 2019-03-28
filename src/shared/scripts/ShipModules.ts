@@ -47,9 +47,15 @@ export module ShipModules {
                         modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.vision_range,
-                        max : 20,
-                        min : 10,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.radar_range,
+                        max : 2000,
+                        min : 1000,
+                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                    },
+                    {
+                        stat: ObjectInterfaces.ShipStatTypeEnum.gravity_detection_range,
+                        max : 10000,
+                        min : 3000,
                         modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     },
                     {
@@ -96,7 +102,7 @@ export module ShipModules {
                 ],
                 possibleExtraStats : [
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.vision_range,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.radar_range,
                         max : 4,
                         min : 1,
                         modifier : ObjectInterfaces.ShipStatModifierEnum.increase
@@ -204,7 +210,7 @@ export module ShipModules {
             stats : {
                 base: [
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.vision_range,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.radar_range,
                         max : 4,
                         min : 2,
                         modifier : ObjectInterfaces.ShipStatModifierEnum.increase
