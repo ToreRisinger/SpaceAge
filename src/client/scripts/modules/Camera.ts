@@ -1,10 +1,9 @@
-import { GameObjectHandler } from "./GameObjectHandler";
 import { GameScene } from "../scenes/GameScene";
 import { GameObject } from "../game_objects/GameObject";
+import { GlobalData } from "./GlobalData";
 
 export module Camera {
 
-    let centerCameraOnShip : boolean = false;
     let camera : Phaser.Cameras.Scene2D.Camera;
     let x : integer;
     let y : integer;
@@ -37,33 +36,12 @@ export module Camera {
 
     export function update(time : number, delta : number) {
         centerOnPlayer();
-    }
 
-    function centerOnPlayer() {
-        if(centerCameraOnShip) {
-            let ship : GameObject | undefined =  GameObjectHandler.getShip();
-            if(ship != undefined){
-                x = Math.floor(ship.getPos().x);
-                y = Math.floor(ship.getPos().y);
-                camera.centerOn(x, y);
-            }
-        }
-    }
-
-    export function getX() {
-        return x;
-    }
-
-    export function getY() {
-        return y;
-    }
-
-    export function getWidth() {
-        return width * currentZoom;
-    }
-
-    export function getHeight() {
-        return height * currentZoom;
+        GlobalData.cameraZoom = currentZoom;
+        GlobalData.cameraX = x;
+        GlobalData.cameraY = y;
+        GlobalData.cameraWidth = width * currentZoom;
+        GlobalData.cameraHeight = height * currentZoom;  
     }
 
     export function setSize(w : number, h : number) {
@@ -74,12 +52,13 @@ export module Camera {
         centerOnPlayer();
     }
 
-    export function centerCamera(value : boolean) {
-        centerCameraOnShip = value;
-    }
-
-    export function getZoom() {
-        return currentZoom;
+    function centerOnPlayer() {
+        let ship : GameObject | undefined =  GlobalData.playerShip;
+        if(ship != undefined){
+            x = Math.floor(ship.getPos().x);
+            y = Math.floor(ship.getPos().y);
+            camera.centerOn(x, y);
+        } 
     }
 
     function onUpKeyPressed(event : any) {

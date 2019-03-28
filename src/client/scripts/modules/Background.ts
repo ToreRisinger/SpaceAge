@@ -1,10 +1,10 @@
 import { CONSTANTS } from "../constants/CONSTANTS";
-import { Camera } from "./Camera"
 import { GameScene } from "../scenes/GameScene"
 import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
 import { EventHandler } from "./EventHandler";
 import { Events } from "../../../shared/scripts/Events";
 import { GUI } from "./GUI";
+import { GlobalData } from "./GlobalData";
 
 export module Background {
 
@@ -23,11 +23,10 @@ export module Background {
     }
 
     export function update(time : number, delta : number) {
-        let newBackgroundSize = BACKRGOUND_SIZE * Camera.getZoom();
-        spaceBackground.setX(Camera.getX());
-        spaceBackground.setY(Camera.getY());
+        let newBackgroundSize = BACKRGOUND_SIZE * GlobalData.cameraZoom;
+        spaceBackground.setX(GlobalData.cameraX);
+        spaceBackground.setY(GlobalData.cameraY);
         spaceBackground.setDisplaySize(newBackgroundSize, newBackgroundSize);
-        
     }
 
     function onSpaceSceneStart() {
@@ -38,8 +37,8 @@ export module Background {
         loadingBackground = GameScene.getInstance().add.sprite(0, 0, CONSTANTS.IMAGE.LOADING_BACKGROUND);
         loadingBackground.setDepth(DRAW_LAYERS.COVER_EVERYTHING_LAYER);
 
-        loadingBackground.setX(Camera.getX());
-        loadingBackground.setY(Camera.getY());
+        loadingBackground.setX(GlobalData.cameraX);
+        loadingBackground.setY(GlobalData.cameraY);
     }
 
     function createBackground() {
@@ -48,8 +47,8 @@ export module Background {
         spaceBackground.on('pointerdown', GUI.onBackgroundClicked);
         spaceBackground.setDepth(DRAW_LAYERS.BACKGROUND_LAYER);
 
-        spaceBackground.setX(Camera.getX());
-        spaceBackground.setY(Camera.getY());
+        spaceBackground.setX(GlobalData.cameraX);
+        spaceBackground.setY(GlobalData.cameraY);
     }
 
     function subscribeToEvents() {

@@ -1,11 +1,10 @@
-import { GameObjectHandler } from "./GameObjectHandler";
 import { GameScene } from "../scenes/GameScene";
 import { Events } from "../../../shared/scripts/Events";
 import { Utils } from "./Utils";
 import { EventHandler } from "./EventHandler";
 import { Ship } from "../game_objects/Ship";
 import { ObjectInterfaces } from "../../../shared/scripts/ObjectInterfaces"
-import { Camera } from "./Camera";
+import { GlobalData } from "./GlobalData";
 
 export module GUI {
 
@@ -117,7 +116,7 @@ export module GUI {
     }
 
     export function update(time : number, delta : number) {
-        let ship : Ship | undefined =  GameObjectHandler.getShip();
+        let ship : Ship | undefined =  GlobalData.playerShip;
         if(ship != undefined){
             //@ts-ignore
             coordinateDisplay.textContent = "(" + Math.floor(ship.getPos().x) + ", " + Math.floor(ship.getPos().y) + ")";
@@ -160,7 +159,7 @@ export module GUI {
     }
 
     function newDestination() {
-        let newDestination : Phaser.Math.Vector2 = Utils.screenVecToMapVec(new Phaser.Math.Vector2(mouseInput.x * Camera.getZoom(), mouseInput.y * Camera.getZoom()));
+        let newDestination : Phaser.Math.Vector2 = Utils.screenVecToMapVec(new Phaser.Math.Vector2(mouseInput.x * GlobalData.cameraZoom, mouseInput.y * GlobalData.cameraZoom));
         let event : Events.PLAYER_SET_NEW_DESTINATION_EVENT_CONFIG = {
             eventId : Events.EEventType.PLAYER_SET_NEW_DESTINATION_EVENT,
             data : { 
@@ -218,7 +217,8 @@ export module GUI {
     }
 
     function onSpaceSceneGameEvent() {
-        let ship : Ship =  GameObjectHandler.getShip();
+        //@ts-ignore
+        let ship : Ship =  GlobalData.playerShip;
         
         swsc_thrust.textContent = String(ship.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.thrust]);
         swsc_max_speed.textContent = String(ship.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.max_speed]);

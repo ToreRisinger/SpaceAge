@@ -2,8 +2,8 @@ import { EventHandler } from "./EventHandler"
 import { Events } from "../../../shared/scripts/Events"
 import { Ship } from "../game_objects/Ship";
 import { GameObject } from "../game_objects/GameObject";
-import { Camera } from "./Camera";
 import { ObjectInterfaces } from "../../../shared/scripts/ObjectInterfaces";
+import { GlobalData } from "./GlobalData";
 
 export module GameObjectHandler {
 
@@ -18,12 +18,6 @@ export module GameObjectHandler {
         gameObjects.forEach((object: GameObject, key: number) => {
             object.update();
         });
-        
-    }
-
-    export function getShip() : Ship {
-        //@ts-ignore
-        return gameObjects.get(thisShipId);
     }
 
     function onInitialGameLoad(eventData : Events.INITAL_GAME_LOAD_EVENT_CONFIG) {
@@ -33,8 +27,9 @@ export module GameObjectHandler {
       
         thisShipId = ship.id;
         gameObjects.set(thisShipId, newShip);
+
         //@ts-ignore
-        Camera.centerCamera(true);
+        GlobalData.playerShip = gameObjects.get(thisShipId);
 
         subscribeToEvents();
     }

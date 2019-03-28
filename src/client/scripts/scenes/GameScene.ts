@@ -53,12 +53,12 @@ export class GameScene extends Phaser.Scene {
 
     update(time : number, delta : number) { //delta 16.666 @ 60fps
         EventHandler.update(time, delta);
-        GameObjectHandler.update(time, delta);
-        Chat.update(time, delta);
+        GameObjectHandler.update(time, delta);   
         Camera.update(time, delta);
         Background.update(time, delta);
         Graphics.update(time, delta);
         GUI.update(time, delta);
+        Chat.update(time, delta);
     }
 
     addSprite(x : number, y : number, sprite : string) {
