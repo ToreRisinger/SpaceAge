@@ -184,14 +184,13 @@ export const SPRITES = {
         }
     },
 
-    //Outlines
-    MODULE_OUTLINE_RED: {
+    SHIP_ICON: {
         animation : undefined,
         sprite : {
-            key: "module_outline_red",
-            file: "modules/module_outline_red.png",
-            width: 42,
-            height: 42
+            key: "ship_icon",
+            file: "icons/ship_icon.png",
+            width: 19,
+            height: 19
         }
     }
 }

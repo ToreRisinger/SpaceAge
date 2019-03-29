@@ -9,7 +9,7 @@ export class GameObject {
     }
 
     public getPos() {
-        return new Phaser.Math.Vector2(this.game_object_config.x, this.game_object_config.y);
+        return new Phaser.Math.Vector2(Math.floor(this.game_object_config.x), Math.floor(this.game_object_config.y));
     }
 
     public update() {

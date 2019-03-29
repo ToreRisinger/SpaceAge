@@ -1,8 +1,9 @@
 import { GameObject } from "./GameObject";
 import { ObjectInterfaces } from "../../../shared/scripts/ObjectInterfaces"
 import { ShipSprite } from "./ShipSprite";
+import { VisibleObject } from "./VisibleObject";
 
-export class Ship extends GameObject {
+export class Ship extends VisibleObject {
 
     private ship_config : ObjectInterfaces.IShip;
     //@ts-ignore
@@ -17,17 +18,17 @@ export class Ship extends GameObject {
     }
 
     private buildShip() {
-        this.shipSprite = new ShipSprite(this.ship_config.modules, new Phaser.Math.Vector2(this.ship_config.x, this.ship_config.y), this.thisPlayerShip);
+        this.shipSprite = new ShipSprite(this.ship_config.modules, this.getPos(), this.thisPlayerShip, this);
     }
 
     public updateDataObjectConfig(ship_config : ObjectInterfaces.IShip) {
         super.updateDataObjectConfig(ship_config);
         this.ship_config = ship_config;
-        this.shipSprite.updateSpritePosition(new Phaser.Math.Vector2(this.ship_config.x, this.ship_config.y));
     }
 
     public update() {
-        
+        this.shipSprite.updateSpritePosition(this.getPos());
+        super.update()
     }
 
     public getIsMoving() {
@@ -35,11 +36,12 @@ export class Ship extends GameObject {
     }
 
     public getDestinationPos() {
-        return new Phaser.Math.Vector2(this.ship_config.destinationX, this.ship_config.destinationY);
+        return new Phaser.Math.Vector2(Math.floor(this.ship_config.destinationX), Math.floor(this.ship_config.destinationY));
     }
 
     public destroy() {
         this.shipSprite.destroy();
+        super.destroy();
     }
 
     public getShipData() :  ObjectInterfaces.IShip {

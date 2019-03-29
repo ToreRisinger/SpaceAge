@@ -3,31 +3,28 @@ import { GameScene } from "../scenes/GameScene";
 import { SPRITES } from "../../../shared/scripts/SPRITES";
 import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
 import { ShipModules } from "../../../shared/scripts/ShipModules"
+import { Ship } from "./Ship";
 
 interface IShipModuleWithSprite { 
     module: ObjectInterfaces.IModule, 
     x : number, 
     y : number, 
-    sprite : Phaser.GameObjects.Sprite, 
-    outlineSprite : Phaser.GameObjects.Sprite
+    sprite : Phaser.GameObjects.Sprite
 }
 
 export class ShipSprite {
-
-    //@ts-ignore
-    private shipSpriteGroup : Phaser.GameObjects.Group;
-    //@ts-ignore
-    private shipSpriteOutlineGroup : Phaser.GameObjects.Group;
 
     private posVec : Phaser.Math.Vector2;
 
     //@ts-ignore
     private shipModulesWithSprites : Array<IShipModuleWithSprite>;
     private thisPlayerShip : boolean;
+    private thisShip : Ship;
 
-    constructor(shipModules :  Array<{ module: ObjectInterfaces.IModule, x : number, y : number }>, posVec : Phaser.Math.Vector2, thisPlayerShip : boolean) {
+    constructor(shipModules :  Array<{ module: ObjectInterfaces.IModule, x : number, y : number }>, posVec : Phaser.Math.Vector2, thisPlayerShip : boolean, ship: Ship) {
         this.posVec = posVec;
         this.thisPlayerShip = thisPlayerShip;
+        this.thisShip = ship;
         this.buildSprite(shipModules);
     }
 
@@ -35,8 +32,6 @@ export class ShipSprite {
         function setModulePosition(module : IShipModuleWithSprite, newPosVec : Phaser.Math.Vector2) {
             module.sprite.x = Math.floor(newPosVec.x) + module.x * 38;
             module.sprite.y = Math.floor(newPosVec.y) + module.y * 38;
-            module.outlineSprite.x = Math.floor(newPosVec.x) + module.x * 38;
-            module.outlineSprite.y = Math.floor(newPosVec.y) + module.y * 38;
         }
 
         this.shipModulesWithSprites.forEach(module => setModulePosition(module, newPosVec))
@@ -47,13 +42,11 @@ export class ShipSprite {
         for(let i = 0; i < shipModules.length; i++) {
             let shipModule = shipModules[i];
             let sprite = GameScene.getInstance().addSprite(this.posVec.x + shipModule.x * 38, this.posVec.x + shipModule.y * 38, ShipModules.getModuleInfo(shipModule.module.module_type).sprite.key);
-            let outlineSprite = GameScene.getInstance().addSprite(this.posVec.x + shipModule.x * 38, this.posVec.x + shipModule.y * 38, SPRITES.MODULE_OUTLINE_RED.sprite.key);
             let module = {
                 module : shipModule.module,
                 x : shipModule.x,
                 y : shipModule.y,
-                sprite : sprite,
-                outlineSprite : outlineSprite
+                sprite : sprite
             }
                 
             if(ShipModules.getModuleInfo(module.module.module_type).animation != undefined) {
@@ -63,26 +56,16 @@ export class ShipSprite {
 
             module.sprite.setInteractive();
             module.sprite.on('pointerover', () => {
-                this.shipModulesWithSprites.forEach(module => {
-                    //@ts-ignore
-                    module.outlineSprite.setVisible(true) 
-                })
+                this.thisShip.setIsHoverOrSelected(true);
             });
             module.sprite.on('pointerout', () =>  {
-                this.shipModulesWithSprites.forEach(module => {
-                    //@ts-ignore
-                    module.outlineSprite.setVisible(false) 
-                })
+                this.thisShip.setIsHoverOrSelected(false);
             });
             
-            module.outlineSprite.setVisible(false);
-
             if(this.thisPlayerShip) {
                 module.sprite.setDepth(DRAW_LAYERS.THIS_PLAYER_SHIP_LAYER);
-                module.outlineSprite.setDepth(DRAW_LAYERS.THIS_PLAYER_SHIP_OUTLINE_LAYER);
             } else {
                 module.sprite.setDepth(DRAW_LAYERS.OTHER_SHIP_LAYER);
-                module.outlineSprite.setDepth(DRAW_LAYERS.OTHER_SHIP_OUTLINE_LAYER);
             }
             this.shipModulesWithSprites.push(module);
         }
@@ -90,7 +73,6 @@ export class ShipSprite {
 
     public destroy() {
         this.shipModulesWithSprites.forEach(module => module.sprite.destroy());
-        this.shipModulesWithSprites.forEach(module => module.outlineSprite.destroy());
     }
 
 }
