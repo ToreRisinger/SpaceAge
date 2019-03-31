@@ -8,14 +8,13 @@ import { GlobalData } from "./GlobalData";
 
 export module GUI {
 
-    let coordinateDisplay : HTMLElement | null;
     let shipHud : HTMLElement | null;
     let shipHudSpeed : HTMLElement | null;
     let ship_hud_shield_display : HTMLElement | null;
     let ship_hud_armor_display : HTMLElement | null;
     let ship_hud_hull_display : HTMLElement | null;
-    let left_menu : HTMLElement | null;
-    let left_menu_ship_button : HTMLElement | null;
+    let ship_hud_coordinate_display : HTMLElement | null;
+    let ship_window_button : HTMLElement | null;
     let ship_window : HTMLElement | null;
 
     let swsc_thrust : HTMLElement;
@@ -51,14 +50,13 @@ export module GUI {
        
         gameScene.input.mouse.capture = true;
 
-        coordinateDisplay = document.getElementById("coord_display");
         shipHud = document.getElementById("ship_hud_display");
         shipHudSpeed = document.getElementById("ship_hud_speed_display");
         ship_hud_shield_display = document.getElementById("ship_hud_shield_display");
         ship_hud_armor_display = document.getElementById("ship_hud_armor_display");
         ship_hud_hull_display = document.getElementById("ship_hud_hull_display");
-        left_menu = document.getElementById("left_menu");
-        left_menu_ship_button = document.getElementById("left_menu_ship_button");
+        ship_hud_coordinate_display = document.getElementById("ship_hud_coordinate_display");
+        ship_window_button = document.getElementById("ship_window_button");
         ship_window = document.getElementById("ship_window");
 
         //@ts-ignore
@@ -117,8 +115,6 @@ export module GUI {
         let ship : Ship | undefined =  GlobalData.playerShip;
         if(ship != undefined){
             //@ts-ignore
-            coordinateDisplay.textContent = "(" + Math.floor(ship.getPos().x) + ", " + Math.floor(ship.getPos().y) + ")";
-            //@ts-ignore
             shipHudSpeed.textContent = Math.floor(new Phaser.Math.Vector2(ship.getShipData().velVec[0], ship.getShipData().velVec[1]).length()) + " m/s";
             //@ts-ignore
             ship_hud_shield_display.textContent = ship.getShipData().properties.currentShield;
@@ -126,6 +122,8 @@ export module GUI {
             ship_hud_armor_display.textContent = ship.getShipData().properties.currentArmor;
             //@ts-ignore
             ship_hud_hull_display.textContent = ship.getShipData().properties.currentHull;
+            //@ts-ignore
+            ship_hud_coordinate_display.textContent = "(" + Math.floor(ship.getPos().x) + ", " + Math.floor(ship.getPos().y) + ")";
         }
 
         //TODO new phaser version hopefully makes it possible for
@@ -174,8 +172,6 @@ export module GUI {
 
     function setupOnClickFunctions() {
         //@ts-ignore
-        coordinateDisplay.onclick = doNothing;
-        //@ts-ignore
         shipHud.onclick = doNothing;
         //@ts-ignore
         shipHudSpeed.onclick = doNothing;
@@ -185,10 +181,10 @@ export module GUI {
         ship_hud_armor_display.onclick = doNothing;
         //@ts-ignore
         ship_hud_hull_display.onclick = doNothing;
+         //@ts-ignore
+         ship_hud_coordinate_display.onclick = doNothing;
         //@ts-ignore
-        left_menu.onclick = doNothing;
-        //@ts-ignore
-        left_menu_ship_button.onclick = openShipButtonClicked;
+        ship_window_button.onclick = openShipButtonClicked;
         //@ts-ignore
         ship_window.onclick = doNothing;
     }
@@ -198,6 +194,7 @@ export module GUI {
     }
 
     function openShipButtonClicked() {
+        htmlElementClickedThisFrame = true;
         closeAllOtherWindows();
 
         //@ts-ignore

@@ -26,7 +26,7 @@ export module Camera {
 
         currentZoom = 1;
         minZoom = 1;
-        maxZoom = 32;
+        maxZoom = 128;
 
         subscribeToEvents();
     }

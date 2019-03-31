@@ -13,7 +13,7 @@ body {
     color: rgba(195, 145, 120);
     font-family: consolas;
     z-index: 11;
-    font-size: 12px;
+    font-size: 9px;
 }
 
 #game_root_container {
@@ -25,85 +25,80 @@ body {
     border: 0;
 }
 
-#coord_display {
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    padding: 10px;
-}
-
 #ship_hud_display {
     margin: auto;  
     position: absolute;
     left:0;
     right: 0;
     bottom: 10px;
-    height: 105px;
+    height: 80px;
     width: 150px; 
 }
 
 #ship_hud_speed_display {
     margin-top: 5px;
-    height: 25px;
+    height: 15px;
     background-color: rgba(0, 0, 0, 0.0);
     text-align: center;
 }
 
 #ship_hud_shield_display {
-    height: 25px;
+    height: 15px;
     background-color: rgba(0, 0, 0, 0.0);
     text-align: center;
     color: rgba(86, 156, 214);
 }
 
 #ship_hud_armor_display {
-    height: 25px;
+    height: 15px;
     background-color: rgba(0, 0, 0, 0.0);
     text-align: center;
     color: rgba(156, 220, 254);
 }
 
 #ship_hud_hull_display {
-    height: 25px;
+    height: 15px;
     background-color: rgba(0, 0, 0, 0.0);
     text-align: center;
     color:white;
 }
 
-#left_menu {
+#ship_hud_coordinate_display {
+    height: 15px;
+    background-color: rgba(0, 0, 0, 0.0);
+    text-align: center;
+}
+
+#ship_window_button {
     position: absolute;
-    height: 100%;
-    margin-left: 0;
-    width: 36px;
-    border-right: 1px solid rgb(40, 40, 40);
-}
-
-#left_menu_ship_button {
-    height: 60px;
-    margin-top: 0px;
-    background-color: rgba(0, 0, 0, 0.0);
+    height: 15px;
+    width: 15px;
+    margin-top: 5px;
+    margin-left: 0px;
     text-align: center;
     color:white;
+    border: 1px solid rgb(40, 40, 40);
 }
 
-#left_menu_ship_button:hover { 
+#ship_window_button:hover { 
     background-color: rgba(355, 355, 355, 0.2);
 }
 
-#left_menu_ship_button_icon {
-    width: 30px;
-    height: 30px;
-    margin-left: 3px;
-    margin-right: 3px;
-    margin-top: 15px;
+#ship_window_button_icon {
+    width: 15px;
+    height: 15px;
 }
 
 #ship_window {
     position: absolute;
     visibility: hidden;
-    height: 100%;
-    width: 350px;
-    margin-left: 37px;
+    margin: auto;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    height: 400px;
+    width: 600px;
 }
 
 #ship_window_title {
@@ -116,7 +111,7 @@ body {
 .swst {
     margin-left: 5px;
     margin-top: 25px;
-    width: 100%;
+    width: 250px;
     background-color: rgba(0, 0, 0, 0.0);
 }
 
