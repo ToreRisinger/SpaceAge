@@ -84,6 +84,13 @@ export module Events {
         }
     }
 
+    export interface CHAT_MESSAGE_EVENT_CONFIG extends GameEvent {
+        data : {
+            sender : String;
+            message : String;
+        }
+    }
+ 
     
 }
 

@@ -8,6 +8,7 @@ export module InputHandler {
 
     let upKey : Phaser.Input.Keyboard.Key;
     let downKey : Phaser.Input.Keyboard.Key;
+    let enterKey : Phaser.Input.Keyboard.Key;
 
     let mouseInput : Phaser.Input.Pointer;
     let mouseManager : Phaser.Input.Mouse.MouseManager;
@@ -17,8 +18,10 @@ export module InputHandler {
 
         upKey = GameScene.getInstance().input.keyboard.addKey('up');
         downKey = GameScene.getInstance().input.keyboard.addKey('down');
+        enterKey = GameScene.getInstance().input.keyboard.addKey('ENTER');
         upKey.on('down', onKeyUpPressed);
         downKey.on('down', onKeyDownPressed);
+        enterKey.on('down', onKeyEnterPressed);
 
         mouseInput = gameScene.input.activePointer;
         mouseManager = gameScene.input.mouse;
@@ -36,6 +39,10 @@ export module InputHandler {
 
     function onKeyDownPressed() {
         onKeyPressed("down");
+    }
+
+    function onKeyEnterPressed() {
+        onKeyPressed("enter");
     }
 
     function onKeyPressed(key : String) {

@@ -13,6 +13,8 @@
     <script src = "./phaser.js"></script>
     <script src = "./bundle.js"></script> 
     <div id="game_root_container">
+
+        <!-- UI components -->
         <div id="ship_hud_display" class="UIComponent Unselectable">
             <div id="ship_hud_speed_display" class="UIComponent Unselectable">
                 <span class="Tooltip Unselectable UIComponent">Velocity</span>
@@ -31,7 +33,11 @@
             </div>
         </div>
 
-         <!-- Buttons -->
+        <div id="chat_window" class="UIComponent Unselectable">
+                <input type="text" id="chat_window_input">
+        </div>
+
+        <!-- Buttons -->
         <div id="ship_window_button" class="UIComponent Unselectable">
             <img id="ship_window_button_icon" src="assets/image/ship_icon.png">
         </div>  

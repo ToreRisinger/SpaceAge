@@ -153,6 +153,10 @@ export module Server {
           onPlayerSetNewDestinationEvent(player, event);
           break;
         }
+        case Events.EEventType.CHAT_MESSAGE_EVENT : {
+          onChatMessageEvent(player, event);
+          break;
+        }
         default: {
           break;
         }
@@ -169,5 +173,9 @@ export module Server {
         player.ship.destinationX = event.data.destinationX;
         player.ship.destinationY = event.data.destinationY;
       } 
+    }
+
+    function onChatMessageEvent(player : ObjectInterfaces.IPlayer, event : Events.CHAT_MESSAGE_EVENT_CONFIG) {
+      console.log(event.data.sender + ": " + event.data.message);
     }
 }

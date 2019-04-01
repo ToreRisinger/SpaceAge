@@ -16,7 +16,8 @@ export module GUI {
     let ship_hud_coordinate_display : HTMLElement | null;
     let ship_window_button : HTMLElement | null;
     let ship_window : HTMLElement | null;
-
+    let chat_window : HTMLElement | null;
+    
     let swsc_thrust : HTMLElement;
     let swsc_max_speed : HTMLElement;
     let swsc_weight : HTMLElement;
@@ -58,6 +59,7 @@ export module GUI {
         ship_hud_coordinate_display = document.getElementById("ship_hud_coordinate_display");
         ship_window_button = document.getElementById("ship_window_button");
         ship_window = document.getElementById("ship_window");
+        chat_window = document.getElementById("chat_window");
 
         //@ts-ignore
         swsc_thrust = document.getElementById("swsc_thrust");
@@ -187,6 +189,8 @@ export module GUI {
         ship_window_button.onclick = openShipButtonClicked;
         //@ts-ignore
         ship_window.onclick = doNothing;
+        //@ts-ignore
+        chat_window.onclick = doNothing;
     }
 
     function doNothing() {
