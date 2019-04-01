@@ -20,7 +20,6 @@ export module Database {
           destinationY : 0,
           acceleration : 0.2,
           velVec : [0, 0],
-          maxSpeed : 10,
           modules : [
                         //TODO load from data base, dont create new shit
                         {module: ItemFactory.createModule(ShipModules.SHIP_MODULE_TYPE_ENUM.POWER_GENERATOR_MODULE_I, 1), x: -1, y : -1},
@@ -65,6 +64,7 @@ export module Database {
 
         let updatedShip = updateShipProperties(ship);
 
+
         let newPlayer : ObjectInterfaces.IPlayer = {
           socket : socket,
           ship : updatedShip
@@ -82,6 +82,7 @@ export module Database {
       );
 
       newShip.stats[ObjectInterfaces.ShipStatTypeEnum.hull] = newShip.stats[ObjectInterfaces.ShipStatTypeEnum.weight]; //TODO
+      newShip.stats[ObjectInterfaces.ShipStatTypeEnum.max_speed] = 10;
 
       newShip.properties.currentArmor = newShip.stats[ObjectInterfaces.ShipStatTypeEnum.armor];
       newShip.properties.currentShield = newShip.stats[ObjectInterfaces.ShipStatTypeEnum.shield];

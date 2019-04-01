@@ -42,5 +42,4 @@ export module PacketFactory {
 
       return packet;
     }
-
 }

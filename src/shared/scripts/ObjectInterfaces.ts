@@ -94,7 +94,6 @@ export module ObjectInterfaces {
      */
     export interface IShip extends IGameObject {
         speed: number
-        maxSpeed: number,
         isMoving : boolean,
         destinationX : number,
         destinationY : number,
