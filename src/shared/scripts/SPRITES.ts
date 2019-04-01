@@ -100,7 +100,6 @@ export const SPRITES = {
             height: 38,
         }
     },
-
     
     RADAR_MODULE_I: {
         animation : {

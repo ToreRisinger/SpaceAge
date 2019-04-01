@@ -13,7 +13,7 @@ body {
     color: rgba(195, 145, 120);
     font-family: consolas;
     z-index: 11;
-    font-size: 9px;
+    font-size: 10px;
 }
 
 #game_root_container {
@@ -95,10 +95,9 @@ body {
     margin: auto;
     right: 0;
     left: 0;
-    top: 0;
-    bottom: 0;
-    height: 400px;
-    width: 600px;
+    top: 20px;
+    height: 500px;
+    width: 800px;
 }
 
 #ship_window_title {

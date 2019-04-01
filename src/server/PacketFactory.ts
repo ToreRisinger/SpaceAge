@@ -32,7 +32,15 @@ export module PacketFactory {
     }
 
     export function createPlayerDisconnectedPacket(disconnectedShipId : number) {
-        return {shipId : disconnectedShipId};
+      let packet : Events.PLAYER_DISCONNECTED_EVENT_CONFIG = {
+        eventId : Events.EEventType.PLAYER_DISCONNECTED_EVENT,
+        data : {
+          shipId : disconnectedShipId
+          
+        }
+      }
+
+      return packet;
     }
 
 }

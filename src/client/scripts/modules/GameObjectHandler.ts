@@ -61,11 +61,7 @@ export module GameObjectHandler {
     }
 
     function subscribeToInitialEvents() {
-        //EventHandler.on(Events.EEventType.PLAYER_CONNECTED_EVENT, onPlayerConnect);
-        //EventHandler.on(Events.EEventType.PLAYER_DISCONNECTED_EVENT, onPlayerDisconnect);
-        //EventHandler.on(Events.EEventType.SHIPS_UPDATE_EVENT, onShipsUpdate);
         EventHandler.on(Events.EEventType.INITAL_GAME_LOAD_EVENT, onInitialGameLoad);
-        //EventHandler.on(Events.EEventType.PLAYER_SET_NEW_DESTINATION_EVENT, onNewShipDestination);
     }
 
     function subscribeToEvents() {

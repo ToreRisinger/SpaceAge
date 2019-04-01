@@ -140,7 +140,7 @@ export module Server {
     function sendPlayerDisconnected(disconnectedShipId : number) {
       let packet : any = PacketFactory.createPlayerDisconnectedPacket(disconnectedShipId);
       PLAYERS.forEach((player: ObjectInterfaces.IPlayer, key: number) => {
-        player.socket.emit('ServerEvent', {type: Events.EEventType.PLAYER_DISCONNECTED_EVENT, data: packet})
+        player.socket.emit('ServerEvent', packet)
       });
     }
 

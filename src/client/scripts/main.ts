@@ -3,7 +3,8 @@
 import { GameScene } from "./scenes/GameScene";
 
 let game = new Phaser.Game({
-    type: Phaser.AUTO,
+
+    type: Phaser.WEBGL,
     scale: {
       mode: Phaser.Scale.RESIZE,
       parent: 'game_root_container',
@@ -14,6 +15,6 @@ let game = new Phaser.Game({
         GameScene
     ],
     render: {
-        pixelArt:true
+        pixelArt:true,
     }
 });

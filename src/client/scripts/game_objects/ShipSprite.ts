@@ -53,7 +53,7 @@ export class ShipSprite {
                 //@ts-ignore
                 GameScene.getInstance().playAnimation(module.sprite, ShipModules.getModuleInfo(module.module.module_type).animation.key);
             }
-
+            
             module.sprite.setInteractive();
             module.sprite.on('pointerover', () => {
                 this.thisShip.setIsHoverOrSelected(true);

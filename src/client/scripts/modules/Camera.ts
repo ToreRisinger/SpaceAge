@@ -26,7 +26,7 @@ export module Camera {
 
         currentZoom = 1;
         minZoom = 1;
-        maxZoom = 128;
+        maxZoom = 256;
 
         subscribeToEvents();
     }
@@ -52,8 +52,8 @@ export module Camera {
     function centerOnPlayer() {
         let ship : GameObject | undefined =  GlobalData.playerShip;
         if(ship != undefined){
-            x = Math.floor(ship.getPos().x);
-            y = Math.floor(ship.getPos().y);
+            x = ship.getPos().x;
+            y = ship.getPos().y;
             camera.centerOn(x, y);
         } 
     }
