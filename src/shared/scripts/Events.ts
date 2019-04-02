@@ -15,7 +15,8 @@ export module Events {
         SHIPS_UPDATE_EVENT,
 
         //Chat events
-        CHAT_MESSAGE_EVENT,
+        CLIENT_SEND_CHAT_MESSAGE_EVENT,
+        CLIENT_RECEIVE_CHAT_MESSAGE_EVENT,
         CHAT_SERVER_MESSAGE_EVENT,
 
         //Game logic events
@@ -84,7 +85,14 @@ export module Events {
         }
     }
 
-    export interface CHAT_MESSAGE_EVENT_CONFIG extends GameEvent {
+    export interface CLIENT_SEND_CHAT_MESSAGE_EVENT_CONFIG extends GameEvent {
+        data : {
+            sender : String;
+            message : String;
+        }
+    }
+
+    export interface CLIENT_RECEIVE_CHAT_MESSAGE_EVENT_CONFIG extends GameEvent {
         data : {
             sender : String;
             message : String;

@@ -153,7 +153,7 @@ export module Server {
           onPlayerSetNewDestinationEvent(player, event);
           break;
         }
-        case Events.EEventType.CHAT_MESSAGE_EVENT : {
+        case Events.EEventType.CLIENT_SEND_CHAT_MESSAGE_EVENT : {
           onChatMessageEvent(player, event);
           break;
         }
@@ -175,7 +175,15 @@ export module Server {
       } 
     }
 
-    function onChatMessageEvent(player : ObjectInterfaces.IPlayer, event : Events.CHAT_MESSAGE_EVENT_CONFIG) {
-      console.log(event.data.sender + ": " + event.data.message);
+    function onChatMessageEvent(player : ObjectInterfaces.IPlayer, event : Events.CLIENT_SEND_CHAT_MESSAGE_EVENT_CONFIG) {
+      let packet : Events.CLIENT_RECEIVE_CHAT_MESSAGE_EVENT_CONFIG = {
+        eventId : Events.EEventType.CLIENT_RECEIVE_CHAT_MESSAGE_EVENT,
+        data : {
+          message : event.data.message,
+          sender : event.data.sender
+        }
+      }
+      player.socket.broadcast.emit("ServerEvent", packet);
+      
     }
 }

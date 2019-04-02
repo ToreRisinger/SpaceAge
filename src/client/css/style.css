@@ -76,16 +76,31 @@ body {
     left: 3px;
     bottom: 3px;
     border: 1px solid rgb(40, 40, 40);
+    display: flex;
+    flex-flow: column;
+}
+
+#chat_message_window {
+    flex-grow: 1;
+    width: 100%;
+    display: flex;
+    overflow-y: scroll;
+    flex-direction: column-reverse;
+    background-color: rgb(355, 355, 355, 0.0);
 }
 
 #chat_window_input {
-    position: absolute;
     bottom: 0px;
     width: 100%;
     background-color: rgb(355, 355, 355, 0.05);
     border: none;
     outline: none;
     color: white;
+}
+
+#chat_message_container {
+    padding-left: 2px;
+    padding-right: 2px;
 }
 
 #ship_window_button {
