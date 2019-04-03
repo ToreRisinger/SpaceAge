@@ -33,6 +33,7 @@ body {
     bottom: 10px;
     height: 80px;
     width: 150px; 
+    border: 1px solid rgb(40, 40, 40);
 }
 
 #ship_hud_speed_display {
@@ -72,7 +73,7 @@ body {
 #chat_window {
     position: absolute;
     width: 350px;
-    height: 200px;
+    height: 198px;
     left: 3px;
     bottom: 3px;
     border: 1px solid rgb(40, 40, 40);
@@ -86,6 +87,7 @@ body {
     display: flex;
     overflow-y: scroll;
     flex-direction: column-reverse;
+    padding-bottom: 2px;
     background-color: rgb(355, 355, 355, 0.0);
 }
 
@@ -95,12 +97,18 @@ body {
     background-color: rgb(355, 355, 355, 0.05);
     border: none;
     outline: none;
-    color: white;
+    color: rgb(250, 250, 250);
+    border-top: 1px solid rgb(40, 40, 40);
+    font-family: consolas;
+    font-size: 11px; 
 }
 
 #chat_message_container {
     padding-left: 2px;
     padding-right: 2px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
 }
 
 #ship_window_button {
@@ -132,6 +140,7 @@ body {
     top: 20px;
     height: 500px;
     width: 800px;
+    border: 1px solid rgb(40, 40, 40);
 }
 
 #ship_window_title {
@@ -165,3 +174,25 @@ body {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
 } 
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.0); 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: rgb(114, 99, 67); 
+    border-radius: 10px;
+    border: 1px solid rgb(214, 209, 199);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(153, 132, 90); 
+}
