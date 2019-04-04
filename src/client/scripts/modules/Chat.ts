@@ -48,7 +48,6 @@ export module Chat {
         chat_message_container.textContent = sender + ": " + message;
         //@ts-ignore
         chat_message_window.insertBefore(chat_message_container, chat_message_window.firstChild);
-        //();
     }
 
     function onClientChatMessageReceived(event : Events.CLIENT_RECEIVE_CHAT_MESSAGE_EVENT_CONFIG) {

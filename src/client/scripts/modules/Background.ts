@@ -20,7 +20,6 @@ export module Background {
 
         spaceBackground.setDisplaySize(BACKRGOUND_SIZE, BACKRGOUND_SIZE);
         loadingBackground.setDisplaySize(BACKRGOUND_SIZE, BACKRGOUND_SIZE);
-        spaceBackground.on('pointerdown', onBackgroundClicked);
     }
 
     export function update(time : number, delta : number) {

@@ -44,6 +44,7 @@ export module GUI {
     let backgroundClickedX : number;
     let backgroundClickedY : number;
     let htmlElementClickedThisFrame : boolean;
+    let allowedToFireNewDestinationEvent : boolean;
     let counterToFireNewDestination : number;
 
     export function init() {
@@ -107,6 +108,7 @@ export module GUI {
 
         backgroundClickedThisFrame = false;
         htmlElementClickedThisFrame = false;
+        allowedToFireNewDestinationEvent = true;
         counterToFireNewDestination = 0;
 
         setupOnClickFunctions(); 
@@ -140,22 +142,25 @@ export module GUI {
     }
 
     function handleHTMLBlockPhaserInputWorkaround() {
-        if(backgroundClickedThisFrame) {
-            if(htmlElementClickedThisFrame) {
-                counterToFireNewDestination = 0;
-                backgroundClickedThisFrame = false;
-            } else {
-                counterToFireNewDestination++; 
-            } 
+        if(htmlElementClickedThisFrame) {
+            counterToFireNewDestination = 0;
+            allowedToFireNewDestinationEvent = false;
         }
 
-        if(counterToFireNewDestination == 6) {
-            newDestination();
-            counterToFireNewDestination = 0;
-            backgroundClickedThisFrame = false;
+        if(counterToFireNewDestination > 3) {
+            allowedToFireNewDestinationEvent = true;
         }
+
+        if(backgroundClickedThisFrame && allowedToFireNewDestinationEvent) {
+            newDestination();
+        }
+
+        if(!allowedToFireNewDestinationEvent) {
+            counterToFireNewDestination++;
+        } 
 
         htmlElementClickedThisFrame = false;
+        backgroundClickedThisFrame = false;
     }
 
     function newDestination() {
@@ -174,23 +179,23 @@ export module GUI {
 
     function setupOnClickFunctions() {
         //@ts-ignore
-        shipHud.onclick = doNothing;
+        shipHud.onpointerdown  = doNothing;
         //@ts-ignore
-        shipHudSpeed.onclick = doNothing;
+        shipHudSpeed.onpointerdown  = doNothing;
         //@ts-ignore
-        ship_hud_shield_display.onclick = doNothing;
+        ship_hud_shield_display.onpointerdown  = doNothing;
         //@ts-ignore
-        ship_hud_armor_display.onclick = doNothing;
+        ship_hud_armor_display.onpointerdown  = doNothing;
         //@ts-ignore
-        ship_hud_hull_display.onclick = doNothing;
+        ship_hud_hull_display.onpointerdown  = doNothing;
          //@ts-ignore
-         ship_hud_coordinate_display.onclick = doNothing;
+         ship_hud_coordinate_display.onpointerdown  = doNothing;
         //@ts-ignore
-        ship_window_button.onclick = openShipButtonClicked;
+        ship_window_button.onpointerdown  = openShipButtonClicked;
         //@ts-ignore
-        ship_window.onclick = doNothing;
+        ship_window.onpointerdown  = doNothing;
         //@ts-ignore
-        chat_window.onclick = doNothing;
+        chat_window.onpointerdown  = doNothing;
     }
 
     function doNothing() {
