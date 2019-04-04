@@ -117,15 +117,19 @@ export module GUI {
 
     export function update(time : number, delta : number) {
         let ship : Ship | undefined =  GlobalData.playerShip;
+        //@ts-ignore
+        let shipData = ship.getShipData();
         if(ship != undefined){
             //@ts-ignore
-            shipHudSpeed.textContent = Math.floor(new Phaser.Math.Vector2(ship.getShipData().velVec[0], ship.getShipData().velVec[1]).length()) + " m/s";
+            shipHudSpeed.textContent = Math.floor(new Phaser.Math.Vector2(shipData.velVec[0], shipData.velVec[1]).length()) + " m/s";
             //@ts-ignore
-            ship_hud_shield_display.textContent = ship.getShipData().properties.currentShield;
+            ship_hud_shield_display.textContent = shipData.properties.currentShield + " (+" + 
+            shipData.stats[ObjectInterfaces.ShipStatTypeEnum.shield_generation] + "/s)";
             //@ts-ignore
-            ship_hud_armor_display.textContent = ship.getShipData().properties.currentArmor;
+            ship_hud_armor_display.textContent = shipData.properties.currentArmor + " (+" + 
+            shipData.stats[ObjectInterfaces.ShipStatTypeEnum.armor_repair] + "/s)";
             //@ts-ignore
-            ship_hud_hull_display.textContent = ship.getShipData().properties.currentHull;
+            ship_hud_hull_display.textContent = shipData.properties.currentHull;
             //@ts-ignore
             ship_hud_coordinate_display.textContent = "(" + Math.floor(ship.getPos().x) + ", " + Math.floor(ship.getPos().y) + ")";
         }
