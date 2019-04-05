@@ -10,7 +10,7 @@ export module EventHandler {
 
     export function update(time : number, delta : number) {
         for(let i = 0; i < eventQueue.length; ++i) {
-            let event = eventQueue.pop();
+            let event = eventQueue[i];
             if(event == null || subscriberMap[event.eventId] == null) {
                 continue;
             }
@@ -19,8 +19,9 @@ export module EventHandler {
             for(let i = 0; i < subscriberMap[event.eventId].length; i++) {
                 subscriberMap[event.eventId][i](event);
             }
-           
         }
+
+        eventQueue = [];
     }
 
     export function pushEvent(event : Events.GameEvent) {

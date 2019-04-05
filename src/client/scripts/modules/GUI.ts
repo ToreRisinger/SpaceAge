@@ -117,9 +117,9 @@ export module GUI {
 
     export function update(time : number, delta : number) {
         let ship : Ship | undefined =  GlobalData.playerShip;
-        //@ts-ignore
-        let shipData = ship.getShipData();
-        if(ship != undefined){
+        if(ship != undefined) {
+            //@ts-ignore
+            let shipData = ship.getShipData();
             //@ts-ignore
             shipHudSpeed.textContent = Math.floor(new Phaser.Math.Vector2(shipData.velVec[0], shipData.velVec[1]).length()) + " m/s";
             //@ts-ignore
