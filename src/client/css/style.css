@@ -177,48 +177,52 @@ body {
 
 #navigation_window_title {
     text-align: center;
-    border-bottom: 1px solid rgb(40, 40, 40);
     background-color: rgb(355, 355, 355, 0.05);
+    height: 15px;
+    border-bottom: 1px solid rgb(40, 40, 40);
 }
 
 #navigation_window_table_container {
-
+    width: 250px;
+    height: 585px;
+    overflow-y: auto;
+    background-color: rgba(0, 0, 0, 0.0);
 }
 
 #navigation_window_table {
-    border: 1px solid rgb(40, 40, 40);
-    border-collapse: collapse;
-    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 0;
     width: 100%;
+    background-color: rgba(0, 0, 0, 0.0);
 }
 
 #navigation_window_table th {
-    border: 1px solid rgb(40, 40, 40);
+    position: sticky;
+    top: 0px;
+    color: white;
+    background-color: black;
+    text-align: left;
+    width: 250px;
+    border-bottom: 1px solid rgb(40, 40, 40);
+    border-right: 1px solid rgb(40, 40, 40);
 }
 
 #navigation_window_table td {
-    border: 1px solid rgb(40, 40, 40);
+    text-align: left;
+    width: 250px;
+    border-bottom: 1px solid rgb(40, 40, 40);
+    border-right: 1px solid rgb(40, 40, 40);
 }
 
 #navigation_window_table tr {
-    
+    text-align: left;
+    width: 250px;
 }
 
-#nav_table_type_col {
-    width: 30px;
+#navigation_window_table th:first-child,
+#navigation_window_table th:first-child {
+    border-left: 1px solid rgb(40, 40, 40);
 }
-
-#nav_table_name_col {
-    
-}
-
-#nav_table_dist_col {
-    
-}
-
-
-
-
 
 .Unselectable {
     khtml-user-select: none;
