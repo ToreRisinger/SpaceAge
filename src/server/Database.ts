@@ -42,7 +42,7 @@ export module Database {
             [ObjectInterfaces.ShipStatTypeEnum.avoidance_systems] : 0,
             [ObjectInterfaces.ShipStatTypeEnum.cargo_hold] : 0,
             [ObjectInterfaces.ShipStatTypeEnum.energy_grid] : 0,
-            [ObjectInterfaces.ShipStatTypeEnum.gravity_detection_range] : 0,
+            [ObjectInterfaces.ShipStatTypeEnum.gravity_radar_range] : 0,
             [ObjectInterfaces.ShipStatTypeEnum.hull] : 0,
             [ObjectInterfaces.ShipStatTypeEnum.max_speed] : 0,
             [ObjectInterfaces.ShipStatTypeEnum.shield] : 0,
@@ -52,7 +52,7 @@ export module Database {
             [ObjectInterfaces.ShipStatTypeEnum.shield_impact_resistance] : 0,
             [ObjectInterfaces.ShipStatTypeEnum.targeting_systems] : 0,
             [ObjectInterfaces.ShipStatTypeEnum.thrust] : 0,
-            [ObjectInterfaces.ShipStatTypeEnum.radar_range] : 0,
+            [ObjectInterfaces.ShipStatTypeEnum.proximity_radar_range] : 0,
             [ObjectInterfaces.ShipStatTypeEnum.weight] : 0
           },
           properties : {
