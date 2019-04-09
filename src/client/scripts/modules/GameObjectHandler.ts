@@ -21,7 +21,7 @@ export module GameObjectHandler {
         });
     }
 
-    export function getGameObjects() {
+    export function getGameObjects() : Map<number, GameObject> {
         return gameObjects;
     }
 

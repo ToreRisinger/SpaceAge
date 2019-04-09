@@ -2,13 +2,14 @@ import { GameObject } from "./GameObject";
 import { ObjectInterfaces } from "../../../shared/scripts/ObjectInterfaces"
 import { ShipSprite } from "./ShipSprite";
 import { VisibleObject } from "./VisibleObject";
-import { RadarDetectable } from "./RadarDetectable";
 import { GlobalData } from "../modules/GlobalData";
 
-export class Ship extends VisibleObject implements RadarDetectable {
+export class Ship extends VisibleObject {
 
     private detectedByGravitationalRadar : boolean;
     private detectedByProximityRadar : boolean;
+    private distanceToPlayerShip : number;
+
     private ship_config : ObjectInterfaces.IShip;
     //@ts-ignore
     private shipSprite : ShipSprite;
@@ -21,7 +22,8 @@ export class Ship extends VisibleObject implements RadarDetectable {
 
         this.detectedByGravitationalRadar = this.thisPlayerShip;
         this.detectedByProximityRadar = this.thisPlayerShip;
-       
+        this.distanceToPlayerShip = 0;
+
         this.buildShip();
     }
 
@@ -34,6 +36,8 @@ export class Ship extends VisibleObject implements RadarDetectable {
         this.shipSprite.updateSpritePosition(this.getPos());
         super.update();
 
+        //@ts-ignore
+        this.distanceToPlayerShip = Math.floor(GlobalData.playerShip.getPos().distance(this.getPos()));
         this.calculateIsDetectedByRadar();
     }
 
@@ -62,6 +66,10 @@ export class Ship extends VisibleObject implements RadarDetectable {
         return this.detectedByProximityRadar;
     }
 
+    public getDistanceToPlayerShip() : number {
+        return this.distanceToPlayerShip;
+    }
+
     private buildShip() {
         this.shipSprite = new ShipSprite(this.ship_config.modules, this.getPos(), this.thisPlayerShip, this);
     }
@@ -70,17 +78,16 @@ export class Ship extends VisibleObject implements RadarDetectable {
         if(!this.thisPlayerShip) {
             //@ts-ignore
             let playerShip : Ship =  GlobalData.playerShip;
-            let radarPos : Phaser.Math.Vector2 = playerShip.getPos();
             let proximityRadarRange : number = playerShip.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.proximity_radar_range];
             let gravityRadarRange : number = playerShip.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.gravity_radar_range];
 
             this.detectedByProximityRadar = false;
             this.detectedByGravitationalRadar = false;
 
-            if(radarPos.distance(this.getPos()) <= proximityRadarRange) {
+            if(this.getDistanceToPlayerShip() <= proximityRadarRange) {
                 this.detectedByProximityRadar = true;
                 this.detectedByGravitationalRadar = true;
-            } else if(radarPos.distance(this.getPos()) <= gravityRadarRange) {
+            } else if(this.getDistanceToPlayerShip() <= gravityRadarRange) {
                 this.detectedByGravitationalRadar = true;
             }
         }

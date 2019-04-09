@@ -5,6 +5,9 @@ import { EventHandler } from "./EventHandler";
 import { Ship } from "../game_objects/Ship";
 import { ObjectInterfaces } from "../../../shared/scripts/ObjectInterfaces"
 import { GlobalData } from "./GlobalData";
+import { GameObjectHandler } from "./GameObjectHandler";
+import { GameObject } from "../game_objects/GameObject";
+import { VisibleObject } from "../game_objects/VisibleObject";
 
 export module GUI {
 
@@ -18,6 +21,9 @@ export module GUI {
     let ship_window : HTMLElement;
     let chat_window : HTMLElement;
     let navigation_window : HTMLElement;
+
+    let navigation_window_table_body : HTMLElement;
+    let navigation_window_table_body_entry : HTMLElement;
     
     let swsc_thrust : HTMLElement;
     let swsc_max_speed : HTMLElement;
@@ -48,7 +54,8 @@ export module GUI {
     let allowedToFireNewDestinationEvent : boolean;
     let counterToFireNewDestination : number;
 
-    
+    let navigationWindowEntryMap = new Map<number, HTMLElement>();
+    let gameObjects : Map<number, GameObject> = GameObjectHandler.getGameObjects();
 
     export function init() {
         let gameScene : GameScene = GameScene.getInstance();      
@@ -57,6 +64,17 @@ export module GUI {
         htmlElementClickedThisFrame = false;
         allowedToFireNewDestinationEvent = true;
         counterToFireNewDestination = 0;
+
+        navigation_window_table_body_entry = document.createElement("tr");
+        let iconColumn = document.createElement("td");
+        let nameColumn = document.createElement("td");
+        let distanceColumn = document.createElement("td");
+        iconColumn.id = "navigation_window_table_body_entry_icon";
+        nameColumn.id = "navigation_window_table_body_entry_name";
+        distanceColumn.id = "navigation_window_table_body_entry_distance";
+        navigation_window_table_body_entry.appendChild(iconColumn);
+        navigation_window_table_body_entry.appendChild(nameColumn);
+        navigation_window_table_body_entry.appendChild(distanceColumn);
 
         getAllHTMLElements();
         setupOnClickFunctions(); 
@@ -76,9 +94,55 @@ export module GUI {
             ship_hud_coordinate_display.textContent = "(" + Math.floor(ship.getPos().x) + ", " + Math.floor(ship.getPos().y) + ")";
         }
 
+        updateNavigationWindowTable();
+
         //TODO new phaser version hopefully makes it possible for
         //Html to block input
         handleHTMLBlockPhaserInputWorkaround();
+    }
+
+    function updateNavigationWindowTable() {
+        function onMouseOver(tableEntry : HTMLElement) {
+            tableEntry.style.backgroundColor = "white";
+        }
+        function addObjectToTable(object : VisibleObject) {
+            if(navigationWindowEntryMap.get(object.getGameObjectData().id) == null) {
+                //@ts-ignore
+                let tableEntry : HTMLElement = navigation_window_table_body_entry.cloneNode(true);
+
+                navigationWindowEntryMap.set(object.getGameObjectData().id, tableEntry);
+
+                //@ts-ignore
+                tableEntry.querySelector("#navigation_window_table_body_entry_icon").textContent = "";
+                //@ts-ignore
+                tableEntry.querySelector("#navigation_window_table_body_entry_name").textContent = "name";
+                //@ts-ignore
+                tableEntry.querySelector("#navigation_window_table_body_entry_distance").textContent = String(object.getDistanceToPlayerShip());
+
+                //TODO tableEntry.onmouseover = onMouseOver(tableEntry);
+
+                navigation_window_table_body.appendChild(tableEntry);
+           } else {
+               //@ts-ignore
+               let tableEntry : HTMLElement = navigationWindowEntryMap.get(object.getGameObjectData().id);
+
+               //@ts-ignore
+               tableEntry.querySelector("#navigation_window_table_body_entry_icon").textContent = "";
+               //@ts-ignore
+               tableEntry.querySelector("#navigation_window_table_body_entry_name").textContent = "name";
+               //@ts-ignore
+               tableEntry.querySelector("#navigation_window_table_body_entry_distance").textContent = String(object.getDistanceToPlayerShip());
+           }
+            
+        }
+
+        //@ts-ignore
+        let toBeAddedToEntry : VisibleObject[] = Array.from(gameObjects.values()).filter(gameObject => 
+                gameObject instanceof VisibleObject && 
+                (gameObject.isDetectedByGravitationalRadar || gameObject.isDetectedByProximityRadar)
+            );
+        
+        toBeAddedToEntry.forEach(objectToAdd => addObjectToTable(objectToAdd));
     }
 
     function onBackgroundClicked(event : Events.BACKGROUND_CLICKED_EVENT_CONFIG) {
@@ -209,6 +273,8 @@ export module GUI {
         chat_window = document.getElementById("chat_window");
         //@ts-ignore
         navigation_window = document.getElementById("navigation_window");
+        //@ts-ignore
+        navigation_window_table_body = document.getElementById("navigation_window_table_body");
 
         //@ts-ignore
         swsc_thrust = document.getElementById("swsc_thrust");
