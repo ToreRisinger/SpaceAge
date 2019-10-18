@@ -31,15 +31,16 @@ export module Graphics {
     export function update(time : number, delta : number) {
         let cameraZoom = GlobalData.cameraZoom;
 
-        destinationLineGraphics.clear();
-        destinationCircleGraphics.clear();
-        radarRangeCircleGraphics.clear();
+        destinationLineGraphics.destroy();
+        destinationCircleGraphics.destroy();
+        radarRangeCircleGraphics.destroy();
 
         GameScene.getInstance()
 
         createNewLineGraphics(cameraZoom);
 
-        let ship : Ship | undefined = GlobalData.playerShip;
+        //@ts-ignore
+        let ship : Ship = GlobalData.playerShip;
        
         if(ship != undefined) {
             let x = ship.getPos().x;
@@ -52,10 +53,10 @@ export module Graphics {
                 destinationCircleGraphics.strokeCircleShape(circle).setDepth(DRAW_LAYERS.GRAPHICS_LAYER);
             }
             
-            circle.setTo(x, y, ship.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.radar_range]);
+            circle.setTo(x, y, ship.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.proximity_radar_range]);
             radarRangeCircleGraphics.strokeCircleShape(circle).setDepth(DRAW_LAYERS.GRAPHICS_LAYER);
 
-            circle.setTo(x, y, ship.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.gravity_detection_range]);
+            circle.setTo(x, y, ship.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.gravity_radar_range]);
             radarRangeCircleGraphics.strokeCircleShape(circle).setDepth(DRAW_LAYERS.GRAPHICS_LAYER);
         }
     }

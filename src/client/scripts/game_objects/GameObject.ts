@@ -23,4 +23,8 @@ export class GameObject {
     public destroy() {
         
     }
+
+    public getGameObjectData() : ObjectInterfaces.IGameObject {
+        return this.game_object_config;
+    }
 }

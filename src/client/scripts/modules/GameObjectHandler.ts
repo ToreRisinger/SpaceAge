@@ -9,6 +9,7 @@ export module GameObjectHandler {
 
     let thisShipId : number = -1;
     let gameObjects = new Map<number, GameObject>();
+    let visibleGameObjects = new Map<number, GameObject>();
 
     export function init() {
         subscribeToInitialEvents();
@@ -18,6 +19,10 @@ export module GameObjectHandler {
         gameObjects.forEach((object: GameObject, key: number) => {
             object.update();
         });
+    }
+
+    export function getGameObjects() : Map<number, GameObject> {
+        return gameObjects;
     }
 
     function onInitialGameLoad(eventData : Events.INITAL_GAME_LOAD_EVENT_CONFIG) {

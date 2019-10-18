@@ -55,4 +55,16 @@ export class VisibleObject extends GameObject {
     public setIsHoverOrSelected(value : boolean) {
         this.isHoverOrSelected = value;
     }
+
+    isDetectedByGravitationalRadar() : boolean {
+        throw new TypeError("Cannot construct Abstract instances directly");
+    }
+
+    isDetectedByProximityRadar() : boolean {
+        throw new TypeError("Cannot construct Abstract instances directly");
+    }
+
+    getDistanceToPlayerShip() : number {
+        throw new TypeError("Cannot construct Abstract instances directly");
+    }
 }

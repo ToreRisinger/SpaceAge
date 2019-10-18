@@ -166,7 +166,7 @@ body {
     background-color: rgba(0, 0, 0, 0.0);
 }
 
-#navigation_window_container {
+#navigation_window {
     position: absolute;
     right: 3px;
     top: 3px;
