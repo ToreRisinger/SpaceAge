@@ -49,10 +49,10 @@ export class ShipSprite {
                 sprite : sprite
             }
                 
-            if(ShipModules.getModuleInfo(module.module.module_type).animation != undefined) {
-                //@ts-ignore
-                GameScene.getInstance().playAnimation(module.sprite, ShipModules.getModuleInfo(module.module.module_type).animation.key);
-            }
+            //if(ShipModules.getModuleInfo(module.module.module_type).animation != undefined) {
+            //    //@ts-ignore
+            //    GameScene.getInstance().playAnimation(module.sprite, ShipModules.getModuleInfo(module.module.module_type).animation.key);
+            //}
             
             module.sprite.setInteractive();
             module.sprite.on('pointerover', () => {

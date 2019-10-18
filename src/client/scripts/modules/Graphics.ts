@@ -35,6 +35,8 @@ export module Graphics {
         destinationCircleGraphics.clear();
         radarRangeCircleGraphics.clear();
 
+        GameScene.getInstance()
+
         createNewLineGraphics(cameraZoom);
 
         let ship : Ship | undefined = GlobalData.playerShip;

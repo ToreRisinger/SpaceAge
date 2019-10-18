@@ -10,22 +10,27 @@ export class VisibleObject extends GameObject {
 
     private iconSprite : Phaser.GameObjects.Sprite;
     private isHoverOrSelected : boolean;
+    private ICON_ALPHA_DEFAULT : number = 0.3;
+    private ICON_ALPHA_HOVER : number = 1;
+    private hoverStateChange : boolean;
 
     constructor(game_object_config : ObjectInterfaces.IGameObject) {
         super(game_object_config);
         this.iconSprite = GameScene.getInstance().addSprite(this.getPos().x, this.getPos().y, SPRITES.SHIP_ICON.sprite.key);
-        this.iconSprite.alpha = 0.2;
+        this.iconSprite.alpha = this.ICON_ALPHA_DEFAULT;
         this.iconSprite.setInteractive();
+        this.iconSprite.setDepth(DRAW_LAYERS.GRAPHICS_LAYER);
+        this.isHoverOrSelected = false;
+        this.hoverStateChange = false;
+
         this.iconSprite.on('pointerover', () => {
+            this.hoverStateChange = !this.isHoverOrSelected;
             this.isHoverOrSelected = true;
         });
         this.iconSprite.on('pointerout', () =>  {
+            this.hoverStateChange = this.isHoverOrSelected;
             this.isHoverOrSelected = false;
         });
-
-        this.iconSprite.setDepth(DRAW_LAYERS.GRAPHICS_LAYER);
-
-        this.isHoverOrSelected = false;
     }
 
     public update() {
@@ -33,11 +38,13 @@ export class VisibleObject extends GameObject {
         this.iconSprite.x = this.getPos().x;
         this.iconSprite.y = this.getPos().y;
 
-        if(this.isHoverOrSelected) {
-            this.iconSprite.alpha = 1;
-        } else {
-            this.iconSprite.alpha = 0.2;
-        }
+        if(this.hoverStateChange) {
+            if(this.isHoverOrSelected) {
+                this.iconSprite.alpha = this.ICON_ALPHA_HOVER;
+            } else {
+                this.iconSprite.alpha = this.ICON_ALPHA_DEFAULT;
+            }
+        } 
     }
 
     public destroy() {

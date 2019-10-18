@@ -1,15 +1,10 @@
 export const SPRITES = {
     //Ship main modules
     MAIN_MODULE_I: {
-        animation : {
-            key: "main_module_I",
-            frameRate: 4,
-            repeat: -1, //forever
-            frames: [0, 1, 2, 3, 4, 5, 6, 7]
-        },
+        animation : undefined,
         sprite : {
-            key: "main_module_I",
-            file: "modules/main_module_I.png",
+            key: "MAIN_MODULE_I",
+            file: "modules/ship_module.png",
             width: 38,
             height: 38
         }
@@ -19,8 +14,8 @@ export const SPRITES = {
     CARGO_HOLD_MODULE_I: {
         animation : undefined,
         sprite : {
-            key: "cargo_hold_module_I",
-            file: "modules/cargo_hold_module_I.png",
+            key: "CARGO_HOLD_MODULE_I",
+            file: "modules/ship_module.png",
             width: 38,
             height: 38
         }
@@ -29,53 +24,38 @@ export const SPRITES = {
     SHIP_PLATING_MODULE_I: {
         animation : undefined,
         sprite : {
-            key: "ship_plating_module_I",
-            file: "modules/ship_plating_module_I.png",
+            key: "SHIP_PLATING_MODULE_I",
+            file: "modules/ship_module.png",
             width: 38,
             height: 38
         }
     },
 
     REPAIR_FACILITY_MODULE_I: {
-        animation : {
-            key: "repair_facility_module_I",
-            frameRate: 4,
-            repeat: -1, //forever
-            frames: [0, 1, 2, 3, 4, 5, 6]
-        },
+        animation : undefined,
         sprite : {
-            key: "repair_facility_module_I",
-            file: "modules/repair_facility_module_I.png",
+            key: "REPAIR_FACILITY_MODULE_I",
+            file: "modules/ship_module.png",
             width: 38,
             height: 38
         }
     },
 
     SHIELD_GENERATOR_MODULE_I: {
-        animation : {
-            key: "shield_generator_module_I",
-            frameRate: 4,
-            repeat: -1, //forever
-            frames: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
-        },
+        animation : undefined,
         sprite : {
-            key: "shield_generator_module_I",
-            file: "modules/shield_generator_module_I.png",
+            key: "SHIELD_GENERATOR_MODULE_I",
+            file: "modules/ship_module.png",
             width: 38,
             height: 38
         }
     },
 
     TARGETING_SYSTEM_MODULE_I: {
-        animation : {
-            key: "targeting_system_module_I",
-            frameRate: 4,
-            repeat: -1, //forever
-            frames: [0, 1, 2, 3, 4, 5, 6, 7]
-        },
+        animation : undefined,
         sprite : {
-            key: "targeting_system_module_I",
-            file: "modules/targeting_system_module_I.png",
+            key: "TARGETING_SYSTEM_MODULE_I",
+            file: "modules/ship_module.png",
             width: 38,
             height: 38
         }
@@ -84,8 +64,8 @@ export const SPRITES = {
     AVOIDANCE_SYSTEM_MODULE_I: {
         animation : undefined,
         sprite : {
-            key: "avoidance_system_module_I",
-            file: "modules/avoidance_system_module_I.png",
+            key: "AVOIDANCE_SYSTEM_MODULE_I",
+            file: "modules/ship_module.png",
             width: 38,
             height: 38,
         }
@@ -94,38 +74,28 @@ export const SPRITES = {
     POWER_GENERATOR_MODULE_I: {
         animation : undefined,
         sprite : {
-            key: "power_generator_module_I",
-            file: "modules/power_generator_module_I.png",
+            key: "POWER_GENERATOR_MODULE_I",
+            file: "modules/ship_module.png",
             width: 38,
             height: 38,
         }
     },
     
     RADAR_MODULE_I: {
-        animation : {
-            key: "radar_module_I",
-            frameRate: 4,
-            repeat: -1, //forever
-            frames: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-        },
+        animation : undefined,
         sprite : {
-            key: "radar_module_I",
-            file: "modules/radar_module_I.png",
+            key: "RADAR_MODULE_I",
+            file: "modules/ship_module.png",
             width: 38,
             height: 38
         } 
     },
 
     ENGINE_MODULE_I: {
-        animation : {
-            key: "engine_module_I",
-            frameRate: 4,
-            repeat: -1, //forever
-            frames: [0, 1, 2, 3, 4, 5, 6, 7]
-        },
+        animation : undefined,
         sprite : {
-            key: "engine_module_I",
-            file: "modules/engine_module_I.png",
+            key: "ENGINE_MODULE_I",
+            file: "modules/ship_module.png",
             width: 38,
             height: 38
         }
@@ -134,8 +104,8 @@ export const SPRITES = {
     SUPPORT_MODULE_I: {
         animation : undefined,
         sprite : {
-            key: "support_module_I",
-            file: "modules/support_module_I.png",
+            key: "SUPPORT_MODULE_I",
+            file: "modules/ship_module.png",
             width: 38,
             height: 38
         }
@@ -146,8 +116,8 @@ export const SPRITES = {
     LASER_MODULE_I: {
         animation : undefined,
         sprite : {
-            key: "laser_module_I",
-            file: "modules/laser_module_I.png",
+            key: "LASER_MODULE_I",
+            file: "modules/ship_module.png",
             width: 38,
             height: 38
         }
@@ -156,8 +126,8 @@ export const SPRITES = {
     MINING_LASER_MODULE_I: {
         animation : undefined,
         sprite : {
-            key: "mining_laser_module_I",
-            file: "modules/mining_laser_module_I.png",
+            key: "MINING_LASER_MODULE_I",
+            file: "modules/ship_module.png",
             width: 38,
             height: 38
         }
@@ -166,8 +136,8 @@ export const SPRITES = {
     MISSLE_MODULE_I: {
         animation : undefined,
         sprite : {
-            key: "missile_module_I",
-            file: "modules/missile_module_I.png",
+            key: "MISSLE_MODULE_I",
+            file: "modules/ship_module.png",
             width: 38,
             height: 38
         }
@@ -176,8 +146,8 @@ export const SPRITES = {
     TURRET_MODULE_I: {
         animation : undefined,
         sprite : {
-            key: "turret_module_I",
-            file: "modules/turret_module_I.png",
+            key: "TURRET_MODULE_I",
+            file: "modules/ship_module.png",
             width: 38,
             height: 38
         }
@@ -186,7 +156,7 @@ export const SPRITES = {
     SHIP_ICON: {
         animation : undefined,
         sprite : {
-            key: "ship_icon",
+            key: "shipship_module_icon",
             file: "icons/ship_icon.png",
             width: 19,
             height: 19
