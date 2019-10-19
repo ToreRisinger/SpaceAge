@@ -20,7 +20,7 @@ export module Graphics {
     export function init() {
         
         radarRangeColor = 0xFFFFFF;
-        destinationGraphicsColor = 0xFFFFFF;
+        destinationGraphicsColor = 0x00FF00;
 
         line = new Phaser.Geom.Line(0, 0, 0, 0);
         circle = new Phaser.Geom.Circle(0, 0, 0);
@@ -62,8 +62,8 @@ export module Graphics {
     }
 
     function createNewLineGraphics(lineWidth : number) {
-        destinationLineGraphics = GameScene.getInstance().add.graphics({lineStyle : { width: lineWidth, color: destinationGraphicsColor, alpha: 0.8}});
-        destinationCircleGraphics = GameScene.getInstance().add.graphics({lineStyle : { width: lineWidth, color: destinationGraphicsColor, alpha: 0.8}});
+        destinationLineGraphics = GameScene.getInstance().add.graphics({lineStyle : { width: lineWidth, color: destinationGraphicsColor, alpha: 0.5}});
+        destinationCircleGraphics = GameScene.getInstance().add.graphics({lineStyle : { width: lineWidth, color: destinationGraphicsColor, alpha: 0.5}});
         radarRangeCircleGraphics = GameScene.getInstance().add.graphics({lineStyle : { width: lineWidth, color: radarRangeColor, alpha: 0.2}});
     }
 }
