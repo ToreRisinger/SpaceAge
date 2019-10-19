@@ -10,7 +10,7 @@ export class VisibleObject extends GameObject {
 
     private iconSprite : Phaser.GameObjects.Sprite;
     private isHoverOrSelected : boolean;
-    private ICON_ALPHA_DEFAULT : number = 0.3;
+    private ICON_ALPHA_DEFAULT : number = 0.5;
     private ICON_ALPHA_HOVER : number = 1;
     private hoverStateChange : boolean;
 
@@ -54,6 +54,10 @@ export class VisibleObject extends GameObject {
 
     public setIsHoverOrSelected(value : boolean) {
         this.isHoverOrSelected = value;
+    }
+
+    protected setIconTint(color : number) {
+        this.iconSprite.setTint(0x00ff00, 0x00ff00, 0x00ff00, 0x00ff00);
     }
 
     isDetectedByGravitationalRadar() : boolean {

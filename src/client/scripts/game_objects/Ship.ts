@@ -22,8 +22,10 @@ export class Ship extends VisibleObject {
         this.detectedByGravitationalRadar = this.thisPlayerShip;
         this.detectedByProximityRadar = this.thisPlayerShip;
         this.distanceToPlayerShip = 0;
-
         this.buildShip();
+        if(thisPlayerShip) {
+            this.setIconTint(0x00ff00);
+        }
     }
 
     public updateDataObjectConfig(ship_config : ObjectInterfaces.IShip) {
