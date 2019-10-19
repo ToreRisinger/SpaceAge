@@ -1,4 +1,3 @@
-import { GameObject } from "./GameObject";
 import { ObjectInterfaces } from "../../../shared/scripts/ObjectInterfaces"
 import { ShipSprite } from "./ShipSprite";
 import { VisibleObject } from "./VisibleObject";
@@ -37,7 +36,7 @@ export class Ship extends VisibleObject {
         super.update();
 
         //@ts-ignore
-        this.distanceToPlayerShip = Math.floor(GlobalData.playerShip.getPos().distance(this.getPos()));
+        this.distanceToPlayerShip = Math.floor(GlobalData.getPlayerShip().getPos().distance(this.getPos()));
         this.calculateIsDetectedByRadar();
     }
 
@@ -77,7 +76,7 @@ export class Ship extends VisibleObject {
     private calculateIsDetectedByRadar() {
         if(!this.thisPlayerShip) {
             //@ts-ignore
-            let playerShip : Ship =  GlobalData.playerShip;
+            let playerShip : Ship =  GlobalData.getPlayerShip();
             let proximityRadarRange : number = playerShip.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.proximity_radar_range];
             let gravityRadarRange : number = playerShip.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.gravity_radar_range];
 

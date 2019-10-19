@@ -14,7 +14,7 @@ export module Database {
           id: IdHandler.getNewGameObjectId(),
           x : 0,
           y : 0,
-          speed: 2,
+          speed: 0,
           isMoving : false,
           destinationX : 0,
           destinationY : 0,

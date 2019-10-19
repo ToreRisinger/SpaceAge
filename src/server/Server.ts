@@ -83,6 +83,7 @@ export module Server {
           let midPointVec = math.multiply(shipToDestVec, divider);
           return  midPointVec;
         }
+
         function calculateNewVelocityVector(shipToDestVec : Array<number>, shipVelVec : Array<number>, goodVelVecComp : Array<number>, badVelVecComp : Array<number>, shipAcceleration : number) {
           let newVelVec = [0, 0];
       
@@ -129,6 +130,7 @@ export module Server {
            
             ship.x = ship.x + ship.velVec[0];
             ship.y = ship.y + ship.velVec[1];
+            ship.speed = math.length(ship.velVec);
           }
         });
     }

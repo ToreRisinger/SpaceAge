@@ -40,7 +40,7 @@ export module Graphics {
         createNewLineGraphics(cameraZoom);
 
         //@ts-ignore
-        let ship : Ship = GlobalData.playerShip;
+        let ship : Ship = GlobalData.getPlayerShip();
        
         if(ship != undefined) {
             let x = ship.getPos().x;
