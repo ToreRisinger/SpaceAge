@@ -1,5 +1,7 @@
 {
   "devDependencies": {
+    "@types/react": "^16.9.9",
+    "@types/react-dom": "^16.9.2",
     "typescript": "^3.3.3"
   },
   "name": "SpaceAge",
@@ -16,6 +18,8 @@
     "common-js": "^0.3.8",
     "express": "^4.16.4",
     "mathjs": "^5.9.0",
+    "react": "^16.10.2",
+    "react-dom": "^16.10.2",
     "socket.io": "^2.2.0",
     "ts-node-dev": "^1.0.0-pre.32"
   },

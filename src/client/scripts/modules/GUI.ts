@@ -4,12 +4,8 @@ import { Utils } from "./Utils";
 import { EventHandler } from "./EventHandler";
 import { Ship } from "../game_objects/Ship";
 import { GlobalData } from "./GlobalData";
-import { GameObjectHandler } from "./GameObjectHandler";
-import { GameObject } from "../game_objects/GameObject";
-import { VisibleObject } from "../game_objects/VisibleObject";
 
 export module GUI {
-
     export function init() {
         let gameScene : GameScene = GameScene.getInstance();
         gameScene.input.mouse.capture = true;
