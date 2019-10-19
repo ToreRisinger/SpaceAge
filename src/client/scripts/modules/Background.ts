@@ -10,7 +10,7 @@ export module Background {
 
     let loadingBackground : Phaser.GameObjects.Sprite;
     let spaceBackground : Phaser.GameObjects.Sprite;
-    let BACKRGOUND_SIZE : number = 4000;
+    let BACKRGOUND_SIZE : number = 2000;
 
     export function init() {
         subscribeToEvents();
