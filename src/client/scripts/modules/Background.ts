@@ -5,6 +5,7 @@ import { EventHandler } from "./EventHandler";
 import { Events } from "../../../shared/scripts/Events";
 import { GUI } from "./GUI";
 import { GlobalData } from "./GlobalData";
+import { IdHandler } from "../../../server/IdHandler";
 
 export module Background {
 
@@ -60,13 +61,16 @@ export module Background {
     }
 
     function onBackgroundClicked() {
-        let event : Events.BACKGROUND_CLICKED_EVENT_CONFIG = {
-            eventId : Events.EEventType.BACKGROUND_CLICKED_EVENT,
-            data : {
-                mouseX : GlobalData.mouseX,
-                mouseY : GlobalData.mouseY
+        //TODO better solution. This prevents movement when pressing side panel
+        if(GlobalData.mouseX > 52) {
+            let event : Events.BACKGROUND_CLICKED_EVENT_CONFIG = {
+                eventId : Events.EEventType.BACKGROUND_CLICKED_EVENT,
+                data : {
+                    mouseX : GlobalData.mouseX,
+                    mouseY : GlobalData.mouseY
+                }
             }
+            EventHandler.pushEvent(event);
         }
-        EventHandler.pushEvent(event);
     }
 }

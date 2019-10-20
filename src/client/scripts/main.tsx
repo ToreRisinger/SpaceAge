@@ -6,7 +6,6 @@ import * as ReactDOM from "react-dom";
 import App from "./react/App";
 
 let game = new Phaser.Game({
-
     type: Phaser.WEBGL,
     scale: {
       mode: Phaser.Scale.RESIZE,

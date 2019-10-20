@@ -1,6 +1,7 @@
-import React from "react";
+import React, {Fragment} from "react";
 import { Ship } from "../game_objects/Ship";
-import BottomPanel from "./BottomPanel";
+import BottomPanel from "./panels/BottomPanel";
+import SideMenu from "./panels/SidePanel";
 
 export default class App extends React.Component {
     constructor(props : Ship) {
@@ -9,7 +10,10 @@ export default class App extends React.Component {
  
     render() {
         return (
-            <BottomPanel/>
+            <Fragment>
+                <BottomPanel/>
+                <SideMenu/>
+            </Fragment>
         );
     }
    }

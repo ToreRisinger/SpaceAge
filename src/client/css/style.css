@@ -29,10 +29,12 @@ body {
     margin: auto;  
     position: absolute;
     bottom: 0px;
-    width: 100%; 
-    height: 13%;
+    width: 80%; 
+    height: 120px;
     border-top: 1px solid rgb(40, 40, 40);
-    left:0px;
+    border-right: 1px solid rgb(40, 40, 40);
+    border-left: 1px solid rgb(40, 40, 40);
+    left: 0px;
     right: 0px;
 }
 
@@ -43,7 +45,6 @@ body {
     left:0px;
     right: 0px;
     height: 100%;
-    /*border-top: 1px solid rgb(40, 40, 40);*/
     background-color: rgba(0, 0, 0, 0.0);/*rgba(180, 180, 256, 0.2);*/
 }
 
@@ -51,6 +52,67 @@ body {
     width: 25%; 
     text-align: center;
 }
+
+#side_panel {
+    margin: auto;
+    padding-top: 3px; 
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    width: 50px; 
+    height: 100%;
+    border-right: 1px solid rgb(40, 40, 40);
+}
+
+.SidePanelElement {
+    /*margin: auto;*/  
+    position: relative;
+    height: 50px;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.0);/*rgba(180, 180, 256, 0.2);*/
+}
+
+.SidePanelElement:hover {
+    background-color: rgba(355, 355, 355, 0.2);
+}
+
+#ship_window_button {
+   
+}
+
+#map_window_button {
+   
+}
+
+#skills_window_button {
+    
+}
+
+.SidePanelWindow {
+    margin: auto;  
+    position: absolute;
+    left: 50px;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    background-color: rgba(0, 0, 0, 1);
+    z-index: 10;
+}
+
+#ship_window {
+
+}
+
+#map_window {
+    
+}
+
+#skills_window {
+    
+}
+
+
 
 .Unselectable {
     khtml-user-select: none;

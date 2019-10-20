@@ -131,6 +131,9 @@ export module Server {
             ship.x = ship.x + ship.velVec[0];
             ship.y = ship.y + ship.velVec[1];
             ship.speed = math.length(ship.velVec);
+          } else {
+            ship.speed = 0;
+            ship.velVec = [0, 0];
           }
         });
     }

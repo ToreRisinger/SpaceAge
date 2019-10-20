@@ -1,5 +1,5 @@
 import React from "react";
-import { ObjectInterfaces } from "../../../shared/scripts/ObjectInterfaces";
+import { ObjectInterfaces } from "./../../../../shared/scripts/ObjectInterfaces";
 
 export interface BottomPanelProps { ship : ObjectInterfaces.IShip | undefined; }
 
