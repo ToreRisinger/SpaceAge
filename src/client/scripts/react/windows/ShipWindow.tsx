@@ -1,4 +1,5 @@
 import React, { Fragment }  from "react";
+import WindowHeader from "./WindowHeader";
 
 export interface ShipWindowProps {
     window_open: boolean
@@ -13,9 +14,11 @@ export default class ShipWindow extends React.Component<ShipWindowProps, {}> {
     render() {
         return (
             <Fragment>
-            {this.props.window_open &&
-                <div id="ship_window" className="UIComponent SidePanelWindow"></div>
-            }
+                {this.props.window_open &&
+                    <div id="ship_window" className="UIComponent SidePanelWindow">
+                        <WindowHeader text="Ship"/>
+                    </div>
+                }
             </Fragment>
         );
     }

@@ -19,7 +19,7 @@ body {
 
 .UIComponent {
     background-color: rgba(0, 0, 0, 0.6);
-    color: rgba(195, 145, 120);
+    color: rgb(199, 199, 199);
     font-family: consolas;
     z-index: 11;
     font-size: 7px;
@@ -111,6 +111,9 @@ body {
 .SidePanelWindow {
     margin: auto;  
     position: absolute;
+    padding-top: 15px;
+    padding-left: 25px;
+    padding-right: 25px;
     left: 50px;
     top: 0px;
     right: 0px;
@@ -131,6 +134,19 @@ body {
     
 }
 
+.WindowHeader {
+    margin: auto;  
+    top: 0px;
+    right: 0px;
+    left: 0px;
+    height: 10%;
+}
+
+.WindowHeaderText {
+    color: rgb(199, 199, 199);
+    font-size: 25px;
+    margin-bottom: 25px;
+}
 
 
 .Unselectable {
