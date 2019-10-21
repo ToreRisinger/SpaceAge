@@ -36,20 +36,23 @@ export default class SidePanel extends React.Component<{}, SidePanelState> {
         };
         return (
             <Fragment>
-            <div id="side_panel" className="UIComponent">
-                <div id="ship_window_button" className="UIComponent SidePanelElement" style={ship_window_button_style}>
-                <img id="ship_window_button_icon" src="assets/image/ship_icon.png" onClick={this.onShipWindowButtonClicked}></img>
+                <div id="side_panel" className="UIComponent">
+                    <div id="ship_window_button" className="UIComponent SidePanelElement HasTooltip" style={ship_window_button_style}>
+                        <img id="ship_window_button_icon" src="assets/image/ship_icon.png" onClick={this.onShipWindowButtonClicked}></img>
+                        <span className="TooltipText">Ship</span>
+                    </div>
+                    <div id="map_window_button" className="UIComponent SidePanelElement HasTooltip" style={map_window_button_style}>
+                        <img id="map_window_button_icon" src="assets/image/map_icon.png" onClick={this.onMapWindowButtonClicked}></img>
+                        <span className="TooltipText">Map</span>
+                    </div>
+                    <div id="skills_window_button" className="UIComponent SidePanelElement HasTooltip" style={skills_window_button_style}>
+                        <img id="skills_window_button_icon" src="assets/image/skills_icon.png" onClick={this.onSkillsWindowButtonClicked}></img>
+                        <span className="TooltipText">Skills</span>
+                    </div>
                 </div>
-                <div id="map_window_button" className="UIComponent SidePanelElement" style={map_window_button_style}>
-                    <img id="map_window_button_icon" src="assets/image/map_icon.png" onClick={this.onMapWindowButtonClicked}></img>
-                </div>
-                <div id="skills_window_button" className="UIComponent SidePanelElement" style={skills_window_button_style}>
-                <img id="skills_window_button_icon" src="assets/image/skills_icon.png" onClick={this.onSkillsWindowButtonClicked}></img>
-                </div>
-            </div>
-            <ShipWindow window_open={this.state.ship_window_open} />
-            <MapWindow window_open={this.state.map_window_open} />
-            <SkillsWindow window_open={this.state.skills_window_open} />
+                <ShipWindow window_open={this.state.ship_window_open} />
+                <MapWindow window_open={this.state.map_window_open} />
+                <SkillsWindow window_open={this.state.skills_window_open} />
             </Fragment>
         );
     }
