@@ -64,8 +64,8 @@ export default class ShipWindow extends React.Component<ShipWindowProps, ShipWin
                             <pre>Proximity radar:             {ship ? ship.stats[ObjectInterfaces.ShipStatTypeEnum.proximity_radar_range] : "N/A"} m</pre>
                             <pre>Gravity radar:               {ship ? ship.stats[ObjectInterfaces.ShipStatTypeEnum.gravity_radar_range] : "N/A"} m</pre>
                             <hr></hr>
-                            <pre>Targeting system:            {ship ? ship.stats[ObjectInterfaces.ShipStatTypeEnum.targeting_systems] : "N/A"}</pre>
-                            <pre>avoidance_systems:           {ship ? ship.stats[ObjectInterfaces.ShipStatTypeEnum.avoidance_systems] : "N/A"}</pre>
+                            <pre>Targeting systems:            {ship ? ship.stats[ObjectInterfaces.ShipStatTypeEnum.targeting_systems] : "N/A"}</pre>
+                            <pre>Avoidance systems:           {ship ? ship.stats[ObjectInterfaces.ShipStatTypeEnum.avoidance_systems] : "N/A"}</pre>
                             <hr></hr>
                             <pre>Shield generation:           {ship ? ship.stats[ObjectInterfaces.ShipStatTypeEnum.shield_generation] : "N/A"} p/s</pre>
                             <pre>Shield impact resistance:    {ship ? ship.stats[ObjectInterfaces.ShipStatTypeEnum.shield_impact_resistance] : "N/A"} %</pre>

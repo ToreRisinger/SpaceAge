@@ -1,6 +1,6 @@
 import React from "react";
-import { ObjectInterfaces } from "./../../../../shared/scripts/ObjectInterfaces";
-import { GlobalData } from "./../../modules/GlobalData";
+import { ObjectInterfaces } from "../../../../shared/scripts/ObjectInterfaces";
+import { GlobalData } from "../../modules/GlobalData";
 import ShipStats from "./ShipStats";
 
 export interface BottomPanelState { ship : ObjectInterfaces.IShip | undefined; }

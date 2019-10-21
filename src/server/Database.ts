@@ -82,7 +82,7 @@ export module Database {
       );
 
       newShip.stats[ObjectInterfaces.ShipStatTypeEnum.hull] = newShip.stats[ObjectInterfaces.ShipStatTypeEnum.weight]; //TODO
-      newShip.stats[ObjectInterfaces.ShipStatTypeEnum.max_speed] = 10;
+      newShip.stats[ObjectInterfaces.ShipStatTypeEnum.max_speed] = 100;
 
       newShip.properties.currentArmor = newShip.stats[ObjectInterfaces.ShipStatTypeEnum.armor];
       newShip.properties.currentShield = newShip.stats[ObjectInterfaces.ShipStatTypeEnum.shield];

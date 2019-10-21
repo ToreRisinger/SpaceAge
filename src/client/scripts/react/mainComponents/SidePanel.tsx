@@ -24,7 +24,7 @@ export default class SidePanel extends React.Component<{}, SidePanelState> {
      }
 
     render() {
-        var borderStyle = '5px solid rgb(195, 145, 120)';
+        var borderStyle = '5px solid rgb(255, 94, 0)';
         var ship_window_button_style = {
             borderRight: this.state.ship_window_open ? borderStyle : 'none'
         };

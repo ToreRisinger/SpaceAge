@@ -21,7 +21,7 @@ body {
     background-color: rgba(0, 0, 0, 0.6);
     color: rgb(199, 199, 199);
     font-family: consolas;
-    z-index: 11;
+    z-index: 10;
     font-size: 7px;
 }
 
@@ -46,7 +46,7 @@ body {
     margin: auto;  
     position: absolute;
     bottom: 0px;
-    width: 80%; 
+    width: 300px; 
     height: 120px;
     border-top: 1px solid rgb(40, 40, 40);
     border-right: 1px solid rgb(40, 40, 40);
@@ -68,20 +68,21 @@ body {
 }
 
 #ship_stats {
-    width: 25%; 
+    width: 100%; 
     text-align: center;
 }
 
 #side_panel {
     margin: auto;
-    padding-top: 3px; 
     position: absolute;
+    padding-top: 3px; 
     top: 0px;
     bottom: 0px;
     left: 0px;
     width: 50px; 
     height: 100%;
     border-right: 1px solid rgb(40, 40, 40);
+    z-index: 20;
 }
 
 .SidePanelElement {
@@ -90,6 +91,7 @@ body {
     height: 50px;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.0);/*rgba(180, 180, 256, 0.2);*/
+    z-index: inherit;
 }
 
 .SidePanelElement:hover {
@@ -119,7 +121,7 @@ body {
     right: 0px;
     bottom: 0px;
     background-color: rgba(0, 0, 0, 1);
-    z-index: 10;
+    z-index: 30;
     font-size: 15px;
 }
 
@@ -165,6 +167,26 @@ body {
     width: 75%;
 }
 
+#navigation_panel {
+    margin: auto;
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+    width: 220px; 
+    height: 100%;
+    border-left: 1px solid rgb(40, 40, 40);
+}
+
+#chat {
+    margin: auto;
+    position: absolute;
+    bottom: 10px;
+    left: 60px;
+    width: 300px; 
+    height: 200px;
+    border: 1px solid rgb(40, 40, 40);
+}
 
 .Unselectable {
     khtml-user-select: none;
