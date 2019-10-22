@@ -191,7 +191,7 @@ body {
     left: 60px;
     width: 450px; 
     height: 250px;
-    border: 1px solid rgb(40, 40, 40);
+    border: 1px solid rgb(0, 0, 0, 0.0);
     background-color: rgba(0, 0, 0, 0.0);
     display: flex;
     flex-flow: column;
@@ -199,6 +199,7 @@ body {
 
 #chat_window:hover {
     background-color: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgb(40, 40, 40);
 }
 
 #chat_window:hover ::-webkit-scrollbar-thumb {
