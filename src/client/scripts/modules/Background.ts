@@ -3,9 +3,7 @@ import { GameScene } from "../scenes/GameScene"
 import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
 import { EventHandler } from "./EventHandler";
 import { Events } from "../../../shared/scripts/Events";
-import { GUI } from "./GUI";
 import { GlobalData } from "./GlobalData";
-import { IdHandler } from "../../../server/IdHandler";
 
 export module Background {
 

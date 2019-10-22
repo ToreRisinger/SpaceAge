@@ -82,7 +82,7 @@ body {
     width: 50px; 
     height: 100%;
     border-right: 1px solid rgb(40, 40, 40);
-    z-index: 20;
+    z-index: 30;
 }
 
 .SidePanelElement {
@@ -121,7 +121,7 @@ body {
     right: 0px;
     bottom: 0px;
     background-color: rgba(0, 0, 0, 1);
-    z-index: 30;
+    z-index: 20;
     font-size: 15px;
 }
 
@@ -167,6 +167,9 @@ body {
     width: 75%;
 }
 
+/*
+    Root container for the navigation table
+*/
 #navigation_panel {
     margin: auto;
     position: absolute;
@@ -178,14 +181,70 @@ body {
     border-left: 1px solid rgb(40, 40, 40);
 }
 
-#chat {
+/*    
+    Root container for the chat
+*/
+#chat_window {
     margin: auto;
     position: absolute;
     bottom: 10px;
     left: 60px;
-    width: 300px; 
-    height: 200px;
+    width: 450px; 
+    height: 250px;
     border: 1px solid rgb(40, 40, 40);
+    background-color: rgba(0, 0, 0, 0.0);
+    display: flex;
+    flex-flow: column;
+}
+
+#chat_window:hover {
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+#chat_window:hover ::-webkit-scrollbar-thumb {
+    border: 1px solid rgb(199, 199, 199);
+}
+
+/*
+    Container that contains all chat messages
+*/
+#chat_container {
+    margin-right: 7px;
+    margin-left: 7px;
+    margin-top: 7px;
+    margin-bottom: 7px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 30px;
+    z-index: inherit;
+    flex-grow: 1;
+    display: flex;
+    overflow-y: scroll;
+    flex-direction: column-reverse;
+}
+
+.chat_message {
+    margin-bottom: 3px;
+    color: rgb(199, 199, 199);
+    font-family: consolas;
+    font-size: 15px;
+    z-index: inherit;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+}
+
+#chat_input {
+    position: absolute;
+    color: rgb(199, 199, 199);
+    font-family: consolas;
+    font-size: 15px;
+    background-color: rgb(0, 0, 0, 0);
+    border: none;
+    bottom: 0px;
+    width: 100%;
 }
 
 .Unselectable {
@@ -199,7 +258,7 @@ body {
 
 /* width */
 ::-webkit-scrollbar {
-    width: 10px;
+    width: 8px;
 }
 
 /* Track */
@@ -209,9 +268,8 @@ body {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: rgb(114, 99, 67); 
-    border-radius: 10px;
-    border: 1px solid rgb(214, 209, 199);
+    background: rgba(0, 0, 0, 0.0);
+    border: none;
 }
 
 /* Handle on hover */

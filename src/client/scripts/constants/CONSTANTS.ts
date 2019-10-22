@@ -5,7 +5,7 @@ export const CONSTANTS = {
     IMAGE: {
         //Backgrounds
         LOADING_BACKGROUND: "loading_background.png",
-        SPACE_BACKGROUND_1: "space_background_1.png"
+        SPACE_BACKGROUND_1: "space_background_2.png"
     },
     AUDIO: {
 

@@ -37,7 +37,11 @@ export module Server {
           SHIPS.set(newPlayer.ship.id, newPlayer.ship);
           //@ts-ignore
           socket.emit('ServerEvent', PacketFactory.createPlayerLoadEventPacket(PLAYERS.get(playerId).ship));
-      
+          for(let i = 0; i < 40; i++) {
+            //@ts-ignore
+            sendServerMessage(PLAYERS.get(playerId), "Welcome to SpaceAge!Welcome to SpaceAge!Welcome to SpaceAge!Welcome to SpaceAge!Welcome to SpaceAge!Welcome to SpaceAge!Welcome to SpaceAge!");
+          }
+
           socket.on('disconnect', function () {
             console.log('user disconnected');
             SHIPS.delete(newPlayer.ship.id);
@@ -181,14 +185,28 @@ export module Server {
     }
 
     function onChatMessageEvent(player : ObjectInterfaces.IPlayer, event : Events.CLIENT_SEND_CHAT_MESSAGE_EVENT_CONFIG) {
+      broadcastChatMessage(player, event.data.message, event.data.sender);
+    }
+
+    function broadcastChatMessage(player : ObjectInterfaces.IPlayer, message : String, sender : String) {
       let packet : Events.CLIENT_RECEIVE_CHAT_MESSAGE_EVENT_CONFIG = {
         eventId : Events.EEventType.CLIENT_RECEIVE_CHAT_MESSAGE_EVENT,
         data : {
-          message : event.data.message,
-          sender : event.data.sender
+          message : message,
+          sender : sender
         }
       }
-      player.socket.broadcast.emit("ServerEvent", packet);
-      
+      player.socket.broadcast.emit("ServerEvent", packet);  
+    }
+
+    function sendServerMessage(player : ObjectInterfaces.IPlayer, message : String) {
+      let packet : Events.CLIENT_RECEIVE_CHAT_MESSAGE_EVENT_CONFIG = {
+        eventId : Events.EEventType.CLIENT_RECEIVE_CHAT_MESSAGE_EVENT,
+        data : {
+          message : message,
+          sender : "Server"
+        }
+      }
+      player.socket.emit("ServerEvent", packet);  
     }
 }

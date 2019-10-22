@@ -18,14 +18,14 @@ export default class ShipWindow extends React.Component<ShipWindowProps, ShipWin
         super(props)
         this.state = {
             ship: GlobalData.getPlayerShipData()
-          }
-          this.timerID = undefined;
+        }
+        this.timerID = undefined;
     }
 
     componentDidMount() {
         this.timerID = setInterval(
-          () => this.tick(),
-          100
+            () => this.tick(),
+            100
         );
     }
     
@@ -64,7 +64,7 @@ export default class ShipWindow extends React.Component<ShipWindowProps, ShipWin
                             <pre>Proximity radar:             {ship ? ship.stats[ObjectInterfaces.ShipStatTypeEnum.proximity_radar_range] : "N/A"} m</pre>
                             <pre>Gravity radar:               {ship ? ship.stats[ObjectInterfaces.ShipStatTypeEnum.gravity_radar_range] : "N/A"} m</pre>
                             <hr></hr>
-                            <pre>Targeting systems:            {ship ? ship.stats[ObjectInterfaces.ShipStatTypeEnum.targeting_systems] : "N/A"}</pre>
+                            <pre>Targeting systems:           {ship ? ship.stats[ObjectInterfaces.ShipStatTypeEnum.targeting_systems] : "N/A"}</pre>
                             <pre>Avoidance systems:           {ship ? ship.stats[ObjectInterfaces.ShipStatTypeEnum.avoidance_systems] : "N/A"}</pre>
                             <hr></hr>
                             <pre>Shield generation:           {ship ? ship.stats[ObjectInterfaces.ShipStatTypeEnum.shield_generation] : "N/A"} p/s</pre>

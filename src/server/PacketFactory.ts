@@ -8,7 +8,7 @@ export module PacketFactory {
         let packet : Events.INITAL_GAME_LOAD_EVENT_CONFIG = {
             eventId : Events.EEventType.INITAL_GAME_LOAD_EVENT,
             data : {
-            ship : ship
+              ship : ship
             }
         }
     
