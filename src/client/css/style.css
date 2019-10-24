@@ -174,11 +174,51 @@ body {
     margin: auto;
     position: absolute;
     top: 0px;
+    right: 0px;
+    width: 300px; 
+    height: 50%;
+    border-left: 1px solid rgb(135, 135, 135);
+}
+
+#navigation_panel_title {
+    background-color: rgba(0, 0, 0, 0.0);
+    color: rgb(199, 199, 199);
+    font-family: consolas;
+    font-size: 15px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    text-align: center;
+    height: 30px;
+}
+
+#cargo_panel {
+    margin: auto;
+    position: absolute;
     bottom: 0px;
     right: 0px;
-    width: 220px; 
-    height: 100%;
-    border-left: 1px solid rgb(40, 40, 40);
+    width: 300px; 
+    height: 50%; 
+    border-top: 1px solid rgb(135, 135, 135); 
+    border-left: 1px solid rgb(135, 135, 135);
+}
+
+#cargo_panel_title {
+    background-color: rgba(0, 0, 0, 0.0);
+    color: rgb(199, 199, 199);
+    font-family: consolas;
+    font-size: 15px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    text-align: center;
+    height: 30px;
+}
+
+#chat_panel {
+
 }
 
 /*    

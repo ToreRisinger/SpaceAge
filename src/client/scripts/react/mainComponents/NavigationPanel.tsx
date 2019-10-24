@@ -8,7 +8,9 @@ export default class NavigationPanel extends React.Component<{}, {}> {
 
    render() {
         return (
-            <div id="navigation_panel" className="UIComponent"></div>
+            <div id="navigation_panel" className="UIComponent">
+               <div id="navigation_panel_title">Navigation</div>
+            </div>
         );
    }
 }
