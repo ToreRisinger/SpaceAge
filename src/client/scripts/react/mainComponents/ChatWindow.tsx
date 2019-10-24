@@ -35,7 +35,6 @@ export default class ChatWindow extends React.Component<{}, ChatState> {
         this.setState({
             chatMessages: Chat.getChatMessages()
         });
-        
     }
 
     render() {

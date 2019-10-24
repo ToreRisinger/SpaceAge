@@ -12,7 +12,6 @@ export module Chat {
     let chatMessages : Array<IChatMessage> = [];
 
     let chat_input : HTMLElement | null;
-    let chatInputFocus : boolean = false;
 
     export function init() {
         chat_input = document.getElementById("chat_input");

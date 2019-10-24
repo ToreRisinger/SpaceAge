@@ -193,6 +193,95 @@ body {
     height: 30px;
 }
 
+#navigation_panel_table_header {
+    background-color: rgba(0, 0, 0, 0.0);
+    color: rgb(199, 199, 199);
+    font-family: consolas;
+    font-size: 15px;
+    position: absolute;
+    top: 30px;
+    left: 0px;
+    right: 0px;
+    height: 30px;
+    display: flex;
+}
+
+#navigation_panel_table_header_icon {
+    bottom: 0px;
+    top: 0px;
+    width: 20px;
+}
+
+#navigation_panel_table_header_name {
+    width: 134px;
+    text-align: left;
+    vertical-align: middle;
+    padding-left: 3px;
+}
+
+#navigation_panel_table_header_distance {
+    width: 134px;
+    text-align: left;
+    vertical-align: middle;
+    padding-left: 3px;
+}
+
+#navigation_container {
+    margin-right: 2px;
+    margin-left: 2px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    position: absolute;
+    top: 60px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    z-index: inherit;
+    flex-grow: 1;
+    display: flex;
+    overflow-y: scroll;
+    flex-direction: column;
+}
+
+.navigation_row {
+    color: rgb(199, 199, 199);
+    background-color: rgb(0, 0, 0, 0.0);
+    font-family: consolas;
+    font-size: 15px;
+    z-index: inherit;
+    display: flex;
+    height: 20px;
+    margin-bottom: 5px;
+    
+}
+
+.navigation_row:hover {
+    background-color: rgb(199, 199, 199);
+    color: rgb(0, 0, 0);
+}
+
+.navigation_row_icon {
+    bottom: 0px;
+    top: 0px;
+    width: 20px;
+    align-content: center;
+    vertical-align: middle;
+}
+
+.navigation_row_name {
+    width: 134px;
+    text-align: left;
+    vertical-align: middle;
+    padding-left: 3px;
+}
+
+.navigation_row_distance {
+    width: 134px;
+    text-align: left;
+    vertical-align: middle;
+    padding-left: 3px;
+}
+
 #cargo_panel {
     margin: auto;
     position: absolute;

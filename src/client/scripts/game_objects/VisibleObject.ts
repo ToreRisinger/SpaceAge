@@ -13,10 +13,11 @@ export class VisibleObject extends GameObject {
     private ICON_ALPHA_DEFAULT : number = 0.5;
     private ICON_ALPHA_HOVER : number = 1;
     private hoverStateChange : boolean;
+    private icon = SPRITES.SHIP_ICON;
 
     constructor(game_object_config : ObjectInterfaces.IGameObject) {
         super(game_object_config);
-        this.iconSprite = GameScene.getInstance().addSprite(this.getPos().x, this.getPos().y, SPRITES.SHIP_ICON.sprite.key);
+        this.iconSprite = GameScene.getInstance().addSprite(this.getPos().x, this.getPos().y, this.icon.sprite.key);
         this.iconSprite.alpha = this.ICON_ALPHA_DEFAULT;
         this.iconSprite.setInteractive();
         this.iconSprite.setDepth(DRAW_LAYERS.GRAPHICS_LAYER);
@@ -58,6 +59,10 @@ export class VisibleObject extends GameObject {
 
     protected setIconTint(color : number) {
         this.iconSprite.setTint(0x00ff00, 0x00ff00, 0x00ff00, 0x00ff00);
+    }
+
+    public getIconPath() {
+        return this.icon.sprite.file;
     }
 
     isDetectedByGravitationalRadar() : boolean {

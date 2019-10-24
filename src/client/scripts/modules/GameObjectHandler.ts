@@ -21,8 +21,8 @@ export module GameObjectHandler {
         });
     }
 
-    export function getGameObjects() : Map<number, GameObject> {
-        return gameObjects;
+    export function getGameObjects() : Array<GameObject> {
+        return Array.from(gameObjects.values());
     }
 
     function onInitialGameLoad(eventData : Events.INITAL_GAME_LOAD_EVENT_CONFIG) {
