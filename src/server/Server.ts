@@ -37,10 +37,8 @@ export module Server {
           SHIPS.set(newPlayer.ship.id, newPlayer.ship);
           //@ts-ignore
           socket.emit('ServerEvent', PacketFactory.createPlayerLoadEventPacket(PLAYERS.get(playerId).ship));
-          for(let i = 0; i < 40; i++) {
-            //@ts-ignore
-            sendServerMessage(PLAYERS.get(playerId), "Welcome to SpaceAge!");
-          }
+          //@ts-ignore
+          sendServerMessage(PLAYERS.get(playerId), "Welcome to SpaceAge!");
 
           socket.on('disconnect', function () {
             console.log('user disconnected');

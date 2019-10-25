@@ -29,6 +29,7 @@ export module Events {
         KEY_PRESSED_EVENT,
         MOUSE_PRESSED_EVENT,
         BACKGROUND_CLICKED_EVENT,
+        OBJECT_SELECTED_EVENT
 
         /*
             SERVER EVENTS
@@ -82,6 +83,12 @@ export module Events {
         data : {
             mouseX : number;
             mouseY : number;
+        }
+    }
+
+    export interface OBJECT_SELECTED_EVENT_CONFIG extends GameEvent {
+        data : {
+            object : ObjectInterfaces.IGameObject;
         }
     }
 

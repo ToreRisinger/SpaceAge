@@ -5,8 +5,9 @@ export module GlobalData {
 
     /* Player */
     export let playerUsername : String = "Player1";
+    export let selectedObject : ObjectInterfaces.IGameObject | undefined = undefined;
     let playerShip : Ship | undefined = undefined;
-
+    
     /* Camera */
     export let cameraZoom : number = 1;
     export let cameraX : number = 0;

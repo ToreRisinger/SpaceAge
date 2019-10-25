@@ -3,9 +3,12 @@ import { Events } from "../../../shared/scripts/Events"
 export module EventHandler {
     let eventQueue: Array<Events.GameEvent> = [];
     let subscriberMap : { [key:number]:Array<(event : Events.GameEvent) => void >} = {};
+    let initialized : boolean = false;
+
 
     export function init() {
         Object.values(Events.EEventType).forEach(enumValue => subscriberMap[enumValue] = []);
+        initialized = true;
     }
 
     export function update(time : number, delta : number) {
@@ -26,6 +29,10 @@ export module EventHandler {
 
     export function pushEvent(event : Events.GameEvent) {
         eventQueue.push(event);
+    }
+
+    export function isInitialized() : boolean {
+        return initialized;
     }
 
     export function on(eventType : Events.EEventType, callback : (event : Events.GameEvent) => void) {
