@@ -10,6 +10,7 @@ import { Com } from "../modules/Com";
 import { GameStates } from "../modules/GameStates";
 import { GUI } from "../modules/GUI";
 import { InputHandler } from "../modules/InputHandler";
+import { SelectionHandler } from "../modules/SelectionHandler";
 
 export class GameScene extends Phaser.Scene {
     
@@ -40,6 +41,7 @@ export class GameScene extends Phaser.Scene {
         this.createAnimations();
 
         EventHandler.init();
+        SelectionHandler.init();
         Background.init();
         InputHandler.init();
         GameStates.init();

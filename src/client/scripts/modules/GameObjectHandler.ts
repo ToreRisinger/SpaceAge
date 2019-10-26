@@ -65,11 +65,6 @@ export module GameObjectHandler {
 
     }
 
-    function onNewSelection(event : Events.OBJECT_SELECTED_EVENT_CONFIG) {
-        console.log("on new selection");
-        GlobalData.selectedObject = event.data.object;
-    }
-
     function subscribeToInitialEvents() {
         EventHandler.on(Events.EEventType.INITAL_GAME_LOAD_EVENT, onInitialGameLoad);
     }
@@ -79,7 +74,6 @@ export module GameObjectHandler {
         EventHandler.on(Events.EEventType.PLAYER_DISCONNECTED_EVENT, onPlayerDisconnect);
         EventHandler.on(Events.EEventType.SHIPS_UPDATE_EVENT, onShipsUpdate);
         EventHandler.on(Events.EEventType.PLAYER_SET_NEW_DESTINATION_EVENT, onNewShipDestination);
-        EventHandler.on(Events.EEventType.OBJECT_SELECTED_EVENT, onNewSelection);
     }
 
     function destroyGameObject(objectId : number) {

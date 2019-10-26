@@ -29,8 +29,8 @@ export module Events {
         KEY_PRESSED_EVENT,
         MOUSE_PRESSED_EVENT,
         BACKGROUND_CLICKED_EVENT,
-        OBJECT_SELECTED_EVENT
-
+        SELECTION_CHANGE_REQUEST_EVENT,
+        SELECTION_CHANGED_EVENT
         /*
             SERVER EVENTS
         */
@@ -86,9 +86,15 @@ export module Events {
         }
     }
 
-    export interface OBJECT_SELECTED_EVENT_CONFIG extends GameEvent {
+    export interface SELECTION_CHANGE_REQUEST_EVENT_CONFIG extends GameEvent {
         data : {
-            object : ObjectInterfaces.IGameObject;
+            object : ObjectInterfaces.IGameObject | undefined;
+        }
+    }
+
+    export interface SELECTION_CHANGED_EVENT_CONFIG extends GameEvent {
+        data : {
+            object : ObjectInterfaces.IGameObject | undefined;
         }
     }
 

@@ -2,7 +2,6 @@ import React from "react";
 import { RadarDetectable } from "../../game_objects/RadarDetectable";
 import { EventHandler } from "./../../modules/EventHandler";
 import { Events } from "../../../../shared/scripts/Events";
-import { GlobalData } from "../../modules/GlobalData";
 import { ObjectInterfaces } from "../../../../shared/scripts/ObjectInterfaces";
 
 export interface NavigationRowProps { object : RadarDetectable, selected : boolean }
@@ -16,10 +15,16 @@ export default class NavigationRow extends React.Component<NavigationRowProps, {
 
     onSelectObject() {
         if(EventHandler.isInitialized()) {
-            let event : Events.OBJECT_SELECTED_EVENT_CONFIG = {
-                eventId : Events.EEventType.OBJECT_SELECTED_EVENT,
+            let selectedObject : ObjectInterfaces.IGameObject | undefined;
+            if(!this.props.selected) {
+                selectedObject = this.props.object.getGameObjectData();
+            } else {
+                selectedObject = undefined;
+            }
+            let event : Events.SELECTION_CHANGE_REQUEST_EVENT_CONFIG = {
+                eventId : Events.EEventType.SELECTION_CHANGE_REQUEST_EVENT,
                 data : { 
-                    object: this.props.object.getGameObjectData()
+                    object: selectedObject
                 }
             }
             EventHandler.pushEvent(event);

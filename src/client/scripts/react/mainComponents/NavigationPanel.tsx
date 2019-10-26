@@ -1,22 +1,29 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { GameObjectHandler } from "./../../modules/GameObjectHandler"
 import { GameObject } from "./../../game_objects/GameObject"
 import { RadarDetectable } from "../../game_objects/RadarDetectable";
 import  NavigationContainer  from "./NavigationContainer"
+import  SelectionPanel  from "./SelectionPanel"
+import { EventHandler } from "./../../modules/EventHandler";
+import { Events } from "../../../../shared/scripts/Events";
+import { ObjectInterfaces } from "../../../../shared/scripts/ObjectInterfaces";
 
-export interface NavigationPanelState { gameObjects : Array<GameObject>; }
+export interface NavigationPanelState { gameObjects : Array<GameObject>, selectedObject : ObjectInterfaces.IGameObject | undefined; }
 
 export default class NavigationPanel extends React.Component<{}, NavigationPanelState> {
   
    private timerID : ReturnType<typeof setTimeout> | undefined;
+   private registeredEvents : boolean = false;
 
    constructor(props : {}) {
       super(props)
       this.state = {
-         gameObjects: GameObjectHandler.getGameObjects()
+         gameObjects : GameObjectHandler.getGameObjects(),
+         selectedObject : undefined
      }
      this.timerID = undefined;
      this.tick = this.tick.bind(this);
+     this.onNewSelection = this.onNewSelection.bind(this);
    }
 
    componentDidMount() {
@@ -32,25 +39,40 @@ export default class NavigationPanel extends React.Component<{}, NavigationPanel
       }
   }
   
-  tick() {
+   tick() {
       this.setState({
          gameObjects: GameObjectHandler.getGameObjects()
       });
-  }
+   }
+
+   onNewSelection(event: Events.SELECTION_CHANGED_EVENT_CONFIG) {
+      this.setState({
+         selectedObject: event.data.object 
+      });
+   }
 
    render() {
-         let radarDetectables = new Array<RadarDetectable>();
-
-         for(let i = 0; i < this.state.gameObjects.length; i++) {
-            let object : GameObject = this.state.gameObjects[i];
-            if(object instanceof RadarDetectable && !object.isThisPlayerShip()) {
-               radarDetectables.push(object);
-            }
+      if(!this.registeredEvents) {
+         if(EventHandler.isInitialized()) {
+             EventHandler.on(Events.EEventType.SELECTION_CHANGED_EVENT, this.onNewSelection)
+             this.registeredEvents = true;
          }
+      }
 
-         radarDetectables.sort(function(a,b) { return +b - +a });
+      let radarDetectables = new Array<RadarDetectable>();
 
-         return (
+      for(let i = 0; i < this.state.gameObjects.length; i++) {
+         let object : GameObject = this.state.gameObjects[i];
+         if(object instanceof RadarDetectable && !object.isThisPlayerShip()) {
+            radarDetectables.push(object);
+         }
+      }
+
+      radarDetectables.sort(function(a,b) { return a.getDistanceToPlayerShip() - b.getDistanceToPlayerShip()});
+
+      return (
+         <Fragment>
+            <SelectionPanel selectedObject={this.state.selectedObject} />
             <div id="navigation_panel" className="UIComponent">
                <div id="navigation_panel_title" className="Unselectable">Navigation</div>
                <div id="navigation_panel_table_header">
@@ -58,8 +80,9 @@ export default class NavigationPanel extends React.Component<{}, NavigationPanel
                   <div id="navigation_panel_table_header_name" className="Unselectable">Name</div>
                   <div id="navigation_panel_table_header_distance" className="Unselectable">Distance</div>
                </div>
-               <NavigationContainer itemsToList={radarDetectables} />
+               <NavigationContainer itemsToList={radarDetectables} selectedId={this.state.selectedObject != undefined ? this.state.selectedObject.id : -1} />
             </div>
-        );
+         </Fragment>
+      );
    }
 }

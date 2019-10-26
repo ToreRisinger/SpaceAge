@@ -280,6 +280,16 @@ body {
     vertical-align: middle;
 }
 
+#selection_panel {
+    margin: auto;
+    position: absolute;
+    top: 0px;
+    right: 310px;
+    width: 200px;
+    height: 200px;
+    border: 1px solid rgb(135, 135, 135);
+}
+
 #cargo_panel {
     margin: auto;
     position: absolute;
@@ -302,10 +312,6 @@ body {
     right: 0px;
     text-align: center;
     height: 30px;
-}
-
-#chat_panel {
-
 }
 
 /*    
