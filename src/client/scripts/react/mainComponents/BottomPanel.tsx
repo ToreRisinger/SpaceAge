@@ -12,7 +12,7 @@ export default class BottomPanel extends React.Component<{}, BottomPanelState> {
    constructor(props : {}) {
       super(props)
       this.state = {
-        ship: GlobalData.getPlayerShipData()
+        ship: undefined
       }
       this.timerID = undefined;
    }

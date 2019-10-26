@@ -2,7 +2,7 @@ import React from "react";
 import { RadarDetectable } from "../../game_objects/RadarDetectable";
 import NavigationRow from "./NavigationRow";
 
-export interface NavigationContainerProps { itemsToList : Array<RadarDetectable>, selectedId: number }
+export interface NavigationContainerProps { itemsToList : Array<RadarDetectable> }
 
 export default class NavigationContainer extends React.Component<NavigationContainerProps, {}> {
 
@@ -13,7 +13,7 @@ export default class NavigationContainer extends React.Component<NavigationConta
     render() {
         return (
             <div id="navigation_container">
-                {this.props.itemsToList.map((object, i) => <NavigationRow object={object} key={i} selected={this.props.selectedId == object.getGameObjectData().id}/>)}
+                {this.props.itemsToList.map((object, i) => <NavigationRow object={object} key={i}/>)}
             </div>
         );
     }

@@ -48,11 +48,6 @@ export class ShipSprite {
                 y : shipModule.y,
                 sprite : sprite
             }
-                
-            //if(ShipModules.getModuleInfo(module.module.module_type).animation != undefined) {
-            //    //@ts-ignore
-            //    GameScene.getInstance().playAnimation(module.sprite, ShipModules.getModuleInfo(module.module.module_type).animation.key);
-            //}
             
             module.sprite.setInteractive();
             module.sprite.on('pointerover', () => {
@@ -60,6 +55,9 @@ export class ShipSprite {
             });
             module.sprite.on('pointerout', () =>  {
                 this.thisShip.setIsHoverOrSelected(false);
+            });
+            module.sprite.on('pointerdown', () => {
+                this.thisShip.select();
             });
             
             if(this.thisPlayerShip) {

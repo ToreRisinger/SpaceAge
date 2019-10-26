@@ -1,8 +1,7 @@
 import React from "react";
-import { GlobalData } from "../../modules/GlobalData";
-import { ObjectInterfaces } from "../../../../shared/scripts/ObjectInterfaces";
+import { GameObject } from "../../game_objects/GameObject";
 
-export interface SelectionPanelProps { selectedObject: ObjectInterfaces.IGameObject | undefined }
+export interface SelectionPanelProps { selectedObject: GameObject | undefined }
 
 export default class SelectionPanel extends React.Component<SelectionPanelProps, {}> {
 

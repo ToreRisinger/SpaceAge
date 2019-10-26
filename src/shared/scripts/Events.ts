@@ -1,4 +1,5 @@
 import { ObjectInterfaces } from "./ObjectInterfaces"
+import { GameObject } from "../../client/scripts/game_objects/GameObject";
 
 
 export module Events {
@@ -88,13 +89,13 @@ export module Events {
 
     export interface SELECTION_CHANGE_REQUEST_EVENT_CONFIG extends GameEvent {
         data : {
-            object : ObjectInterfaces.IGameObject | undefined;
+            object : GameObject | undefined;
         }
     }
 
     export interface SELECTION_CHANGED_EVENT_CONFIG extends GameEvent {
         data : {
-            object : ObjectInterfaces.IGameObject | undefined;
+            object : GameObject | undefined;
         }
     }
 

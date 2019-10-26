@@ -34,8 +34,8 @@ export module GameObjectHandler {
         gameObjects.set(thisShipId, newShip);
 
         //@ts-ignore
-        GlobalData.setPlayerShip(gameObjects.get(thisShipId));
-
+        GlobalData.playerShip = gameObjects.get(thisShipId); 
+        
         subscribeToEvents();
     }
 

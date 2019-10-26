@@ -14,7 +14,7 @@ export module GUI {
     }
 
     export function update(time : number, delta : number) {
-        let ship : Ship | undefined =  GlobalData.getPlayerShip();
+        let ship : Ship | undefined =  GlobalData.playerShip;
         if(ship != undefined) {
            //Set ship hud data
         }

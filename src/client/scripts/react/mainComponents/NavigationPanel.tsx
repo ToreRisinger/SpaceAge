@@ -8,7 +8,7 @@ import { EventHandler } from "./../../modules/EventHandler";
 import { Events } from "../../../../shared/scripts/Events";
 import { ObjectInterfaces } from "../../../../shared/scripts/ObjectInterfaces";
 
-export interface NavigationPanelState { gameObjects : Array<GameObject>, selectedObject : ObjectInterfaces.IGameObject | undefined; }
+export interface NavigationPanelState { gameObjects : Array<GameObject>, selectedObject : GameObject | undefined; }
 
 export default class NavigationPanel extends React.Component<{}, NavigationPanelState> {
   
@@ -80,7 +80,7 @@ export default class NavigationPanel extends React.Component<{}, NavigationPanel
                   <div id="navigation_panel_table_header_name" className="Unselectable">Name</div>
                   <div id="navigation_panel_table_header_distance" className="Unselectable">Distance</div>
                </div>
-               <NavigationContainer itemsToList={radarDetectables} selectedId={this.state.selectedObject != undefined ? this.state.selectedObject.id : -1} />
+               <NavigationContainer itemsToList={radarDetectables}/>
             </div>
          </Fragment>
       );

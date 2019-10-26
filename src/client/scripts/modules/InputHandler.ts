@@ -1,7 +1,6 @@
 import { GameScene } from "../scenes/GameScene";
 import { EventHandler } from "./EventHandler";
 import { Events } from "../../../shared/scripts/Events";
-import { Background } from "./Background";
 import { GlobalData } from "./GlobalData";
 
 export module InputHandler {
@@ -54,7 +53,4 @@ export module InputHandler {
         }
         EventHandler.pushEvent(event);
     }
-
-
-
 }

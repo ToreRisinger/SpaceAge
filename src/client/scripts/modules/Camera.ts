@@ -50,7 +50,7 @@ export module Camera {
     }
 
     function centerOnPlayer() {
-        let ship : GameObject | undefined =  GlobalData.getPlayerShip();
+        let ship : GameObject | undefined =  GlobalData.playerShip;
         if(ship != undefined){
             x = ship.getPos().x;
             y = ship.getPos().y;

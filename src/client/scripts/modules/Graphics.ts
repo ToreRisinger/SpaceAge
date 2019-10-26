@@ -10,19 +10,19 @@ export module Graphics {
     let line : Phaser.Geom.Line;
     let circle : Phaser.Geom.Circle;
 
+    let selectionLineGraphics : Phaser.GameObjects.Graphics;
+    let selectionLineGraphicsColor : number = 0xFFFFFF;
     let destinationLineGraphics : Phaser.GameObjects.Graphics;
     let destinationCircleGraphics : Phaser.GameObjects.Graphics;
-    let destinationGraphicsColor : number;
+    let destinationGraphicsColor : number = 0x00FF00;
 
     let radarRangeCircleGraphics : Phaser.GameObjects.Graphics;
-    let radarRangeColor : number;
+    let radarRangeColor : number = 0xFFFFFF;
 
     export function init() {
-        
-        radarRangeColor = 0xFFFFFF;
-        destinationGraphicsColor = 0x00FF00;
 
         line = new Phaser.Geom.Line(0, 0, 0, 0);
+
         circle = new Phaser.Geom.Circle(0, 0, 0);
 
         createNewLineGraphics(GlobalData.cameraZoom);
@@ -31,6 +31,7 @@ export module Graphics {
     export function update(time : number, delta : number) {
         let cameraZoom = GlobalData.cameraZoom;
 
+        selectionLineGraphics.destroy();
         destinationLineGraphics.destroy();
         destinationCircleGraphics.destroy();
         radarRangeCircleGraphics.destroy();
@@ -40,7 +41,7 @@ export module Graphics {
         createNewLineGraphics(cameraZoom);
 
         //@ts-ignore
-        let ship : Ship = GlobalData.getPlayerShip();
+        let ship : Ship = GlobalData.playerShip;
        
         if(ship != undefined) {
             let x = ship.getPos().x;
@@ -52,6 +53,11 @@ export module Graphics {
                 circle.setTo(ship.getDestinationPos().x, ship.getDestinationPos().y, 5 * cameraZoom);
                 destinationCircleGraphics.strokeCircleShape(circle).setDepth(DRAW_LAYERS.GRAPHICS_LAYER);
             }
+
+            if(GlobalData.selectedObject != undefined) {
+                line.setTo(x, y, GlobalData.selectedObject.getPos().x, GlobalData.selectedObject.getPos().y);
+                selectionLineGraphics.strokeLineShape(line).setDepth(DRAW_LAYERS.DESTINATION_LINE_LAYER);
+            }
             
             circle.setTo(x, y, ship.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.proximity_radar_range]);
             radarRangeCircleGraphics.strokeCircleShape(circle).setDepth(DRAW_LAYERS.GRAPHICS_LAYER);
@@ -62,6 +68,7 @@ export module Graphics {
     }
 
     function createNewLineGraphics(lineWidth : number) {
+        selectionLineGraphics = GameScene.getInstance().add.graphics({lineStyle : { width: lineWidth, color: selectionLineGraphicsColor, alpha: 0.2}});
         destinationLineGraphics = GameScene.getInstance().add.graphics({lineStyle : { width: lineWidth, color: destinationGraphicsColor, alpha: 0.5}});
         destinationCircleGraphics = GameScene.getInstance().add.graphics({lineStyle : { width: lineWidth, color: destinationGraphicsColor, alpha: 0.5}});
         radarRangeCircleGraphics = GameScene.getInstance().add.graphics({lineStyle : { width: lineWidth, color: radarRangeColor, alpha: 0.2}});

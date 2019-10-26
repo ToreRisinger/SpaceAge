@@ -1,12 +1,13 @@
 import { Ship } from "../game_objects/Ship";
 import { ObjectInterfaces } from "../../../shared/scripts/ObjectInterfaces"
+import { GameObject } from "../game_objects/GameObject";
 
 export module GlobalData {
 
     /* Player */
     export let playerUsername : String = "Player1";
-    export let selectedObject : ObjectInterfaces.IGameObject | undefined = undefined;
-    let playerShip : Ship | undefined = undefined;
+    export let selectedObject : GameObject | undefined = undefined;
+    export let playerShip : Ship | undefined = undefined;
     
     /* Camera */
     export let cameraZoom : number = 1;
@@ -22,19 +23,11 @@ export module GlobalData {
     export let mouseX : number = 0;
     export let mouseY : number = 0;
 
-    export function getPlayerShip() : Ship | undefined {
-        return playerShip;
-    }
-
     export function getPlayerShipData() : ObjectInterfaces.IShip | undefined {
         if(playerShip != undefined) {
-            return playerShip.getShipData();
+            return playerShip.getShipData()
         } else {
             return undefined;
         }
-    }
-
-    export function setPlayerShip(ship : Ship) {
-        playerShip = ship;
     }
 }

@@ -1,10 +1,7 @@
 import React from "react";
 import { RadarDetectable } from "../../game_objects/RadarDetectable";
-import { EventHandler } from "./../../modules/EventHandler";
-import { Events } from "../../../../shared/scripts/Events";
-import { ObjectInterfaces } from "../../../../shared/scripts/ObjectInterfaces";
 
-export interface NavigationRowProps { object : RadarDetectable, selected : boolean }
+export interface NavigationRowProps { object : RadarDetectable}
 
 export default class NavigationRow extends React.Component<NavigationRowProps, { }> {
 
@@ -14,27 +11,13 @@ export default class NavigationRow extends React.Component<NavigationRowProps, {
     }
 
     onSelectObject() {
-        if(EventHandler.isInitialized()) {
-            let selectedObject : ObjectInterfaces.IGameObject | undefined;
-            if(!this.props.selected) {
-                selectedObject = this.props.object.getGameObjectData();
-            } else {
-                selectedObject = undefined;
-            }
-            let event : Events.SELECTION_CHANGE_REQUEST_EVENT_CONFIG = {
-                eventId : Events.EEventType.SELECTION_CHANGE_REQUEST_EVENT,
-                data : { 
-                    object: selectedObject
-                }
-            }
-            EventHandler.pushEvent(event);
-        }
+        this.props.object.select();
     }
 
     render() {
         let iconPath = "assets/sprite/" + this.props.object.getIconPath();
         let rowClassString = "navigation_row Unselectable ";
-        if(this.props.selected) {
+        if(this.props.object.isSelected()) {
             rowClassString += "navigation_row_selected";
         } 
 
