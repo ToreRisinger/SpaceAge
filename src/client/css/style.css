@@ -219,7 +219,7 @@ body {
 }
 
 #navigation_panel_table_header_distance {
-    width: 137px;
+    width: 126px;
     text-align: left;
     vertical-align: middle;
 }
@@ -246,7 +246,7 @@ body {
     display: flex;
     height: 20px;
     padding: 3px;
-    width: 294px;
+    width: 286px;
 }
 
 .navigation_row:hover {
@@ -275,7 +275,7 @@ body {
 }
 
 .navigation_row_distance {
-    width: 134px;
+    width: 126px;
     text-align: left;
     vertical-align: middle;
 }
