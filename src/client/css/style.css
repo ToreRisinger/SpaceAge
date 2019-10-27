@@ -377,8 +377,24 @@ body {
     font-size: 15px;
     background-color: rgb(0, 0, 0, 0);
     border: none;
-    bottom: 0px;
+    bottom: 10px;
     width: 100%;
+}
+
+#ruler_panel {
+    position: absolute;
+    bottom: 10px;
+    height: 40px;
+    width: 100px;
+    right: 320px;
+}
+
+#ruler_image {
+    position: absolute;
+    width: 100px;
+    height: 20px;
+    bottom: 0px;
+
 }
 
 .Unselectable {

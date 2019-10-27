@@ -6,6 +6,9 @@ import { Events } from "../../../shared/scripts/Events";
 
 export module Camera {
 
+    let CAMERA_MIN_ZOOM : number = 1;
+    let CAMERA_MAX_ZOOM : number = 20;
+
     let camera : Phaser.Cameras.Scene2D.Camera;
     let x : integer;
     let y : integer;
@@ -26,7 +29,7 @@ export module Camera {
 
         currentZoom = 1;
         minZoom = 1;
-        maxZoom = 256;
+        maxZoom = Math.pow(2, CAMERA_MAX_ZOOM);
 
         subscribeToEvents();
     }

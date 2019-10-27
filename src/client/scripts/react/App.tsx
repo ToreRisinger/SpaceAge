@@ -5,6 +5,7 @@ import SideMenu from "./mainComponents/SidePanel";
 import NavigationPanel from "./mainComponents/NavigationPanel";
 import Chat from "./mainComponents/ChatWindow";
 import CargoPanel from "./mainComponents/CargoPanel";
+import RulerPanel from "./mainComponents/RulerPanel";
 
 export default class App extends React.Component {
     constructor(props : Ship) {
@@ -19,6 +20,7 @@ export default class App extends React.Component {
                 <Chat/>
                 <NavigationPanel/>
                 <CargoPanel/>
+                <RulerPanel/>
             </Fragment>
         );
     }
