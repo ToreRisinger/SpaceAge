@@ -29,7 +29,7 @@ export module Database {
                         {module: ItemFactory.createModule(ShipModules.SHIP_MODULE_TYPE_ENUM.MAIN_MODULE_I, 1), x: 0, y : 0},
                         {module: ItemFactory.createModule(ShipModules.SHIP_MODULE_TYPE_ENUM.CARGO_HOLD_MODULE_I, 1), x: 1, y : 0},
                         {module: ItemFactory.createModule(ShipModules.SHIP_MODULE_TYPE_ENUM.AVOIDANCE_SYSTEM_MODULE_I, 1), x: -1, y : 1},
-                        {module: ItemFactory.createModule(ShipModules.SHIP_MODULE_TYPE_ENUM.REPAIR_FACILITY_MODULE_I, 1), x: 0, y : 1},
+                        {module: ItemFactory.createModule(ShipModules.SHIP_MODULE_TYPE_ENUM.RADAR_MODULE_I, 1), x: 0, y : 1},
                         {module: ItemFactory.createModule(ShipModules.SHIP_MODULE_TYPE_ENUM.SHIP_PLATING_MODULE_I, 1), x: 1, y : 1}
                     ],
           stats : {
@@ -38,7 +38,6 @@ export module Database {
             [ObjectInterfaces.ShipStatTypeEnum.armor_explosion_resistance] : 0,
             [ObjectInterfaces.ShipStatTypeEnum.armor_heat_resistance] : 0,
             [ObjectInterfaces.ShipStatTypeEnum.armor_impact_resistance] : 0,
-            [ObjectInterfaces.ShipStatTypeEnum.armor_repair] : 0,
             [ObjectInterfaces.ShipStatTypeEnum.avoidance_systems] : 0,
             [ObjectInterfaces.ShipStatTypeEnum.cargo_hold] : 0,
             [ObjectInterfaces.ShipStatTypeEnum.energy_grid] : 0,
@@ -46,13 +45,9 @@ export module Database {
             [ObjectInterfaces.ShipStatTypeEnum.hull] : 0,
             [ObjectInterfaces.ShipStatTypeEnum.max_speed] : 0,
             [ObjectInterfaces.ShipStatTypeEnum.shield] : 0,
-            [ObjectInterfaces.ShipStatTypeEnum.shield_explosion_resistance] : 0,
             [ObjectInterfaces.ShipStatTypeEnum.shield_generation] : 0,
-            [ObjectInterfaces.ShipStatTypeEnum.shield_heat_resistance] : 0,
-            [ObjectInterfaces.ShipStatTypeEnum.shield_impact_resistance] : 0,
             [ObjectInterfaces.ShipStatTypeEnum.targeting_systems] : 0,
             [ObjectInterfaces.ShipStatTypeEnum.thrust] : 0,
-            [ObjectInterfaces.ShipStatTypeEnum.proximity_radar_range] : 0,
             [ObjectInterfaces.ShipStatTypeEnum.weight] : 0
           },
           properties : {

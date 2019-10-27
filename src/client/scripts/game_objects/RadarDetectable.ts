@@ -17,7 +17,6 @@ export class RadarDetectable extends GameObject {
     private icon = SPRITES.SHIP_ICON;
 
     private detectedByGravitationalRadar : boolean;
-    private detectedByProximityRadar : boolean;
     private distanceToPlayerShip : number;
     private thisPlayerShip : boolean;
 
@@ -25,7 +24,6 @@ export class RadarDetectable extends GameObject {
         super(game_object_config);
         this.thisPlayerShip = thisPlayerShip;
         this.detectedByGravitationalRadar = this.thisPlayerShip;
-        this.detectedByProximityRadar = this.thisPlayerShip;
         this.distanceToPlayerShip = 0;
 
         this.iconSprite = GameScene.getInstance().addSprite(this.getPos().x, this.getPos().y, this.icon.sprite.key);
@@ -88,10 +86,6 @@ export class RadarDetectable extends GameObject {
         return this.detectedByGravitationalRadar;
     }
 
-    public isDetectedByProximityRadar(): boolean {
-        return this.detectedByProximityRadar;
-    }
-
     public getDistanceToPlayerShip() : number {
         return this.distanceToPlayerShip;
     }
@@ -100,16 +94,11 @@ export class RadarDetectable extends GameObject {
         if(this.thisPlayerShip) {
             //@ts-ignore
             let playerShip : Ship =  GlobalData.playerShip;
-            let proximityRadarRange : number = playerShip.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.proximity_radar_range];
             let gravityRadarRange : number = playerShip.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.gravity_radar_range];
 
-            this.detectedByProximityRadar = false;
             this.detectedByGravitationalRadar = false;
 
-            if(this.getDistanceToPlayerShip() <= proximityRadarRange) {
-                this.detectedByProximityRadar = true;
-                this.detectedByGravitationalRadar = true;
-            } else if(this.getDistanceToPlayerShip() <= gravityRadarRange) {
+            if(this.getDistanceToPlayerShip() <= gravityRadarRange) {
                 this.detectedByGravitationalRadar = true;
             }
         }

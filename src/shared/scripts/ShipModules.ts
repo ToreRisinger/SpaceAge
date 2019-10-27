@@ -11,7 +11,6 @@ export module ShipModules {
         //Modules
         CARGO_HOLD_MODULE_I,
         SHIP_PLATING_MODULE_I,
-        REPAIR_FACILITY_MODULE_I,
         SHIELD_GENERATOR_MODULE_I,
         TARGETING_SYSTEM_MODULE_I,
         AVOIDANCE_SYSTEM_MODULE_I,
@@ -44,12 +43,6 @@ export module ShipModules {
                         stat: ObjectInterfaces.ShipStatTypeEnum.thrust,
                         max : 20,
                         min : 10,
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
-                    },
-                    {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.proximity_radar_range,
-                        max : 2000,
-                        min : 1000,
                         modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     },
                     {
@@ -101,12 +94,6 @@ export module ShipModules {
                     }
                 ],
                 possibleExtraStats : [
-                    {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.proximity_radar_range,
-                        max : 4,
-                        min : 1,
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
-                    },
                     {
                         stat: ObjectInterfaces.ShipStatTypeEnum.armor,
                         max : 4,
@@ -210,30 +197,9 @@ export module ShipModules {
             stats : {
                 base: [
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.proximity_radar_range,
-                        max : 4,
-                        min : 2,
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
-                    },
-                    {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.weight,
-                        max : 30,
-                        min : 30,
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
-                    }
-                ],
-                possibleExtraStats : []
-            }
-        },
-        [SHIP_MODULE_TYPE_ENUM.REPAIR_FACILITY_MODULE_I] : {
-            animation : SPRITES.REPAIR_FACILITY_MODULE_I.animation,
-            sprite : SPRITES.REPAIR_FACILITY_MODULE_I.sprite,
-            stats : {
-                base: [
-                    {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.armor_repair,
-                        max : 4,
-                        min : 2,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.gravity_radar_range,
+                        max : 5000,
+                        min : 2000,
                         modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     },
                     {

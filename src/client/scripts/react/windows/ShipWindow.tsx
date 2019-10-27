@@ -61,18 +61,13 @@ export default class ShipWindow extends React.Component<ShipWindowProps, ShipWin
                             <pre>Energy grid:                 {ship ? ship.stats[ObjectInterfaces.ShipStatTypeEnum.energy_grid] : "N/A"}</pre>
                             <pre>Cargo hold:                  {ship ? ship.stats[ObjectInterfaces.ShipStatTypeEnum.cargo_hold] : "N/A"} m<sup>2</sup></pre>
                             <hr></hr>
-                            <pre>Proximity radar:             {ship ? ship.stats[ObjectInterfaces.ShipStatTypeEnum.proximity_radar_range] : "N/A"} m</pre>
                             <pre>Gravity radar:               {ship ? ship.stats[ObjectInterfaces.ShipStatTypeEnum.gravity_radar_range] : "N/A"} m</pre>
                             <hr></hr>
                             <pre>Targeting systems:           {ship ? ship.stats[ObjectInterfaces.ShipStatTypeEnum.targeting_systems] : "N/A"}</pre>
                             <pre>Avoidance systems:           {ship ? ship.stats[ObjectInterfaces.ShipStatTypeEnum.avoidance_systems] : "N/A"}</pre>
                             <hr></hr>
                             <pre>Shield generation:           {ship ? ship.stats[ObjectInterfaces.ShipStatTypeEnum.shield_generation] : "N/A"} p/s</pre>
-                            <pre>Shield impact resistance:    {ship ? ship.stats[ObjectInterfaces.ShipStatTypeEnum.shield_impact_resistance] : "N/A"} %</pre>
-                            <pre>Shield heat resistance:      {ship ? ship.stats[ObjectInterfaces.ShipStatTypeEnum.shield_heat_resistance] : "N/A"} %</pre>
-                            <pre>Shield explosion resistance: {ship ? ship.stats[ObjectInterfaces.ShipStatTypeEnum.shield_explosion_resistance] : "N/A"} %</pre>
                             <hr></hr>
-                            <pre>Armor repair:                {ship ? ship.stats[ObjectInterfaces.ShipStatTypeEnum.armor_repair] : "N/A"} p/s</pre>
                             <pre>Armor impact resistance:     {ship ? ship.stats[ObjectInterfaces.ShipStatTypeEnum.armor_impact_resistance] : "N/A"} %</pre>
                             <pre>Armor heat resistance:       {ship ? ship.stats[ObjectInterfaces.ShipStatTypeEnum.armor_heat_resistance] : "N/A"} %</pre>
                             <pre>Armor explosion resistance:  {ship ? ship.stats[ObjectInterfaces.ShipStatTypeEnum.armor_explosion_resistance] : "N/A"} %</pre>
@@ -85,11 +80,4 @@ export default class ShipWindow extends React.Component<ShipWindowProps, ShipWin
             </Fragment>
         );
     }
-    /*
-
-            [ShipStatTypeEnum.armor_repair] : number,
-            [ShipStatTypeEnum.armor_impact_resistance] : number,
-            [ShipStatTypeEnum.armor_heat_resistance] : number,
-            [ShipStatTypeEnum.armor_explosion_resistance] : number,
-*/
 }
