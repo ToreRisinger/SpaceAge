@@ -47,7 +47,7 @@ export module Database {
             [ObjectInterfaces.ShipStatTypeEnum.shield_generation] : 0,
             [ObjectInterfaces.ShipStatTypeEnum.targeting_systems] : 0,
             [ObjectInterfaces.ShipStatTypeEnum.thrust] : 0,
-            [ObjectInterfaces.ShipStatTypeEnum.weight] : 0
+            [ObjectInterfaces.ShipStatTypeEnum.mass] : 0
           },
           properties : {
             currentArmor: 0,
@@ -75,10 +75,10 @@ export module Database {
         )
       );
 
-      newShip.stats[ObjectInterfaces.ShipStatTypeEnum.hull] = newShip.stats[ObjectInterfaces.ShipStatTypeEnum.weight]; //TODO
+      newShip.stats[ObjectInterfaces.ShipStatTypeEnum.hull] = newShip.stats[ObjectInterfaces.ShipStatTypeEnum.mass]; //TODO
       newShip.stats[ObjectInterfaces.ShipStatTypeEnum.max_speed] = 1000;
       newShip.stats[ObjectInterfaces.ShipStatTypeEnum.acceleration] = 
-        newShip.stats[ObjectInterfaces.ShipStatTypeEnum.thrust] / newShip.stats[ObjectInterfaces.ShipStatTypeEnum.weight];
+        newShip.stats[ObjectInterfaces.ShipStatTypeEnum.thrust] / newShip.stats[ObjectInterfaces.ShipStatTypeEnum.mass];
 
       newShip.properties.currentArmor = newShip.stats[ObjectInterfaces.ShipStatTypeEnum.armor];
       newShip.properties.currentShield = newShip.stats[ObjectInterfaces.ShipStatTypeEnum.shield];

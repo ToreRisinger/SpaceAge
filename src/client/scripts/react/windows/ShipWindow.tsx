@@ -57,7 +57,7 @@ export default class ShipWindow extends React.Component<ShipWindowProps, ShipWin
                             <pre>Acceleration:                {ship ? ship.stats[ObjectInterfaces.ShipStatTypeEnum.acceleration] : "N/A"} m/s<sup>2</sup></pre>
                             <pre>Max speed:                   {ship ? ship.stats[ObjectInterfaces.ShipStatTypeEnum.max_speed] : "N/A"} km/h</pre>
                             <hr></hr>
-                            <pre>Weight:                      {ship ? ship.stats[ObjectInterfaces.ShipStatTypeEnum.weight] : "N/A"} kg</pre>
+                            <pre>Mass:                        {ship ? ship.stats[ObjectInterfaces.ShipStatTypeEnum.mass] : "N/A"} kg</pre>
                             <pre>Energy grid:                 {ship ? ship.stats[ObjectInterfaces.ShipStatTypeEnum.energy_grid] : "N/A"}</pre>
                             <pre>Cargo hold:                  {ship ? ship.stats[ObjectInterfaces.ShipStatTypeEnum.cargo_hold] : "N/A"} m<sup>2</sup></pre>
                             <hr></hr>

@@ -33,7 +33,7 @@ export module ObjectInterfaces {
         max_speed,
         acceleration,
         avoidance_systems,
-        weight,
+        mass,
         hull,
         armor,
         shield,
@@ -97,7 +97,7 @@ export module ObjectInterfaces {
         stats : {
             [ShipStatTypeEnum.thrust] : number,
             [ShipStatTypeEnum.max_speed] : number,
-            [ShipStatTypeEnum.weight] : number,
+            [ShipStatTypeEnum.mass] : number,
             [ShipStatTypeEnum.hull] : number,
             [ShipStatTypeEnum.armor] : number,
             [ShipStatTypeEnum.shield] : number,

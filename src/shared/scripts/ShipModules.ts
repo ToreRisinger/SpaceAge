@@ -64,7 +64,7 @@ export module ShipModules {
                         modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.weight,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.mass,
                         max : 30,
                         min : 30,
                         modifier : ObjectInterfaces.ShipStatModifierEnum.increase
@@ -87,7 +87,7 @@ export module ShipModules {
                         modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.weight,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.mass,
                         max : 30,
                         min : 30,
                         modifier : ObjectInterfaces.ShipStatModifierEnum.increase
@@ -115,7 +115,7 @@ export module ShipModules {
                         modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.weight,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.mass,
                         max : 30,
                         min : 30,
                         modifier : ObjectInterfaces.ShipStatModifierEnum.increase
@@ -161,7 +161,7 @@ export module ShipModules {
                         modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.weight,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.mass,
                         max : 30,
                         min : 30,
                         modifier : ObjectInterfaces.ShipStatModifierEnum.increase
@@ -182,7 +182,7 @@ export module ShipModules {
                         modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.weight,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.mass,
                         max : 30,
                         min : 30,
                         modifier : ObjectInterfaces.ShipStatModifierEnum.increase
@@ -203,7 +203,7 @@ export module ShipModules {
                         modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.weight,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.mass,
                         max : 30,
                         min : 30,
                         modifier : ObjectInterfaces.ShipStatModifierEnum.increase
@@ -224,7 +224,7 @@ export module ShipModules {
                         modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.weight,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.mass,
                         max : 30,
                         min : 30,
                         modifier : ObjectInterfaces.ShipStatModifierEnum.increase
@@ -245,7 +245,7 @@ export module ShipModules {
                         modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.weight,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.mass,
                         max : 30,
                         min : 30,
                         modifier : ObjectInterfaces.ShipStatModifierEnum.increase
@@ -260,7 +260,7 @@ export module ShipModules {
             stats : {
                 base: [
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.weight,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.mass,
                         max : 30,
                         min : 30,
                         modifier : ObjectInterfaces.ShipStatModifierEnum.increase
@@ -281,7 +281,7 @@ export module ShipModules {
                         modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.weight,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.mass,
                         max : 30,
                         min : 30,
                         modifier : ObjectInterfaces.ShipStatModifierEnum.increase
@@ -304,7 +304,7 @@ export module ShipModules {
                         modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.weight,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.mass,
                         max : 30,
                         min : 30,
                         modifier : ObjectInterfaces.ShipStatModifierEnum.increase
@@ -325,7 +325,7 @@ export module ShipModules {
                         modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.weight,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.mass,
                         max : 30,
                         min : 30,
                         modifier : ObjectInterfaces.ShipStatModifierEnum.increase
@@ -346,7 +346,7 @@ export module ShipModules {
                         modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.weight,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.mass,
                         max : 30,
                         min : 30,
                         modifier : ObjectInterfaces.ShipStatModifierEnum.increase
@@ -367,7 +367,7 @@ export module ShipModules {
                         modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.weight,
+                        stat: ObjectInterfaces.ShipStatTypeEnum.mass,
                         max : 30,
                         min : 30,
                         modifier : ObjectInterfaces.ShipStatModifierEnum.increase
