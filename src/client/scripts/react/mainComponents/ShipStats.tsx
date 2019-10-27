@@ -15,7 +15,7 @@ export default class BottomPanel extends React.Component<BottomPanelProps, {}> {
         if(this.props.ship != undefined) {
             return (
                 <div id="ship_stats" className="UIComponent BottomPanelElement Unselectable">
-                    <h1>Speed: {Math.round(this.props.ship.speed)}</h1>
+                    <h1>Speed: {Math.round(this.props.ship.meters_per_second)} m/s</h1>
                     <h1>Shield: {this.props.ship.properties.currentShield}/{this.props.ship.stats[ObjectInterfaces.ShipStatTypeEnum.shield]}</h1> 
                     <h1>Armor: {this.props.ship.properties.currentArmor}/{this.props.ship.stats[ObjectInterfaces.ShipStatTypeEnum.armor]}</h1> 
                     <h1>Hull: {this.props.ship.properties.currentHull}/{this.props.ship.stats[ObjectInterfaces.ShipStatTypeEnum.hull]}</h1> 

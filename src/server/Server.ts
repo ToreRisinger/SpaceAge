@@ -16,6 +16,8 @@ export module Server {
     let SHIPS = new Map<number, ObjectInterfaces.IShip>();
     let PLAYERS = new Map<number, ObjectInterfaces.IPlayer>();
 
+    let UPDATES_PER_SECOND : number = 25;
+
     export function start(server : any) {
       server.listen(8081, function () {
           console.log(`Listening on ${server.address().port}`);
@@ -55,7 +57,7 @@ export module Server {
     }
 
     function setupUpdateLoop() {
-        setInterval(update, 1000/25);
+        setInterval(update, 1000/UPDATES_PER_SECOND);
     }
 
     //Server functions
@@ -112,14 +114,14 @@ export module Server {
           let goodVelVecComp = math.multiply(normalizedShipToDestVec, math.multiply(ship.velVec, normalizedShipToDestVec));
           let badVelVecComp = math.subtract(ship.velVec, goodVelVecComp);
           
-          if(math.length(shipToDestVec) < 1 && math.length(goodVelVecComp) < 1) {
+          if(math.length(shipToDestVec) < 1 && math.length(goodVelVecComp) < 10) {
             ship.isMoving = false;
             ship.x = ship.destinationX;
             ship.y = ship.destinationY;
           }
            
           if(ship.isMoving) {
-            let newVelVec =  calculateNewVelocityVector(shipToDestVec, ship.velVec, goodVelVecComp, badVelVecComp, ship.acceleration);
+            let newVelVec =  calculateNewVelocityVector(shipToDestVec, ship.velVec, goodVelVecComp, badVelVecComp, ship.stats[ObjectInterfaces.ShipStatTypeEnum.acceleration] / UPDATES_PER_SECOND);
             let newVelVecLength = math.length(newVelVec);
 
             let shipMaxSpeed = ship.stats[ObjectInterfaces.ShipStatTypeEnum.max_speed];
@@ -132,9 +134,9 @@ export module Server {
            
             ship.x = ship.x + ship.velVec[0];
             ship.y = ship.y + ship.velVec[1];
-            ship.speed = math.length(ship.velVec);
+            ship.meters_per_second = math.length(ship.velVec);
           } else {
-            ship.speed = 0;
+            ship.meters_per_second = 0;
             ship.velVec = [0, 0];
           }
         });

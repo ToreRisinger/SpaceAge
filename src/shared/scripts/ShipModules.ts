@@ -156,8 +156,8 @@ export module ShipModules {
                 base: [
                     {
                         stat: ObjectInterfaces.ShipStatTypeEnum.thrust,
-                        max : 4,
-                        min : 1,
+                        max : 20000,
+                        min : 10000,
                         modifier : ObjectInterfaces.ShipStatModifierEnum.increase
                     },
                     {

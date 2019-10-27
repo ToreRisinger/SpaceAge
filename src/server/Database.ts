@@ -14,11 +14,10 @@ export module Database {
           id: IdHandler.getNewGameObjectId(),
           x : 0,
           y : 0,
-          speed: 0,
+          meters_per_second: 0,
           isMoving : false,
           destinationX : 0,
           destinationY : 0,
-          acceleration : 0.2,
           velVec : [0, 0],
           modules : [
                         //TODO load from data base, dont create new shit
@@ -77,7 +76,9 @@ export module Database {
       );
 
       newShip.stats[ObjectInterfaces.ShipStatTypeEnum.hull] = newShip.stats[ObjectInterfaces.ShipStatTypeEnum.weight]; //TODO
-      newShip.stats[ObjectInterfaces.ShipStatTypeEnum.max_speed] = 100;
+      newShip.stats[ObjectInterfaces.ShipStatTypeEnum.max_speed] = 1000;
+      newShip.stats[ObjectInterfaces.ShipStatTypeEnum.acceleration] = 
+        newShip.stats[ObjectInterfaces.ShipStatTypeEnum.thrust] / newShip.stats[ObjectInterfaces.ShipStatTypeEnum.weight];
 
       newShip.properties.currentArmor = newShip.stats[ObjectInterfaces.ShipStatTypeEnum.armor];
       newShip.properties.currentShield = newShip.stats[ObjectInterfaces.ShipStatTypeEnum.shield];

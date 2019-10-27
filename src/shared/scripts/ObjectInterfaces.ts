@@ -88,11 +88,10 @@ export module ObjectInterfaces {
      * SHIP
      */
     export interface IShip extends IGameObject {
-        speed: number
+        meters_per_second: number
         isMoving : boolean,
         destinationX : number,
         destinationY : number,
-        acceleration : number,
         velVec : Array<number>
         modules : Array<{ module: IModule, x : number, y : number }>
         stats : {
