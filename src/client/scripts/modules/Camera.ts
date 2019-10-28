@@ -36,10 +36,10 @@ export module Camera {
 
     export function update(time : number, delta : number) {
         centerOnPlayer();
-
-        GlobalData.cameraZoom = currentZoom;
         GlobalData.cameraX = x;
         GlobalData.cameraY = y;
+
+        GlobalData.cameraZoom = currentZoom;
         GlobalData.cameraWidth = width * currentZoom;
         GlobalData.cameraHeight = height * currentZoom;  
     }
@@ -72,17 +72,32 @@ export module Camera {
     }
 
     function onKeyUpPressed() {
-        if(currentZoom < maxZoom) {
-            currentZoom = currentZoom * 2;
-            camera.zoom = camera.zoom / 2;
-        }
+        zoom(2);
     }
 
     function onDownKeyPressed() {
-        if(currentZoom > minZoom) {
-            currentZoom = currentZoom / 2;
-            camera.zoom = camera.zoom * 2;
+        zoom(0.5);
+    }
+
+    function zoom(zoom : number) {
+        if((currentZoom < maxZoom && zoom > 1) || (currentZoom > minZoom && zoom < 1)) {
+            currentZoom = currentZoom * zoom;
+            camera.zoom = camera.zoom / zoom;
+            let event : Events.ZOOM_CHANGED_EVENT_CONFIG = {
+                eventId : Events.EEventType.ZOOM_CHANGED_EVENT,
+                data : {
+                    zoom : currentZoom
+                }
+            }
+            EventHandler.pushEvent(event);
+            updateZoom();
         }
+    }
+
+    function updateZoom() {
+        GlobalData.cameraZoom = currentZoom;
+        GlobalData.cameraWidth = width * currentZoom;
+        GlobalData.cameraHeight = height * currentZoom;  
     }
 
     function subscribeToEvents() {

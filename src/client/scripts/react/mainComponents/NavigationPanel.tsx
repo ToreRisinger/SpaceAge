@@ -6,13 +6,13 @@ import  NavigationContainer  from "./NavigationContainer"
 import  SelectionPanel  from "./SelectionPanel"
 import { EventHandler } from "./../../modules/EventHandler";
 import { Events } from "../../../../shared/scripts/Events";
-import { ObjectInterfaces } from "../../../../shared/scripts/ObjectInterfaces";
 
 export interface NavigationPanelState { gameObjects : Array<GameObject>, selectedObject : GameObject | undefined; }
 
 export default class NavigationPanel extends React.Component<{}, NavigationPanelState> {
   
    private timerID : ReturnType<typeof setTimeout> | undefined;
+   private eventHandlerWaitTimer : ReturnType<typeof setTimeout> | undefined;
    private registeredEvents : boolean = false;
 
    constructor(props : {}) {
@@ -22,6 +22,7 @@ export default class NavigationPanel extends React.Component<{}, NavigationPanel
          selectedObject : undefined
      }
      this.timerID = undefined;
+     this.eventHandlerWaitTimer = undefined;
      this.tick = this.tick.bind(this);
      this.onNewSelection = this.onNewSelection.bind(this);
    }
@@ -31,6 +32,10 @@ export default class NavigationPanel extends React.Component<{}, NavigationPanel
         () => this.tick(),
         1000
       );
+      this.eventHandlerWaitTimer = setInterval(
+         () => this.eventHandlerRegistration(),
+         1000
+       );
   }
   
   componentWillUnmount() {
@@ -45,6 +50,15 @@ export default class NavigationPanel extends React.Component<{}, NavigationPanel
       });
    }
 
+   eventHandlerRegistration() {
+      if(EventHandler.isInitialized()) {
+         EventHandler.on(Events.EEventType.SELECTION_CHANGED_EVENT, this.onNewSelection)
+         if(this.eventHandlerWaitTimer != undefined) {
+            clearInterval(this.eventHandlerWaitTimer);
+        }
+      }
+   }
+
    onNewSelection(event: Events.SELECTION_CHANGED_EVENT_CONFIG) {
       this.setState({
          selectedObject: event.data.object 
@@ -52,13 +66,6 @@ export default class NavigationPanel extends React.Component<{}, NavigationPanel
    }
 
    render() {
-      if(!this.registeredEvents) {
-         if(EventHandler.isInitialized()) {
-             EventHandler.on(Events.EEventType.SELECTION_CHANGED_EVENT, this.onNewSelection)
-             this.registeredEvents = true;
-         }
-      }
-
       let radarDetectables = new Array<RadarDetectable>();
 
       for(let i = 0; i < this.state.gameObjects.length; i++) {

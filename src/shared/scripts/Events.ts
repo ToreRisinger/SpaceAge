@@ -31,7 +31,9 @@ export module Events {
         MOUSE_PRESSED_EVENT,
         BACKGROUND_CLICKED_EVENT,
         SELECTION_CHANGE_REQUEST_EVENT,
-        SELECTION_CHANGED_EVENT
+        SELECTION_CHANGED_EVENT,
+        ZOOM_CHANGED_EVENT
+
         /*
             SERVER EVENTS
         */
@@ -96,6 +98,12 @@ export module Events {
     export interface SELECTION_CHANGED_EVENT_CONFIG extends GameEvent {
         data : {
             object : GameObject | undefined;
+        }
+    }
+
+    export interface ZOOM_CHANGED_EVENT_CONFIG extends GameEvent {
+        data : {
+            zoom : number;
         }
     }
 

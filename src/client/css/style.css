@@ -389,12 +389,22 @@ body {
     right: 320px;
 }
 
+#ruler_zoom_text {
+    position: absolute;
+    top: 0px;
+    width: 100%;
+    height: 20px;
+    color: rgb(199, 199, 199);
+    font-family: consolas;
+    font-size: 15px;
+    text-align: center;
+}
+
 #ruler_image {
     position: absolute;
     width: 100px;
     height: 20px;
     bottom: 0px;
-
 }
 
 .Unselectable {
