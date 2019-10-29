@@ -114,7 +114,7 @@ export module Server {
           let goodVelVecComp = math.multiply(normalizedShipToDestVec, math.multiply(ship.velVec, normalizedShipToDestVec));
           let badVelVecComp = math.subtract(ship.velVec, goodVelVecComp);
           
-          if(math.length(shipToDestVec) < 1 && math.length(goodVelVecComp) < 10) {
+          if(math.length(shipToDestVec) <  math.length(goodVelVecComp)) {
             ship.isMoving = false;
             ship.x = ship.destinationX;
             ship.y = ship.destinationY;

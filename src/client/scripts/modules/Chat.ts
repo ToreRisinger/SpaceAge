@@ -1,6 +1,7 @@
 import { EventHandler } from "./EventHandler";
 import { Events } from "../../../shared/scripts/Events";
 import { GlobalData } from "./GlobalData";
+import { InputHandler } from "./InputHandler";
 
 export module Chat {
 
@@ -19,11 +20,11 @@ export module Chat {
     }
 
     export function update(time : number, delta : number) {
-
+        checkEnterPressed()
     }
 
-    function onKeyPressed(event : Events.KEY_PRESSED_EVENT_CONFIG) {
-        if(event.data.key == "enter") {
+    function checkEnterPressed() {
+        if(InputHandler.getKeyState(InputHandler.KEY.ENTER) == InputHandler.KEY_STATE.PRESSED) {
             //@ts-ignore
             if(chat_input === document.activeElement) {
                 //@ts-ignore
@@ -68,7 +69,6 @@ export module Chat {
     }
 
     function subscribeToEvents() {
-        EventHandler.on(Events.EEventType.KEY_PRESSED_EVENT, onKeyPressed);
         EventHandler.on(Events.EEventType.CLIENT_RECEIVE_CHAT_MESSAGE_EVENT, onClientChatMessageReceived);
     }
 }

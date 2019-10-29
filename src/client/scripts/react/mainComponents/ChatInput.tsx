@@ -1,5 +1,4 @@
 import React from "react";
-import { Chat } from "./../../modules/Chat"
 
 export default class ChatInput extends React.Component<{}, {}> {
 

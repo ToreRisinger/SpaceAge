@@ -72,6 +72,7 @@ export module Events {
     export interface KEY_PRESSED_EVENT_CONFIG extends GameEvent {
         data : {
             key : String
+            state : String
         }
     }
 

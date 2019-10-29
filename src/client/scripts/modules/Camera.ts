@@ -3,6 +3,7 @@ import { GameObject } from "../game_objects/GameObject";
 import { GlobalData } from "./GlobalData";
 import { EventHandler } from "./EventHandler";
 import { Events } from "../../../shared/scripts/Events";
+import { InputHandler } from "./InputHandler";
 
 export module Camera {
 
@@ -27,14 +28,18 @@ export module Camera {
 
         camera.centerOn(x, y);
 
-        currentZoom = 1;
-        minZoom = 1;
+        currentZoom = CAMERA_MIN_ZOOM;
+        minZoom = CAMERA_MIN_ZOOM;
         maxZoom = Math.pow(2, CAMERA_MAX_ZOOM);
-
-        subscribeToEvents();
     }
 
     export function update(time : number, delta : number) {
+        if(InputHandler.getKeyState(InputHandler.KEY.UP) == InputHandler.KEY_STATE.DOWN) {
+            zoom(1 + (2 / (1000 / delta)));
+        } else if(InputHandler.getKeyState(InputHandler.KEY.DOWN) == InputHandler.KEY_STATE.DOWN) {
+            zoom(1 - 2 / (1000 / delta));
+        }
+
         centerOnPlayer();
         GlobalData.cameraX = x;
         GlobalData.cameraY = y;
@@ -61,46 +66,35 @@ export module Camera {
         } 
     }
 
-    function onKeyPressed(event : Events.KEY_PRESSED_EVENT_CONFIG) {
-        if(event.data.key == "up") {
-            onKeyUpPressed();
-        }
-
-        if(event.data.key == "down") {
-            onDownKeyPressed();
-        }
-    }
-
-    function onKeyUpPressed() {
-        zoom(2);
-    }
-
-    function onDownKeyPressed() {
-        zoom(0.5);
-    }
-
     function zoom(zoom : number) {
-        if((currentZoom < maxZoom && zoom > 1) || (currentZoom > minZoom && zoom < 1)) {
-            currentZoom = currentZoom * zoom;
-            camera.zoom = camera.zoom / zoom;
-            let event : Events.ZOOM_CHANGED_EVENT_CONFIG = {
-                eventId : Events.EEventType.ZOOM_CHANGED_EVENT,
-                data : {
-                    zoom : currentZoom
-                }
+       currentZoom = currentZoom * zoom;
+       camera.zoom = camera.zoom / zoom;
+       let zoomed = true;
+       if(currentZoom < minZoom) {
+           currentZoom = minZoom;
+           camera.zoom = minZoom;
+           zoomed = false;
+       } else if(currentZoom > maxZoom) {
+           currentZoom = maxZoom;
+           camera.zoom = 1/maxZoom;
+           zoomed = false;
+       }
+
+       if(zoomed) {
+        let event : Events.ZOOM_CHANGED_EVENT_CONFIG = {
+            eventId : Events.EEventType.ZOOM_CHANGED_EVENT,
+            data : {
+                zoom : currentZoom
             }
-            EventHandler.pushEvent(event);
-            updateZoom();
         }
+        EventHandler.pushEvent(event);
+        updateZoom();
+       }
     }
 
     function updateZoom() {
         GlobalData.cameraZoom = currentZoom;
         GlobalData.cameraWidth = width * currentZoom;
         GlobalData.cameraHeight = height * currentZoom;  
-    }
-
-    function subscribeToEvents() {
-        EventHandler.on(Events.EEventType.KEY_PRESSED_EVENT, onKeyPressed);
     }
 }

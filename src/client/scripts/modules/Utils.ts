@@ -9,7 +9,7 @@ export module Utils {
     export function formatMeters(meters : number) : string {
         let ret : string = "";
         if(meters < 1000) {
-            ret = meters + " m";
+            ret = Math.floor(meters) + " m";
         } else if(meters > 1000){
             let km = Math.floor(meters / 1000);
             if(km > 1000000) {
