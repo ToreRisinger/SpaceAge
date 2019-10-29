@@ -90,17 +90,16 @@ export module Server {
 
         function calculateNewVelocityVector(shipToDestVec : Array<number>, shipVelVec : Array<number>, goodVelVecComp : Array<number>, badVelVecComp : Array<number>, shipAcceleration : number) {
           let newVelVec = [0, 0];
-      
           let midPoint = getMidPointVec(shipToDestVec, goodVelVecComp, badVelVecComp);
           let nrOfUpdatesUntilReachDestination = math.multiply(math.length(shipToDestVec), 1/math.length(goodVelVecComp));
           let nrOfStepsNeededToDecelerate = math.multiply(math.length(goodVelVecComp), 1/shipAcceleration)
-          if(nrOfUpdatesUntilReachDestination < nrOfStepsNeededToDecelerate) {
-            midPoint = [0, 0];
+          if(nrOfUpdatesUntilReachDestination <= nrOfStepsNeededToDecelerate) {
+            midPoint = [0.5, 0.5];
           }
       
           let velVecToMidPoint = math.subtract(midPoint, shipVelVec);
           let normalizedVelVecToMidPoint = math.multiply(velVecToMidPoint, 1/math.length(velVecToMidPoint));
-          let directionVecAdjustmentVec = math.multiply(normalizedVelVecToMidPoint, shipAcceleration);
+          let directionVecAdjustmentVec = math.multiply(normalizedVelVecToMidPoint, shipAcceleration  / UPDATES_PER_SECOND);
           newVelVec = math.add(shipVelVec, directionVecAdjustmentVec);
       
           return newVelVec;
@@ -113,17 +112,18 @@ export module Server {
           let normalizedShipToDestVec = math.multiply(shipToDestVec, 1/math.length(shipToDestVec));
           let goodVelVecComp = math.multiply(normalizedShipToDestVec, math.multiply(ship.velVec, normalizedShipToDestVec));
           let badVelVecComp = math.subtract(ship.velVec, goodVelVecComp);
-          
-          if(math.length(shipToDestVec) <  math.length(goodVelVecComp)) {
+          let shipAcceleration = ship.stats[ObjectInterfaces.ShipStatTypeEnum.acceleration];
+
+          if(math.length(shipToDestVec) <= shipAcceleration  / UPDATES_PER_SECOND) {
             ship.isMoving = false;
             ship.x = ship.destinationX;
             ship.y = ship.destinationY;
           }
            
           if(ship.isMoving) {
-            let newVelVec =  calculateNewVelocityVector(shipToDestVec, ship.velVec, goodVelVecComp, badVelVecComp, ship.stats[ObjectInterfaces.ShipStatTypeEnum.acceleration] / UPDATES_PER_SECOND);
+            let newVelVec =  calculateNewVelocityVector(shipToDestVec, ship.velVec, goodVelVecComp, badVelVecComp, shipAcceleration);
             let newVelVecLength = math.length(newVelVec);
-
+            
             let shipMaxSpeed = ship.stats[ObjectInterfaces.ShipStatTypeEnum.max_speed];
             if(newVelVecLength > shipMaxSpeed) {
               ship.velVec = math.multiply(newVelVec, shipMaxSpeed/newVelVecLength)
@@ -131,9 +131,8 @@ export module Server {
               ship.velVec = newVelVec;
             }
 
-           
-            ship.x = ship.x + ship.velVec[0];
-            ship.y = ship.y + ship.velVec[1];
+            ship.x = ship.x + ship.velVec[0] / UPDATES_PER_SECOND;
+            ship.y = ship.y + ship.velVec[1] / UPDATES_PER_SECOND;
             ship.meters_per_second = math.length(ship.velVec);
           } else {
             ship.meters_per_second = 0;

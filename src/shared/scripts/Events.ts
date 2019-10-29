@@ -27,7 +27,6 @@ export module Events {
         SPACE_SCENE_GAME_STATE_EVENT,
 
         //Input
-        KEY_PRESSED_EVENT,
         MOUSE_PRESSED_EVENT,
         BACKGROUND_CLICKED_EVENT,
         SELECTION_CHANGE_REQUEST_EVENT,
@@ -66,13 +65,6 @@ export module Events {
     export interface PLAYER_DISCONNECTED_EVENT_CONFIG extends GameEvent {
         data : {
             shipId : number 
-        }
-    }
-
-    export interface KEY_PRESSED_EVENT_CONFIG extends GameEvent {
-        data : {
-            key : String
-            state : String
         }
     }
 
