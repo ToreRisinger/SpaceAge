@@ -20,7 +20,7 @@ export module GUI {
         }
     }
 
-    function onBackgroundClicked(event : Events.BACKGROUND_CLICKED_EVENT_CONFIG) {
+    function onBackgroundClicked(event : Events.BACKGROUND_CLICKED_TWICE_EVENT_CONFIG) {
         newDestination(event.data.mouseX, event.data.mouseY);
     }
 
@@ -38,6 +38,6 @@ export module GUI {
         EventHandler.pushEvent(event);
     }
     function subscribeToEvents() {
-        EventHandler.on(Events.EEventType.BACKGROUND_CLICKED_EVENT, onBackgroundClicked);
+        EventHandler.on(Events.EEventType.BACKGROUND_CLICKED_TWICE_EVENT, onBackgroundClicked);
     }
 }

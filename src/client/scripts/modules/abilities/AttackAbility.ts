@@ -26,8 +26,12 @@ export class AttackAbility extends Ability {
         return "icons/ship_icon.png";
     }
 
+    public hasCooldown() : boolean {
+        return false;
+    }
+
     public getCooldown(): number {
-        return 5;
+        return 0;
     }
 
     public getCooldownRemaining() : number {

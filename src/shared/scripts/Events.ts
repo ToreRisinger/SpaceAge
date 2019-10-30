@@ -28,7 +28,8 @@ export module Events {
 
         //Input
         MOUSE_PRESSED_EVENT,
-        BACKGROUND_CLICKED_EVENT,
+        BACKGROUND_CLICKED_ONCE_EVENT,
+        BACKGROUND_CLICKED_TWICE_EVENT,
         SELECTION_CHANGE_REQUEST_EVENT,
         SELECTION_CHANGED_EVENT,
         ZOOM_CHANGED_EVENT
@@ -75,7 +76,14 @@ export module Events {
         }
     }
 
-    export interface BACKGROUND_CLICKED_EVENT_CONFIG extends GameEvent {
+    export interface BACKGROUND_CLICKED_ONCE_EVENT_CONFIG extends GameEvent {
+        data : {
+            mouseX : number;
+            mouseY : number;
+        }
+    }
+
+    export interface BACKGROUND_CLICKED_TWICE_EVENT_CONFIG extends GameEvent {
         data : {
             mouseX : number;
             mouseY : number;

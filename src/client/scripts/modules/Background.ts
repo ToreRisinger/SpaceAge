@@ -11,7 +11,7 @@ export module Background {
     let spaceBackground : Phaser.GameObjects.Sprite;
     let BACKRGOUND_SIZE : number = 2000;
     let backgroundClickedCount : number = 0;
-    let backgroundClicked : boolean = true;
+    let backgroundClicked : boolean = false;
 
     export function init() {
         subscribeToEvents();
@@ -31,6 +31,19 @@ export module Background {
 
         if(backgroundClicked) {
             backgroundClickedCount++;
+        }
+
+        if(backgroundClickedCount > 15) {
+            backgroundClickedCount = 0;
+            backgroundClicked = false;
+            let event : Events.BACKGROUND_CLICKED_ONCE_EVENT_CONFIG = {
+                eventId : Events.EEventType.BACKGROUND_CLICKED_ONCE_EVENT,
+                data : {
+                    mouseX : GlobalData.mouseX,
+                    mouseY : GlobalData.mouseY
+                }
+            }
+            EventHandler.pushEvent(event);
         }
     }
 
@@ -65,21 +78,21 @@ export module Background {
     }
 
     function onBackgroundClicked() {
-        if(!backgroundClicked || backgroundClickedCount > 20) {
-            backgroundClicked = true;
-            backgroundClickedCount = 0;
-            return;
-        }
         //TODO better solution. This prevents movement when pressing side panels
-        if(GlobalData.mouseX > 52 && GlobalData.mouseX < GameScene.getInstance().getSceneWidth() - 302) {
-            let event : Events.BACKGROUND_CLICKED_EVENT_CONFIG = {
-                eventId : Events.EEventType.BACKGROUND_CLICKED_EVENT,
-                data : {
-                    mouseX : GlobalData.mouseX,
-                    mouseY : GlobalData.mouseY
+        if(GlobalData.mouseX > 52 && GlobalData.mouseX < GameScene.getInstance().getSceneWidth() - 320) {
+            if(backgroundClicked) {
+                let event : Events.BACKGROUND_CLICKED_TWICE_EVENT_CONFIG = {
+                    eventId : Events.EEventType.BACKGROUND_CLICKED_TWICE_EVENT,
+                    data : {
+                        mouseX : GlobalData.mouseX,
+                        mouseY : GlobalData.mouseY
+                    }
                 }
+                EventHandler.pushEvent(event);
+            } else {
+                backgroundClicked = true;
+                backgroundClickedCount = 0;
             }
-            EventHandler.pushEvent(event);
         }
     }
 }

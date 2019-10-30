@@ -61,10 +61,6 @@ export module GameObjectHandler {
         });
     }
 
-    function onNewShipDestination(event : Events.PLAYER_SET_NEW_DESTINATION_EVENT_CONFIG) {
-
-    }
-
     function subscribeToInitialEvents() {
         EventHandler.on(Events.EEventType.INITAL_GAME_LOAD_EVENT, onInitialGameLoad);
     }
@@ -73,7 +69,6 @@ export module GameObjectHandler {
         EventHandler.on(Events.EEventType.PLAYER_CONNECTED_EVENT, onPlayerConnect);
         EventHandler.on(Events.EEventType.PLAYER_DISCONNECTED_EVENT, onPlayerDisconnect);
         EventHandler.on(Events.EEventType.SHIPS_UPDATE_EVENT, onShipsUpdate);
-        EventHandler.on(Events.EEventType.PLAYER_SET_NEW_DESTINATION_EVENT, onNewShipDestination);
     }
 
     function destroyGameObject(objectId : number) {
