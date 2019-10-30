@@ -72,10 +72,10 @@ export module Server {
             if(math.length(badVelVecComp) != 0) {
               let lengthOfBadVelVecComp = math.length(badVelVecComp);
               let lengthOfBadVelVecCompSquared1 = lengthOfBadVelVecComp * lengthOfBadVelVecComp;
-              let lengthOfBadVelVecCompSquared2 = lengthOfBadVelVecCompSquared1 * lengthOfBadVelVecCompSquared1;
-              let lengthOfBadVelVecCompSquared3 = lengthOfBadVelVecCompSquared2 * lengthOfBadVelVecCompSquared2;
-              let lengthOfBadVelVecCompSquared4 = lengthOfBadVelVecCompSquared3 * lengthOfBadVelVecCompSquared3;
-              let divider = lengthOfBadVelVecCompSquared4;
+              //let lengthOfBadVelVecCompSquared2 = lengthOfBadVelVecCompSquared1 * lengthOfBadVelVecCompSquared1;
+              //let lengthOfBadVelVecCompSquared3 = lengthOfBadVelVecCompSquared2 * lengthOfBadVelVecCompSquared2;
+              //let lengthOfBadVelVecCompSquared4 = lengthOfBadVelVecCompSquared3 * lengthOfBadVelVecCompSquared3;
+              let divider = lengthOfBadVelVecCompSquared1;
               return math.length(goodVelVecComp) / (math.length(goodVelVecComp) + divider);
             } else {
               return 1;
@@ -123,7 +123,7 @@ export module Server {
           if(ship.isMoving) {
             let newVelVec =  calculateNewVelocityVector(shipToDestVec, ship.velVec, goodVelVecComp, badVelVecComp, shipAcceleration);
             let newVelVecLength = math.length(newVelVec);
-            
+
             let shipMaxSpeed = ship.stats[ObjectInterfaces.ShipStatTypeEnum.max_speed];
             if(newVelVecLength > shipMaxSpeed) {
               ship.velVec = math.multiply(newVelVec, shipMaxSpeed/newVelVecLength)

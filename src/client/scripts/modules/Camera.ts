@@ -71,13 +71,17 @@ export module Camera {
        camera.zoom = camera.zoom / zoom;
        let zoomed = true;
        if(currentZoom < minZoom) {
+           if(currentZoom == minZoom) {
+               zoomed = false;
+           }
            currentZoom = minZoom;
            camera.zoom = minZoom;
-           zoomed = false;
        } else if(currentZoom > maxZoom) {
+            if(currentZoom == maxZoom) {
+                zoomed = false;
+            }
            currentZoom = maxZoom;
            camera.zoom = 1/maxZoom;
-           zoomed = false;
        }
 
        if(zoomed) {
