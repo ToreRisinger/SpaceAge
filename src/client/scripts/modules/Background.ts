@@ -10,6 +10,8 @@ export module Background {
     let loadingBackground : Phaser.GameObjects.Sprite;
     let spaceBackground : Phaser.GameObjects.Sprite;
     let BACKRGOUND_SIZE : number = 2000;
+    let backgroundClickedCount : number = 0;
+    let backgroundClicked : boolean = true;
 
     export function init() {
         subscribeToEvents();
@@ -26,6 +28,10 @@ export module Background {
         spaceBackground.setX(GlobalData.cameraX);
         spaceBackground.setY(GlobalData.cameraY);
         spaceBackground.setDisplaySize(newBackgroundSize, newBackgroundSize);
+
+        if(backgroundClicked) {
+            backgroundClickedCount++;
+        }
     }
 
     export function getSpaceBackground() {
@@ -59,8 +65,13 @@ export module Background {
     }
 
     function onBackgroundClicked() {
-        //TODO better solution. This prevents movement when pressing side panel
-        if(GlobalData.mouseX > 52) {
+        if(!backgroundClicked || backgroundClickedCount > 20) {
+            backgroundClicked = true;
+            backgroundClickedCount = 0;
+            return;
+        }
+        //TODO better solution. This prevents movement when pressing side panels
+        if(GlobalData.mouseX > 52 && GlobalData.mouseX < GameScene.getInstance().getSceneWidth() - 302) {
             let event : Events.BACKGROUND_CLICKED_EVENT_CONFIG = {
                 eventId : Events.EEventType.BACKGROUND_CLICKED_EVENT,
                 data : {

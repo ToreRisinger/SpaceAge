@@ -1,6 +1,5 @@
 import { ObjectInterfaces } from "../../../shared/scripts/ObjectInterfaces"
 import { ShipSprite } from "./ShipSprite";
-import { GlobalData } from "../modules/GlobalData";
 import { RadarDetectable } from "./RadarDetectable";
 
 export class Ship extends RadarDetectable {

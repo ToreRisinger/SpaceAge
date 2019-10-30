@@ -12,7 +12,7 @@ import { GUI } from "../modules/GUI";
 import { InputHandler } from "../modules/InputHandler";
 import { SelectionHandler } from "../modules/SelectionHandler";
 import { AbilityHandler } from "../modules/abilities/AbilityHandler";
-import { Ability } from "../modules/abilities/Ability";
+import { threadId } from "worker_threads";
 
 export class GameScene extends Phaser.Scene {
     
@@ -127,5 +127,13 @@ export class GameScene extends Phaser.Scene {
         var height = gameSize.height;
 
         Camera.setSize(width, height);
+    }
+
+    getSceneWidth() : number {
+        return this.sys.game.canvas.width;
+    }
+
+    getSceneHeight() : number {
+        return this.sys.game.canvas.height;
     }
 }
