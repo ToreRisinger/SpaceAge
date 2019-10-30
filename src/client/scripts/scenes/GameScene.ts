@@ -11,6 +11,8 @@ import { GameStates } from "../modules/GameStates";
 import { GUI } from "../modules/GUI";
 import { InputHandler } from "../modules/InputHandler";
 import { SelectionHandler } from "../modules/SelectionHandler";
+import { AbilityHandler } from "../modules/abilities/AbilityHandler";
+import { Ability } from "../modules/abilities/Ability";
 
 export class GameScene extends Phaser.Scene {
     
@@ -41,6 +43,7 @@ export class GameScene extends Phaser.Scene {
         this.createAnimations();
 
         EventHandler.init();
+        AbilityHandler.init();
         SelectionHandler.init();
         Background.init();
         InputHandler.init();
@@ -58,6 +61,7 @@ export class GameScene extends Phaser.Scene {
     update(time : number, delta : number) { //delta 16.666 @ 60fps
         InputHandler.update(time, delta);
         EventHandler.update(time, delta);
+        AbilityHandler.update(time, delta);
         Camera.update(time, delta);
         GameObjectHandler.update(time, delta);   
         Background.update(time, delta);

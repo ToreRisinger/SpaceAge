@@ -7,6 +7,7 @@ export module GlobalData {
     /* Player */
     export let playerUsername : String = "Player1";
     export let selectedObject : GameObject | undefined = undefined;
+    export let targetObject : GameObject | undefined;
     export let playerShip : Ship | undefined = undefined;
     
     /* Camera */
