@@ -13,12 +13,12 @@ export module Utils {
         } else if(meters > 1000){
             let km = Math.floor(meters / 1000);
             if(km > 1000000) {
-                let millionKm = km / 1000000;
+                let millionKm = Math.floor(km / 1000000);
                 if(millionKm >= 150) {
                     let au = Math.floor(millionKm / 150);
                     ret = au + " A.U.";
                 } else {
-                    ret = km + " km";
+                    ret = millionKm + " million km";
                 }
             } else {
                 ret = km + " km";

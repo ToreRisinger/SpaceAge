@@ -8,7 +8,7 @@ import { InputHandler } from "./InputHandler";
 export module Camera {
 
     let CAMERA_MIN_ZOOM : number = 1;
-    let CAMERA_MAX_ZOOM : number = 20;
+    let CAMERA_MAX_ZOOM : number = 35;
 
     let camera : Phaser.Cameras.Scene2D.Camera;
     let x : integer;
