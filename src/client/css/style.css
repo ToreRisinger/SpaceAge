@@ -385,8 +385,8 @@ body {
     position: absolute;
     bottom: 10px;
     height: 40px;
-    width: 100px;
-    right: 320px;
+    width: 120px;
+    right: 340px;
 }
 
 #ruler_zoom_text {
@@ -405,6 +405,8 @@ body {
     width: 100px;
     height: 20px;
     bottom: 0px;
+    right: 10px;
+    left: 10px;
 }
 
 .Unselectable {
