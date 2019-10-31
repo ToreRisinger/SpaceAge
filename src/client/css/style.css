@@ -454,6 +454,10 @@ body {
     background-color: rgba(255, 255, 255, 0.2);
 }
 
+.ability_activated:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
 .Unselectable {
     khtml-user-select: none;
     -moz-user-select: none;
