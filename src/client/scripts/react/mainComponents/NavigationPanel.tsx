@@ -13,7 +13,6 @@ export default class NavigationPanel extends React.Component<{}, NavigationPanel
   
    private timerID : ReturnType<typeof setTimeout> | undefined;
    private eventHandlerWaitTimer : ReturnType<typeof setTimeout> | undefined;
-   private registeredEvents : boolean = false;
 
    constructor(props : {}) {
       super(props)

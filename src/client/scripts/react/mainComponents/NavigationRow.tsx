@@ -15,7 +15,7 @@ export default class NavigationRow extends React.Component<NavigationRowProps, {
     }
 
     render() {
-        let iconPath = "assets/sprite/" + this.props.object.getIconPath();
+        let iconPath = this.props.object.getIconPath();
         let rowClassString = "navigation_row Unselectable ";
         if(this.props.object.isSelected()) {
             rowClassString += "navigation_row_selected";

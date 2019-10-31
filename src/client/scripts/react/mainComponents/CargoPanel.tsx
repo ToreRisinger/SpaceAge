@@ -9,7 +9,7 @@ export default class CargoPanel extends React.Component<{}, {}> {
    render() {
         return (
             <div id="cargo_panel" className="UIComponent">
-               <div id="cargo_panel_title">Cargo</div>
+               <div id="cargo_panel_title" className="Unselectable">Cargo</div>
             </div>
         );
    }

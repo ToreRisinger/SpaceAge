@@ -6,6 +6,7 @@ import NavigationPanel from "./mainComponents/NavigationPanel";
 import Chat from "./mainComponents/ChatWindow";
 import CargoPanel from "./mainComponents/CargoPanel";
 import RulerPanel from "./mainComponents/RulerPanel";
+import AbilityPanel from "./mainComponents/AbilityPanel";
 
 export default class App extends React.Component {
     constructor(props : Ship) {
@@ -21,6 +22,7 @@ export default class App extends React.Component {
                 <NavigationPanel/>
                 <CargoPanel/>
                 <RulerPanel/>
+                <AbilityPanel/>
             </Fragment>
         );
     }

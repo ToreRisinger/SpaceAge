@@ -89,6 +89,7 @@ export module Background {
                     }
                 }
                 EventHandler.pushEvent(event);
+                backgroundClicked = false;
             } else {
                 backgroundClicked = true;
                 backgroundClickedCount = 0;

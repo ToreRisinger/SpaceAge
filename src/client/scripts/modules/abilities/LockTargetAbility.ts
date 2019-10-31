@@ -1,6 +1,7 @@
 import { Ability } from "./Ability";
 import { GlobalData } from "../GlobalData";
 import { Ship } from "../../game_objects/Ship";
+import { EAbilityState } from "./EAbilityState";
 
 export class LockTargetAbility extends Ability {
 
@@ -24,23 +25,28 @@ export class LockTargetAbility extends Ability {
     }
 
     public activate() : void {
-        if(this.canActivate()) {
-            if(GlobalData.targetObject) {
-                GlobalData.targetObject = undefined;
-                this.setLockVariables();
-            } else {
-                GlobalData.targetObject = GlobalData.selectedObject;
-                this.setUnlockVariables();
-            }
+        this.calculateState()
+        if(this.getState() == EAbilityState.ENABLED) {
+            GlobalData.targetObject = GlobalData.selectedObject;
+            this.setUnlockVariables();
+        } else if(this.getState() == EAbilityState.ACTIVATED) {
+            GlobalData.targetObject = undefined;
+            this.setLockVariables();
         }
     }
 
-    public canActivate() : boolean {
-        return GlobalData.targetObject != undefined || GlobalData.selectedObject != undefined;
+    public update(time : number, delta : number) : void {
+        this.calculateState();
     }
 
-    public update(time : number, delta : number) : void {
-
+    private calculateState() {
+        if(GlobalData.targetObject != undefined) {
+            this.setState(EAbilityState.ACTIVATED);
+        } else if(GlobalData.selectedObject != undefined) {
+            this.setState(EAbilityState.ENABLED);
+        } else {
+            this.setState(EAbilityState.DISABLED);
+        }
     }
 
     public getName() : string {
@@ -52,7 +58,7 @@ export class LockTargetAbility extends Ability {
     }
 
     public getIconPath(): string {
-        return "icons/ship_icon.png";
+        return "assets/sprite/icons/lock_target_ability_icon.png";
     }
 
     public hasCooldown() : boolean {

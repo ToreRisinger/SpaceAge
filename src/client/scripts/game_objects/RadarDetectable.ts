@@ -79,7 +79,7 @@ export class RadarDetectable extends GameObject {
     }
 
     public getIconPath() {
-        return this.icon.sprite.file;
+        return "assets/sprite/" + this.icon.sprite.file;
     }
 
     public isDetectedByGravitationalRadar(): boolean {
