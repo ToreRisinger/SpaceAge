@@ -6,8 +6,9 @@ import  NavigationContainer  from "./NavigationContainer"
 import  SelectionPanel  from "./SelectionPanel"
 import { EventHandler } from "./../../modules/EventHandler";
 import { Events } from "../../../../shared/scripts/Events";
+import TargetPanel from "./TargetPanel";
 
-export interface NavigationPanelState { gameObjects : Array<GameObject>, selectedObject : GameObject | undefined; }
+export interface NavigationPanelState { gameObjects : Array<GameObject>, selectedObject : GameObject | undefined, targetObject : GameObject | undefined; }
 
 export default class NavigationPanel extends React.Component<{}, NavigationPanelState> {
   
@@ -18,12 +19,14 @@ export default class NavigationPanel extends React.Component<{}, NavigationPanel
       super(props)
       this.state = {
          gameObjects : GameObjectHandler.getGameObjects(),
-         selectedObject : undefined
+         selectedObject : undefined,
+         targetObject : undefined
      }
      this.timerID = undefined;
      this.eventHandlerWaitTimer = undefined;
      this.tick = this.tick.bind(this);
      this.onNewSelection = this.onNewSelection.bind(this);
+     this.onNewTarget = this.onNewTarget.bind(this);
    }
 
    componentDidMount() {
@@ -34,7 +37,7 @@ export default class NavigationPanel extends React.Component<{}, NavigationPanel
       this.eventHandlerWaitTimer = setInterval(
          () => this.eventHandlerRegistration(),
          1000
-       );
+      );
   }
   
   componentWillUnmount() {
@@ -52,6 +55,7 @@ export default class NavigationPanel extends React.Component<{}, NavigationPanel
    eventHandlerRegistration() {
       if(EventHandler.isInitialized()) {
          EventHandler.on(Events.EEventType.SELECTION_CHANGED_EVENT, this.onNewSelection)
+         EventHandler.on(Events.EEventType.TARGET_CHANGED_EVENT, this.onNewTarget)
          if(this.eventHandlerWaitTimer != undefined) {
             clearInterval(this.eventHandlerWaitTimer);
         }
@@ -61,6 +65,12 @@ export default class NavigationPanel extends React.Component<{}, NavigationPanel
    onNewSelection(event: Events.SELECTION_CHANGED_EVENT_CONFIG) {
       this.setState({
          selectedObject: event.data.object 
+      });
+   }
+
+   onNewTarget(event: Events.TARGET_CHANGED_EVENT_CONFIG) {
+      this.setState({
+         targetObject: event.data.object 
       });
    }
 
@@ -79,6 +89,7 @@ export default class NavigationPanel extends React.Component<{}, NavigationPanel
       return (
          <Fragment>
             <SelectionPanel selectedObject={this.state.selectedObject} />
+            <TargetPanel targetObject={this.state.targetObject} />
             <div id="navigation_panel" className="UIComponent">
                <div id="navigation_panel_title" className="Unselectable">Navigation</div>
                <div id="navigation_panel_table_header">

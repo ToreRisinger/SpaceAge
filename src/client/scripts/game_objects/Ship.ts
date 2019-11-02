@@ -14,7 +14,7 @@ export class Ship extends RadarDetectable {
 
         this.buildShip();
         if(thisPlayerShip) {
-            this.setIconTint(0x00ff00);
+            this.setIconBaseColor(0x00ff00);
         }
     }
 

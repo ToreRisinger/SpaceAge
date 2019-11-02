@@ -2,6 +2,9 @@ import { Ability } from "./Ability";
 import { GlobalData } from "../GlobalData";
 import { Ship } from "../../game_objects/Ship";
 import { EAbilityState } from "./EAbilityState";
+import { Events } from "../../../../shared/scripts/Events";
+import { EventHandler } from "../EventHandler";
+import { GameObject } from "../../game_objects/GameObject";
 
 export class LockTargetAbility extends Ability {
 
@@ -27,11 +30,9 @@ export class LockTargetAbility extends Ability {
     public activate() : void {
         this.calculateState()
         if(this.getState() == EAbilityState.ENABLED) {
-            GlobalData.targetObject = GlobalData.selectedObject;
-            this.setUnlockVariables();
+            this.sendEvent(GlobalData.selectedObject);
         } else if(this.getState() == EAbilityState.ACTIVATED) {
-            GlobalData.targetObject = undefined;
-            this.setLockVariables();
+            this.sendEvent(undefined);
         }
     }
 
@@ -42,10 +43,13 @@ export class LockTargetAbility extends Ability {
     private calculateState() {
         if(GlobalData.targetObject != undefined) {
             this.setState(EAbilityState.ACTIVATED);
+            this.setUnlockVariables();
         } else if(GlobalData.selectedObject != undefined) {
             this.setState(EAbilityState.ENABLED);
+            this.setLockVariables();
         } else {
             this.setState(EAbilityState.DISABLED);
+            this.setLockVariables();
         }
     }
 
@@ -83,5 +87,15 @@ export class LockTargetAbility extends Ability {
         this.name = this.UNLOCK_TARGET_NAME;
         this.description = this.UNLOCK_DESCRIPTION;
         this.iconPath = this.UNLOCK_ICON_PATH
+    }
+
+    private sendEvent(object : GameObject | undefined) {
+        let newEvent : Events.TARGET_CHANGE_REQUEST_EVENT_CONFIG = {
+            eventId : Events.EEventType.TARGET_CHANGE_REQUEST_EVENT,
+            data : {
+                object : object
+            }
+        }
+        EventHandler.pushEvent(newEvent);
     }
 }

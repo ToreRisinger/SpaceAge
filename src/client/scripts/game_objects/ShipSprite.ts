@@ -51,10 +51,10 @@ export class ShipSprite {
             
             module.sprite.setInteractive();
             module.sprite.on('pointerover', () => {
-                this.thisShip.setIsHoverOrSelected(true);
+                this.thisShip.setIsHover(true);
             });
             module.sprite.on('pointerout', () =>  {
-                this.thisShip.setIsHoverOrSelected(false);
+                this.thisShip.setIsHover(false);
             });
             module.sprite.on('pointerdown', () => {
                 this.thisShip.select();

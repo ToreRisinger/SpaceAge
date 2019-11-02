@@ -32,6 +32,8 @@ export module Events {
         BACKGROUND_CLICKED_TWICE_EVENT,
         SELECTION_CHANGE_REQUEST_EVENT,
         SELECTION_CHANGED_EVENT,
+        TARGET_CHANGE_REQUEST_EVENT,
+        TARGET_CHANGED_EVENT,
         ZOOM_CHANGED_EVENT
 
         /*
@@ -97,6 +99,18 @@ export module Events {
     }
 
     export interface SELECTION_CHANGED_EVENT_CONFIG extends GameEvent {
+        data : {
+            object : GameObject | undefined;
+        }
+    }
+
+    export interface TARGET_CHANGE_REQUEST_EVENT_CONFIG extends GameEvent {
+        data : {
+            object : GameObject | undefined;
+        }
+    }
+
+    export interface TARGET_CHANGED_EVENT_CONFIG extends GameEvent {
         data : {
             object : GameObject | undefined;
         }

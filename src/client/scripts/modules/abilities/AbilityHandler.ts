@@ -11,10 +11,6 @@ export module AbilityHandler {
         subscribeToEvents();
         //@ts-ignore
         abilities.push(new LockTargetAbility(GlobalData.playerShip));
-        //@ts-ignore
-        abilities.push(new LockTargetAbility(GlobalData.playerShip));
-        //@ts-ignore
-        abilities.push(new LockTargetAbility(GlobalData.playerShip));
         initialized = true;
     }
 

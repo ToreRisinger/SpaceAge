@@ -13,6 +13,7 @@ import { InputHandler } from "../modules/InputHandler";
 import { SelectionHandler } from "../modules/SelectionHandler";
 import { AbilityHandler } from "../modules/abilities/AbilityHandler";
 import { threadId } from "worker_threads";
+import { TargetHandler } from "../modules/TargetHandler";
 
 export class GameScene extends Phaser.Scene {
     
@@ -45,6 +46,7 @@ export class GameScene extends Phaser.Scene {
         EventHandler.init();
         AbilityHandler.init();
         SelectionHandler.init();
+        TargetHandler.init();
         Background.init();
         InputHandler.init();
         GameStates.init();

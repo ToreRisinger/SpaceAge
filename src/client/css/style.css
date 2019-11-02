@@ -249,14 +249,33 @@ body {
     width: 286px;
 }
 
-.navigation_row:hover {
-    background-color: rgb(199, 199, 199);
+.navigation_row_base {
+
+}
+
+.navigation_row_base:hover {
+    background-color: rgb(122, 122, 122);
     color: rgb(0, 0, 0);
 }
 
 .navigation_row_selected {
-    background-color: rgb(199, 199, 199);
+    background-color: rgb(184, 184, 184);
     color: rgb(0, 0, 0);
+}
+
+.navigation_row_selected:hover {
+    background-color: rgb(243, 243, 243);
+    color: rgb(0, 0, 0);
+}
+
+.navigation_row_target {
+    background-color: rgb(143, 0, 0);
+    color: rgb(199, 199, 199);
+}
+
+.navigation_row_target:hover {
+    background-color: rgb(216, 0, 0);
+    color: rgb(199, 199, 199);
 }
 
 .navigation_row_icon {
@@ -286,8 +305,19 @@ body {
     top: 0px;
     right: 310px;
     width: 200px;
-    height: 200px;
+    height: 120px;
     border: 1px solid rgb(135, 135, 135);
+}
+
+#target_panel {
+    margin: auto;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    width: 200px;
+    height: 120px;
+    border: 1px solid rgb(255, 0, 0);
 }
 
 #cargo_panel {
