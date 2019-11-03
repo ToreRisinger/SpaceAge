@@ -106,22 +106,32 @@ export module Server {
         }
         
         SHIPS.forEach((ship: ObjectInterfaces.IShip, key: number) => {
-          let destVec = [ship.destinationX, ship.destinationY];
+          let shipAcceleration = ship.stats[ObjectInterfaces.ShipStatTypeEnum.acceleration];
+          let destVec = ship.destVec;
           let shipPosVec = [ship.x, ship.y];
           let shipToDestVec = math.subtract(destVec, shipPosVec);
           let normalizedShipToDestVec = math.multiply(shipToDestVec, 1/math.length(shipToDestVec));
           let goodVelVecComp = math.multiply(normalizedShipToDestVec, math.multiply(ship.velVec, normalizedShipToDestVec));
           let badVelVecComp = math.subtract(ship.velVec, goodVelVecComp);
-          let shipAcceleration = ship.stats[ObjectInterfaces.ShipStatTypeEnum.acceleration];
-
-          if(math.length(shipToDestVec) <= shipAcceleration  / UPDATES_PER_SECOND) {
-            ship.isMoving = false;
-            ship.x = ship.destinationX;
-            ship.y = ship.destinationY;
+          
+          if(ship.hasDestination) {
+            if(math.length(shipToDestVec) <= shipAcceleration / UPDATES_PER_SECOND && math.length(ship.velVec) - shipAcceleration / UPDATES_PER_SECOND <= 0) {
+              ship.isMoving = false;
+              ship.x = ship.destVec[0];
+              ship.y = ship.destVec[1];
+              ship.hasDestination = false;
+            }
+          } else {
+            if(math.length(ship.velVec) - shipAcceleration / UPDATES_PER_SECOND <= 0) {
+              ship.isMoving = false;
+            }
           }
            
           if(ship.isMoving) {
-            let newVelVec =  calculateNewVelocityVector(shipToDestVec, ship.velVec, goodVelVecComp, badVelVecComp, shipAcceleration);
+            let newVelVec = ship.hasDestination 
+              ? calculateNewVelocityVector(shipToDestVec, ship.velVec, goodVelVecComp, badVelVecComp, shipAcceleration)
+              : math.subtract(ship.velVec, math.multiply(ship.velVec, (shipAcceleration/UPDATES_PER_SECOND)/math.length(ship.velVec)));
+
             let newVelVecLength = math.length(newVelVec);
 
             let shipMaxSpeed = ship.stats[ObjectInterfaces.ShipStatTypeEnum.max_speed];
@@ -165,6 +175,10 @@ export module Server {
           onChatMessageEvent(player, event);
           break;
         }
+        case Events.EEventType.PLAYER_STOP_SHIP_EVENT : {
+          onPlayerStopShipEvent(player, event);
+          break;
+        }
         default: {
           break;
         }
@@ -178,9 +192,13 @@ export module Server {
       let length = Math.sqrt(xLength * xLength + yLength * yLength);
       if(length != 0) {
         player.ship.isMoving = true;
-        player.ship.destinationX = event.data.destinationX;
-        player.ship.destinationY = event.data.destinationY;
+        player.ship.destVec = [event.data.destinationX, event.data.destinationY];
+        player.ship.hasDestination = true;
       } 
+    }
+
+    function onPlayerStopShipEvent(player : ObjectInterfaces.IPlayer, event : Events.PLAYER_STOP_SHIP_EVENT_CONFIG) {
+      player.ship.hasDestination = false;
     }
 
     function onChatMessageEvent(player : ObjectInterfaces.IPlayer, event : Events.CLIENT_SEND_CHAT_MESSAGE_EVENT_CONFIG) {

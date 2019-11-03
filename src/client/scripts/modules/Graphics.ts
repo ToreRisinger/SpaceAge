@@ -49,7 +49,7 @@ export module Graphics {
         if(ship != undefined) {
             let x = ship.getPos().x;
             let y = ship.getPos().y;
-            if(ship.getIsMoving()) {
+            if(ship.getIsMoving() && ship.getShipData().hasDestination) {
                 line.setTo(x, y, ship.getDestinationPos().x, ship.getDestinationPos().y);
                 destinationLineGraphics.strokeLineShape(line).setDepth(DRAW_LAYERS.DESTINATION_LINE_LAYER);
     

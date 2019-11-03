@@ -22,6 +22,7 @@ export module Events {
 
         //Game logic events
         PLAYER_SET_NEW_DESTINATION_EVENT,
+        PLAYER_STOP_SHIP_EVENT,
 
         //GameState changes events
         SPACE_SCENE_GAME_STATE_EVENT,
@@ -56,6 +57,12 @@ export module Events {
         data : {
             destinationX: number,
             destinationY: number
+        }
+    }
+
+    export interface PLAYER_STOP_SHIP_EVENT_CONFIG extends GameEvent {
+        data : {
+           
         }
     }
 

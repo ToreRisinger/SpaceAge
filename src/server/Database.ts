@@ -16,8 +16,8 @@ export module Database {
           y : 0,
           meters_per_second: 0,
           isMoving : false,
-          destinationX : 0,
-          destinationY : 0,
+          hasDestination : false,
+          destVec : [0, 0],
           velVec : [0, 0],
           modules : [
                         //TODO load from data base, dont create new shit

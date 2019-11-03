@@ -33,7 +33,7 @@ export class Ship extends RadarDetectable {
     }
 
     public getDestinationPos() {
-        return new Phaser.Math.Vector2(Math.floor(this.ship_config.destinationX), Math.floor(this.ship_config.destinationY));
+        return new Phaser.Math.Vector2(Math.floor(this.ship_config.destVec[0]), Math.floor(this.ship_config.destVec[1]));
     }
 
     public destroy() {
