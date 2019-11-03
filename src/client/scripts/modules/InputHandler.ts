@@ -1,12 +1,16 @@
 import { GameScene } from "../scenes/GameScene";
 import { GlobalData } from "./GlobalData";
+import { Events } from "../../../shared/scripts/Events";
+import { EventHandler } from "./EventHandler";
 
 export module InputHandler {
 
     export enum KEY {
         UP,
         DOWN,
-        ENTER
+        ENTER,
+        MOUSE_RIGHT,
+        MOUSE_LEFT
     }
 
     export enum KEY_STATE {
@@ -44,9 +48,13 @@ export module InputHandler {
         keyMap.set(KEY.UP, KEY_STATE.IDLE);
         keyMap.set(KEY.DOWN, KEY_STATE.IDLE);
         keyMap.set(KEY.ENTER, KEY_STATE.IDLE);
+        keyMap.set(KEY.MOUSE_LEFT, KEY_STATE.IDLE);
+        keyMap.set(KEY.MOUSE_RIGHT, KEY_STATE.IDLE);
         tmpKeyMap.set(KEY.UP, KEY_STATE.IDLE);
         tmpKeyMap.set(KEY.DOWN, KEY_STATE.IDLE);
         tmpKeyMap.set(KEY.ENTER, KEY_STATE.IDLE);
+        tmpKeyMap.set(KEY.MOUSE_LEFT, KEY_STATE.IDLE);
+        tmpKeyMap.set(KEY.MOUSE_RIGHT, KEY_STATE.IDLE);
     }
 
     export function update(time : number, delta : number) {
@@ -56,10 +64,14 @@ export module InputHandler {
         keyMap.set(KEY.UP, tmpKeyMap.get(KEY.UP));
         keyMap.set(KEY.DOWN, tmpKeyMap.get(KEY.DOWN));
         keyMap.set(KEY.ENTER, tmpKeyMap.get(KEY.ENTER));
+        keyMap.set(KEY.MOUSE_LEFT, tmpKeyMap.get(KEY.MOUSE_LEFT));
+        keyMap.set(KEY.MOUSE_RIGHT, tmpKeyMap.get(KEY.MOUSE_RIGHT));
 
         tmpKeyMap.set(KEY.UP, KEY_STATE.IDLE);
         tmpKeyMap.set(KEY.DOWN, KEY_STATE.IDLE);
         tmpKeyMap.set(KEY.ENTER, KEY_STATE.IDLE);
+        tmpKeyMap.set(KEY.MOUSE_LEFT, KEY_STATE.IDLE);
+        tmpKeyMap.set(KEY.MOUSE_RIGHT, KEY_STATE.IDLE);
 
         if(upKey.isDown && tmpKeyMap.get(KEY.UP) != KEY_STATE.DOWN) {
             onKeyPressed(KEY.UP, KEY_STATE.DOWN);
@@ -68,6 +80,22 @@ export module InputHandler {
         if(downKey.isDown && tmpKeyMap.get(KEY.DOWN) != KEY_STATE.DOWN) {
             onKeyPressed(KEY.DOWN, KEY_STATE.DOWN);
         }
+
+        if(mouseInput.rightButtonDown()) {
+            if(keyMap.get(KEY.MOUSE_RIGHT) != KEY_STATE.PRESSED && keyMap.get(KEY.MOUSE_RIGHT) != KEY_STATE.DOWN) {
+                onKeyPressed(KEY.MOUSE_RIGHT, KEY_STATE.PRESSED);
+            } else {
+                onKeyPressed(KEY.MOUSE_RIGHT, KEY_STATE.DOWN);
+            }
+        } 
+
+        if(mouseInput.leftButtonDown()) {
+            if(keyMap.get(KEY.MOUSE_LEFT) != KEY_STATE.PRESSED) {
+                onKeyPressed(KEY.MOUSE_LEFT, KEY_STATE.PRESSED);
+            } else {
+                onKeyPressed(KEY.MOUSE_LEFT, KEY_STATE.DOWN);
+            }
+        } 
     }
 
     export function getKeyState(key : KEY) : KEY_STATE {

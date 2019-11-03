@@ -62,6 +62,7 @@ export class GameScene extends Phaser.Scene {
 
     update(time : number, delta : number) { //delta 16.666 @ 60fps
         InputHandler.update(time, delta);
+        SelectionHandler.update(time, delta);
         EventHandler.update(time, delta);
         AbilityHandler.update(time, delta);
         Camera.update(time, delta);

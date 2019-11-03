@@ -33,17 +33,10 @@ export module Background {
             backgroundClickedCount++;
         }
 
+
         if(backgroundClickedCount > 15) {
             backgroundClickedCount = 0;
             backgroundClicked = false;
-            let event : Events.BACKGROUND_CLICKED_ONCE_EVENT_CONFIG = {
-                eventId : Events.EEventType.BACKGROUND_CLICKED_ONCE_EVENT,
-                data : {
-                    mouseX : GlobalData.mouseX,
-                    mouseY : GlobalData.mouseY
-                }
-            }
-            EventHandler.pushEvent(event);
         }
     }
 
