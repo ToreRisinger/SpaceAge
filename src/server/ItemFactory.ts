@@ -19,16 +19,16 @@ export module ItemFactory {
         let result = new Array<ObjectInterfaces.IModuleStat>();
         let shipModuleInfo : ObjectInterfaces.IShipModuleInfo = ShipModules.getModuleInfo(shipModuleType);
         shipModuleInfo.stats.base.forEach(
-            obj => result.push(generateModuleProperty(obj))
+            obj => result.push(generateModuleProperty(obj, quality))
         );
         return result;
     }
 
-    function generateModuleProperty(modulePropertyGenerationConfig : ObjectInterfaces.ModuleStatGenerationConfig) : ObjectInterfaces.IModuleStat {
+    function generateModuleProperty(modulePropertyGenerationConfig : ObjectInterfaces.ModuleStatGenerationConfig, quality : number) : ObjectInterfaces.IModuleStat {
         return { 
             property : modulePropertyGenerationConfig.stat,
             modifier : modulePropertyGenerationConfig.modifier,
-            value : generateModulePropertyValue(modulePropertyGenerationConfig.min, modulePropertyGenerationConfig.max)
+            value : generateModulePropertyValue(modulePropertyGenerationConfig.min[quality-1], modulePropertyGenerationConfig.max[quality-1])
         }
     }
 

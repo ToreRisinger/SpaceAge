@@ -67,7 +67,7 @@ export module Graphics {
                 targetLineGraphics.strokeLineShape(line).setDepth(DRAW_LAYERS.DESTINATION_LINE_LAYER);
             }
 
-            circle.setTo(x, y, ship.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.gravity_radar_range]);
+            circle.setTo(x, y, ship.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.radar_range]);
             radarRangeCircleGraphics.strokeCircleShape(circle).setDepth(DRAW_LAYERS.GRAPHICS_LAYER);
         }
     }

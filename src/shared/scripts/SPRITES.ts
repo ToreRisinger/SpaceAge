@@ -1,4 +1,15 @@
 export const SPRITES = {
+    //Generic ship module sprit
+    SHIP_MODULE: {
+        animation : undefined,
+        sprite : {
+            key: "SHIP_MODULE",
+            file: "modules/ship_module.png",
+            width: 38,
+            height: 38
+        }
+    },
+
     //Ship main modules
     MAIN_MODULE_I: {
         animation : undefined,

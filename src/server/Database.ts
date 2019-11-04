@@ -21,33 +21,41 @@ export module Database {
           velVec : [0, 0],
           modules : [
                         //TODO load from data base, dont create new shit
-                        {module: ItemFactory.createModule(ShipModules.SHIP_MODULE_TYPE_ENUM.POWER_GENERATOR_MODULE_I, 1), x: -1, y : -1},
-                        {module: ItemFactory.createModule(ShipModules.SHIP_MODULE_TYPE_ENUM.SHIELD_GENERATOR_MODULE_I, 1), x: 0, y : -1},
-                        {module: ItemFactory.createModule(ShipModules.SHIP_MODULE_TYPE_ENUM.ENGINE_MODULE_I, 1), x: 1, y : -1},
-                        {module: ItemFactory.createModule(ShipModules.SHIP_MODULE_TYPE_ENUM.LASER_MODULE_I, 1), x: -1, y : 0},
-                        {module: ItemFactory.createModule(ShipModules.SHIP_MODULE_TYPE_ENUM.MAIN_MODULE_I, 1), x: 0, y : 0},
-                        {module: ItemFactory.createModule(ShipModules.SHIP_MODULE_TYPE_ENUM.CARGO_HOLD_MODULE_I, 1), x: 1, y : 0},
-                        {module: ItemFactory.createModule(ShipModules.SHIP_MODULE_TYPE_ENUM.AVOIDANCE_SYSTEM_MODULE_I, 1), x: -1, y : 1},
-                        {module: ItemFactory.createModule(ShipModules.SHIP_MODULE_TYPE_ENUM.RADAR_MODULE_I, 1), x: 0, y : 1},
-                        {module: ItemFactory.createModule(ShipModules.SHIP_MODULE_TYPE_ENUM.SHIP_PLATING_MODULE_I, 1), x: 1, y : 1}
+                        {module: ItemFactory.createModule(ShipModules.SHIP_MODULE_TYPE_ENUM.POWER_MODULE, 1), x: -1, y : -1},
+                        {module: ItemFactory.createModule(ShipModules.SHIP_MODULE_TYPE_ENUM.SHIELD_MODULE, 1), x: 0, y : -1},
+                        {module: ItemFactory.createModule(ShipModules.SHIP_MODULE_TYPE_ENUM.ENGINE_MODULE, 1), x: 1, y : -1},
+                        {module: ItemFactory.createModule(ShipModules.SHIP_MODULE_TYPE_ENUM.LASER_MODULE, 1), x: -1, y : 0},
+                        {module: ItemFactory.createModule(ShipModules.SHIP_MODULE_TYPE_ENUM.MAIN_MODULE, 1), x: 0, y : 0},
+                        {module: ItemFactory.createModule(ShipModules.SHIP_MODULE_TYPE_ENUM.CARGO_HOLD_MODULE, 1), x: 1, y : 0},
+                        {module: ItemFactory.createModule(ShipModules.SHIP_MODULE_TYPE_ENUM.CLOAK_SYSTEM_MODULE, 1), x: -1, y : 1},
+                        {module: ItemFactory.createModule(ShipModules.SHIP_MODULE_TYPE_ENUM.RADAR_MODULE, 1), x: 0, y : 1},
+                        {module: ItemFactory.createModule(ShipModules.SHIP_MODULE_TYPE_ENUM.ARMOR_MODULE, 1), x: 1, y : 1}
                     ],
           stats : {
             [ObjectInterfaces.ShipStatTypeEnum.acceleration] : 0,
-            [ObjectInterfaces.ShipStatTypeEnum.armor] : 0,
-            [ObjectInterfaces.ShipStatTypeEnum.armor_explosion_resistance] : 0,
-            [ObjectInterfaces.ShipStatTypeEnum.armor_heat_resistance] : 0,
-            [ObjectInterfaces.ShipStatTypeEnum.armor_impact_resistance] : 0,
-            [ObjectInterfaces.ShipStatTypeEnum.avoidance_systems] : 0,
-            [ObjectInterfaces.ShipStatTypeEnum.cargo_hold] : 0,
-            [ObjectInterfaces.ShipStatTypeEnum.energy_grid] : 0,
-            [ObjectInterfaces.ShipStatTypeEnum.gravity_radar_range] : 0,
-            [ObjectInterfaces.ShipStatTypeEnum.hull] : 0,
             [ObjectInterfaces.ShipStatTypeEnum.max_speed] : 0,
-            [ObjectInterfaces.ShipStatTypeEnum.shield] : 0,
-            [ObjectInterfaces.ShipStatTypeEnum.shield_generation] : 0,
-            [ObjectInterfaces.ShipStatTypeEnum.targeting_systems] : 0,
             [ObjectInterfaces.ShipStatTypeEnum.thrust] : 0,
-            [ObjectInterfaces.ShipStatTypeEnum.mass] : 0
+            [ObjectInterfaces.ShipStatTypeEnum.mass] : 0,
+            [ObjectInterfaces.ShipStatTypeEnum.power] : 0,
+            [ObjectInterfaces.ShipStatTypeEnum.hull] : 0,
+            [ObjectInterfaces.ShipStatTypeEnum.armor] : 0,
+            [ObjectInterfaces.ShipStatTypeEnum.shield] : 0,
+            [ObjectInterfaces.ShipStatTypeEnum.radar_range] : 0,
+            [ObjectInterfaces.ShipStatTypeEnum.shield_generation] : 0,
+            [ObjectInterfaces.ShipStatTypeEnum.armor_impact_resistance] : 0,
+            [ObjectInterfaces.ShipStatTypeEnum.armor_heat_resistance] : 0,
+            [ObjectInterfaces.ShipStatTypeEnum.armor_explosion_resistance] : 0,
+            [ObjectInterfaces.ShipStatTypeEnum.target_dodge_reduction] : 0,
+            [ObjectInterfaces.ShipStatTypeEnum.cargo_hold] : 0,
+            [ObjectInterfaces.ShipStatTypeEnum.dodge] : 0,
+            [ObjectInterfaces.ShipStatTypeEnum.radar_signature_reduction] : 0,
+            [ObjectInterfaces.ShipStatTypeEnum.weapon_range] : 0,
+            [ObjectInterfaces.ShipStatTypeEnum.explosive_dps] : 0,
+            [ObjectInterfaces.ShipStatTypeEnum.impact_dps] : 0,
+            [ObjectInterfaces.ShipStatTypeEnum.heat_dps] : 0,
+            [ObjectInterfaces.ShipStatTypeEnum.normal_dps] : 0,
+            [ObjectInterfaces.ShipStatTypeEnum.mining_laser_strength] : 0,
+            [ObjectInterfaces.ShipStatTypeEnum.mining_laser_range] : 0
           },
           properties : {
             currentArmor: 0,
@@ -75,10 +83,10 @@ export module Database {
         )
       );
 
-      newShip.stats[ObjectInterfaces.ShipStatTypeEnum.hull] = newShip.stats[ObjectInterfaces.ShipStatTypeEnum.mass]; //TODO
       newShip.stats[ObjectInterfaces.ShipStatTypeEnum.max_speed] = 1000;
       newShip.stats[ObjectInterfaces.ShipStatTypeEnum.acceleration] = 
         newShip.stats[ObjectInterfaces.ShipStatTypeEnum.thrust] / newShip.stats[ObjectInterfaces.ShipStatTypeEnum.mass];
+
 
       newShip.properties.currentArmor = newShip.stats[ObjectInterfaces.ShipStatTypeEnum.armor];
       newShip.properties.currentShield = newShip.stats[ObjectInterfaces.ShipStatTypeEnum.shield];

@@ -29,29 +29,35 @@ export module ObjectInterfaces {
      * MODULE
      */
     export enum ShipStatTypeEnum {
-        thrust,
-        max_speed,
         acceleration,
-        avoidance_systems,
+        max_speed,
+        thrust,
         mass,
+        power,
         hull,
         armor,
-        shield,
-        gravity_radar_range,
+        shield, 
+        radar_range,
         shield_generation,
         armor_impact_resistance,
         armor_heat_resistance,
         armor_explosion_resistance,
-        targeting_systems,
-        energy_grid,
-        cargo_hold
+        target_dodge_reduction,
+        cargo_hold,
+        dodge,
+        radar_signature_reduction,
+        weapon_range,
+        explosive_dps,
+        impact_dps,
+        heat_dps,
+        normal_dps,
+        mining_laser_strength,
+        mining_laser_range
     }
 
     export enum ShipStatModifierEnum {
         increase,
-        decrease,
-        percent_increase,
-        percent_decrease,
+        decrease
     }
     
     export interface IModuleStat {
@@ -69,8 +75,8 @@ export module ObjectInterfaces {
     export interface ModuleStatGenerationConfig {
         stat : ObjectInterfaces.ShipStatTypeEnum,
         modifier : ObjectInterfaces.ShipStatModifierEnum,
-        min : number,
-        max : number
+        min : Array<number>,
+        max : Array<number>,
     }
 
     export interface IModuleTypeProperties {
@@ -80,7 +86,6 @@ export module ObjectInterfaces {
 
     export interface IShipModuleInfo {
         sprite : ISprite,
-        animation : IAnimation | undefined,
         stats : IModuleTypeProperties
     }
 
@@ -95,22 +100,31 @@ export module ObjectInterfaces {
         velVec : Array<number>
         modules : Array<{ module: IModule, x : number, y : number }>
         stats : {
-            [ShipStatTypeEnum.thrust] : number,
+            [ShipStatTypeEnum.acceleration] : number,
             [ShipStatTypeEnum.max_speed] : number,
+            [ShipStatTypeEnum.thrust] : number,
             [ShipStatTypeEnum.mass] : number,
+            [ShipStatTypeEnum.power] : number,
             [ShipStatTypeEnum.hull] : number,
             [ShipStatTypeEnum.armor] : number,
             [ShipStatTypeEnum.shield] : number,
-            [ShipStatTypeEnum.gravity_radar_range] : number,
+            [ShipStatTypeEnum.radar_range] : number,
             [ShipStatTypeEnum.shield_generation] : number,
             [ShipStatTypeEnum.armor_impact_resistance] : number,
             [ShipStatTypeEnum.armor_heat_resistance] : number,
             [ShipStatTypeEnum.armor_explosion_resistance] : number,
-            [ShipStatTypeEnum.targeting_systems] : number,
-            [ShipStatTypeEnum.avoidance_systems] : number,
-            [ShipStatTypeEnum.energy_grid] : number,
+            [ShipStatTypeEnum.target_dodge_reduction] : number,
+            [ShipStatTypeEnum.radar_signature_reduction] : number,
             [ShipStatTypeEnum.cargo_hold] : number,
-            [ShipStatTypeEnum.acceleration] : number
+            [ShipStatTypeEnum.dodge] : number,
+            [ShipStatTypeEnum.radar_signature_reduction] : number,
+            [ShipStatTypeEnum.weapon_range] : number,
+            [ShipStatTypeEnum.explosive_dps] : number,
+            [ShipStatTypeEnum.impact_dps] : number,
+            [ShipStatTypeEnum.heat_dps] : number,
+            [ShipStatTypeEnum.normal_dps] : number,
+            [ShipStatTypeEnum.mining_laser_strength] : number,
+            [ShipStatTypeEnum.mining_laser_range] : number
         }
         properties : {
             currentArmor: number,

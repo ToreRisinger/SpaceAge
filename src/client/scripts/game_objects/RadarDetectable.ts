@@ -102,7 +102,7 @@ export class RadarDetectable extends GameObject {
         if(this.thisPlayerShip) {
             //@ts-ignore
             let playerShip : Ship =  GlobalData.playerShip;
-            let gravityRadarRange : number = playerShip.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.gravity_radar_range];
+            let gravityRadarRange : number = playerShip.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.radar_range];
 
             this.detectedByGravitationalRadar = false;
 
