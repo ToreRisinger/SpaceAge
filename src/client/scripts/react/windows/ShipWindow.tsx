@@ -78,7 +78,7 @@ export default class ShipWindow extends React.Component<ShipWindowProps, ShipWin
                             <pre>Cargo hold:                  {ship ? ship.stats[ObjectInterfaces.ShipStatTypeEnum.cargo_hold] : "N/A"} m<sup>2</sup></pre>
                             
                             <hr></hr>
-                            <pre>Weapon range:                {ship ? ship.stats[ObjectInterfaces.ShipStatTypeEnum.weapon_range] : "N/A"}</pre>
+                            <pre>Weapon range:                {ship ? ship.stats[ObjectInterfaces.ShipStatTypeEnum.weapon_range] : "N/A"} m</pre>
                             <pre>Explosive damage:            {ship ? ship.stats[ObjectInterfaces.ShipStatTypeEnum.explosive_dps] : "N/A"} damage per second</pre>
                             <pre>Impact damage:               {ship ? ship.stats[ObjectInterfaces.ShipStatTypeEnum.impact_dps] : "N/A"} damage per second</pre>
                             <pre>Heat damage:                 {ship ? ship.stats[ObjectInterfaces.ShipStatTypeEnum.heat_dps] : "N/A"} damage per second</pre>

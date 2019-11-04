@@ -7,7 +7,7 @@ import { SPRITES } from "../../../shared/scripts/SPRITES";
 import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
 import { GameObject } from "./GameObject";
 
-export class RadarDetectable extends GameObject {
+export abstract class RadarDetectable extends GameObject {
 
     private iconSprite : Phaser.GameObjects.Sprite;
     private isHoverVar : boolean;
@@ -16,7 +16,7 @@ export class RadarDetectable extends GameObject {
     private hoverStateChange : boolean;
     private icon = SPRITES.SHIP_ICON;
 
-    private detectedByGravitationalRadar : boolean;
+    private detected : boolean;
     private distanceToPlayerShip : number;
     private thisPlayerShip : boolean;
 
@@ -25,7 +25,7 @@ export class RadarDetectable extends GameObject {
     constructor(game_object_config : ObjectInterfaces.IGameObject, thisPlayerShip : boolean) {
         super(game_object_config);
         this.thisPlayerShip = thisPlayerShip;
-        this.detectedByGravitationalRadar = this.thisPlayerShip;
+        this.detected = this.thisPlayerShip;
         this.distanceToPlayerShip = 0;
 
         this.iconSprite = GameScene.getInstance().addSprite(this.getPos().x, this.getPos().y, this.icon.sprite.key);
@@ -63,10 +63,14 @@ export class RadarDetectable extends GameObject {
 
         //@ts-ignore
         this.distanceToPlayerShip = Math.floor(GlobalData.playerShip.getPos().distance(this.getPos()));
-        this.calculateIsDetectedByRadar();
+        this.isDetectedByRadar();
+
+        if(!this.thisPlayerShip) {
+            console.log(this.isDetected());
+        }
+        
 
         this.setIconTint(this.isTarget() ? 0xff0000 : this.baseColor);
-        //this.setIsHover(this.isSelected());
     }
 
     public destroy() {
@@ -90,24 +94,39 @@ export class RadarDetectable extends GameObject {
         return "assets/sprite/" + this.icon.sprite.file;
     }
 
-    public isDetectedByGravitationalRadar(): boolean {
-        return this.detectedByGravitationalRadar;
+    public isDetected(): boolean {
+        return this.detected;
     }
 
     public getDistanceToPlayerShip() : number {
         return this.distanceToPlayerShip;
     }
 
-    private calculateIsDetectedByRadar() {
-        if(this.thisPlayerShip) {
+    protected abstract getRadarMass() : number;
+
+    private isDetectedByRadar() {
+        if(!this.thisPlayerShip) {
             //@ts-ignore
             let playerShip : Ship =  GlobalData.playerShip;
-            let gravityRadarRange : number = playerShip.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.radar_range];
+            let radarRange : number = playerShip.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.radar_range];
 
-            this.detectedByGravitationalRadar = false;
+            this.detected = false;
+            if(this.getDistanceToPlayerShip() <= radarRange) {
+                this.detected = true;
+                return;
+            }
 
-            if(this.getDistanceToPlayerShip() <= gravityRadarRange) {
-                this.detectedByGravitationalRadar = true;
+            if(this.getDistanceToPlayerShip() >= radarRange * 2) {
+                this.detected = false;
+                return;
+            }
+
+            let range = this.getDistanceToPlayerShip() - radarRange;
+            let rangePercentage = (range * 100) / radarRange;
+            let radarEffectiveness = 1 / (Math.pow(10, rangePercentage / 10));
+            if(this.getRadarMass() * radarEffectiveness >= 1) {
+                this.detected = true;
+                return;
             }
         }
     }

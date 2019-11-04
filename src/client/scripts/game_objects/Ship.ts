@@ -48,4 +48,8 @@ export class Ship extends RadarDetectable {
     private buildShip() {
         this.shipSprite = new ShipSprite(this.ship_config.modules, this.getPos(), this.isThisPlayerShip(), this);
     }
+
+    protected getRadarMass() : number {
+        return this.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.mass] * ( 1 - this.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.radar_signature_reduction] / 100)
+    }
 }

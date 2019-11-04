@@ -13,7 +13,7 @@ export default class NavigationContainer extends React.Component<NavigationConta
     render() {
         return (
             <div id="navigation_container">
-                {this.props.itemsToList.map((object, i) => <NavigationRow object={object} key={i}/>)}
+                {this.props.itemsToList.filter(object => object.isDetected()).map((object, i) => <NavigationRow object={object} key={i}/>)}
             </div>
         );
     }
