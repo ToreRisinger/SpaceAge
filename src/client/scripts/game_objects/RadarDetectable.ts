@@ -64,12 +64,7 @@ export abstract class RadarDetectable extends GameObject {
         //@ts-ignore
         this.distanceToPlayerShip = Math.floor(GlobalData.playerShip.getPos().distance(this.getPos()));
         this.isDetectedByRadar();
-
-        if(!this.thisPlayerShip) {
-            console.log(this.isDetected());
-        }
         
-
         this.setIconTint(this.isTarget() ? 0xff0000 : this.baseColor);
     }
 
