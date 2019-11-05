@@ -19,6 +19,7 @@ export module Graphics {
     let destinationGraphicsColor : number = 0x00FF00;
 
     let radarRangeCircleGraphics : Phaser.GameObjects.Graphics;
+    let radarRangeMaxCircleGraphics : Phaser.GameObjects.Graphics;
     let radarRangeColor : number = 0xFFFFFF;
 
     export function init() {
@@ -38,6 +39,7 @@ export module Graphics {
         destinationLineGraphics.destroy();
         destinationCircleGraphics.destroy();
         radarRangeCircleGraphics.destroy();
+        radarRangeMaxCircleGraphics.destroy();
 
         GameScene.getInstance()
 
@@ -69,6 +71,8 @@ export module Graphics {
 
             circle.setTo(x, y, ship.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.radar_range]);
             radarRangeCircleGraphics.strokeCircleShape(circle).setDepth(DRAW_LAYERS.GRAPHICS_LAYER);
+            circle.setTo(x, y, ship.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.radar_range] * 10);
+            radarRangeMaxCircleGraphics.strokeCircleShape(circle).setDepth(DRAW_LAYERS.GRAPHICS_LAYER);
         }
     }
 
@@ -77,6 +81,7 @@ export module Graphics {
         targetLineGraphics = GameScene.getInstance().add.graphics({lineStyle : { width: lineWidth, color: targetLineGraphicsColor, alpha: 0.5}});
         destinationLineGraphics = GameScene.getInstance().add.graphics({lineStyle : { width: lineWidth, color: destinationGraphicsColor, alpha: 0.5}});
         destinationCircleGraphics = GameScene.getInstance().add.graphics({lineStyle : { width: lineWidth, color: destinationGraphicsColor, alpha: 0.5}});
-        radarRangeCircleGraphics = GameScene.getInstance().add.graphics({lineStyle : { width: lineWidth, color: radarRangeColor, alpha: 0.2}});
+        radarRangeCircleGraphics = GameScene.getInstance().add.graphics({lineStyle : { width: lineWidth, color: radarRangeColor, alpha: 0.3}});
+        radarRangeMaxCircleGraphics = GameScene.getInstance().add.graphics({lineStyle : { width: lineWidth, color: radarRangeColor, alpha: 0.2}});
     }
 }

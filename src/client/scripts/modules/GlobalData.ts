@@ -1,13 +1,14 @@
 import { Ship } from "../game_objects/Ship";
 import { ObjectInterfaces } from "../../../shared/scripts/ObjectInterfaces"
 import { GameObject } from "../game_objects/GameObject";
+import { RadarDetectable } from "../game_objects/RadarDetectable";
 
 export module GlobalData {
 
     /* Player */
     export let playerUsername : String = "Player1";
-    export let selectedObject : GameObject | undefined = undefined;
-    export let targetObject : GameObject | undefined;
+    export let selectedObject : RadarDetectable | undefined = undefined;
+    export let targetObject : RadarDetectable | undefined;
     export let playerShip : Ship | undefined = undefined;
     
     /* Camera */

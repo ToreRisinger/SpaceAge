@@ -13,7 +13,6 @@ export abstract class RadarDetectable extends GameObject {
     private isHoverVar : boolean;
     private ICON_ALPHA_DEFAULT : number = 0.5;
     private ICON_ALPHA_HOVER : number = 1;
-    private hoverStateChange : boolean;
     private icon = SPRITES.SHIP_ICON;
 
     private detected : boolean;
@@ -33,7 +32,6 @@ export abstract class RadarDetectable extends GameObject {
         this.iconSprite.setInteractive();
         this.iconSprite.setDepth(DRAW_LAYERS.GRAPHICS_LAYER);
         this.isHoverVar = false;
-        this.hoverStateChange = false;
 
         this.iconSprite.on('pointerover', () => {
             //this.hoverStateChange = !this.isHoverOrSelected;
@@ -50,22 +48,26 @@ export abstract class RadarDetectable extends GameObject {
         this.baseColor = 0xffffff;
     }
 
+    protected abstract getRadarMass() : number;
+    protected abstract setVisible(value : boolean) : void;
+
     public update() {
         super.update();
-        this.iconSprite.setDisplaySize(SPRITES.SHIP_ICON.sprite.width * GlobalData.cameraZoom, SPRITES.SHIP_ICON.sprite.height * GlobalData.cameraZoom);
-        this.iconSprite.x = this.getPos().x;
-        this.iconSprite.y = this.getPos().y;
         
-        this.iconSprite.alpha = this.ICON_ALPHA_DEFAULT;
-        if(this.isSelected() || this.isHover() || this.isTarget()) {
-            this.iconSprite.alpha = this.ICON_ALPHA_HOVER;
+        this.calculateDistanceToPlayerShip();
+        let isDetectedPreviousFrame = this.isDetected();
+        this.calculateDetectedByRadar(this.getDistanceToPlayerShip(), this.getRadarMass());
+
+        if(isDetectedPreviousFrame != this.isDetected()) {
+            this.setVisibleOrInvisible();
         }
 
-        //@ts-ignore
-        this.distanceToPlayerShip = Math.floor(GlobalData.playerShip.getPos().distance(this.getPos()));
-        this.isDetectedByRadar();
-        
-        this.setIconTint(this.isTarget() ? 0xff0000 : this.baseColor);
+
+        if(this.isDetected()) {
+            this.calculateIconSizeAndPos();
+            this.calculateIconAlpha();
+            this.setIconTint(this.isTarget() ? 0xff0000 : this.baseColor);
+        }
     }
 
     public destroy() {
@@ -77,13 +79,6 @@ export abstract class RadarDetectable extends GameObject {
         this.isHoverVar = value;
     }
 
-    protected setIconTint(color : number) {
-        this.iconSprite.tint = color;
-    }
-
-    protected setIconBaseColor(color : number) {
-        this.baseColor = color;
-    }
 
     public getIconPath() {
         return "assets/sprite/" + this.icon.sprite.file;
@@ -95,35 +90,6 @@ export abstract class RadarDetectable extends GameObject {
 
     public getDistanceToPlayerShip() : number {
         return this.distanceToPlayerShip;
-    }
-
-    protected abstract getRadarMass() : number;
-
-    private isDetectedByRadar() {
-        if(!this.thisPlayerShip) {
-            //@ts-ignore
-            let playerShip : Ship =  GlobalData.playerShip;
-            let radarRange : number = playerShip.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.radar_range];
-
-            this.detected = false;
-            if(this.getDistanceToPlayerShip() <= radarRange) {
-                this.detected = true;
-                return;
-            }
-
-            if(this.getDistanceToPlayerShip() >= radarRange * 2) {
-                this.detected = false;
-                return;
-            }
-
-            let range = this.getDistanceToPlayerShip() - radarRange;
-            let rangePercentage = (range * 100) / radarRange;
-            let radarEffectiveness = 1 / (Math.pow(10, rangePercentage / 10));
-            if(this.getRadarMass() * radarEffectiveness >= 1) {
-                this.detected = true;
-                return;
-            }
-        }
     }
 
     public isThisPlayerShip() : boolean {
@@ -150,5 +116,70 @@ export abstract class RadarDetectable extends GameObject {
 
     public isHover() : boolean {
         return this.isHoverVar;
+    }
+
+    protected setIconTint(color : number) {
+        this.iconSprite.tint = color;
+    }
+
+    protected setIconBaseColor(color : number) {
+        this.baseColor = color;
+    }
+
+    private calculateDetectedByRadar(distance : number, radarMass : number) {
+        if(!this.thisPlayerShip) {
+            //@ts-ignore
+            let playerShip : Ship =  GlobalData.playerShip;
+            let radarRange : number = playerShip.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.radar_range];
+
+            this.detected = false;
+            if(distance <= radarRange) {
+                this.detected = true;
+                return;
+            }
+
+
+            if(distance >= radarRange * 2) {
+                this.detected = false;
+                return;
+            }
+
+            let range = distance - radarRange;
+            let rangePercentage = (range * 100) / radarRange;
+            let radarEffectiveness = 1 / (Math.pow(10, rangePercentage / 90));
+            if(radarMass * radarEffectiveness >= 1) {
+                this.detected = true;
+                return;
+            }
+        }
+    }
+
+    private calculateDistanceToPlayerShip() {
+        //@ts-ignore
+        this.distanceToPlayerShip = Math.floor(GlobalData.playerShip.getPos().distance(this.getPos()));
+    }
+
+    private calculateIconAlpha() {
+        if(this.isSelected() || this.isHover() || this.isTarget()) {
+            this.iconSprite.alpha = this.ICON_ALPHA_HOVER;
+        } else {
+            this.iconSprite.alpha = this.ICON_ALPHA_DEFAULT;
+        }
+    }
+
+    private calculateIconSizeAndPos() {
+        this.iconSprite.setDisplaySize(SPRITES.SHIP_ICON.sprite.width * GlobalData.cameraZoom, SPRITES.SHIP_ICON.sprite.height * GlobalData.cameraZoom);
+        this.iconSprite.x = this.getPos().x;
+        this.iconSprite.y = this.getPos().y;
+    }
+
+    private setVisibleOrInvisible() {
+        if(this.isDetected()) {
+            this.setVisible(true);
+            this.iconSprite.setVisible(true);
+        } else {
+            this.setVisible(false);
+            this.iconSprite.setVisible(false);
+        }
     }
 }

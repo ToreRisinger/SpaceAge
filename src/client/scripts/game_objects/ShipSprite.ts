@@ -1,6 +1,5 @@
 import { ObjectInterfaces } from "../../../shared/scripts/ObjectInterfaces";
 import { GameScene } from "../scenes/GameScene";
-import { SPRITES } from "../../../shared/scripts/SPRITES";
 import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
 import { ShipModules } from "../../../shared/scripts/ShipModules"
 import { Ship } from "./Ship";
@@ -37,6 +36,14 @@ export class ShipSprite {
         this.shipModulesWithSprites.forEach(module => setModulePosition(module, newPosVec))
     }
 
+    public destroy() {
+        this.shipModulesWithSprites.forEach(module => module.sprite.destroy());
+    }
+
+    public setVisible(value : boolean) : void {
+        this.shipModulesWithSprites.forEach(module => module.sprite.setVisible(value));
+    }
+
     private buildSprite(shipModules :  Array<{ module: ObjectInterfaces.IModule, x : number, y : number }>) {
         this.shipModulesWithSprites = new Array<IShipModuleWithSprite>();
         for(let i = 0; i < shipModules.length; i++) {
@@ -68,9 +75,4 @@ export class ShipSprite {
             this.shipModulesWithSprites.push(module);
         }
     }
-
-    public destroy() {
-        this.shipModulesWithSprites.forEach(module => module.sprite.destroy());
-    }
-
 }

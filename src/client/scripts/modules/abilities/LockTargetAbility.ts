@@ -5,6 +5,7 @@ import { EAbilityState } from "./EAbilityState";
 import { Events } from "../../../../shared/scripts/Events";
 import { EventHandler } from "../EventHandler";
 import { GameObject } from "../../game_objects/GameObject";
+import { RadarDetectable } from "../../game_objects/RadarDetectable";
 
 export class LockTargetAbility extends Ability {
 
@@ -89,7 +90,7 @@ export class LockTargetAbility extends Ability {
         this.iconPath = this.UNLOCK_ICON_PATH
     }
 
-    private sendEvent(object : GameObject | undefined) {
+    private sendEvent(object : RadarDetectable | undefined) {
         let newEvent : Events.TARGET_CHANGE_REQUEST_EVENT_CONFIG = {
             eventId : Events.EEventType.TARGET_CHANGE_REQUEST_EVENT,
             data : {

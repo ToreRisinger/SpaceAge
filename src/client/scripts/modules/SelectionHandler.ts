@@ -11,7 +11,10 @@ export module SelectionHandler {
     }
 
     export function update(time : number, delta : number) {
-        if(InputHandler.getKeyState(InputHandler.KEY.MOUSE_RIGHT) == InputHandler.KEY_STATE.PRESSED && GlobalData.selectedObject != undefined) {
+        if(GlobalData.selectedObject != undefined && !GlobalData.selectedObject.isDetected()) {
+            GlobalData.selectedObject = undefined;
+            sendSelectionChangedEvent();
+        } else if(InputHandler.getKeyState(InputHandler.KEY.MOUSE_RIGHT) == InputHandler.KEY_STATE.PRESSED && GlobalData.selectedObject != undefined) {
             GlobalData.selectedObject = undefined;
             sendSelectionChangedEvent();
         }

@@ -1,5 +1,6 @@
 import { ObjectInterfaces } from "./ObjectInterfaces"
 import { GameObject } from "../../client/scripts/game_objects/GameObject";
+import { RadarDetectable } from "../../client/scripts/game_objects/RadarDetectable";
 
 
 export module Events {
@@ -101,25 +102,25 @@ export module Events {
 
     export interface SELECTION_CHANGE_REQUEST_EVENT_CONFIG extends GameEvent {
         data : {
-            object : GameObject | undefined;
+            object : RadarDetectable | undefined;
         }
     }
 
     export interface SELECTION_CHANGED_EVENT_CONFIG extends GameEvent {
         data : {
-            object : GameObject | undefined;
+            object : RadarDetectable | undefined;
         }
     }
 
     export interface TARGET_CHANGE_REQUEST_EVENT_CONFIG extends GameEvent {
         data : {
-            object : GameObject | undefined;
+            object : RadarDetectable | undefined;
         }
     }
 
     export interface TARGET_CHANGED_EVENT_CONFIG extends GameEvent {
         data : {
-            object : GameObject | undefined;
+            object : RadarDetectable | undefined;
         }
     }
 

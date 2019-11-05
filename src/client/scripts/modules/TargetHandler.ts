@@ -8,6 +8,13 @@ export module TargetHandler {
         subscribeToEvents();
     }
 
+    export function update(time : number, delta : number) {
+        if(GlobalData.targetObject != undefined && !GlobalData.targetObject.isDetected()) {
+            GlobalData.targetObject = undefined;
+            sendTargetChangedEvent()
+        }
+    }
+
     function onTargetChangeRequest(event : Events.TARGET_CHANGE_REQUEST_EVENT_CONFIG) {
         if(GlobalData.playerShip == event.data.object) {
             GlobalData.targetObject = undefined;
