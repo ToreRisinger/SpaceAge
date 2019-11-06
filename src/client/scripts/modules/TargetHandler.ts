@@ -38,6 +38,7 @@ export module TargetHandler {
     function onPlayerDisconnect(event : Events.PLAYER_DISCONNECTED_EVENT_CONFIG) {
         if(GlobalData.targetObject != undefined && GlobalData.targetObject.getGameObjectData().id == event.data.shipId) {
             GlobalData.targetObject = undefined;
+            sendTargetChangedEvent();
         }
     }
 

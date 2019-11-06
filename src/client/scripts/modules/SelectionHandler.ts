@@ -43,6 +43,7 @@ export module SelectionHandler {
     function onPlayerDisconnect(event : Events.PLAYER_DISCONNECTED_EVENT_CONFIG) {
         if(GlobalData.selectedObject != undefined && GlobalData.selectedObject.getGameObjectData().id == event.data.shipId) {
             GlobalData.selectedObject = undefined;
+            sendSelectionChangedEvent();
         }
     }
 

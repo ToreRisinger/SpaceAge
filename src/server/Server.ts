@@ -32,9 +32,9 @@ export module Server {
     function setupOnConnection() {
         //@ts-ignore
         io.on('connection', function (socket) {
-          console.log('a user connected');
           let playerId = Database.getPlayerId("toreman"); //TODO get username from login screen
           let newPlayer : ObjectInterfaces.IPlayer = Database.getPlayer(playerId, socket);
+          console.log('a user connected: ' + newPlayer.ship.id);
           PLAYERS.set(playerId, newPlayer);
           SHIPS.set(newPlayer.ship.id, newPlayer.ship);
           //@ts-ignore
@@ -43,7 +43,7 @@ export module Server {
           sendServerMessage(PLAYERS.get(playerId), "Welcome to SpaceAge!");
 
           socket.on('disconnect', function () {
-            console.log('user disconnected');
+            console.log('user disconnected: ' + newPlayer.ship.id);
             SHIPS.delete(newPlayer.ship.id);
             PLAYERS.delete(playerId);
             sendPlayerDisconnected(newPlayer.ship.id);
