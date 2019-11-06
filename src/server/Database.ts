@@ -17,6 +17,8 @@ export module Database {
           meters_per_second: 0,
           isMoving : false,
           hasDestination : false,
+          isAttacking : false,
+          targetId : -1,
           destVec : [0, 0],
           velVec : [0, 0],
           modules : [
@@ -87,6 +89,9 @@ export module Database {
       newShip.stats[ObjectInterfaces.ShipStatTypeEnum.acceleration] = 
         newShip.stats[ObjectInterfaces.ShipStatTypeEnum.thrust] / newShip.stats[ObjectInterfaces.ShipStatTypeEnum.mass];
 
+
+      //TODO weapon range average calculation  
+      newShip.stats[ObjectInterfaces.ShipStatTypeEnum.weapon_range] = 2000;
 
       newShip.properties.currentArmor = newShip.stats[ObjectInterfaces.ShipStatTypeEnum.armor];
       newShip.properties.currentShield = newShip.stats[ObjectInterfaces.ShipStatTypeEnum.shield];

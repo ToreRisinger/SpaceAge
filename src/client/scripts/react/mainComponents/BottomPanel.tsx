@@ -1,7 +1,7 @@
 import React from "react";
 import { ObjectInterfaces } from "../../../../shared/scripts/ObjectInterfaces";
 import { GlobalData } from "../../modules/GlobalData";
-import ShipStats from "./ShipStats";
+import ShipStatsBottomPanel from "./ShipStatsBottomPanel";
 
 export interface BottomPanelState { ship : ObjectInterfaces.IShip | undefined; }
 
@@ -39,7 +39,7 @@ export default class BottomPanel extends React.Component<{}, BottomPanelState> {
    render() {
       return (
          <div id="bottom_panel" className="UIComponent">
-            <ShipStats ship={this.state.ship}/>
+            <ShipStatsBottomPanel ship={this.state.ship}/>
          </div>
       );
    }

@@ -24,6 +24,8 @@ export module Events {
         //Game logic events
         PLAYER_SET_NEW_DESTINATION_EVENT,
         PLAYER_STOP_SHIP_EVENT,
+        PLAYER_START_ATTACKING_EVENT,
+        PLAYER_STOP_ATTACKING_EVENT,
 
         //GameState changes events
         SPACE_SCENE_GAME_STATE_EVENT,
@@ -64,6 +66,18 @@ export module Events {
     export interface PLAYER_STOP_SHIP_EVENT_CONFIG extends GameEvent {
         data : {
            
+        }
+    }
+
+    export interface PLAYER_START_ATTACKING_EVENT_CONFIG extends GameEvent {
+        data :  {
+            targetId : number
+        }
+    }
+
+    export interface PLAYER_STOP_ATTACKING_EVENT_CONFIG extends GameEvent {
+        data :  {
+            
         }
     }
 

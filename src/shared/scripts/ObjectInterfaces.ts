@@ -59,6 +59,13 @@ export module ObjectInterfaces {
         increase,
         decrease
     }
+
+    export enum EDamageType {
+        NORMAL_DAMAGE,
+        EXPLOSIVE_DAMAGE,
+        HEAT_DAMAGE,
+        IMPACT_DAMAGE
+    }
     
     export interface IModuleStat {
         property : ShipStatTypeEnum,
@@ -96,6 +103,8 @@ export module ObjectInterfaces {
         meters_per_second: number
         isMoving : boolean,
         hasDestination : boolean,
+        isAttacking : boolean,
+        targetId : number,
         destVec : Array<number>
         velVec : Array<number>
         modules : Array<{ module: IModule, x : number, y : number }>

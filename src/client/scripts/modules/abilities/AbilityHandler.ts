@@ -2,6 +2,7 @@ import { LockTargetAbility } from "./LockTargetAbility";
 import { GlobalData } from "../GlobalData";
 import { Ability } from "./Ability";
 import { StopShipAbility } from "./StopShipAbility"
+import { AttackAbility } from "./AttackAbility";
 
 export module AbilityHandler {
 
@@ -10,6 +11,8 @@ export module AbilityHandler {
 
     export function init() {
         subscribeToEvents();
+        //@ts-ignore
+        abilities.push(new AttackAbility(GlobalData.playerShip));
         //@ts-ignore
         abilities.push(new LockTargetAbility(GlobalData.playerShip));
         //@ts-ignore

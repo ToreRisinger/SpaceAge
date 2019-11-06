@@ -1,20 +1,18 @@
 import React from "react";
 import { ObjectInterfaces } from "../../../../shared/scripts/ObjectInterfaces";
 
-export interface BottomPanelProps { ship : ObjectInterfaces.IShip | undefined; }
+export interface ShipStatsBottomPanelProps { ship : ObjectInterfaces.IShip | undefined; }
 
-export default class BottomPanel extends React.Component<BottomPanelProps, {}> {
+export default class ShipStatsBottomPanel extends React.Component<ShipStatsBottomPanelProps, {}> {
 
-   private timerID : ReturnType<typeof setTimeout> | undefined;
-
-   constructor(props : BottomPanelProps) {
+   constructor(props : ShipStatsBottomPanelProps) {
       super(props)
    }
 
    render() {
         if(this.props.ship != undefined) {
             return (
-                <div id="ship_stats" className="UIComponent BottomPanelElement Unselectable">
+                <div id="ship_stats_bottom_panel" className="UIComponent BottomPanelElement Unselectable">
                     <h1>Speed: {Math.round(this.props.ship.meters_per_second)} m/s</h1>
                     <h1>Shield: {this.props.ship.properties.currentShield}/{this.props.ship.stats[ObjectInterfaces.ShipStatTypeEnum.shield]}</h1> 
                     <h1>Armor: {this.props.ship.properties.currentArmor}/{this.props.ship.stats[ObjectInterfaces.ShipStatTypeEnum.armor]}</h1> 
@@ -23,7 +21,7 @@ export default class BottomPanel extends React.Component<BottomPanelProps, {}> {
             );
         } else {
             return (   
-                <div id="ship_stats" className="UIComponent BottomPanelElement Unselectable">
+                <div id="ship_stats_bottom_panel" className="UIComponent BottomPanelElement Unselectable">
                     <h1>Speed: 0/0</h1>
                     <h1>Shield: 0/0</h1> 
                     <h1>Armor: 0/0</h1> 

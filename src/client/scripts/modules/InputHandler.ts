@@ -30,6 +30,9 @@ export module InputHandler {
     let mouseInput : Phaser.Input.Pointer;
     let mouseManager : Phaser.Input.Mouse.MouseManager;
 
+    let mouseX : number;
+    let mouseY : number;
+
     export function init() {
         let gameScene : GameScene = GameScene.getInstance();
 
@@ -45,6 +48,9 @@ export module InputHandler {
         mouseManager = gameScene.input.mouse;
         mouseManager.disableContextMenu();
 
+        mouseX = mouseInput.x;
+        mouseY = mouseInput.y;
+
         keyMap.set(KEY.UP, KEY_STATE.IDLE);
         keyMap.set(KEY.DOWN, KEY_STATE.IDLE);
         keyMap.set(KEY.ENTER, KEY_STATE.IDLE);
@@ -58,8 +64,8 @@ export module InputHandler {
     }
 
     export function update(time : number, delta : number) {
-        GlobalData.mouseX = mouseInput.x;
-        GlobalData.mouseY = mouseInput.y;
+        mouseX = mouseInput.x;
+        mouseY = mouseInput.y;
 
         keyMap.set(KEY.UP, tmpKeyMap.get(KEY.UP));
         keyMap.set(KEY.DOWN, tmpKeyMap.get(KEY.DOWN));
@@ -100,6 +106,14 @@ export module InputHandler {
 
     export function getKeyState(key : KEY) : KEY_STATE {
         return keyMap.get(key);
+    }
+
+    export function getMouseX() : number {
+        return mouseX;
+    }
+
+    export function getMouseY() : number {
+        return mouseY;
     }
 
     function onKeyUpPressed() {

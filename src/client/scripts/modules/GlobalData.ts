@@ -8,7 +8,8 @@ export module GlobalData {
     /* Player */
     export let playerUsername : String = "Player1";
     export let selectedObject : RadarDetectable | undefined = undefined;
-    export let targetObject : RadarDetectable | undefined;
+    export let targetObject : RadarDetectable | undefined = undefined;
+
     export let playerShip : Ship | undefined = undefined;
     
     /* Camera */
@@ -20,10 +21,6 @@ export module GlobalData {
 
     /* Server */
     export let ping : number = 1;
-
-    /* Input */
-    export let mouseX : number = 0;
-    export let mouseY : number = 0;
 
     export function getPlayerShipData() : ObjectInterfaces.IShip | undefined {
         if(playerShip != undefined) {

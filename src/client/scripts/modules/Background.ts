@@ -4,6 +4,7 @@ import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
 import { EventHandler } from "./EventHandler";
 import { Events } from "../../../shared/scripts/Events";
 import { GlobalData } from "./GlobalData";
+import { InputHandler } from "./InputHandler";
 
 export module Background {
 
@@ -72,13 +73,15 @@ export module Background {
 
     function onBackgroundClicked() {
         //TODO better solution. This prevents movement when pressing side panels
-        if(GlobalData.mouseX > 52 && GlobalData.mouseX < GameScene.getInstance().getSceneWidth() - 320) {
+        let mouseX = InputHandler.getMouseX();
+        let mouseY = InputHandler.getMouseY();
+        if(mouseX > 52 && mouseY < GameScene.getInstance().getSceneWidth() - 320) {
             if(backgroundClicked) {
                 let event : Events.BACKGROUND_CLICKED_TWICE_EVENT_CONFIG = {
                     eventId : Events.EEventType.BACKGROUND_CLICKED_TWICE_EVENT,
                     data : {
-                        mouseX : GlobalData.mouseX,
-                        mouseY : GlobalData.mouseY
+                        mouseX : mouseX,
+                        mouseY : mouseY
                     }
                 }
                 EventHandler.pushEvent(event);

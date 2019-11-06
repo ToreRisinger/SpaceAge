@@ -67,7 +67,7 @@ body {
     z-index: inherit;
 }
 
-#ship_stats {
+#ship_stats_bottom_panel {
     width: 100%; 
     text-align: center;
 }

@@ -26,7 +26,7 @@ export module Server {
       io = require('socket.io').listen(server);
 
       setupOnConnection();
-      setupUpdateLoop();
+      setupGameLoops();
     }
 
     function setupOnConnection() {
@@ -56,15 +56,107 @@ export module Server {
         });
     }
 
-    function setupUpdateLoop() {
-        setInterval(update, 1000/UPDATES_PER_SECOND);
+    function setupGameLoops() {
+      setInterval(update40ms, 1000/UPDATES_PER_SECOND);
+      setInterval(update1000ms, 1000);
     }
 
     //Server functions
-    function update() {
-        updateShipPositions();
-        sendGameObjectUpdate();
+    function update40ms() {
+      updateShipPositions();
+      sendGameObjectUpdate();
     }
+
+    function update1000ms() {
+      SHIPS.forEach((ship: ObjectInterfaces.IShip, key: number) => {
+        if(ship.isAttacking) {
+          handleAttackingShip(ship);
+        }
+        /*
+
+        TODO mining
+        if(ship.isMining) {
+          handleMiningShip(ship);
+        }
+
+        TODO check if any ship died
+        handleDestroyedShip(ship);
+        */
+
+      });
+    }
+
+    function handleAttackingShip(attackingShip : ObjectInterfaces.IShip) {
+      let targetShip = SHIPS.get(attackingShip.targetId);
+      if(targetShip != undefined) {
+        let attackingShipPos = [attackingShip.x, attackingShip.y];
+        let targetShipPos = [targetShip.x, targetShip.y];
+        let attackingShipToTargetShipVec = math.subtract(attackingShipPos, targetShipPos);
+        let attackingShipToTargetShipDistance : number = math.length(attackingShipToTargetShipVec);
+        let attackingShipWeaponRange = attackingShip.stats[ObjectInterfaces.ShipStatTypeEnum.weapon_range];
+        if(attackingShipToTargetShipDistance <= attackingShipWeaponRange) {
+          dealDamageToShip(targetShip, attackingShip.stats[ObjectInterfaces.ShipStatTypeEnum.normal_dps], ObjectInterfaces.EDamageType.NORMAL_DAMAGE);
+          dealDamageToShip(targetShip, attackingShip.stats[ObjectInterfaces.ShipStatTypeEnum.explosive_dps], ObjectInterfaces.EDamageType.EXPLOSIVE_DAMAGE);
+          dealDamageToShip(targetShip, attackingShip.stats[ObjectInterfaces.ShipStatTypeEnum.heat_dps], ObjectInterfaces.EDamageType.HEAT_DAMAGE);
+          dealDamageToShip(targetShip, attackingShip.stats[ObjectInterfaces.ShipStatTypeEnum.impact_dps], ObjectInterfaces.EDamageType.IMPACT_DAMAGE);
+        } 
+      }
+    }
+
+    function dealDamageToShip(ship : ObjectInterfaces.IShip, damage : number, damageType : ObjectInterfaces.EDamageType) {
+      let damageLeft = damage;
+      let shield = ship.properties.currentShield;
+      let armor = ship.properties.currentArmor;
+      let hull = ship.properties.currentHull;
+
+      //Damage to shield
+      if(shield - damageLeft < 0) {
+        damageLeft -= shield;
+        ship.properties.currentShield = 0;
+      } else {
+        ship.properties.currentShield -= damageLeft;
+        return;
+      }
+
+      //Damage to armor
+      let damageTypeResistPercent = getDamageTypeResist(ship, damageType);
+      let armorDamageAfterResist = math.floor(damageLeft * damageTypeResistPercent);
+      if(armor - armorDamageAfterResist < 0) {
+        damageLeft -= math.floor(armor / damageTypeResistPercent);
+        ship.properties.currentArmor = 0;
+      } else {
+        ship.properties.currentArmor -= armorDamageAfterResist;
+        return;
+      }
+
+      //Damage to hull
+      if(hull - damageLeft < 0) {
+        ship.properties.currentHull = 0;
+      } else {
+        ship.properties.currentHull -= damageLeft;
+      }
+    }
+
+    function getDamageTypeResist(ship : ObjectInterfaces.IShip, damageType : ObjectInterfaces.EDamageType) : number {
+      let resist : number = 0;
+      switch(damageType) {
+        case ObjectInterfaces.EDamageType.NORMAL_DAMAGE :
+          resist = 1;
+          break;
+        case ObjectInterfaces.EDamageType.EXPLOSIVE_DAMAGE :
+          resist = 1 - ship.stats[ObjectInterfaces.ShipStatTypeEnum.armor_explosion_resistance] / 100;
+          break;
+        case ObjectInterfaces.EDamageType.HEAT_DAMAGE :
+          resist = 1 - ship.stats[ObjectInterfaces.ShipStatTypeEnum.armor_heat_resistance] / 100;
+          break;
+        case ObjectInterfaces.EDamageType.IMPACT_DAMAGE :
+          resist = 1 - ship.stats[ObjectInterfaces.ShipStatTypeEnum.armor_impact_resistance] / 100;
+          break;  
+      }
+      return resist;
+    }
+
+
 
     function updateShipPositions() {
         function getMidPointVec(shipToDestVec :  Array<number>, goodVelVecComp : Array<number>, badVelVecComp : Array<number>) {
@@ -179,12 +271,38 @@ export module Server {
           onPlayerStopShipEvent(player, event);
           break;
         }
+        case Events.EEventType.PLAYER_START_ATTACKING_EVENT : {
+          onPlayerStartAttackingEvent(player, event);
+          break;
+        }
+        case Events.EEventType.PLAYER_STOP_ATTACKING_EVENT : {
+          onPlayerStopAttackingEvent(player, event);
+        }
         default: {
           break;
         }
       }
     }
 
+    function onPlayerStartAttackingEvent(player : ObjectInterfaces.IPlayer, event : Events.PLAYER_START_ATTACKING_EVENT_CONFIG) {
+        if(event.data.targetId != undefined && event.data.targetId > 0) {
+          startAttacking(player.ship, event.data.targetId);
+        }
+    }
+
+    function onPlayerStopAttackingEvent(player : ObjectInterfaces.IPlayer, event : Events.PLAYER_STOP_ATTACKING_EVENT_CONFIG) {
+      stopAttacking(player.ship);
+    }
+
+    function stopAttacking(ship : ObjectInterfaces.IShip) {
+      ship.isAttacking = false;
+      ship.targetId = -1;
+    }
+
+    function startAttacking(ship : ObjectInterfaces.IShip, targetId : number) {
+      ship.isAttacking = true;
+      ship.targetId = targetId;
+    }
     //Server event functions
     function onPlayerSetNewDestinationEvent(player : ObjectInterfaces.IPlayer, event : Events.PLAYER_SET_NEW_DESTINATION_EVENT_CONFIG) {
       let xLength = player.ship.x - event.data.destinationX;
