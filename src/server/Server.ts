@@ -93,12 +93,12 @@ export module Server {
         let targetShipPos = [targetShip.x, targetShip.y];
         let attackingShipToTargetShipVec = math.subtract(attackingShipPos, targetShipPos);
         let attackingShipToTargetShipDistance : number = math.length(attackingShipToTargetShipVec);
-        let attackingShipWeaponRange = attackingShip.stats[ObjectInterfaces.ShipStatTypeEnum.weapon_range];
+        let attackingShipWeaponRange = attackingShip.stats[ObjectInterfaces.EShipStatType.weapon_range];
         if(attackingShipToTargetShipDistance <= attackingShipWeaponRange) {
-          dealDamageToShip(targetShip, attackingShip.stats[ObjectInterfaces.ShipStatTypeEnum.normal_dps], ObjectInterfaces.EDamageType.NORMAL_DAMAGE);
-          dealDamageToShip(targetShip, attackingShip.stats[ObjectInterfaces.ShipStatTypeEnum.explosive_dps], ObjectInterfaces.EDamageType.EXPLOSIVE_DAMAGE);
-          dealDamageToShip(targetShip, attackingShip.stats[ObjectInterfaces.ShipStatTypeEnum.heat_dps], ObjectInterfaces.EDamageType.HEAT_DAMAGE);
-          dealDamageToShip(targetShip, attackingShip.stats[ObjectInterfaces.ShipStatTypeEnum.impact_dps], ObjectInterfaces.EDamageType.IMPACT_DAMAGE);
+          dealDamageToShip(targetShip, attackingShip.stats[ObjectInterfaces.EShipStatType.normal_dps], ObjectInterfaces.EDamageType.NORMAL_DAMAGE);
+          dealDamageToShip(targetShip, attackingShip.stats[ObjectInterfaces.EShipStatType.explosive_dps], ObjectInterfaces.EDamageType.EXPLOSIVE_DAMAGE);
+          dealDamageToShip(targetShip, attackingShip.stats[ObjectInterfaces.EShipStatType.heat_dps], ObjectInterfaces.EDamageType.HEAT_DAMAGE);
+          dealDamageToShip(targetShip, attackingShip.stats[ObjectInterfaces.EShipStatType.impact_dps], ObjectInterfaces.EDamageType.IMPACT_DAMAGE);
         } 
       }
     }
@@ -144,13 +144,13 @@ export module Server {
           resist = 1;
           break;
         case ObjectInterfaces.EDamageType.EXPLOSIVE_DAMAGE :
-          resist = 1 - ship.stats[ObjectInterfaces.ShipStatTypeEnum.armor_explosion_resistance] / 100;
+          resist = 1 - ship.stats[ObjectInterfaces.EShipStatType.armor_explosion_resistance] / 100;
           break;
         case ObjectInterfaces.EDamageType.HEAT_DAMAGE :
-          resist = 1 - ship.stats[ObjectInterfaces.ShipStatTypeEnum.armor_heat_resistance] / 100;
+          resist = 1 - ship.stats[ObjectInterfaces.EShipStatType.armor_heat_resistance] / 100;
           break;
         case ObjectInterfaces.EDamageType.IMPACT_DAMAGE :
-          resist = 1 - ship.stats[ObjectInterfaces.ShipStatTypeEnum.armor_impact_resistance] / 100;
+          resist = 1 - ship.stats[ObjectInterfaces.EShipStatType.armor_impact_resistance] / 100;
           break;  
       }
       return resist;
@@ -198,7 +198,7 @@ export module Server {
         }
         
         SHIPS.forEach((ship: ObjectInterfaces.IShip, key: number) => {
-          let shipAcceleration = ship.stats[ObjectInterfaces.ShipStatTypeEnum.acceleration];
+          let shipAcceleration = ship.stats[ObjectInterfaces.EShipStatType.acceleration];
           let destVec = ship.destVec;
           let shipPosVec = [ship.x, ship.y];
           let shipToDestVec = math.subtract(destVec, shipPosVec);
@@ -226,7 +226,7 @@ export module Server {
 
             let newVelVecLength = math.length(newVelVec);
 
-            let shipMaxSpeed = ship.stats[ObjectInterfaces.ShipStatTypeEnum.max_speed];
+            let shipMaxSpeed = ship.stats[ObjectInterfaces.EShipStatType.max_speed];
             if(newVelVecLength > shipMaxSpeed) {
               ship.velVec = math.multiply(newVelVec, shipMaxSpeed/newVelVecLength)
             } else {

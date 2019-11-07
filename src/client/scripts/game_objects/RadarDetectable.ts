@@ -130,7 +130,7 @@ export abstract class RadarDetectable extends GameObject {
         if(!this.thisPlayerShip) {
             //@ts-ignore
             let playerShip : Ship =  GlobalData.playerShip;
-            let radarRange : number = playerShip.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.radar_range];
+            let radarRange : number = playerShip.getShipData().stats[ObjectInterfaces.EShipStatType.radar_range];
 
             this.detected = false;
             if(distance <= radarRange) {

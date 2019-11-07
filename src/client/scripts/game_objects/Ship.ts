@@ -50,7 +50,7 @@ export class Ship extends RadarDetectable {
     }
 
     protected getRadarMass() : number {
-        return this.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.mass] * ( 1 - this.getShipData().stats[ObjectInterfaces.ShipStatTypeEnum.radar_signature_reduction] / 100)
+        return this.getShipData().stats[ObjectInterfaces.EShipStatType.mass] * ( 1 - this.getShipData().stats[ObjectInterfaces.EShipStatType.radar_signature_reduction] / 100)
     }
 
     protected setVisible(value : boolean) : void {
