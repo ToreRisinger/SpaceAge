@@ -4,7 +4,7 @@ import BottomPanel from "./mainComponents/BottomPanel";
 import SideMenu from "./mainComponents/SidePanel";
 import NavigationPanel from "./mainComponents/NavigationPanel";
 import Chat from "./mainComponents/ChatWindow";
-import CargoPanel from "./mainComponents/CargoPanel";
+import CargoPanel from "./mainComponents/cargo/CargoPanel";
 import RulerPanel from "./mainComponents/RulerPanel";
 import AbilityPanel from "./mainComponents/AbilityPanel";
 
