@@ -34,30 +34,30 @@ export module Database {
                         {module: ItemFactory.createModule(ShipModules.SHIP_MODULE_TYPE_ENUM.ARMOR_MODULE, 1), x: 1, y : 1}
                     ],
           stats : {
-            [ObjectInterfaces.ShipStatTypeEnum.acceleration] : 0,
-            [ObjectInterfaces.ShipStatTypeEnum.max_speed] : 0,
-            [ObjectInterfaces.ShipStatTypeEnum.thrust] : 0,
-            [ObjectInterfaces.ShipStatTypeEnum.mass] : 0,
-            [ObjectInterfaces.ShipStatTypeEnum.power] : 0,
-            [ObjectInterfaces.ShipStatTypeEnum.hull] : 0,
-            [ObjectInterfaces.ShipStatTypeEnum.armor] : 0,
-            [ObjectInterfaces.ShipStatTypeEnum.shield] : 0,
-            [ObjectInterfaces.ShipStatTypeEnum.radar_range] : 0,
-            [ObjectInterfaces.ShipStatTypeEnum.shield_generation] : 0,
-            [ObjectInterfaces.ShipStatTypeEnum.armor_impact_resistance] : 0,
-            [ObjectInterfaces.ShipStatTypeEnum.armor_heat_resistance] : 0,
-            [ObjectInterfaces.ShipStatTypeEnum.armor_explosion_resistance] : 0,
-            [ObjectInterfaces.ShipStatTypeEnum.target_dodge_reduction] : 0,
-            [ObjectInterfaces.ShipStatTypeEnum.cargo_hold] : 0,
-            [ObjectInterfaces.ShipStatTypeEnum.dodge] : 0,
-            [ObjectInterfaces.ShipStatTypeEnum.radar_signature_reduction] : 0,
-            [ObjectInterfaces.ShipStatTypeEnum.weapon_range] : 0,
-            [ObjectInterfaces.ShipStatTypeEnum.explosive_dps] : 0,
-            [ObjectInterfaces.ShipStatTypeEnum.impact_dps] : 0,
-            [ObjectInterfaces.ShipStatTypeEnum.heat_dps] : 0,
-            [ObjectInterfaces.ShipStatTypeEnum.normal_dps] : 0,
-            [ObjectInterfaces.ShipStatTypeEnum.mining_laser_strength] : 0,
-            [ObjectInterfaces.ShipStatTypeEnum.mining_laser_range] : 0
+            [ObjectInterfaces.EShipStatType.acceleration] : 0,
+            [ObjectInterfaces.EShipStatType.max_speed] : 0,
+            [ObjectInterfaces.EShipStatType.thrust] : 0,
+            [ObjectInterfaces.EShipStatType.mass] : 0,
+            [ObjectInterfaces.EShipStatType.power] : 0,
+            [ObjectInterfaces.EShipStatType.hull] : 0,
+            [ObjectInterfaces.EShipStatType.armor] : 0,
+            [ObjectInterfaces.EShipStatType.shield] : 0,
+            [ObjectInterfaces.EShipStatType.radar_range] : 0,
+            [ObjectInterfaces.EShipStatType.shield_generation] : 0,
+            [ObjectInterfaces.EShipStatType.armor_impact_resistance] : 0,
+            [ObjectInterfaces.EShipStatType.armor_heat_resistance] : 0,
+            [ObjectInterfaces.EShipStatType.armor_explosion_resistance] : 0,
+            [ObjectInterfaces.EShipStatType.target_dodge_reduction] : 0,
+            [ObjectInterfaces.EShipStatType.cargo_hold] : 0,
+            [ObjectInterfaces.EShipStatType.dodge] : 0,
+            [ObjectInterfaces.EShipStatType.radar_signature_reduction] : 0,
+            [ObjectInterfaces.EShipStatType.weapon_range] : 0,
+            [ObjectInterfaces.EShipStatType.explosive_dps] : 0,
+            [ObjectInterfaces.EShipStatType.impact_dps] : 0,
+            [ObjectInterfaces.EShipStatType.heat_dps] : 0,
+            [ObjectInterfaces.EShipStatType.normal_dps] : 0,
+            [ObjectInterfaces.EShipStatType.mining_laser_strength] : 0,
+            [ObjectInterfaces.EShipStatType.mining_laser_range] : 0
           },
           properties : {
             currentArmor: 0,
@@ -85,17 +85,17 @@ export module Database {
         )
       );
 
-      newShip.stats[ObjectInterfaces.ShipStatTypeEnum.max_speed] = 1000;
-      newShip.stats[ObjectInterfaces.ShipStatTypeEnum.acceleration] = 
-        newShip.stats[ObjectInterfaces.ShipStatTypeEnum.thrust] / newShip.stats[ObjectInterfaces.ShipStatTypeEnum.mass];
+      newShip.stats[ObjectInterfaces.EShipStatType.max_speed] = 1000;
+      newShip.stats[ObjectInterfaces.EShipStatType.acceleration] = 
+        newShip.stats[ObjectInterfaces.EShipStatType.thrust] / newShip.stats[ObjectInterfaces.EShipStatType.mass];
 
 
       //TODO weapon range average calculation  
-      newShip.stats[ObjectInterfaces.ShipStatTypeEnum.weapon_range] = 2000;
+      newShip.stats[ObjectInterfaces.EShipStatType.weapon_range] = 2000;
 
-      newShip.properties.currentArmor = newShip.stats[ObjectInterfaces.ShipStatTypeEnum.armor];
-      newShip.properties.currentShield = newShip.stats[ObjectInterfaces.ShipStatTypeEnum.shield];
-      newShip.properties.currentHull = newShip.stats[ObjectInterfaces.ShipStatTypeEnum.hull];
+      newShip.properties.currentArmor = newShip.stats[ObjectInterfaces.EShipStatType.armor];
+      newShip.properties.currentShield = newShip.stats[ObjectInterfaces.EShipStatType.shield];
+      newShip.properties.currentHull = newShip.stats[ObjectInterfaces.EShipStatType.hull];
       return newShip;
     }
 

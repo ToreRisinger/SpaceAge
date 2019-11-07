@@ -34,46 +34,46 @@ export module ShipModules {
             stats : {
                 base: [
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.hull,
+                        stat: ObjectInterfaces.EShipStatType.hull,
                         max : [20, 30, 40, 50, 60],
                         min : [10, 20, 30, 40, 50],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.armor,
+                        stat: ObjectInterfaces.EShipStatType.armor,
                         max : [20, 30, 40, 50, 60],
                         min : [10, 20, 30, 40, 50],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.thrust,
+                        stat: ObjectInterfaces.EShipStatType.thrust,
                         max : [20, 30, 40, 50, 60],
                         min : [10, 20, 30, 40, 50],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.radar_range,
+                        stat: ObjectInterfaces.EShipStatType.radar_range,
                         max : [2000, 3000, 4000, 5000, 6000],
                         min : [1000, 2000, 3000, 4000, 5000],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.cargo_hold,
+                        stat: ObjectInterfaces.EShipStatType.cargo_hold,
                         max : [20, 30, 40, 50, 60],
                         min : [10, 20, 30, 40, 50],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.power,
+                        stat: ObjectInterfaces.EShipStatType.power,
                         max : [10, 15, 20, 25, 30],
                         min : [5, 10, 15, 20, 25],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.mass,
+                        stat: ObjectInterfaces.EShipStatType.mass,
                         max : [20, 30, 40, 50, 60],
                         min : [10, 20, 30, 40, 50],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     }
                 ],
                 possibleExtraStats : []
@@ -86,22 +86,22 @@ export module ShipModules {
             stats : {
                 base: [
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.hull,
+                        stat: ObjectInterfaces.EShipStatType.hull,
                         max : [20, 30, 40, 50, 60],
                         min : [10, 20, 30, 40, 50],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.radar_signature_reduction,
+                        stat: ObjectInterfaces.EShipStatType.radar_signature_reduction,
                         max : [2, 3, 4, 5, 6],
                         min : [1, 2, 3, 4, 5],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.mass,
+                        stat: ObjectInterfaces.EShipStatType.mass,
                         max : [20, 30, 40, 50, 60],
                         min : [10, 20, 30, 40, 50],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     }
                 ],
                 possibleExtraStats : []
@@ -112,22 +112,22 @@ export module ShipModules {
             stats : {
                 base: [
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.hull,
+                        stat: ObjectInterfaces.EShipStatType.hull,
                         max : [20, 30, 40, 50, 60],
                         min : [10, 20, 30, 40, 50],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.cargo_hold,
+                        stat: ObjectInterfaces.EShipStatType.cargo_hold,
                         max : [20, 30, 40, 50, 60],
                         min : [10, 20, 30, 40, 50],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.mass,
+                        stat: ObjectInterfaces.EShipStatType.mass,
                         max : [20, 30, 40, 50, 60],
                         min : [10, 20, 30, 40, 50],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     }
                 ],
                 possibleExtraStats : []
@@ -138,22 +138,22 @@ export module ShipModules {
             stats : {
                 base: [
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.hull,
+                        stat: ObjectInterfaces.EShipStatType.hull,
                         max : [20, 30, 40, 50, 60],
                         min : [10, 20, 30, 40, 50],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.thrust,
+                        stat: ObjectInterfaces.EShipStatType.thrust,
                         max : [11000, 12000, 13000, 14000, 15000],
                         min : [10000, 11000, 12000, 13000, 14000],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.mass,
+                        stat: ObjectInterfaces.EShipStatType.mass,
                         max : [20, 30, 40, 50, 60],
                         min : [10, 20, 30, 40, 50],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     }
                 ],
                 possibleExtraStats : []
@@ -164,22 +164,22 @@ export module ShipModules {
             stats : {
                 base: [
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.hull,
+                        stat: ObjectInterfaces.EShipStatType.hull,
                         max : [20, 30, 40, 50, 60],
                         min : [10, 20, 30, 40, 50],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.power,
+                        stat: ObjectInterfaces.EShipStatType.power,
                         max : [2, 3, 4, 5, 6],
                         min : [1, 2, 3, 4, 5],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.mass,
+                        stat: ObjectInterfaces.EShipStatType.mass,
                         max : [20, 30, 40, 50, 60],
                         min : [10, 20, 30, 40, 50],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     }
                 ],
                 possibleExtraStats : []
@@ -190,22 +190,22 @@ export module ShipModules {
             stats : {
                 base: [
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.hull,
+                        stat: ObjectInterfaces.EShipStatType.hull,
                         max : [20, 30, 40, 50, 60],
                         min : [10, 20, 30, 40, 50],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.radar_range,
+                        stat: ObjectInterfaces.EShipStatType.radar_range,
                         max : [2000, 3000, 4000, 5000, 6000],
                         min : [1000, 2000, 3000, 4000, 5000],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.mass,
+                        stat: ObjectInterfaces.EShipStatType.mass,
                         max : [20, 30, 40, 50, 60],
                         min : [10, 20, 30, 40, 50],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     }
                 ],
                 possibleExtraStats : []
@@ -216,28 +216,28 @@ export module ShipModules {
             stats : {
                 base: [
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.hull,
+                        stat: ObjectInterfaces.EShipStatType.hull,
                         max : [20, 30, 40, 50, 60],
                         min : [10, 20, 30, 40, 50],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.shield_generation,
+                        stat: ObjectInterfaces.EShipStatType.shield_generation,
                         max : [2, 3, 4, 5, 6],
                         min : [1, 2, 3, 4, 5],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.shield,
+                        stat: ObjectInterfaces.EShipStatType.shield,
                         max : [200, 300, 400, 500, 600],
                         min : [100, 200, 300, 400, 500],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.mass,
+                        stat: ObjectInterfaces.EShipStatType.mass,
                         max : [20, 30, 40, 50, 60],
                         min : [10, 20, 30, 40, 50],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     }
                 ],
                 possibleExtraStats : []
@@ -248,40 +248,40 @@ export module ShipModules {
             stats : {
                 base: [
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.hull,
+                        stat: ObjectInterfaces.EShipStatType.hull,
                         max : [20, 30, 40, 50, 60],
                         min : [10, 20, 30, 40, 50],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.armor,
+                        stat: ObjectInterfaces.EShipStatType.armor,
                         max : [200, 300, 400, 500, 600],
                         min : [100, 200, 300, 400, 500],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.armor_impact_resistance,
+                        stat: ObjectInterfaces.EShipStatType.armor_impact_resistance,
                         max : [2, 3, 4, 5, 6],
                         min : [1, 2, 3, 4, 5],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.armor_heat_resistance,
+                        stat: ObjectInterfaces.EShipStatType.armor_heat_resistance,
                         max : [2, 3, 4, 5, 6],
                         min : [1, 2, 3, 4, 5],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.armor_explosion_resistance,
+                        stat: ObjectInterfaces.EShipStatType.armor_explosion_resistance,
                         max : [2, 3, 4, 5, 6],
                         min : [1, 2, 3, 4, 5],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.mass,
+                        stat: ObjectInterfaces.EShipStatType.mass,
                         max : [20, 30, 40, 50, 60],
                         min : [10, 20, 30, 40, 50],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     }
                 ],
                 possibleExtraStats : []
@@ -292,16 +292,16 @@ export module ShipModules {
             stats : {
                 base: [
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.hull,
+                        stat: ObjectInterfaces.EShipStatType.hull,
                         max : [20, 30, 40, 50, 60],
                         min : [10, 20, 30, 40, 50],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.mass,
+                        stat: ObjectInterfaces.EShipStatType.mass,
                         max : [20, 30, 40, 50, 60],
                         min : [10, 20, 30, 40, 50],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     }
                 ],
                 possibleExtraStats : []
@@ -312,22 +312,22 @@ export module ShipModules {
             stats : {
                 base: [
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.hull,
+                        stat: ObjectInterfaces.EShipStatType.hull,
                         max : [20, 30, 40, 50, 60],
                         min : [10, 20, 30, 40, 50],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.target_dodge_reduction,
+                        stat: ObjectInterfaces.EShipStatType.target_dodge_reduction,
                         max : [20, 30, 40, 50, 60],
                         min : [10, 20, 30, 40, 50],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.mass,
+                        stat: ObjectInterfaces.EShipStatType.mass,
                         max : [20, 30, 40, 50, 60],
                         min : [10, 20, 30, 40, 50],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     }
                 ],
                 possibleExtraStats : []
@@ -340,22 +340,22 @@ export module ShipModules {
             stats : {
                 base: [
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.hull,
+                        stat: ObjectInterfaces.EShipStatType.hull,
                         max : [20, 30, 40, 50, 60],
                         min : [10, 20, 30, 40, 50],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.mass,
+                        stat: ObjectInterfaces.EShipStatType.mass,
                         max : [20, 30, 40, 50, 60],
                         min : [10, 20, 30, 40, 50],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.heat_dps,
+                        stat: ObjectInterfaces.EShipStatType.heat_dps,
                         max : [20, 30, 40, 50, 60],
                         min : [10, 20, 30, 40, 50],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     },
                 ],
                 possibleExtraStats : []
@@ -366,22 +366,22 @@ export module ShipModules {
             stats : {
                 base: [
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.hull,
+                        stat: ObjectInterfaces.EShipStatType.hull,
                         max : [20, 30, 40, 50, 60],
                         min : [10, 20, 30, 40, 50],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.mass,
+                        stat: ObjectInterfaces.EShipStatType.mass,
                         max : [20, 30, 40, 50, 60],
                         min : [10, 20, 30, 40, 50],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.mining_laser_strength,
+                        stat: ObjectInterfaces.EShipStatType.mining_laser_strength,
                         max : [20, 30, 40, 50, 60],
                         min : [10, 20, 30, 40, 50],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     },
                 ],
                 possibleExtraStats : []
@@ -392,22 +392,22 @@ export module ShipModules {
             stats : {
                 base: [
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.hull,
+                        stat: ObjectInterfaces.EShipStatType.hull,
                         max : [20, 30, 40, 50, 60],
                         min : [10, 20, 30, 40, 50],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.mass,
+                        stat: ObjectInterfaces.EShipStatType.mass,
                         max : [20, 30, 40, 50, 60],
                         min : [10, 20, 30, 40, 50],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.explosive_dps,
+                        stat: ObjectInterfaces.EShipStatType.explosive_dps,
                         max : [20, 30, 40, 50, 60],
                         min : [10, 20, 30, 40, 50],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     },
                 ],
                 possibleExtraStats : []
@@ -418,22 +418,22 @@ export module ShipModules {
             stats : {
                 base: [
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.hull,
+                        stat: ObjectInterfaces.EShipStatType.hull,
                         max : [20, 30, 40, 50, 60],
                         min : [10, 20, 30, 40, 50],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.mass,
+                        stat: ObjectInterfaces.EShipStatType.mass,
                         max : [20, 30, 40, 50, 60],
                         min : [10, 20, 30, 40, 50],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.normal_dps,
+                        stat: ObjectInterfaces.EShipStatType.normal_dps,
                         max : [20, 30, 40, 50, 60],
                         min : [10, 20, 30, 40, 50],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     },
                 ],
                 possibleExtraStats : []
@@ -444,22 +444,22 @@ export module ShipModules {
             stats : {
                 base: [
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.hull,
+                        stat: ObjectInterfaces.EShipStatType.hull,
                         max : [20, 30, 40, 50, 60],
                         min : [10, 20, 30, 40, 50],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.mass,
+                        stat: ObjectInterfaces.EShipStatType.mass,
                         max : [20, 30, 40, 50, 60],
                         min : [10, 20, 30, 40, 50],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     },
                     {
-                        stat: ObjectInterfaces.ShipStatTypeEnum.impact_dps,
+                        stat: ObjectInterfaces.EShipStatType.impact_dps,
                         max : [20, 30, 40, 50, 60],
                         min : [10, 20, 30, 40, 50],
-                        modifier : ObjectInterfaces.ShipStatModifierEnum.increase
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
                     },
                 ],
                 possibleExtraStats : []

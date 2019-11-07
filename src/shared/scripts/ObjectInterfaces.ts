@@ -2,15 +2,6 @@ import { ShipModules } from "./ShipModules"
 
 export module ObjectInterfaces {
 
-    export interface IIdentifiableObject {
-        id : number,
-    }
-
-    export interface IGameObject extends IIdentifiableObject {
-        x : number,
-        y : number
-    }
-
     export interface ISprite {
         key: string,
         file: string,
@@ -28,7 +19,7 @@ export module ObjectInterfaces {
     /**
      * MODULE
      */
-    export enum ShipStatTypeEnum {
+    export enum EShipStatType {
         acceleration,
         max_speed,
         thrust,
@@ -55,7 +46,7 @@ export module ObjectInterfaces {
         mining_laser_range
     }
 
-    export enum ShipStatModifierEnum {
+    export enum EShipStatModifier {
         increase,
         decrease
     }
@@ -68,9 +59,22 @@ export module ObjectInterfaces {
     }
     
     export interface IModuleStat {
-        property : ShipStatTypeEnum,
-        modifier : ShipStatModifierEnum,
+        property : EShipStatType,
+        modifier : EShipStatModifier,
         value : number;
+    }
+
+    /*
+        GAME OBJECTS
+    */
+
+    export interface IIdentifiableObject {
+        id : number,
+    }
+
+    export interface IGameObject extends IIdentifiableObject {
+        x : number,
+        y : number
     }
 
     export interface IModule extends IIdentifiableObject {
@@ -80,8 +84,8 @@ export module ObjectInterfaces {
     }
 
     export interface ModuleStatGenerationConfig {
-        stat : ObjectInterfaces.ShipStatTypeEnum,
-        modifier : ObjectInterfaces.ShipStatModifierEnum,
+        stat : ObjectInterfaces.EShipStatType,
+        modifier : ObjectInterfaces.EShipStatModifier,
         min : Array<number>,
         max : Array<number>,
     }
@@ -109,31 +113,31 @@ export module ObjectInterfaces {
         velVec : Array<number>
         modules : Array<{ module: IModule, x : number, y : number }>
         stats : {
-            [ShipStatTypeEnum.acceleration] : number,
-            [ShipStatTypeEnum.max_speed] : number,
-            [ShipStatTypeEnum.thrust] : number,
-            [ShipStatTypeEnum.mass] : number,
-            [ShipStatTypeEnum.power] : number,
-            [ShipStatTypeEnum.hull] : number,
-            [ShipStatTypeEnum.armor] : number,
-            [ShipStatTypeEnum.shield] : number,
-            [ShipStatTypeEnum.radar_range] : number,
-            [ShipStatTypeEnum.shield_generation] : number,
-            [ShipStatTypeEnum.armor_impact_resistance] : number,
-            [ShipStatTypeEnum.armor_heat_resistance] : number,
-            [ShipStatTypeEnum.armor_explosion_resistance] : number,
-            [ShipStatTypeEnum.target_dodge_reduction] : number,
-            [ShipStatTypeEnum.radar_signature_reduction] : number,
-            [ShipStatTypeEnum.cargo_hold] : number,
-            [ShipStatTypeEnum.dodge] : number,
-            [ShipStatTypeEnum.radar_signature_reduction] : number,
-            [ShipStatTypeEnum.weapon_range] : number,
-            [ShipStatTypeEnum.explosive_dps] : number,
-            [ShipStatTypeEnum.impact_dps] : number,
-            [ShipStatTypeEnum.heat_dps] : number,
-            [ShipStatTypeEnum.normal_dps] : number,
-            [ShipStatTypeEnum.mining_laser_strength] : number,
-            [ShipStatTypeEnum.mining_laser_range] : number
+            [EShipStatType.acceleration] : number,
+            [EShipStatType.max_speed] : number,
+            [EShipStatType.thrust] : number,
+            [EShipStatType.mass] : number,
+            [EShipStatType.power] : number,
+            [EShipStatType.hull] : number,
+            [EShipStatType.armor] : number,
+            [EShipStatType.shield] : number,
+            [EShipStatType.radar_range] : number,
+            [EShipStatType.shield_generation] : number,
+            [EShipStatType.armor_impact_resistance] : number,
+            [EShipStatType.armor_heat_resistance] : number,
+            [EShipStatType.armor_explosion_resistance] : number,
+            [EShipStatType.target_dodge_reduction] : number,
+            [EShipStatType.radar_signature_reduction] : number,
+            [EShipStatType.cargo_hold] : number,
+            [EShipStatType.dodge] : number,
+            [EShipStatType.radar_signature_reduction] : number,
+            [EShipStatType.weapon_range] : number,
+            [EShipStatType.explosive_dps] : number,
+            [EShipStatType.impact_dps] : number,
+            [EShipStatType.heat_dps] : number,
+            [EShipStatType.normal_dps] : number,
+            [EShipStatType.mining_laser_strength] : number,
+            [EShipStatType.mining_laser_range] : number
         }
         properties : {
             currentArmor: number,
