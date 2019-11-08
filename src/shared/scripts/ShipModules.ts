@@ -1,35 +1,29 @@
 import { ObjectInterfaces } from "./ObjectInterfaces";
 import { SPRITES } from "./SPRITES";
-
+import { Items } from "./Items";
 
 export module ShipModules {
 
-    export enum SHIP_MODULE_TYPE_ENUM {
-        //Main modules
-        MAIN_MODULE,
-    
-        //Modules
-        SHIELD_MODULE,
-        ARMOR_MODULE,
-        ENGINE_MODULE,
-        RADAR_MODULE,
-        CARGO_HOLD_MODULE,
-        TRACKING_SYSTEM_MODULE,
-        CLOAK_SYSTEM_MODULE,
-        POWER_MODULE,
-        SUPPORT_MODULE,
-    
-        //Weapon modules
-        MINING_LASER_MODULE,
-        LASER_MODULE,
-        MISSLE_MODULE,
-        TURRET_MODULE,
-        RAIL_GUN_MODULE
+    export interface ModuleStatGenerationConfig {
+        stat : ObjectInterfaces.EShipStatType,
+        modifier : ObjectInterfaces.EShipStatModifier,
+        min : Array<number>,
+        max : Array<number>,
     }
 
-    const moduleTypeToProperyMap : { [key: number]: ObjectInterfaces.IShipModuleInfo } = {
+    export interface IModuleTypeProperties {
+        base : Array<ModuleStatGenerationConfig>,
+        possibleExtraStats : Array<ModuleStatGenerationConfig>
+    }
+
+    export interface IShipModuleInfo {
+        sprite : ObjectInterfaces.ISprite,
+        stats : IModuleTypeProperties
+    }
+
+    const moduleTypeToProperyMap : { [key: number]: IShipModuleInfo } = {
         /* MAIN MODULES */
-        [SHIP_MODULE_TYPE_ENUM.MAIN_MODULE] : {
+        [Items.EItemType.MAIN_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
             stats : {
                 base: [
@@ -81,7 +75,7 @@ export module ShipModules {
         },
 
         /* MODULES */
-        [SHIP_MODULE_TYPE_ENUM.CLOAK_SYSTEM_MODULE] : {
+        [Items.EItemType.CLOAK_SYSTEM_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
             stats : {
                 base: [
@@ -107,7 +101,7 @@ export module ShipModules {
                 possibleExtraStats : []
             }
         },
-        [SHIP_MODULE_TYPE_ENUM.CARGO_HOLD_MODULE] : {
+        [Items.EItemType.CARGO_HOLD_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
             stats : {
                 base: [
@@ -133,7 +127,7 @@ export module ShipModules {
                 possibleExtraStats : []
             }
         },
-        [SHIP_MODULE_TYPE_ENUM.ENGINE_MODULE] : {
+        [Items.EItemType.ENGINE_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
             stats : {
                 base: [
@@ -159,7 +153,7 @@ export module ShipModules {
                 possibleExtraStats : []
             }
         },
-        [SHIP_MODULE_TYPE_ENUM.POWER_MODULE] : {
+        [Items.EItemType.POWER_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
             stats : {
                 base: [
@@ -185,7 +179,7 @@ export module ShipModules {
                 possibleExtraStats : []
             }
         },
-        [SHIP_MODULE_TYPE_ENUM.RADAR_MODULE] : {
+        [Items.EItemType.RADAR_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
             stats : {
                 base: [
@@ -211,7 +205,7 @@ export module ShipModules {
                 possibleExtraStats : []
             }
         },
-        [SHIP_MODULE_TYPE_ENUM.SHIELD_MODULE] : {
+        [Items.EItemType.SHIELD_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
             stats : {
                 base: [
@@ -243,7 +237,7 @@ export module ShipModules {
                 possibleExtraStats : []
             }
         },
-        [SHIP_MODULE_TYPE_ENUM.ARMOR_MODULE] : {
+        [Items.EItemType.ARMOR_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
             stats : {
                 base: [
@@ -287,7 +281,7 @@ export module ShipModules {
                 possibleExtraStats : []
             }
         },
-        [SHIP_MODULE_TYPE_ENUM.SUPPORT_MODULE] : {
+        [Items.EItemType.SUPPORT_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
             stats : {
                 base: [
@@ -307,7 +301,7 @@ export module ShipModules {
                 possibleExtraStats : []
             }
         },
-        [SHIP_MODULE_TYPE_ENUM.TRACKING_SYSTEM_MODULE] : {
+        [Items.EItemType.TRACKING_SYSTEM_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
             stats : {
                 base: [
@@ -335,7 +329,7 @@ export module ShipModules {
         },
 
         /* WEAPON MODULES */
-        [SHIP_MODULE_TYPE_ENUM.LASER_MODULE] : {
+        [Items.EItemType.LASER_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
             stats : {
                 base: [
@@ -361,7 +355,7 @@ export module ShipModules {
                 possibleExtraStats : []
             }
         },
-        [SHIP_MODULE_TYPE_ENUM.MINING_LASER_MODULE] : {
+        [Items.EItemType.MINING_LASER_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
             stats : {
                 base: [
@@ -387,7 +381,7 @@ export module ShipModules {
                 possibleExtraStats : []
             }
         },
-        [SHIP_MODULE_TYPE_ENUM.MISSLE_MODULE] : {
+        [Items.EItemType.MISSLE_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
             stats : {
                 base: [
@@ -413,7 +407,7 @@ export module ShipModules {
                 possibleExtraStats : []
             }
         },
-        [SHIP_MODULE_TYPE_ENUM.TURRET_MODULE] : {
+        [Items.EItemType.TURRET_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
             stats : {
                 base: [
@@ -439,7 +433,7 @@ export module ShipModules {
                 possibleExtraStats : []
             }
         },
-        [SHIP_MODULE_TYPE_ENUM.RAIL_GUN_MODULE] : {
+        [Items.EItemType.RAIL_GUN_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
             stats : {
                 base: [
@@ -467,7 +461,7 @@ export module ShipModules {
         }
     }
 
-    export function getModuleInfo(moduleType : SHIP_MODULE_TYPE_ENUM) : ObjectInterfaces.IShipModuleInfo {
+    export function getModuleInfo(moduleType : Items.EItemType) : IShipModuleInfo {
         return moduleTypeToProperyMap[moduleType];
     }
 }

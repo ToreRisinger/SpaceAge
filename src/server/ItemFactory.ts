@@ -1,6 +1,5 @@
-import { IdHandler } from "./IdHandler";
-import { ObjectInterfaces } from "../shared/scripts/ObjectInterfaces";
 import { ShipModules } from "../shared/scripts/ShipModules";
+import { Items } from "../shared/scripts/Items";
 
 export module ItemFactory {
 
@@ -8,23 +7,27 @@ export module ItemFactory {
 
     }
     
-    export function createModule(shipModuleType : ShipModules.SHIP_MODULE_TYPE_ENUM, quality : number) : ObjectInterfaces.IModule {
-        return {id: IdHandler.getNewItemId(), 
+    export function createModule(shipModuleType : Items.EItemType, quality : number) : Items.IItem {
+        return {
+            itemType : shipModuleType,
+            quantity : 1,
+            module : {
                 stats: generateModuleProperties(shipModuleType, quality), 
-                quality: quality, 
-                module_type: shipModuleType};
+                quality: quality
+            }
+        };
     }
 
-    function generateModuleProperties(shipModuleType : ShipModules.SHIP_MODULE_TYPE_ENUM, quality : number) : Array<ObjectInterfaces.IModuleStat> {
-        let result = new Array<ObjectInterfaces.IModuleStat>();
-        let shipModuleInfo : ObjectInterfaces.IShipModuleInfo = ShipModules.getModuleInfo(shipModuleType);
+    function generateModuleProperties(shipModuleType : Items.EItemType, quality : number) : Array<Items.IModuleStat> {
+        let result = new Array<Items.IModuleStat>();
+        let shipModuleInfo : ShipModules.IShipModuleInfo = ShipModules.getModuleInfo(shipModuleType);
         shipModuleInfo.stats.base.forEach(
             obj => result.push(generateModuleProperty(obj, quality))
         );
         return result;
     }
 
-    function generateModuleProperty(modulePropertyGenerationConfig : ObjectInterfaces.ModuleStatGenerationConfig, quality : number) : ObjectInterfaces.IModuleStat {
+    function generateModuleProperty(modulePropertyGenerationConfig : ShipModules.ModuleStatGenerationConfig, quality : number) : Items.IModuleStat {
         return { 
             property : modulePropertyGenerationConfig.stat,
             modifier : modulePropertyGenerationConfig.modifier,

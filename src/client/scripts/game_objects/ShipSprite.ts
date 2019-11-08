@@ -3,9 +3,10 @@ import { GameScene } from "../scenes/GameScene";
 import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
 import { ShipModules } from "../../../shared/scripts/ShipModules"
 import { Ship } from "./Ship";
+import { Items } from "../../../shared/scripts/Items";
 
 interface IShipModuleWithSprite { 
-    module: ObjectInterfaces.IModule, 
+    module: Items.IModule, 
     x : number, 
     y : number, 
     sprite : Phaser.GameObjects.Sprite
@@ -20,7 +21,7 @@ export class ShipSprite {
     private thisPlayerShip : boolean;
     private thisShip : Ship;
 
-    constructor(shipModules :  Array<{ module: ObjectInterfaces.IModule, x : number, y : number }>, posVec : Phaser.Math.Vector2, thisPlayerShip : boolean, ship: Ship) {
+    constructor(shipModules :  Array<{ moduleItem: Items.IItem, x : number, y : number }>, posVec : Phaser.Math.Vector2, thisPlayerShip : boolean, ship: Ship) {
         this.posVec = posVec;
         this.thisPlayerShip = thisPlayerShip;
         this.thisShip = ship;
@@ -44,13 +45,13 @@ export class ShipSprite {
         this.shipModulesWithSprites.forEach(module => module.sprite.setVisible(value));
     }
 
-    private buildSprite(shipModules :  Array<{ module: ObjectInterfaces.IModule, x : number, y : number }>) {
+    private buildSprite(shipModules :  Array<{ moduleItem: Items.IItem, x : number, y : number }>) {
         this.shipModulesWithSprites = new Array<IShipModuleWithSprite>();
         for(let i = 0; i < shipModules.length; i++) {
             let shipModule = shipModules[i];
-            let sprite = GameScene.getInstance().addSprite(this.posVec.x + shipModule.x * 38, this.posVec.x + shipModule.y * 38, ShipModules.getModuleInfo(shipModule.module.module_type).sprite.key);
+            let sprite = GameScene.getInstance().addSprite(this.posVec.x + shipModule.x * 38, this.posVec.x + shipModule.y * 38, ShipModules.getModuleInfo(shipModule.moduleItem.itemType).sprite.key);
             let module = {
-                module : shipModule.module,
+                module : shipModule.moduleItem.module,
                 x : shipModule.x,
                 y : shipModule.y,
                 sprite : sprite
@@ -72,6 +73,7 @@ export class ShipSprite {
             } else {
                 module.sprite.setDepth(DRAW_LAYERS.OTHER_SHIP_LAYER);
             }
+            //@ts-ignore
             this.shipModulesWithSprites.push(module);
         }
     }

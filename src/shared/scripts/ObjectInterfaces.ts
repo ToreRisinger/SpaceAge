@@ -1,4 +1,4 @@
-import { ShipModules } from "./ShipModules"
+import { Items } from "./Items";
 
 export module ObjectInterfaces {
 
@@ -57,12 +57,17 @@ export module ObjectInterfaces {
         HEAT_DAMAGE,
         IMPACT_DAMAGE
     }
-    
-    export interface IModuleStat {
-        property : EShipStatType,
-        modifier : EShipStatModifier,
-        value : number;
+
+
+
+    /*
+
+    export interface IModule {
+        quality : number,      // 1-5
+        module_type : Items.EItemType,
+        stats : Array<IModuleStat>
     }
+    */
 
     /*
         GAME OBJECTS
@@ -77,29 +82,6 @@ export module ObjectInterfaces {
         y : number
     }
 
-    export interface IModule extends IIdentifiableObject {
-        quality : number,      // 1-5
-        module_type : ShipModules.SHIP_MODULE_TYPE_ENUM,
-        stats : Array<IModuleStat>
-    }
-
-    export interface ModuleStatGenerationConfig {
-        stat : ObjectInterfaces.EShipStatType,
-        modifier : ObjectInterfaces.EShipStatModifier,
-        min : Array<number>,
-        max : Array<number>,
-    }
-
-    export interface IModuleTypeProperties {
-        base : Array<ModuleStatGenerationConfig>,
-        possibleExtraStats : Array<ModuleStatGenerationConfig>
-    }
-
-    export interface IShipModuleInfo {
-        sprite : ISprite,
-        stats : IModuleTypeProperties
-    }
-
     /**
      * SHIP
      */
@@ -111,7 +93,7 @@ export module ObjectInterfaces {
         targetId : number,
         destVec : Array<number>
         velVec : Array<number>
-        modules : Array<{ module: IModule, x : number, y : number }>
+        modules : Array<{ moduleItem: Items.IItem, x : number, y : number }>
         stats : {
             [EShipStatType.acceleration] : number,
             [EShipStatType.max_speed] : number,

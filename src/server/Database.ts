@@ -1,7 +1,7 @@
 import { ObjectInterfaces } from "../shared/scripts/ObjectInterfaces";
 import { IdHandler } from "./IdHandler";
 import { ItemFactory } from "./ItemFactory";
-import { ShipModules } from "../shared/scripts/ShipModules"
+import { Items } from "../shared/scripts/Items";
 
 export module Database {
 
@@ -23,15 +23,15 @@ export module Database {
           velVec : [0, 0],
           modules : [
                         //TODO load from data base, dont create new shit
-                        {module: ItemFactory.createModule(ShipModules.SHIP_MODULE_TYPE_ENUM.POWER_MODULE, 1), x: -1, y : -1},
-                        {module: ItemFactory.createModule(ShipModules.SHIP_MODULE_TYPE_ENUM.SHIELD_MODULE, 1), x: 0, y : -1},
-                        {module: ItemFactory.createModule(ShipModules.SHIP_MODULE_TYPE_ENUM.ENGINE_MODULE, 1), x: 1, y : -1},
-                        {module: ItemFactory.createModule(ShipModules.SHIP_MODULE_TYPE_ENUM.LASER_MODULE, 1), x: -1, y : 0},
-                        {module: ItemFactory.createModule(ShipModules.SHIP_MODULE_TYPE_ENUM.MAIN_MODULE, 1), x: 0, y : 0},
-                        {module: ItemFactory.createModule(ShipModules.SHIP_MODULE_TYPE_ENUM.CARGO_HOLD_MODULE, 1), x: 1, y : 0},
-                        {module: ItemFactory.createModule(ShipModules.SHIP_MODULE_TYPE_ENUM.CLOAK_SYSTEM_MODULE, 1), x: -1, y : 1},
-                        {module: ItemFactory.createModule(ShipModules.SHIP_MODULE_TYPE_ENUM.RADAR_MODULE, 1), x: 0, y : 1},
-                        {module: ItemFactory.createModule(ShipModules.SHIP_MODULE_TYPE_ENUM.ARMOR_MODULE, 1), x: 1, y : 1}
+                        {moduleItem: ItemFactory.createModule(Items.EItemType.POWER_MODULE, 1), x: -1, y : -1},
+                        {moduleItem: ItemFactory.createModule(Items.EItemType.SHIELD_MODULE, 1), x: 0, y : -1},
+                        {moduleItem: ItemFactory.createModule(Items.EItemType.ENGINE_MODULE, 1), x: 1, y : -1},
+                        {moduleItem: ItemFactory.createModule(Items.EItemType.LASER_MODULE, 1), x: -1, y : 0},
+                        {moduleItem: ItemFactory.createModule(Items.EItemType.MAIN_MODULE, 1), x: 0, y : 0},
+                        {moduleItem: ItemFactory.createModule(Items.EItemType.CARGO_HOLD_MODULE, 1), x: 1, y : 0},
+                        {moduleItem: ItemFactory.createModule(Items.EItemType.CLOAK_SYSTEM_MODULE, 1), x: -1, y : 1},
+                        {moduleItem: ItemFactory.createModule(Items.EItemType.RADAR_MODULE, 1), x: 0, y : 1},
+                        {moduleItem: ItemFactory.createModule(Items.EItemType.ARMOR_MODULE, 1), x: 1, y : 1}
                     ],
           stats : {
             [ObjectInterfaces.EShipStatType.acceleration] : 0,
@@ -80,7 +80,8 @@ export module Database {
     function updateShipProperties(ship : ObjectInterfaces.IShip) : ObjectInterfaces.IShip {
       let newShip = ship;
       newShip.modules.forEach(
-        module => module.module.stats.forEach(
+        //@ts-ignore
+        module => module.moduleItem.module.stats.forEach(
           moduleProp => ship.stats[moduleProp.property] = ship.stats[moduleProp.property] + moduleProp.value
         )
       );
