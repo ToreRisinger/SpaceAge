@@ -127,12 +127,17 @@ export module ObjectInterfaces {
             currentShield : number
         }
     }
+
+    export interface ICargo {
+        items : Array<Items.IItem>
+    }
     
     /**
      * PLAYER
      */
     export interface IPlayer {
         socket: any,
-        ship: IShip
+        ship: IShip,
+        currentShipCargo: ICargo
     }
 }

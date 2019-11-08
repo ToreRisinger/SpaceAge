@@ -3,22 +3,26 @@ import { Items } from "../shared/scripts/Items";
 
 export module ItemFactory {
 
-    export function createItem() {
-
+    export function createMineral(itemType : Items.EMineralItemType, quantity : number) : Items.IItem {
+        return {
+            itemType : itemType,
+            quantity : quantity,
+            module : undefined,
+        }
     }
     
-    export function createModule(shipModuleType : Items.EItemType, quality : number) : Items.IItem {
+    export function createModule(itemType : Items.EModuleItemType, quality : number) : Items.IItem {
         return {
-            itemType : shipModuleType,
+            itemType : itemType,
             quantity : 1,
             module : {
-                stats: generateModuleProperties(shipModuleType, quality), 
+                stats: generateModuleProperties(itemType, quality), 
                 quality: quality
             }
         };
     }
 
-    function generateModuleProperties(shipModuleType : Items.EItemType, quality : number) : Array<Items.IModuleStat> {
+    function generateModuleProperties(shipModuleType : Items.EModuleItemType, quality : number) : Array<Items.IModuleStat> {
         let result = new Array<Items.IModuleStat>();
         let shipModuleInfo : ShipModules.IShipModuleInfo = ShipModules.getModuleInfo(shipModuleType);
         shipModuleInfo.stats.base.forEach(

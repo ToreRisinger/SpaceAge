@@ -23,7 +23,7 @@ export module ShipModules {
 
     const moduleTypeToProperyMap : { [key: number]: IShipModuleInfo } = {
         /* MAIN MODULES */
-        [Items.EItemType.MAIN_MODULE] : {
+        [Items.EModuleItemType.MAIN_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
             stats : {
                 base: [
@@ -75,7 +75,7 @@ export module ShipModules {
         },
 
         /* MODULES */
-        [Items.EItemType.CLOAK_SYSTEM_MODULE] : {
+        [Items.EModuleItemType.CLOAK_SYSTEM_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
             stats : {
                 base: [
@@ -101,7 +101,7 @@ export module ShipModules {
                 possibleExtraStats : []
             }
         },
-        [Items.EItemType.CARGO_HOLD_MODULE] : {
+        [Items.EModuleItemType.CARGO_HOLD_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
             stats : {
                 base: [
@@ -127,7 +127,7 @@ export module ShipModules {
                 possibleExtraStats : []
             }
         },
-        [Items.EItemType.ENGINE_MODULE] : {
+        [Items.EModuleItemType.ENGINE_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
             stats : {
                 base: [
@@ -153,7 +153,7 @@ export module ShipModules {
                 possibleExtraStats : []
             }
         },
-        [Items.EItemType.POWER_MODULE] : {
+        [Items.EModuleItemType.POWER_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
             stats : {
                 base: [
@@ -179,7 +179,7 @@ export module ShipModules {
                 possibleExtraStats : []
             }
         },
-        [Items.EItemType.RADAR_MODULE] : {
+        [Items.EModuleItemType.RADAR_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
             stats : {
                 base: [
@@ -205,7 +205,7 @@ export module ShipModules {
                 possibleExtraStats : []
             }
         },
-        [Items.EItemType.SHIELD_MODULE] : {
+        [Items.EModuleItemType.SHIELD_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
             stats : {
                 base: [
@@ -237,7 +237,7 @@ export module ShipModules {
                 possibleExtraStats : []
             }
         },
-        [Items.EItemType.ARMOR_MODULE] : {
+        [Items.EModuleItemType.ARMOR_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
             stats : {
                 base: [
@@ -281,7 +281,7 @@ export module ShipModules {
                 possibleExtraStats : []
             }
         },
-        [Items.EItemType.SUPPORT_MODULE] : {
+        [Items.EModuleItemType.SUPPORT_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
             stats : {
                 base: [
@@ -301,7 +301,7 @@ export module ShipModules {
                 possibleExtraStats : []
             }
         },
-        [Items.EItemType.TRACKING_SYSTEM_MODULE] : {
+        [Items.EModuleItemType.TRACKING_SYSTEM_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
             stats : {
                 base: [
@@ -329,7 +329,7 @@ export module ShipModules {
         },
 
         /* WEAPON MODULES */
-        [Items.EItemType.LASER_MODULE] : {
+        [Items.EModuleItemType.LASER_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
             stats : {
                 base: [
@@ -355,7 +355,7 @@ export module ShipModules {
                 possibleExtraStats : []
             }
         },
-        [Items.EItemType.MINING_LASER_MODULE] : {
+        [Items.EModuleItemType.MINING_LASER_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
             stats : {
                 base: [
@@ -381,7 +381,7 @@ export module ShipModules {
                 possibleExtraStats : []
             }
         },
-        [Items.EItemType.MISSLE_MODULE] : {
+        [Items.EModuleItemType.MISSLE_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
             stats : {
                 base: [
@@ -407,7 +407,7 @@ export module ShipModules {
                 possibleExtraStats : []
             }
         },
-        [Items.EItemType.TURRET_MODULE] : {
+        [Items.EModuleItemType.TURRET_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
             stats : {
                 base: [
@@ -433,7 +433,7 @@ export module ShipModules {
                 possibleExtraStats : []
             }
         },
-        [Items.EItemType.RAIL_GUN_MODULE] : {
+        [Items.EModuleItemType.RAIL_GUN_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
             stats : {
                 base: [
@@ -461,7 +461,7 @@ export module ShipModules {
         }
     }
 
-    export function getModuleInfo(moduleType : Items.EItemType) : IShipModuleInfo {
+    export function getModuleInfo(moduleType : Items.EItem) : IShipModuleInfo {
         return moduleTypeToProperyMap[moduleType];
     }
 }

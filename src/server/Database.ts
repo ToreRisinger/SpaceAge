@@ -23,15 +23,15 @@ export module Database {
           velVec : [0, 0],
           modules : [
                         //TODO load from data base, dont create new shit
-                        {moduleItem: ItemFactory.createModule(Items.EItemType.POWER_MODULE, 1), x: -1, y : -1},
-                        {moduleItem: ItemFactory.createModule(Items.EItemType.SHIELD_MODULE, 1), x: 0, y : -1},
-                        {moduleItem: ItemFactory.createModule(Items.EItemType.ENGINE_MODULE, 1), x: 1, y : -1},
-                        {moduleItem: ItemFactory.createModule(Items.EItemType.LASER_MODULE, 1), x: -1, y : 0},
-                        {moduleItem: ItemFactory.createModule(Items.EItemType.MAIN_MODULE, 1), x: 0, y : 0},
-                        {moduleItem: ItemFactory.createModule(Items.EItemType.CARGO_HOLD_MODULE, 1), x: 1, y : 0},
-                        {moduleItem: ItemFactory.createModule(Items.EItemType.CLOAK_SYSTEM_MODULE, 1), x: -1, y : 1},
-                        {moduleItem: ItemFactory.createModule(Items.EItemType.RADAR_MODULE, 1), x: 0, y : 1},
-                        {moduleItem: ItemFactory.createModule(Items.EItemType.ARMOR_MODULE, 1), x: 1, y : 1}
+                        {moduleItem: ItemFactory.createModule(Items.EModuleItemType.POWER_MODULE, 1), x: -1, y : -1},
+                        {moduleItem: ItemFactory.createModule(Items.EModuleItemType.SHIELD_MODULE, 1), x: 0, y : -1},
+                        {moduleItem: ItemFactory.createModule(Items.EModuleItemType.ENGINE_MODULE, 1), x: 1, y : -1},
+                        {moduleItem: ItemFactory.createModule(Items.EModuleItemType.LASER_MODULE, 1), x: -1, y : 0},
+                        {moduleItem: ItemFactory.createModule(Items.EModuleItemType.MAIN_MODULE, 1), x: 0, y : 0},
+                        {moduleItem: ItemFactory.createModule(Items.EModuleItemType.CARGO_HOLD_MODULE, 1), x: 1, y : 0},
+                        {moduleItem: ItemFactory.createModule(Items.EModuleItemType.CLOAK_SYSTEM_MODULE, 1), x: -1, y : 1},
+                        {moduleItem: ItemFactory.createModule(Items.EModuleItemType.RADAR_MODULE, 1), x: 0, y : 1},
+                        {moduleItem: ItemFactory.createModule(Items.EModuleItemType.ARMOR_MODULE, 1), x: 1, y : 1}
                     ],
           stats : {
             [ObjectInterfaces.EShipStatType.acceleration] : 0,
@@ -68,10 +68,19 @@ export module Database {
 
         let updatedShip = updateShipProperties(ship);
 
+        let shipCargo : Array<Items.IItem> = new Array();
+        shipCargo.push(ItemFactory.createMineral(Items.EMineralItemType.DIAMOND, 1));
+        shipCargo.push(ItemFactory.createMineral(Items.EMineralItemType.GOLD, 1));
+        shipCargo.push(ItemFactory.createMineral(Items.EMineralItemType.IRON, 1));
+        shipCargo.push(ItemFactory.createMineral(Items.EMineralItemType.TITANIUM, 1));
+        shipCargo.push(ItemFactory.createMineral(Items.EMineralItemType.URANIUM, 1));
 
         let newPlayer : ObjectInterfaces.IPlayer = {
           socket : socket,
-          ship : updatedShip
+          ship : updatedShip,
+          currentShipCargo : {
+            items : shipCargo
+          }
         }
 
         return newPlayer;

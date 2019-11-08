@@ -3,13 +3,9 @@ import { SPRITES } from "./SPRITES";
 
 export module Items {
 
-    export enum EItemType {
-        /*
-            MODULES
-        */
-
+    export enum EModuleItemType {
         //Main modules
-        MAIN_MODULE,
+        MAIN_MODULE = 0,
     
         //Modules
         SHIELD_MODULE,
@@ -28,17 +24,17 @@ export module Items {
         MISSLE_MODULE,
         TURRET_MODULE,
         RAIL_GUN_MODULE,
-
-        /*
-            MINERALS
-        */
-
-        TITANIUM,
-        URANIUM,
-        IRON,
-        GOLD,
-        DIAMOND
     }
+
+    export enum EMineralItemType {
+       TITANIUM = 15,
+       URANIUM,
+       IRON,
+       GOLD,
+       DIAMOND
+    }
+
+    export type EItem = EModuleItemType | EMineralItemType;
   
     export interface IModuleStat {
         property : ObjectInterfaces.EShipStatType,
@@ -52,7 +48,7 @@ export module Items {
     }
 
     export interface IItem {
-        itemType : EItemType
+        itemType : EItem
         quantity : number,
         module : IModule | undefined
     }
@@ -62,6 +58,7 @@ export module Items {
         image : string,
         name : string,
         description : string,
+        cargoSpace : number,
         canStack : boolean,
         sprite : ObjectInterfaces.ISprite | undefined,
     }
@@ -71,108 +68,123 @@ export module Items {
         /*
             MODULES
         */
-        [EItemType.MAIN_MODULE] : {
+        [EModuleItemType.MAIN_MODULE] : {
             image : "assets\sprite\modules\ship_module.png",
             name: "Main Module",
             description: "Description",
+            cargoSpace : 1,
             canStack: false,
             sprite : SPRITES.SHIP_MODULE.sprite
         },
-        [EItemType.SHIELD_MODULE] : {
+        [EModuleItemType.SHIELD_MODULE] : {
             image : "assets\sprite\modules\ship_module.png",
             name: "Shield Module",
             description: "Description",
+            cargoSpace : 1,
             canStack: false,
             sprite : SPRITES.SHIP_MODULE.sprite
         },
-        [EItemType.ARMOR_MODULE] : {
+        [EModuleItemType.ARMOR_MODULE] : {
             image : "assets\sprite\modules\ship_module.png",
             name: "Armor Module",
             description: "Description",
+            cargoSpace : 1,
             canStack: false,
             sprite : SPRITES.SHIP_MODULE.sprite
         },
-        [EItemType.ENGINE_MODULE] : {
+        [EModuleItemType.ENGINE_MODULE] : {
             image : "assets\sprite\modules\ship_module.png",
             name: "Engine Module",
             description: "Description",
+            cargoSpace : 1,
             canStack: false,
             sprite : SPRITES.SHIP_MODULE.sprite
         },
-        [EItemType.RADAR_MODULE] : {
+        [EModuleItemType.RADAR_MODULE] : {
             image : "assets\sprite\modules\ship_module.png",
             name: "Radar Module",
             description: "Description",
+            cargoSpace : 1,
             canStack: false,
             sprite : SPRITES.SHIP_MODULE.sprite
         },
-        [EItemType.CARGO_HOLD_MODULE] : {
+        [EModuleItemType.CARGO_HOLD_MODULE] : {
             image : "assets\sprite\modules\ship_module.png",
             name: "Cargo Hold Module",
             description: "Description",
+            cargoSpace : 1,
             canStack: false,
             sprite : SPRITES.SHIP_MODULE.sprite
         },
-        [EItemType.TRACKING_SYSTEM_MODULE] : {
+        [EModuleItemType.TRACKING_SYSTEM_MODULE] : {
             image : "assets\sprite\modules\ship_module.png",
             name: "Tracking System Module",
             description: "Description",
+            cargoSpace : 1,
             canStack: false,
             sprite : SPRITES.SHIP_MODULE.sprite
         },
-        [EItemType.CLOAK_SYSTEM_MODULE] : {
+        [EModuleItemType.CLOAK_SYSTEM_MODULE] : {
             image : "assets\sprite\modules\ship_module.png",
             name: "Cloak System Module",
             description: "Description",
+            cargoSpace : 1,
             canStack: false,
             sprite : SPRITES.SHIP_MODULE.sprite
         },
-        [EItemType.POWER_MODULE] : {
+        [EModuleItemType.POWER_MODULE] : {
             image : "assets\sprite\modules\ship_module.png",
             name: "Power Module",
             description: "Description",
+            cargoSpace : 1,
             canStack: false,
             sprite : SPRITES.SHIP_MODULE.sprite
         },
-        [EItemType.SUPPORT_MODULE] : {
+        [EModuleItemType.SUPPORT_MODULE] : {
             image : "assets\sprite\modules\ship_module.png",
             name: "Support Module",
             description: "Description",
+            cargoSpace : 1,
             canStack: false,
             sprite : SPRITES.SHIP_MODULE.sprite
         },
-        [EItemType.MINING_LASER_MODULE] : {
+        [EModuleItemType.MINING_LASER_MODULE] : {
             image : "assets\sprite\modules\ship_module.png",
             name: "Mining Laser Module",
             description: "Description",
+            cargoSpace : 1,
             canStack: false,
             sprite : SPRITES.SHIP_MODULE.sprite
         },
-        [EItemType.LASER_MODULE] : {
+        [EModuleItemType.LASER_MODULE] : {
             image : "assets\sprite\modules\ship_module.png",
             name: "Laser Module",
             description: "Description",
+            cargoSpace : 1,
             canStack: false,
             sprite : SPRITES.SHIP_MODULE.sprite
         },
-        [EItemType.MISSLE_MODULE] : {
+        [EModuleItemType.MISSLE_MODULE] : {
             image : "assets\sprite\modules\ship_module.png",
             name: "Missile Module",
             description: "Description",
+            cargoSpace : 1,
             canStack: false,
             sprite : SPRITES.SHIP_MODULE.sprite
         },
-        [EItemType.TURRET_MODULE] : {
+        [EModuleItemType.TURRET_MODULE] : {
             image : "assets\sprite\modules\ship_module.png",
             name: "Turret Module",
             description: "Description",
+            cargoSpace : 1,
             canStack: false,
             sprite : SPRITES.SHIP_MODULE.sprite
         },
-        [EItemType.RAIL_GUN_MODULE] : {
+        [EModuleItemType.RAIL_GUN_MODULE] : {
             image : "assets\sprite\modules\ship_module.png",
             name: "Rail Gun Module",
             description: "Description",
+            cargoSpace : 1,
             canStack: false,
             sprite : SPRITES.SHIP_MODULE.sprite
         },
@@ -181,44 +193,49 @@ export module Items {
             MINERALS
         */
 
-        [EItemType.TITANIUM] : {
+        [EMineralItemType.TITANIUM] : {
             image : "assets/image/items/item_titanium.png",
             name: "TITANIUM",
             description: "Description",
+            cargoSpace : 1,
             canStack: true,
             sprite : undefined
         },
-        [EItemType.URANIUM] : {
+        [EMineralItemType.URANIUM] : {
             image : "assets/image/items/item_uranium.png",
             name: "Uranium",
             description: "Description",
+            cargoSpace : 1,
             canStack: true,
             sprite : undefined
         },
-        [EItemType.IRON] : {
+        [EMineralItemType.IRON] : {
             image : "assets/image/items/item_iron.png",
             name: "Iron",
             description: "Description",
+            cargoSpace : 1,
             canStack: true,
             sprite : undefined
         },
-        [EItemType.GOLD] : {
+        [EMineralItemType.GOLD] : {
             image : "assets/image/items/item_gold.png",
             name: "Gold",
             description: "Description",
+            cargoSpace : 1,
             canStack: true,
             sprite : undefined
         },
-        [EItemType.DIAMOND] : {
+        [EMineralItemType.DIAMOND] : {
             image : "assets/image/items/item_diamond.png",
             name: "DIAMOND",
             description: "Description",
+            cargoSpace : 1,
             canStack: true,
             sprite : undefined
         }
     }
 
-    export function getItemInfo(itemType : EItemType) : IItemInfo {
+    export function getItemInfo(itemType : EItem) : IItemInfo {
         return itemTypeToItemInfoMap[itemType];
     }
 }
