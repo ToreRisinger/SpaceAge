@@ -4,11 +4,11 @@ import { ObjectInterfaces } from "../shared/scripts/ObjectInterfaces";
 
 export module PacketFactory {
 
-    export function createPlayerLoadEventPacket(ship : ObjectInterfaces.IShip) {
+    export function createPlayerLoadEventPacket(player : ObjectInterfaces.IPlayer) {
         let packet : Events.INITAL_GAME_LOAD_EVENT_CONFIG = {
             eventId : Events.EEventType.INITAL_GAME_LOAD_EVENT,
             data : {
-              ship : ship
+              ship : player.ship
             }
         }
     

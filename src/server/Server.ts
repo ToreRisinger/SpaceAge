@@ -38,7 +38,7 @@ export module Server {
           PLAYERS.set(playerId, newPlayer);
           SHIPS.set(newPlayer.ship.id, newPlayer.ship);
           //@ts-ignore
-          socket.emit('ServerEvent', PacketFactory.createPlayerLoadEventPacket(PLAYERS.get(playerId).ship));
+          socket.emit('ServerEvent', PacketFactory.createPlayerLoadEventPacket(PLAYERS.get(playerId)));
           //@ts-ignore
           sendServerMessage(PLAYERS.get(playerId), "Welcome to SpaceAge!");
 

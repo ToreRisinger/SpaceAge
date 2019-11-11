@@ -27,11 +27,11 @@ export module Items {
     }
 
     export enum EMineralItemType {
-       TITANIUM = 15,
-       URANIUM,
-       IRON,
-       GOLD,
-       DIAMOND
+       TITANIUM_ORE = 15,
+       URANIUM_ORE,
+       IRON_ORE,
+       GOLD_ORE,
+       DIAMOND_ORE
     }
 
     export type EItem = EModuleItemType | EMineralItemType;
@@ -193,40 +193,40 @@ export module Items {
             MINERALS
         */
 
-        [EMineralItemType.TITANIUM] : {
-            image : "assets/image/items/item_titanium.png",
+        [EMineralItemType.TITANIUM_ORE] : {
+            image : "assets/image/items/item_titanium_ore.png",
             name: "TITANIUM",
             description: "Description",
             cargoSpace : 1,
             canStack: true,
             sprite : undefined
         },
-        [EMineralItemType.URANIUM] : {
-            image : "assets/image/items/item_uranium.png",
+        [EMineralItemType.URANIUM_ORE] : {
+            image : "assets/image/items/item_uranium_ore.png",
             name: "Uranium",
             description: "Description",
             cargoSpace : 1,
             canStack: true,
             sprite : undefined
         },
-        [EMineralItemType.IRON] : {
-            image : "assets/image/items/item_iron.png",
+        [EMineralItemType.IRON_ORE] : {
+            image : "assets/image/items/item_iron_ore.png",
             name: "Iron",
             description: "Description",
             cargoSpace : 1,
             canStack: true,
             sprite : undefined
         },
-        [EMineralItemType.GOLD] : {
-            image : "assets/image/items/item_gold.png",
+        [EMineralItemType.GOLD_ORE] : {
+            image : "assets/image/items/item_gold_ore.png",
             name: "Gold",
             description: "Description",
             cargoSpace : 1,
             canStack: true,
             sprite : undefined
         },
-        [EMineralItemType.DIAMOND] : {
-            image : "assets/image/items/item_diamond.png",
+        [EMineralItemType.DIAMOND_ORE] : {
+            image : "assets/image/items/item_diamond_ore.png",
             name: "DIAMOND",
             description: "Description",
             cargoSpace : 1,

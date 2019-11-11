@@ -23,8 +23,9 @@ export default class NavigationPanel extends React.Component<{}, NavigationPanel
          targetObject : undefined
      }
      this.timerID = undefined;
-     this.eventHandlerWaitTimer = undefined;
      this.tick = this.tick.bind(this);
+     this.eventHandlerWaitTimer = undefined;
+     this.eventHandlerRegistration = this.eventHandlerRegistration.bind(this);
      this.onNewSelection = this.onNewSelection.bind(this);
      this.onNewTarget = this.onNewTarget.bind(this);
    }
@@ -38,13 +39,13 @@ export default class NavigationPanel extends React.Component<{}, NavigationPanel
          () => this.eventHandlerRegistration(),
          1000
       );
-  }
+   }
   
-  componentWillUnmount() {
+   componentWillUnmount() {
       if(this.timerID != undefined) {
           clearInterval(this.timerID);
       }
-  }
+   }
   
    tick() {
       this.setState({

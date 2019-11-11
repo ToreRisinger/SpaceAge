@@ -1,21 +1,27 @@
 import React from "react";
 import CargoSlot from "./CargoSlot";
+import { Items } from "../../../../../shared/scripts/Items";
+import CargoItem from "./CargoItem";
 
-export default class CargoContainer extends React.Component<{}, {}> {
+export interface CargoContainerProps { items : Array<Items.IItem>}
 
-   constructor(props : {}) {
+export default class CargoContainer extends React.Component<CargoContainerProps, {}> {
+
+   constructor(props : CargoContainerProps) {
       super(props)
    }
 
    render() {
-        let items = Array<number>();
-        for(let i = 0; i < 40; i++) {
-            items.push(i);
+        let extraSlots = 40 + (4 - this.props.items.length % 4);
+        let emptySlots = new Array<number>();
+        for(let i = 0; i < extraSlots; i++) {
+            emptySlots.push(i);
         }
 
         return (
             <div className="CargoContainer UIComponent">
-                {items.map((object, i) => <CargoSlot item={object} key={i} />)}
+                {this.props.items.map((object, i) => <CargoItem item={object} key={i} />)}
+                {emptySlots.map((object, i) => <CargoSlot key={i} />)}
             </div>
         );
    }

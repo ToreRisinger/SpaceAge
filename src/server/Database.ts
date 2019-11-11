@@ -9,7 +9,17 @@ export module Database {
       return IdHandler.getNewPlayerId();
     }
 
-    export function getPlayer(playerId : number, socket : any) {
+    export function getPlayer(playerId : number, socket : any) : ObjectInterfaces.IPlayer {
+        let items : Array<Items.IItem> = new Array();
+        items.push(ItemFactory.createMineral(Items.EMineralItemType.DIAMOND_ORE, 1));
+        items.push(ItemFactory.createMineral(Items.EMineralItemType.GOLD_ORE, 1));
+        items.push(ItemFactory.createMineral(Items.EMineralItemType.IRON_ORE, 1));
+        items.push(ItemFactory.createMineral(Items.EMineralItemType.TITANIUM_ORE, 1));
+        items.push(ItemFactory.createMineral(Items.EMineralItemType.URANIUM_ORE, 1));
+        let cargo : ObjectInterfaces.ICargo = {
+          items : items
+        }
+
         let ship : ObjectInterfaces.IShip = {
           id: IdHandler.getNewGameObjectId(),
           x : 0,
@@ -21,6 +31,7 @@ export module Database {
           targetId : -1,
           destVec : [0, 0],
           velVec : [0, 0],
+          cargo : cargo,
           modules : [
                         //TODO load from data base, dont create new shit
                         {moduleItem: ItemFactory.createModule(Items.EModuleItemType.POWER_MODULE, 1), x: -1, y : -1},
@@ -68,19 +79,9 @@ export module Database {
 
         let updatedShip = updateShipProperties(ship);
 
-        let shipCargo : Array<Items.IItem> = new Array();
-        shipCargo.push(ItemFactory.createMineral(Items.EMineralItemType.DIAMOND, 1));
-        shipCargo.push(ItemFactory.createMineral(Items.EMineralItemType.GOLD, 1));
-        shipCargo.push(ItemFactory.createMineral(Items.EMineralItemType.IRON, 1));
-        shipCargo.push(ItemFactory.createMineral(Items.EMineralItemType.TITANIUM, 1));
-        shipCargo.push(ItemFactory.createMineral(Items.EMineralItemType.URANIUM, 1));
-
         let newPlayer : ObjectInterfaces.IPlayer = {
           socket : socket,
-          ship : updatedShip,
-          currentShipCargo : {
-            items : shipCargo
-          }
+          ship : updatedShip
         }
 
         return newPlayer;
