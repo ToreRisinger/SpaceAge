@@ -195,7 +195,7 @@ export module Items {
 
         [EMineralItemType.TITANIUM_ORE] : {
             image : "assets/image/items/item_titanium_ore.png",
-            name: "TITANIUM",
+            name: "Titanium Ore",
             description: "Description",
             cargoSpace : 1,
             canStack: true,
@@ -203,7 +203,7 @@ export module Items {
         },
         [EMineralItemType.URANIUM_ORE] : {
             image : "assets/image/items/item_uranium_ore.png",
-            name: "Uranium",
+            name: "Uranium Ore",
             description: "Description",
             cargoSpace : 1,
             canStack: true,
@@ -211,7 +211,7 @@ export module Items {
         },
         [EMineralItemType.IRON_ORE] : {
             image : "assets/image/items/item_iron_ore.png",
-            name: "Iron",
+            name: "Iron Ore",
             description: "Description",
             cargoSpace : 1,
             canStack: true,
@@ -219,7 +219,7 @@ export module Items {
         },
         [EMineralItemType.GOLD_ORE] : {
             image : "assets/image/items/item_gold_ore.png",
-            name: "Gold",
+            name: "Gold Ore",
             description: "Description",
             cargoSpace : 1,
             canStack: true,
@@ -227,8 +227,8 @@ export module Items {
         },
         [EMineralItemType.DIAMOND_ORE] : {
             image : "assets/image/items/item_diamond_ore.png",
-            name: "DIAMOND",
-            description: "Description",
+            name: "Diamon Ore",
+            description: "Description Description  Description Description Description DescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescription",
             cargoSpace : 1,
             canStack: true,
             sprite : undefined

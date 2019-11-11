@@ -8,7 +8,7 @@ export default class CargoSlot extends React.Component<{}, {}> {
 
    render() {
         return (
-            <div className="CargoSlot Unselectable">
+            <div className="CargoItem Unselectable">
             </div> 
         );
    }
