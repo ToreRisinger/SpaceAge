@@ -370,6 +370,23 @@ body {
     border-bottom: 1px solid rgb(229, 229, 229);
 }
 
+.CargoItemStockLabelWrapper {
+    position: relative;
+}
+
+.CargoItemStockLabel {
+    position: absolute;
+    font-size: 12px;
+    font-family: consolas;
+    left: 0;
+    bottom: 0;
+    height: 15px;
+    border: 1px solid rgb(240, 240, 240);
+    margin-bottom: 1px;
+    padding: 2px;
+    background-color: rgba(0, 0, 0, 1.0);
+}
+
 .CargoItem:hover .ItemToolTipWrapper {
     visibility:visible;
 }
@@ -384,7 +401,6 @@ body {
     top: 0%;
     width: 300px;
     padding: 4px;
-
 }
 
 /* Tooltip text */
@@ -408,11 +424,23 @@ body {
     overflow-wrap: break-word;
     hyphens: auto;
     width: 100%;
-    font-size: 15px;
+    font-size: 12px;
     font-family: consolas;
 }
 
+.ItemToolTipDescription {
+    text-align: left;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    width: 100%;
+    font-size: 12px;
+    font-family: consolas;
+    color:  rgb(95, 95, 95);
+}
+
 .CargoItemImage {
+    /*position: relative;*/
     width: 68px;
     height: 68px;
 }

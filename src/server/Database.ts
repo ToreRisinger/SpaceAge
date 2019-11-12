@@ -12,10 +12,12 @@ export module Database {
     export function getPlayer(playerId : number, socket : any) : ObjectInterfaces.IPlayer {
         let items : Array<Items.IItem> = new Array();
         items.push(ItemFactory.createMineral(Items.EMineralItemType.DIAMOND_ORE, 1));
-        items.push(ItemFactory.createMineral(Items.EMineralItemType.GOLD_ORE, 1));
+        items.push(ItemFactory.createMineral(Items.EMineralItemType.GOLD_ORE, 20));
         items.push(ItemFactory.createMineral(Items.EMineralItemType.IRON_ORE, 1));
         items.push(ItemFactory.createMineral(Items.EMineralItemType.TITANIUM_ORE, 1));
         items.push(ItemFactory.createMineral(Items.EMineralItemType.URANIUM_ORE, 1));
+        items.push(ItemFactory.createModule(Items.EModuleItemType.SHIELD_MODULE, 1));
+
         let cargo : ObjectInterfaces.ICargo = {
           items : items
         }
