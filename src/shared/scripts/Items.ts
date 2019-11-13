@@ -259,4 +259,21 @@ export module Items {
     export function getItemInfo(itemType : EItem) : IItemInfo {
         return itemTypeToItemInfoMap[itemType];
     }
+
+    export function getItemQualityColor(quality : number) : string {
+        switch(quality) {
+            case 1 :
+                return "White";
+            case 2 :
+                return "DeepSkyBlue";
+            case 3 :
+                return "LimeGreen";
+            case 4 :
+                return "Orchid";
+            case 5 :
+                return "Orange";
+            default :
+                return "";
+        }
+    }
 }

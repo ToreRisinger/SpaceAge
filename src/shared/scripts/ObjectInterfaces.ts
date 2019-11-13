@@ -58,16 +58,122 @@ export module ObjectInterfaces {
         IMPACT_DAMAGE
     }
 
-
-
-    /*
-
-    export interface IModule {
-        quality : number,      // 1-5
-        module_type : Items.EItemType,
-        stats : Array<IModuleStat>
+    export function shipStatTypeToString(value : EShipStatType) : string {
+        switch(value) {
+            case EShipStatType.acceleration : 
+                return "Acceleration";
+            case EShipStatType.max_speed :
+                return "Max speed";
+            case EShipStatType.thrust :
+                return "Thrust";
+            case EShipStatType.mass :
+                return "Mass";
+            case EShipStatType.hull :
+                return "Hull";
+            case EShipStatType.armor :
+                return "Armor";
+            case EShipStatType.shield :
+                return "Shield";
+            case EShipStatType.radar_range :
+                return "Radar range";
+            case EShipStatType.shield_generation :
+                return "Shield generation";
+            case EShipStatType.armor_impact_resistance :
+                return "Armor impact resistance";
+            case EShipStatType.armor_heat_resistance :
+                return "Armor heat resistance";
+            case EShipStatType.armor_explosion_resistance :
+                return "Armor explosion resistance";
+            case EShipStatType.target_dodge_reduction :
+                return "Target dodge reduction";
+            case EShipStatType.cargo_hold :
+                return "Cargo hold";
+            case EShipStatType.dodge :
+                return "Dodge chance";
+            case EShipStatType.radar_signature_reduction :
+                return "Radar signature reduction";
+            case EShipStatType.weapon_range :
+                return "Weapon range";
+            case EShipStatType.explosive_dps :
+                return "Explosive damage";
+            case EShipStatType.impact_dps :
+                return "Impact damage";
+            case EShipStatType.heat_dps :
+                return "Heat damage";
+            case EShipStatType.normal_dps :
+                return "Normal damage";
+            case EShipStatType.mining_laser_strength :
+                return "Mining laser strength";
+            case EShipStatType.mining_laser_range :
+                return "Mining laser range";
+            default :
+                return "";
+        }
     }
-    */
+
+    export function shipStatTypeUnitToString(value : EShipStatType) : string {
+        switch(value) {
+            case EShipStatType.acceleration : 
+                return "m/s<sup>2</sup>";
+            case EShipStatType.max_speed :
+                return "m/s";
+            case EShipStatType.thrust :
+                return "N";
+            case EShipStatType.mass :
+                return "kg";
+            case EShipStatType.hull :
+                return "";
+            case EShipStatType.armor :
+                return "";
+            case EShipStatType.shield :
+                return "";
+            case EShipStatType.radar_range :
+                return "m";
+            case EShipStatType.shield_generation :
+                return "points per second";
+            case EShipStatType.armor_impact_resistance :
+                return "%";
+            case EShipStatType.armor_heat_resistance :
+                return "%";
+            case EShipStatType.armor_explosion_resistance :
+                return "%";
+            case EShipStatType.target_dodge_reduction :
+                return "%";
+            case EShipStatType.cargo_hold :
+                return "m<sup>2</sup>";
+            case EShipStatType.dodge :
+                return "%";
+            case EShipStatType.radar_signature_reduction :
+                return "%";
+            case EShipStatType.weapon_range :
+                return "m";
+            case EShipStatType.explosive_dps :
+                return "damage per second";
+            case EShipStatType.impact_dps :
+                return "damage per second";
+            case EShipStatType.heat_dps :
+                return "damage per second";
+            case EShipStatType.normal_dps :
+                return "damage per second";
+            case EShipStatType.mining_laser_strength :
+                return "";
+            case EShipStatType.mining_laser_range :
+                return "m";
+            default :
+                return "";
+        }
+    }
+
+    export function shipStatModifierToString(value : EShipStatModifier) : string {
+        switch(value) {
+            case EShipStatModifier.decrease :
+                return "-";
+            case EShipStatModifier.increase :
+                return "+";
+            default :
+                return "";
+        }
+    }
 
     /*
         GAME OBJECTS

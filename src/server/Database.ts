@@ -17,6 +17,10 @@ export module Database {
         items.push(ItemFactory.createMineral(Items.EMineralItemType.TITANIUM_ORE, 1));
         items.push(ItemFactory.createMineral(Items.EMineralItemType.URANIUM_ORE, 1));
         items.push(ItemFactory.createModule(Items.EModuleItemType.SHIELD_MODULE, 1));
+        items.push(ItemFactory.createModule(Items.EModuleItemType.ARMOR_MODULE, 2));
+        items.push(ItemFactory.createModule(Items.EModuleItemType.CLOAK_SYSTEM_MODULE, 3));
+        items.push(ItemFactory.createModule(Items.EModuleItemType.RAIL_GUN_MODULE, 4));
+        items.push(ItemFactory.createModule(Items.EModuleItemType.TRACKING_SYSTEM_MODULE, 5));
 
         let cargo : ObjectInterfaces.ICargo = {
           items : items

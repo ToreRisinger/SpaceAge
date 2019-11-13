@@ -1,8 +1,6 @@
 import React from "react";
 import CargoContainer from "./CargoContainer";
 import { Items } from "../../../../../shared/scripts/Items";
-import { EventHandler } from "../../../modules/EventHandler";
-import { Events } from "../../../../../shared/scripts/Events";
 import { GlobalData } from "../../../modules/GlobalData";
 
 export interface CargoPanelState { items : Array<Items.IItem>}
