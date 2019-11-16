@@ -1,4 +1,5 @@
 import { Items } from "./Items";
+import { AsteroidData } from "./AsteroidData";
 
 export module ObjectInterfaces {
 
@@ -243,6 +244,7 @@ export module ObjectInterfaces {
      * PLAYER
      */
     export interface IPlayer {
+        playerId : number,
         socket: any,
         ship: IShip
     }

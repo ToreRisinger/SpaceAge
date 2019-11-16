@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import { EventHandler } from "../../modules/EventHandler";
 import { Events } from "../../../../shared/scripts/Events";
 import { GlobalData } from "../../modules/GlobalData";
-import { Utils } from "../../modules/Utils";
+import { Utils } from "../../../../shared/scripts/Utils";
 
 export interface RulerPanelState { zoom : number }
 

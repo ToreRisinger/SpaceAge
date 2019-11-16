@@ -2,23 +2,26 @@ import { ObjectInterfaces } from "../shared/scripts/ObjectInterfaces";
 import { Events } from "../shared/scripts/Events";
 import { Database } from "./Database";
 import { PacketFactory } from "./PacketFactory"
+import { SectorHandler } from "./SectorHandler";
 
 const math = require('mathjs');
 
 math.length = function vec2Length(vec2 : Array<number>) {
     return Math.sqrt((vec2[0] * vec2[0]) + (vec2[1] * vec2[1]));
-  };
+};
   
 export module Server {
 
     let io : any;
     /* Globals */
-    let SHIPS = new Map<number, ObjectInterfaces.IShip>();
-    let PLAYERS = new Map<number, ObjectInterfaces.IPlayer>();
 
     let UPDATES_PER_SECOND : number = 25;
 
+    let sectorHandler : SectorHandler;
+
     export function start(server : any) {
+      sectorHandler = new SectorHandler();
+      
       server.listen(8081, function () {
           console.log(`Listening on ${server.address().port}`);
       });
@@ -32,26 +35,22 @@ export module Server {
     function setupOnConnection() {
         //@ts-ignore
         io.on('connection', function (socket) {
-          let playerId = Database.getPlayerId("toreman"); //TODO get username from login screen
-          let newPlayer : ObjectInterfaces.IPlayer = Database.getPlayer(playerId, socket);
+          let newPlayer : ObjectInterfaces.IPlayer = Database.getPlayer(Database.getPlayerId("toreman"), socket);
+          let playerShipSector = Database.getPlayerShipLocation(newPlayer.playerId);
           console.log('a user connected: ' + newPlayer.ship.id);
-          PLAYERS.set(playerId, newPlayer);
-          SHIPS.set(newPlayer.ship.id, newPlayer.ship);
-          //@ts-ignore
-          socket.emit('ServerEvent', PacketFactory.createPlayerLoadEventPacket(PLAYERS.get(playerId)));
-          //@ts-ignore
-          sendServerMessage(PLAYERS.get(playerId), "Welcome to SpaceAge!");
+
+          sectorHandler.addPlayerToSector(newPlayer, playerShipSector.sector_x, playerShipSector.sector_y);
+
+          socket.emit('ServerEvent', PacketFactory.createPlayerLoadEventPacket(newPlayer));
+          sendServerMessage(newPlayer, "Welcome to SpaceAge!");
 
           socket.on('disconnect', function () {
             console.log('user disconnected: ' + newPlayer.ship.id);
-            SHIPS.delete(newPlayer.ship.id);
-            PLAYERS.delete(playerId);
-            sendPlayerDisconnected(newPlayer.ship.id);
+            sectorHandler.removePlayerFromSector(newPlayer);
           });
       
           socket.on('ClientEvent', function(event : Events.GameEvent){
-            //@ts-ignore
-            handleClientEvent(PLAYERS.get(playerId), event);
+            handleClientEvent(newPlayer, event);
           });
         });
     }
@@ -63,198 +62,11 @@ export module Server {
 
     //Server functions
     function update40ms() {
-      updateShipPositions();
-      sendGameObjectUpdate();
+      sectorHandler.update40ms();
     }
 
     function update1000ms() {
-      SHIPS.forEach((ship: ObjectInterfaces.IShip, key: number) => {
-        if(ship.isAttacking) {
-          handleAttackingShip(ship);
-        }
-        /*
-
-        TODO mining
-        if(ship.isMining) {
-          handleMiningShip(ship);
-        }
-
-        TODO check if any ship died
-        handleDestroyedShip(ship);
-        */
-
-      });
-    }
-
-    function handleAttackingShip(attackingShip : ObjectInterfaces.IShip) {
-      let targetShip = SHIPS.get(attackingShip.targetId);
-      if(targetShip != undefined) {
-        let attackingShipPos = [attackingShip.x, attackingShip.y];
-        let targetShipPos = [targetShip.x, targetShip.y];
-        let attackingShipToTargetShipVec = math.subtract(attackingShipPos, targetShipPos);
-        let attackingShipToTargetShipDistance : number = math.length(attackingShipToTargetShipVec);
-        let attackingShipWeaponRange = attackingShip.stats[ObjectInterfaces.EShipStatType.weapon_range];
-        if(attackingShipToTargetShipDistance <= attackingShipWeaponRange) {
-          dealDamageToShip(targetShip, attackingShip.stats[ObjectInterfaces.EShipStatType.normal_dps], ObjectInterfaces.EDamageType.NORMAL_DAMAGE);
-          dealDamageToShip(targetShip, attackingShip.stats[ObjectInterfaces.EShipStatType.explosive_dps], ObjectInterfaces.EDamageType.EXPLOSIVE_DAMAGE);
-          dealDamageToShip(targetShip, attackingShip.stats[ObjectInterfaces.EShipStatType.heat_dps], ObjectInterfaces.EDamageType.HEAT_DAMAGE);
-          dealDamageToShip(targetShip, attackingShip.stats[ObjectInterfaces.EShipStatType.impact_dps], ObjectInterfaces.EDamageType.IMPACT_DAMAGE);
-        } 
-      }
-    }
-
-    function dealDamageToShip(ship : ObjectInterfaces.IShip, damage : number, damageType : ObjectInterfaces.EDamageType) {
-      let damageLeft = damage;
-      let shield = ship.properties.currentShield;
-      let armor = ship.properties.currentArmor;
-      let hull = ship.properties.currentHull;
-
-      //Damage to shield
-      if(shield - damageLeft < 0) {
-        damageLeft -= shield;
-        ship.properties.currentShield = 0;
-      } else {
-        ship.properties.currentShield -= damageLeft;
-        return;
-      }
-
-      //Damage to armor
-      let damageTypeResistPercent = getDamageTypeResist(ship, damageType);
-      let armorDamageAfterResist = math.floor(damageLeft * damageTypeResistPercent);
-      if(armor - armorDamageAfterResist < 0) {
-        damageLeft -= math.floor(armor / damageTypeResistPercent);
-        ship.properties.currentArmor = 0;
-      } else {
-        ship.properties.currentArmor -= armorDamageAfterResist;
-        return;
-      }
-
-      //Damage to hull
-      if(hull - damageLeft < 0) {
-        ship.properties.currentHull = 0;
-      } else {
-        ship.properties.currentHull -= damageLeft;
-      }
-    }
-
-    function getDamageTypeResist(ship : ObjectInterfaces.IShip, damageType : ObjectInterfaces.EDamageType) : number {
-      let resist : number = 0;
-      switch(damageType) {
-        case ObjectInterfaces.EDamageType.NORMAL_DAMAGE :
-          resist = 1;
-          break;
-        case ObjectInterfaces.EDamageType.EXPLOSIVE_DAMAGE :
-          resist = 1 - ship.stats[ObjectInterfaces.EShipStatType.armor_explosion_resistance] / 100;
-          break;
-        case ObjectInterfaces.EDamageType.HEAT_DAMAGE :
-          resist = 1 - ship.stats[ObjectInterfaces.EShipStatType.armor_heat_resistance] / 100;
-          break;
-        case ObjectInterfaces.EDamageType.IMPACT_DAMAGE :
-          resist = 1 - ship.stats[ObjectInterfaces.EShipStatType.armor_impact_resistance] / 100;
-          break;  
-      }
-      return resist;
-    }
-
-
-
-    function updateShipPositions() {
-        function getMidPointVec(shipToDestVec :  Array<number>, goodVelVecComp : Array<number>, badVelVecComp : Array<number>) {
-          function getDivider(goodVelVecComp : Array<number>, badVelVecComp : Array<number>) {
-            if(math.length(badVelVecComp) != 0) {
-              let lengthOfBadVelVecComp = math.length(badVelVecComp);
-              let lengthOfBadVelVecCompSquared1 = lengthOfBadVelVecComp * lengthOfBadVelVecComp;
-              //let lengthOfBadVelVecCompSquared2 = lengthOfBadVelVecCompSquared1 * lengthOfBadVelVecCompSquared1;
-              //let lengthOfBadVelVecCompSquared3 = lengthOfBadVelVecCompSquared2 * lengthOfBadVelVecCompSquared2;
-              //let lengthOfBadVelVecCompSquared4 = lengthOfBadVelVecCompSquared3 * lengthOfBadVelVecCompSquared3;
-              let divider = lengthOfBadVelVecCompSquared1;
-              return math.length(goodVelVecComp) / (math.length(goodVelVecComp) + divider);
-            } else {
-              return 1;
-            }
-          }
-      
-          let divider = getDivider(goodVelVecComp, badVelVecComp);
-      
-          let midPointVec = math.multiply(shipToDestVec, divider);
-          return  midPointVec;
-        }
-
-        function calculateNewVelocityVector(shipToDestVec : Array<number>, shipVelVec : Array<number>, goodVelVecComp : Array<number>, badVelVecComp : Array<number>, shipAcceleration : number) {
-          let newVelVec = [0, 0];
-          let midPoint = getMidPointVec(shipToDestVec, goodVelVecComp, badVelVecComp);
-          let nrOfUpdatesUntilReachDestination = math.multiply(math.length(shipToDestVec), 1/math.length(goodVelVecComp));
-          let nrOfStepsNeededToDecelerate = math.multiply(math.length(goodVelVecComp), 1/shipAcceleration)
-          if(nrOfUpdatesUntilReachDestination <= nrOfStepsNeededToDecelerate) {
-            midPoint = [0.5, 0.5];
-          }
-      
-          let velVecToMidPoint = math.subtract(midPoint, shipVelVec);
-          let normalizedVelVecToMidPoint = math.multiply(velVecToMidPoint, 1/math.length(velVecToMidPoint));
-          let directionVecAdjustmentVec = math.multiply(normalizedVelVecToMidPoint, shipAcceleration  / UPDATES_PER_SECOND);
-          newVelVec = math.add(shipVelVec, directionVecAdjustmentVec);
-      
-          return newVelVec;
-        }
-        
-        SHIPS.forEach((ship: ObjectInterfaces.IShip, key: number) => {
-          let shipAcceleration = ship.stats[ObjectInterfaces.EShipStatType.acceleration];
-          let destVec = ship.destVec;
-          let shipPosVec = [ship.x, ship.y];
-          let shipToDestVec = math.subtract(destVec, shipPosVec);
-          let normalizedShipToDestVec = math.multiply(shipToDestVec, 1/math.length(shipToDestVec));
-          let goodVelVecComp = math.multiply(normalizedShipToDestVec, math.multiply(ship.velVec, normalizedShipToDestVec));
-          let badVelVecComp = math.subtract(ship.velVec, goodVelVecComp);
-          
-          if(ship.hasDestination) {
-            if(math.length(shipToDestVec) <= shipAcceleration / UPDATES_PER_SECOND && math.length(ship.velVec) - shipAcceleration / UPDATES_PER_SECOND <= 0) {
-              ship.isMoving = false;
-              ship.x = ship.destVec[0];
-              ship.y = ship.destVec[1];
-              ship.hasDestination = false;
-            }
-          } else {
-            if(math.length(ship.velVec) - shipAcceleration / UPDATES_PER_SECOND <= 0) {
-              ship.isMoving = false;
-            }
-          }
-           
-          if(ship.isMoving) {
-            let newVelVec = ship.hasDestination 
-              ? calculateNewVelocityVector(shipToDestVec, ship.velVec, goodVelVecComp, badVelVecComp, shipAcceleration)
-              : math.subtract(ship.velVec, math.multiply(ship.velVec, (shipAcceleration/UPDATES_PER_SECOND)/math.length(ship.velVec)));
-
-            let newVelVecLength = math.length(newVelVec);
-
-            let shipMaxSpeed = ship.stats[ObjectInterfaces.EShipStatType.max_speed];
-            if(newVelVecLength > shipMaxSpeed) {
-              ship.velVec = math.multiply(newVelVec, shipMaxSpeed/newVelVecLength)
-            } else {
-              ship.velVec = newVelVec;
-            }
-
-            ship.x = ship.x + ship.velVec[0] / UPDATES_PER_SECOND;
-            ship.y = ship.y + ship.velVec[1] / UPDATES_PER_SECOND;
-            ship.meters_per_second = math.length(ship.velVec);
-          } else {
-            ship.meters_per_second = 0;
-            ship.velVec = [0, 0];
-          }
-        });
-    }
-
-    function sendGameObjectUpdate() {
-      let packet : any = PacketFactory.createShipsUpdatePacket(PLAYERS);
-      PLAYERS.forEach((player: ObjectInterfaces.IPlayer, key: number) => {
-        player.socket.emit("ServerEvent", packet);
-      });
-    }
-
-    function sendPlayerDisconnected(disconnectedShipId : number) {
-      let packet : any = PacketFactory.createPlayerDisconnectedPacket(disconnectedShipId);
-      PLAYERS.forEach((player: ObjectInterfaces.IPlayer, key: number) => {
-        player.socket.emit('ServerEvent', packet)
-      });
+      sectorHandler.update1000ms();
     }
 
     function handleClientEvent(player : ObjectInterfaces.IPlayer, event : Events.GameEvent) {

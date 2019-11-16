@@ -1,4 +1,50 @@
 export const SPRITES = {
+    GOLD_ASTEROID : {
+        animation : undefined,
+        sprite : {
+            key : "GOLD_ASTEROID",
+            file : "asteroids/gold_asteroid.png",
+            width: 50,
+            height: 50
+        }
+    },
+    IRON_ASTEROID : {
+        animation : undefined,
+        sprite : {
+            key : "IRON_ASTEROID",
+            file : "asteroids/iron_asteroid.png",
+            width: 50,
+            height: 50
+        }
+    },
+    TITANIUM_ASTEROID : {
+        animation : undefined,
+        sprite : {
+            key : "TITANIUM_ASTEROID",
+            file : "asteroids/titanium_asteroid.png",
+            width: 50,
+            height: 50
+        }
+    },
+    URANIUM_ASTEROID : {
+        animation : undefined,
+        sprite : {
+            key : "URANIUM_ASTEROID",
+            file : "asteroids/uranium_asteroid.png",
+            width: 50,
+            height: 50
+        }
+    },
+    DIAMOND_ASTEROID : {
+        animation : undefined,
+        sprite : {
+            key : "DIAMOND_ASTEROID",
+            file : "asteroids/diamond_asteroid.png",
+            width: 50,
+            height: 50
+        }
+    },
+
     //Generic ship module sprit
     SHIP_MODULE: {
         animation : undefined,

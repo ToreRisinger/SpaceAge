@@ -461,7 +461,7 @@ export module ShipModules {
         }
     }
 
-    export function getModuleInfo(moduleType : Items.EItem) : IShipModuleInfo {
+    export function getModuleInfo(moduleType : Items.EItemType) : IShipModuleInfo {
         return moduleTypeToProperyMap[moduleType];
     }
 }

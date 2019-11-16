@@ -1,6 +1,6 @@
 import { GameScene } from "../scenes/GameScene";
 import { Events } from "../../../shared/scripts/Events";
-import { Utils } from "./Utils";
+import { Utils } from "../../../shared/scripts/Utils";
 import { EventHandler } from "./EventHandler";
 import { Ship } from "../game_objects/Ship";
 import { GlobalData } from "./GlobalData";
@@ -25,7 +25,8 @@ export module GUI {
     }
 
     function newDestination(x : number, y : number) {
-        let newDestination : Phaser.Math.Vector2 = Utils.screenVecToMapVec(new Phaser.Math.Vector2(x * GlobalData.cameraZoom, y * GlobalData.cameraZoom));
+        let newDestination : Phaser.Math.Vector2 = Utils.screenVecToMapVec(new Phaser.Math.Vector2(x * GlobalData.cameraZoom, y * GlobalData.cameraZoom),
+        GlobalData.cameraX, GlobalData.cameraY, GlobalData.cameraWidth, GlobalData.cameraHeight);
         let event : Events.PLAYER_SET_NEW_DESTINATION_EVENT_CONFIG = {
             eventId : Events.EEventType.PLAYER_SET_NEW_DESTINATION_EVENT,
             data : { 

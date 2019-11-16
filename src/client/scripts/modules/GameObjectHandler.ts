@@ -61,6 +61,10 @@ export module GameObjectHandler {
         });
     }
 
+    function onAsteroidsUpdate(event : Events.ASTEROIDS_UPDATE_EVENT_CONFIG) {
+        console.log(event);
+    }
+
     function subscribeToInitialEvents() {
         EventHandler.on(Events.EEventType.INITAL_GAME_LOAD_EVENT, onInitialGameLoad);
     }
@@ -69,6 +73,7 @@ export module GameObjectHandler {
         EventHandler.on(Events.EEventType.PLAYER_CONNECTED_EVENT, onPlayerConnect);
         EventHandler.on(Events.EEventType.PLAYER_DISCONNECTED_EVENT, onPlayerDisconnect);
         EventHandler.on(Events.EEventType.SHIPS_UPDATE_EVENT, onShipsUpdate);
+        EventHandler.on(Events.EEventType.ASTEROIDS_UPDATE_EVENT, onAsteroidsUpdate);
     }
 
     function destroyGameObject(objectId : number) {

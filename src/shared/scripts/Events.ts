@@ -1,6 +1,7 @@
 import { ObjectInterfaces } from "./ObjectInterfaces"
 import { GameObject } from "../../client/scripts/game_objects/GameObject";
 import { RadarDetectable } from "../../client/scripts/game_objects/RadarDetectable";
+import { AsteroidData } from "./AsteroidData";
 
 
 export module Events {
@@ -15,6 +16,7 @@ export module Events {
         PLAYER_CONNECTED_EVENT,
         PLAYER_DISCONNECTED_EVENT,
         SHIPS_UPDATE_EVENT,
+        ASTEROIDS_UPDATE_EVENT,
 
         //Chat events
         CLIENT_SEND_CHAT_MESSAGE_EVENT,
@@ -84,6 +86,12 @@ export module Events {
     export interface SHIPS_UPDATE_EVENT_CONFIG extends GameEvent {
         data : {
             ships : Array<ObjectInterfaces.IShip>
+        }
+    }
+
+    export interface ASTEROIDS_UPDATE_EVENT_CONFIG extends GameEvent {
+        data : {
+            asteroids : Array<AsteroidData.IAsteroid>
         }
     }
 

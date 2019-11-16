@@ -34,7 +34,7 @@ export module Items {
        DIAMOND_ORE
     }
 
-    export type EItem = EModuleItemType | EMineralItemType;
+    export type EItemType = EModuleItemType | EMineralItemType;
   
     export interface IModuleStat {
         property : ObjectInterfaces.EShipStatType,
@@ -48,7 +48,7 @@ export module Items {
     }
 
     export interface IItem {
-        itemType : EItem
+        itemType : EItemType
         quantity : number,
         module : IModule | undefined
     }
@@ -256,7 +256,7 @@ export module Items {
         }
     }
 
-    export function getItemInfo(itemType : EItem) : IItemInfo {
+    export function getItemInfo(itemType : EItemType) : IItemInfo {
         return itemTypeToItemInfoMap[itemType];
     }
 

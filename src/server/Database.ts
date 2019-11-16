@@ -9,6 +9,13 @@ export module Database {
       return IdHandler.getNewPlayerId();
     }
 
+    export function getPlayerShipLocation(playerId : number) {
+      return {
+        sector_x: 0,
+        sector_y: 0
+      }
+    }
+
     export function getPlayer(playerId : number, socket : any) : ObjectInterfaces.IPlayer {
         let items : Array<Items.IItem> = new Array();
         items.push(ItemFactory.createMineral(Items.EMineralItemType.DIAMOND_ORE, 1));
@@ -86,6 +93,7 @@ export module Database {
         let updatedShip = updateShipProperties(ship);
 
         let newPlayer : ObjectInterfaces.IPlayer = {
+          playerId : playerId,
           socket : socket,
           ship : updatedShip
         }

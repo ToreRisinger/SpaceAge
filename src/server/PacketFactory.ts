@@ -1,5 +1,6 @@
 import { Events } from "../shared/scripts/Events";
 import { ObjectInterfaces } from "../shared/scripts/ObjectInterfaces";
+import { AsteroidData } from "../shared/scripts/AsteroidData";
 
 
 export module PacketFactory {
@@ -15,9 +16,9 @@ export module PacketFactory {
         return packet;
     }
 
-    export function createShipsUpdatePacket(PLAYERS :  Map<number, ObjectInterfaces.IPlayer>) {
+    export function createShipsUpdatePacket(players : Map<number, ObjectInterfaces.IPlayer>) {
         let shipArray: Array<ObjectInterfaces.IShip> = [];
-        PLAYERS.forEach((player: ObjectInterfaces.IPlayer, key: number) => {
+        players.forEach((player: ObjectInterfaces.IPlayer, key: number) => {
           shipArray.push(player.ship);
         });
     
@@ -30,6 +31,18 @@ export module PacketFactory {
         
         return packet;
     }
+
+    export function createAsteroidsUpdatePacket(asteroids : Map<number, AsteroidData.IAsteroid>) {
+      let asteroidArray: Array<AsteroidData.IAsteroid> = Array.from(asteroids.values());
+  
+      let packet : Events.ASTEROIDS_UPDATE_EVENT_CONFIG = {
+        eventId : Events.EEventType.ASTEROIDS_UPDATE_EVENT,
+        data : {
+          asteroids : asteroidArray
+        }
+      }
+      return packet;
+  }
 
     export function createPlayerDisconnectedPacket(disconnectedShipId : number) {
       let packet : Events.PLAYER_DISCONNECTED_EVENT_CONFIG = {

@@ -1,6 +1,5 @@
 import { Ship } from "../game_objects/Ship";
 import { ObjectInterfaces } from "../../../shared/scripts/ObjectInterfaces"
-import { GameObject } from "../game_objects/GameObject";
 import { RadarDetectable } from "../game_objects/RadarDetectable";
 
 export module GlobalData {

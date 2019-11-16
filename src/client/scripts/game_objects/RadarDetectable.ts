@@ -21,6 +21,8 @@ export abstract class RadarDetectable extends GameObject {
 
     private baseColor : number;
 
+    private firstUpdate : boolean = true;
+
     constructor(game_object_config : ObjectInterfaces.IGameObject, thisPlayerShip : boolean) {
         super(game_object_config);
         this.thisPlayerShip = thisPlayerShip;
@@ -53,6 +55,11 @@ export abstract class RadarDetectable extends GameObject {
 
     public update() {
         super.update();
+
+        if(this.firstUpdate) {
+            this.calculateDetectedByRadar(this.getDistanceToPlayerShip(), this.getRadarMass());
+            this.setVisibleOrInvisible();
+        }
         
         this.calculateDistanceToPlayerShip();
         let isDetectedPreviousFrame = this.isDetected();
@@ -62,11 +69,12 @@ export abstract class RadarDetectable extends GameObject {
             this.setVisibleOrInvisible();
         }
 
-
         if(this.isDetected()) {
             this.calculateIconSizeAndPos();
-            this.calculateIconAlpha();
-            this.setIconTint(this.isTarget() ? 0xff0000 : this.baseColor);
+            if(!isDetectedPreviousFrame) {
+                this.calculateIconAlpha();
+                this.setIconTint(this.isTarget() ? 0xff0000 : this.baseColor);
+            }
         }
     }
 
@@ -137,7 +145,6 @@ export abstract class RadarDetectable extends GameObject {
                 this.detected = true;
                 return;
             }
-
 
             if(distance >= radarRange * 2) {
                 this.detected = false;
