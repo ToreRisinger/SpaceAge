@@ -4,6 +4,8 @@ import { Ship } from "../game_objects/Ship";
 import { GameObject } from "../game_objects/GameObject";
 import { ObjectInterfaces } from "../../../shared/scripts/ObjectInterfaces";
 import { GlobalData } from "./GlobalData";
+import { AsteroidData } from "../../../shared/scripts/AsteroidData";
+import { Asteroid } from "../game_objects/Asteroid";
 
 export module GameObjectHandler {
 
@@ -62,7 +64,14 @@ export module GameObjectHandler {
     }
 
     function onAsteroidsUpdate(event : Events.ASTEROIDS_UPDATE_EVENT_CONFIG) {
-        console.log(event);
+        event.data.asteroids.forEach((asteroid: AsteroidData.IAsteroid) => {
+            if(gameObjects.get(asteroid.id) == undefined) {
+                gameObjects.set(asteroid.id, new Asteroid(asteroid));
+            } else {
+                //@ts-ignore
+                gameObjects.get(asteroid.id).updateDataObjectConfig(asteroid);
+            }
+        });
     }
 
     function subscribeToInitialEvents() {

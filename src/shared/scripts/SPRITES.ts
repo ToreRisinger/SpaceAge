@@ -1,4 +1,9 @@
 export const SPRITES = {
+    
+    /*
+            ASTEROIDS
+    */
+    
     GOLD_ASTEROID : {
         animation : undefined,
         sprite : {
@@ -45,7 +50,10 @@ export const SPRITES = {
         }
     },
 
-    //Generic ship module sprit
+    /*
+            GENERIC MODULE SPRITE
+    */
+
     SHIP_MODULE: {
         animation : undefined,
         sprite : {
@@ -56,7 +64,10 @@ export const SPRITES = {
         }
     },
 
-    //Ship main modules
+    /*
+            MAIN MODULES
+    */
+
     MAIN_MODULE_I: {
         animation : undefined,
         sprite : {
@@ -67,7 +78,10 @@ export const SPRITES = {
         }
     },
 
-    //Modules
+    /*
+            MODULES
+    */
+
     CARGO_HOLD_MODULE_I: {
         animation : undefined,
         sprite : {
@@ -168,7 +182,9 @@ export const SPRITES = {
         }
     },
 
-    //Weapon modules
+    /*
+            WEAPON MODULES
+    */
 
     LASER_MODULE_I: {
         animation : undefined,
@@ -210,11 +226,24 @@ export const SPRITES = {
         }
     },
 
+    /*
+            ICONS
+    */
+
     SHIP_ICON: {
         animation : undefined,
         sprite : {
-            key: "shipship_module_icon",
+            key: "ship_icon",
             file: "icons/ship_icon.png",
+            width: 19,
+            height: 19
+        }
+    },
+    ASTEROID_ICON: {
+        animation : undefined,
+        sprite : {
+            key: "asteroid_icon",
+            file: "icons/asteroid_icon.png",
             width: 19,
             height: 19
         }

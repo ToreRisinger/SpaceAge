@@ -1,6 +1,7 @@
 import { ObjectInterfaces } from "../../../shared/scripts/ObjectInterfaces"
 import { ShipSprite } from "./ShipSprite";
 import { RadarDetectable } from "./RadarDetectable";
+import { SPRITES } from "../../../shared/scripts/SPRITES";
 
 export class Ship extends RadarDetectable {
 
@@ -9,7 +10,7 @@ export class Ship extends RadarDetectable {
     private shipSprite : ShipSprite;
 
     constructor(ship_config : ObjectInterfaces.IShip, thisPlayerShip : boolean) {
-        super(ship_config, thisPlayerShip);
+        super(ship_config, SPRITES.SHIP_ICON.sprite, thisPlayerShip);
         this.ship_config = ship_config;
 
         this.buildShip();
@@ -41,8 +42,12 @@ export class Ship extends RadarDetectable {
         super.destroy();
     }
 
-    public getShipData() :  ObjectInterfaces.IShip {
+    public getShipData() : ObjectInterfaces.IShip {
         return this.ship_config;
+    }
+
+    public getDisplayName() : string {
+        return "" + this.ship_config.id;
     }
 
     private buildShip() {

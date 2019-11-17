@@ -2,6 +2,8 @@
 export const DRAW_LAYERS = {
     BACKGROUND_LAYER : 0,
 
+    ASTEROID_LAYER : 1,
+
     OTHER_SHIP_OUTLINE_LAYER : 3,
     OTHER_SHIP_LAYER : 4,
 

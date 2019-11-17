@@ -13,7 +13,7 @@ export abstract class RadarDetectable extends GameObject {
     private isHoverVar : boolean;
     private ICON_ALPHA_DEFAULT : number = 0.5;
     private ICON_ALPHA_HOVER : number = 1;
-    private icon = SPRITES.SHIP_ICON;
+    private icon : ObjectInterfaces.ISprite;
 
     private detected : boolean;
     private distanceToPlayerShip : number;
@@ -23,13 +23,14 @@ export abstract class RadarDetectable extends GameObject {
 
     private firstUpdate : boolean = true;
 
-    constructor(game_object_config : ObjectInterfaces.IGameObject, thisPlayerShip : boolean) {
+    constructor(game_object_config : ObjectInterfaces.IGameObject, iconSprite : ObjectInterfaces.ISprite, thisPlayerShip : boolean) {
         super(game_object_config);
         this.thisPlayerShip = thisPlayerShip;
         this.detected = this.thisPlayerShip;
         this.distanceToPlayerShip = 0;
 
-        this.iconSprite = GameScene.getInstance().addSprite(this.getPos().x, this.getPos().y, this.icon.sprite.key);
+        this.icon = iconSprite;
+        this.iconSprite = GameScene.getInstance().addSprite(this.getPos().x, this.getPos().y, this.icon.key);
         this.iconSprite.alpha = this.ICON_ALPHA_DEFAULT;
         this.iconSprite.setInteractive();
         this.iconSprite.setDepth(DRAW_LAYERS.GRAPHICS_LAYER);
@@ -52,6 +53,7 @@ export abstract class RadarDetectable extends GameObject {
 
     protected abstract getRadarMass() : number;
     protected abstract setVisible(value : boolean) : void;
+    public abstract getDisplayName() : string;
 
     public update() {
         super.update();
@@ -70,9 +72,9 @@ export abstract class RadarDetectable extends GameObject {
         }
 
         if(this.isDetected()) {
+            this.calculateIconAlpha();
             this.calculateIconSizeAndPos();
             if(!isDetectedPreviousFrame) {
-                this.calculateIconAlpha();
                 this.setIconTint(this.isTarget() ? 0xff0000 : this.baseColor);
             }
         }
@@ -89,7 +91,7 @@ export abstract class RadarDetectable extends GameObject {
 
 
     public getIconPath() {
-        return "assets/sprite/" + this.icon.sprite.file;
+        return "assets/sprite/" + this.icon.file;
     }
 
     public isDetected(): boolean {

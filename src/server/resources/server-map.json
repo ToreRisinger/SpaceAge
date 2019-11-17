@@ -8,7 +8,7 @@
             "x": 0,
             "y": 0,
             "type": "asteroid-belt",
-            "asteroid-type": "iron",
+            "asteroid-type": "gold",
             "asteroid-hardness": 1,
             "asteroid-generation-rate": 5,
             "asteroid-min-size": 100,
