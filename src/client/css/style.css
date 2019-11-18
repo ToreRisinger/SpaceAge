@@ -209,11 +209,11 @@ body {
 #navigation_panel_table_header_icon {
     bottom: 0px;
     top: 0px;
-    width: 26px;
+    width: 19px;
 }
 
 #navigation_panel_table_header_name {
-    width: 137px;
+    width: 144px;
     text-align: left;
     vertical-align: middle;
 }
@@ -237,14 +237,19 @@ body {
     flex-direction: column;
 }
 
+#navigation_container::-webkit-scrollbar-thumb {
+    border: 1px solid rgb(199, 199, 199);
+    margin-left: 2px;
+}
+
 .navigation_row {
     color: rgb(199, 199, 199);
     background-color: rgb(0, 0, 0, 0.0);
     font-family: consolas;
-    font-size: 15px;
+    font-size: 11px;
     z-index: inherit;
     display: flex;
-    height: 20px;
+    height: 13px;
     padding: 3px;
     width: 286px;
 }
@@ -281,14 +286,14 @@ body {
 .navigation_row_icon {
     bottom: 0px;
     top: 0px;
-    width: 20px;
+    width: 13px;
     align-content: center;
     vertical-align: middle;
     padding-right: 3px;
 }
 
 .navigation_row_name {
-    width: 137px;
+    width: 144px;
     text-align: left;
     vertical-align: middle;
 }
@@ -348,7 +353,6 @@ body {
     grid-gap: 2px 2px;
     overflow-y: scroll;
     overflow-x: hidden;
-    border-top: 1px solid rgb(40, 40, 40);
     border-bottom: 1px solid rgb(40, 40, 40);
     background-color: rgba(0, 0, 0, 0);
     width: 99%;
@@ -617,5 +621,5 @@ body {
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-    background: rgb(153, 132, 90); 
+    
 }

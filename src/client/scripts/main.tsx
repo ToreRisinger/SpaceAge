@@ -17,7 +17,8 @@ let game = new Phaser.Game({
         GameScene
     ],
     render: {
-        pixelArt:true,
+        /*pixelArt:true,*/
+        antialias : true,
     }
 });
 

@@ -113,8 +113,8 @@ export module ShipModules {
                     },
                     {
                         stat: ObjectInterfaces.EShipStatType.cargo_hold,
-                        max : [20, 30, 40, 50, 60],
-                        min : [10, 20, 30, 40, 50],
+                        max : [2000, 3000, 4000, 5000, 6000],
+                        min : [1000, 2000, 3000, 4000, 5000],
                         modifier : ObjectInterfaces.EShipStatModifier.increase
                     },
                     {

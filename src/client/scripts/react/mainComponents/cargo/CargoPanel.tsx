@@ -2,6 +2,7 @@ import React from "react";
 import CargoContainer from "./CargoContainer";
 import { Items } from "../../../../../shared/scripts/Items";
 import { GlobalData } from "../../../modules/GlobalData";
+import { ObjectInterfaces } from "../../../../../shared/scripts/ObjectInterfaces";
 
 export interface CargoPanelState { items : Array<Items.IItem>}
 
@@ -26,7 +27,7 @@ export default class CargoPanel extends React.Component<{}, CargoPanelState> {
    }
 
    waitForPlayerShipInitialization() {
-      if( GlobalData.playerShip != undefined) {
+      if(GlobalData.playerShip != undefined) {
          this.setState({
             items : GlobalData.playerShip.getShipData().cargo.items
          })
@@ -37,11 +38,22 @@ export default class CargoPanel extends React.Component<{}, CargoPanelState> {
    }
 
    render() {
-        return (
-            <div id="cargo_panel" className="UIComponent">
-               <div id="cargo_panel_title" className="Unselectable">Cargo</div>
-               <CargoContainer items={this.state.items}/>
-            </div>
-        );
+      let shipCargoHoldSize = 0;
+      if(GlobalData.playerShip != undefined) {
+         shipCargoHoldSize = GlobalData.playerShip.getShipData().stats[ObjectInterfaces.EShipStatType.cargo_hold];
+      }
+
+      let cargoHoldSize = 0
+      for(let i = 0; i < this.state.items.length; i++) {
+         let itemInfo : Items.IItemInfo = Items.getItemInfo(this.state.items[i].itemType);
+         cargoHoldSize += this.state.items[i].quantity * itemInfo.size;
+      }
+      
+      return (
+         <div id="cargo_panel" className="UIComponent">
+            <div id="cargo_panel_title" className="Unselectable">Cargo Hold ({cargoHoldSize + "/" + shipCargoHoldSize})</div>
+            <CargoContainer items={this.state.items}/>
+         </div>
+      );
    }
 }
