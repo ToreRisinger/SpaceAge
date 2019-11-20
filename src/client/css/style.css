@@ -304,25 +304,61 @@ body {
     vertical-align: middle;
 }
 
-#selection_panel {
-    margin: auto;
-    position: absolute;
-    top: 0px;
-    right: 310px;
-    width: 200px;
-    height: 120px;
-    border: 1px solid rgb(135, 135, 135);
-}
-
 #target_panel {
     margin: auto;
     position: absolute;
-    top: 0px;
+    top: 2px;
     left: 0px;
     right: 0px;
     width: 200px;
-    height: 120px;
     border: 1px solid rgb(255, 0, 0);
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+#selection_panel {
+    margin: auto;
+    position: absolute;
+    top: 2px;
+    right: 310px;
+    width: 200px;
+    border: 1px solid rgb(40, 40, 40);
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+#object_info_panel {
+    
+}
+
+#object_info_container {
+    padding: 4px;
+}
+
+#object_info_container_title {
+    text-align: center;
+    font-size: 15px;
+    font-family: consolas;
+}
+
+#object_info_container_field {
+    text-align: left;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    width: 100%;
+    font-size: 12px;
+    font-family: consolas;
+    margin-bottom: 3px;
+}
+
+#object_info_container_description_field {
+    text-align: left;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    width: 100%;
+    font-size: 12px;
+    font-family: consolas;
+    color:  rgb(95, 95, 95);
 }
 
 #cargo_panel {

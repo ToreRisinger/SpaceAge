@@ -1,9 +1,8 @@
 import React from "react";
-import { GameObject } from "../../game_objects/GameObject";
-import ShipStatsBottomPanel from "./ShipStatsBottomPanel"
-import { Ship } from "../../game_objects/Ship";
+import { RadarDetectable } from "../../game_objects/RadarDetectable";
+import ObjectInfoPanel from "./ObjectInfoPanel";
 
-export interface TargetPanelProps { targetObject: GameObject | undefined }
+export interface TargetPanelProps { object: RadarDetectable | undefined }
 
 export default class TargetPanel extends React.Component<TargetPanelProps, {}> {
 
@@ -13,8 +12,8 @@ export default class TargetPanel extends React.Component<TargetPanelProps, {}> {
 
    render() {
          return (
-            <div id="target_panel" style={{visibility: this.props.targetObject != undefined ? 'visible' : 'hidden' }} className="UIComponent">
-               {this.props.targetObject instanceof Ship ? <ShipStatsBottomPanel ship={this.props.targetObject.getShipData()}/> : ""}
+            <div id="target_panel" style={{visibility: this.props.object != undefined ? 'visible' : 'hidden' }}>
+               <ObjectInfoPanel object={this.props.object} ></ObjectInfoPanel>
             </div>
          );
    }

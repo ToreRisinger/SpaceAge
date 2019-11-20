@@ -1,9 +1,14 @@
 import React from "react";
 import { GameObject } from "../../game_objects/GameObject";
-import ShipStatsBottomPanel from "./ShipStatsBottomPanel"
 import { Ship } from "../../game_objects/Ship";
+import ObjectInfoContainer from "./ObjectInfoContainer";
+import { Asteroid } from "../../game_objects/Asteroid";
+import { RadarDetectable } from "../../game_objects/RadarDetectable";
+import { AsteroidData } from "../../../../shared/scripts/AsteroidData";
+import ObjectInfoPanel from "./ObjectInfoPanel";
+import { object } from "prop-types";
 
-export interface SelectionPanelProps { selectedObject: GameObject | undefined }
+export interface SelectionPanelProps { object: RadarDetectable | undefined }
 
 export default class SelectionPanel extends React.Component<SelectionPanelProps, {}> {
 
@@ -13,8 +18,8 @@ export default class SelectionPanel extends React.Component<SelectionPanelProps,
 
    render() {
          return (
-            <div id="selection_panel" style={{visibility: this.props.selectedObject != undefined ? 'visible' : 'hidden' }} className="UIComponent">
-               {this.props.selectedObject instanceof Ship ? <ShipStatsBottomPanel ship={this.props.selectedObject.getShipData()}/> : ""}
+            <div id="selection_panel" style={{visibility: this.props.object != undefined ? 'visible' : 'hidden' }}>
+               <ObjectInfoPanel object={this.props.object} ></ObjectInfoPanel>
             </div>
          );
    }

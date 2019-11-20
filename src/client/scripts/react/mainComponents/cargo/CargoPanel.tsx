@@ -51,7 +51,7 @@ export default class CargoPanel extends React.Component<{}, CargoPanelState> {
       
       return (
          <div id="cargo_panel" className="UIComponent">
-            <div id="cargo_panel_title" className="Unselectable">Cargo Hold ({cargoHoldSize + "/" + shipCargoHoldSize})</div>
+            <div id="cargo_panel_title" className="Unselectable">Cargo Hold ({cargoHoldSize} m<sup>2</sup>/{shipCargoHoldSize} m<sup>2</sup>)</div>
             <CargoContainer items={this.state.items}/>
          </div>
       );

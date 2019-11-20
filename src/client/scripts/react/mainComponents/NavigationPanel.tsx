@@ -3,10 +3,11 @@ import { GameObjectHandler } from "./../../modules/GameObjectHandler"
 import { GameObject } from "./../../game_objects/GameObject"
 import { RadarDetectable } from "../../game_objects/RadarDetectable";
 import  NavigationContainer  from "./NavigationContainer"
-import  SelectionPanel  from "./SelectionPanel"
+import  ObjectInfoPanel  from "./ObjectInfoPanel"
 import { EventHandler } from "./../../modules/EventHandler";
 import { Events } from "../../../../shared/scripts/Events";
 import TargetPanel from "./TargetPanel";
+import SelectionPanel from "./SelectionPanel";
 
 export interface NavigationPanelState { gameObjects : Array<GameObject>, selectedObject : GameObject | undefined, targetObject : GameObject | undefined; }
 
@@ -89,8 +90,14 @@ export default class NavigationPanel extends React.Component<{}, NavigationPanel
 
       return (
          <Fragment>
-            <SelectionPanel selectedObject={this.state.selectedObject} />
-            <TargetPanel targetObject={this.state.targetObject} />
+            {this.state.selectedObject instanceof RadarDetectable &&
+               <SelectionPanel object={this.state.selectedObject} />
+            }
+
+            {this.state.targetObject instanceof RadarDetectable &&
+               <TargetPanel object={this.state.targetObject} />
+            }
+            
             <div id="navigation_panel" className="UIComponent">
                <div id="navigation_panel_title" className="Unselectable">Navigation</div>
                <div id="navigation_panel_table_header">

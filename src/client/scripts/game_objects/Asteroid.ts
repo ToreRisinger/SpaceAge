@@ -28,6 +28,10 @@ export class Asteroid extends RadarDetectable {
         this.sprite.destroy();
     }
 
+    public getAsteroidData() : AsteroidData.IAsteroid {
+        return this.asteroid_config;
+    }
+
     public updateDataObjectConfig(asteroid_config : AsteroidData.IAsteroid) {
         super.updateDataObjectConfig(asteroid_config);
         this.asteroid_config = asteroid_config;
