@@ -197,6 +197,9 @@ export module ObjectInterfaces {
         isMoving : boolean,
         hasDestination : boolean,
         isAttacking : boolean,
+        isMining : boolean,
+        hasWeapon : boolean,
+        hasMiningLaser : boolean,
         targetId : number,
         destVec : Array<number>
         velVec : Array<number>

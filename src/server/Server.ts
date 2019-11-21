@@ -90,6 +90,13 @@ export module Server {
         case Events.EEventType.PLAYER_STOP_ATTACKING_EVENT : {
           onPlayerStopAttackingEvent(player, event);
         }
+        case Events.EEventType.PLAYER_START_MINING_EVENT : {
+          onPlayerStartMiningEvent(player, event);
+          break;
+        }
+        case Events.EEventType.PLAYER_STOP_MINING_EVENT : {
+          onPlayerStopMiningEvent(player, event);
+        }
         default: {
           break;
         }
@@ -106,15 +113,36 @@ export module Server {
       stopAttacking(player.ship);
     }
 
+    function onPlayerStartMiningEvent(player : ObjectInterfaces.IPlayer, event : Events.PLAYER_START_MINING_EVENT_CONFIG) {
+      if(event.data.targetId != undefined && event.data.targetId > 0) {
+        startMining(player.ship, event.data.targetId);
+      }
+    }
+
+    function onPlayerStopMiningEvent(player : ObjectInterfaces.IPlayer, event : Events.PLAYER_STOP_MINING_EVENT_CONFIG) {
+      stopMining(player.ship);
+    }
+
     function stopAttacking(ship : ObjectInterfaces.IShip) {
       ship.isAttacking = false;
-      ship.targetId = -1;
+      //ship.targetId = -1;
     }
 
     function startAttacking(ship : ObjectInterfaces.IShip, targetId : number) {
       ship.isAttacking = true;
       ship.targetId = targetId;
     }
+
+    function stopMining(ship : ObjectInterfaces.IShip) {
+      ship.isMining = false;
+      //ship.targetId = -1;
+    }
+
+    function startMining(ship : ObjectInterfaces.IShip, targetId : number) {
+      ship.isMining = true;
+      ship.targetId = targetId;
+    }
+
     //Server event functions
     function onPlayerSetNewDestinationEvent(player : ObjectInterfaces.IPlayer, event : Events.PLAYER_SET_NEW_DESTINATION_EVENT_CONFIG) {
       let xLength = player.ship.x - event.data.destinationX;

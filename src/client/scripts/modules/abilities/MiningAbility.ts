@@ -4,8 +4,9 @@ import { EAbilityState } from "./EAbilityState";
 import { Ship } from "../../game_objects/Ship";
 import { Events } from "../../../../shared/scripts/Events";
 import { EventHandler } from "../EventHandler";
+import { Asteroid } from "../../game_objects/Asteroid";
 
-export class AttackAbility extends Ability {
+export class MiningAbility extends Ability {
 
     public constructor(ship : Ship) {
         super(ship);
@@ -15,12 +16,12 @@ export class AttackAbility extends Ability {
         this.calculateState();
         switch(this.getState()) {
             case EAbilityState.ACTIVATED : 
-                this.stopAttack();
+                this.stopMining();
                 break;
             case EAbilityState.DISABLED :
                 break;
             case EAbilityState.ENABLED :
-                this.startAttack();
+                this.startMining();
         }
         
     }
@@ -30,15 +31,15 @@ export class AttackAbility extends Ability {
     }
 
     public getName() : string {
-        return "Attack";
+        return "Mine";
     }
 
     public getDescription() : string {
-        return "Activate all weapon modules to attack the target.";
+        return "Activate all mining laser modules to mine the target asteroid.";
     }
 
     public getIconPath(): string {
-        return "assets/sprite/icons/attack_ability_icon.png";
+        return "assets/sprite/icons/mining_laser_ability_icon.png";
     }
 
     public hasCooldown() : boolean {
@@ -58,11 +59,11 @@ export class AttackAbility extends Ability {
             case EAbilityState.ACTIVATED : 
                 if(GlobalData.targetObject == undefined) {
                     this.setState(EAbilityState.DISABLED);
-                    this.stopAttack();
+                    this.stopMining();
                 }
                 break;
             case EAbilityState.DISABLED :
-                if(GlobalData.targetObject != undefined && GlobalData.targetObject instanceof Ship) {
+                if(GlobalData.targetObject != undefined && GlobalData.targetObject instanceof Asteroid) {
                     this.setState(EAbilityState.ENABLED);
                 }
                 break;
@@ -73,11 +74,11 @@ export class AttackAbility extends Ability {
         }
     }
 
-    private startAttack() {
+    private startMining() {
         if(GlobalData.targetObject != undefined) {
             this.setState(EAbilityState.ACTIVATED);
-            let newEvent : Events.PLAYER_START_ATTACKING_EVENT_CONFIG = {
-                eventId : Events.EEventType.PLAYER_START_ATTACKING_EVENT,
+            let newEvent : Events.PLAYER_START_MINING_EVENT_CONFIG = {
+                eventId : Events.EEventType.PLAYER_START_MINING_EVENT,
                 data : {
                     targetId : GlobalData.targetObject.getGameObjectData().id
                 }
@@ -86,10 +87,10 @@ export class AttackAbility extends Ability {
         } 
     }
 
-    private stopAttack() {
+    private stopMining() {
         this.setState(EAbilityState.ENABLED);
-        let newEvent : Events.PLAYER_STOP_ATTACKING_EVENT_CONFIG = {
-            eventId : Events.EEventType.PLAYER_STOP_ATTACKING_EVENT,
+        let newEvent : Events.PLAYER_STOP_MINING_EVENT_CONFIG = {
+            eventId : Events.EEventType.PLAYER_STOP_MINING_EVENT,
             data : { }
         }
         EventHandler.pushEvent(newEvent);

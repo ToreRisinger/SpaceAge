@@ -3,6 +3,9 @@ import { GlobalData } from "../GlobalData";
 import { Ability } from "./Ability";
 import { StopShipAbility } from "./StopShipAbility"
 import { AttackAbility } from "./AttackAbility";
+import { EventHandler } from "../EventHandler";
+import { Events } from "../../../../shared/scripts/Events";
+import { MiningAbility } from "./MiningAbility";
 
 export module AbilityHandler {
 
@@ -11,12 +14,6 @@ export module AbilityHandler {
 
     export function init() {
         subscribeToEvents();
-        //@ts-ignore
-        abilities.push(new AttackAbility(GlobalData.playerShip));
-        //@ts-ignore
-        abilities.push(new LockTargetAbility(GlobalData.playerShip));
-        //@ts-ignore
-        abilities.push(new StopShipAbility(GlobalData.playerShip));
         initialized = true;
     }
 
@@ -32,7 +29,35 @@ export module AbilityHandler {
         return initialized;
     }
 
+    function onSpaceSceneStart() {
+        if(GlobalData.playerShip != undefined) {
+            let hasMiningLaserOrWeapon = false;
+            if(GlobalData.playerShip.getShipData().hasWeapon) {
+                //@ts-ignore
+                abilities.push(new AttackAbility(GlobalData.playerShip));
+                hasMiningLaserOrWeapon = true;
+            }
+
+            if(GlobalData.playerShip.getShipData().hasMiningLaser) {
+                //@ts-ignore
+                abilities.push(new MiningAbility(GlobalData.playerShip));
+                hasMiningLaserOrWeapon = true;
+            }
+
+            if(hasMiningLaserOrWeapon) {
+                //@ts-ignore
+                abilities.push(new LockTargetAbility(GlobalData.playerShip));
+            }
+           
+        }
+        
+        //@ts-ignore
+        abilities.push(new StopShipAbility(GlobalData.playerShip));
+
+        initialized = true;
+    }
+
     function subscribeToEvents() {
-        //EventHandler.on(Events.EEventType.SPACE_SCENE_GAME_STATE_EVENT, onSpaceSceneStart);
+        EventHandler.on(Events.EEventType.SPACE_SCENE_GAME_STATE_EVENT, onSpaceSceneStart);
     }
 }

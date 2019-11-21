@@ -28,6 +28,8 @@ export module Events {
         PLAYER_STOP_SHIP_EVENT,
         PLAYER_START_ATTACKING_EVENT,
         PLAYER_STOP_ATTACKING_EVENT,
+        PLAYER_START_MINING_EVENT,
+        PLAYER_STOP_MINING_EVENT,
 
         //GameState changes events
         SPACE_SCENE_GAME_STATE_EVENT,
@@ -78,6 +80,18 @@ export module Events {
     }
 
     export interface PLAYER_STOP_ATTACKING_EVENT_CONFIG extends GameEvent {
+        data :  {
+            
+        }
+    }
+
+    export interface PLAYER_START_MINING_EVENT_CONFIG extends GameEvent {
+        data :  {
+            targetId : number
+        }
+    }
+
+    export interface PLAYER_STOP_MINING_EVENT_CONFIG extends GameEvent {
         data :  {
             
         }

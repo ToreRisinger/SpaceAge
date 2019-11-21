@@ -377,6 +377,12 @@ export module ShipModules {
                         min : [10, 20, 30, 40, 50],
                         modifier : ObjectInterfaces.EShipStatModifier.increase
                     },
+                    {
+                        stat: ObjectInterfaces.EShipStatType.mining_laser_range,
+                        max : [2000, 3000, 4000, 5000, 6000],
+                        min : [1000, 2000, 3000, 4000, 5000],
+                        modifier : ObjectInterfaces.EShipStatModifier.increase
+                    },
                 ],
                 possibleExtraStats : []
             }

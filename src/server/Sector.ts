@@ -31,6 +31,11 @@ export class Sector {
             this.handleAttackingShip(ship);
           }
         });
+
+        /*
+        TODO check if any ship died
+        handleDestroyedShip(ship);
+        */
     }
 
     public addPlayer(player : ObjectInterfaces.IPlayer) {

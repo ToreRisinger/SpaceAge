@@ -1,8 +1,10 @@
 import { ObjectInterfaces } from "./ObjectInterfaces";
 import { SPRITES } from "./SPRITES";
+import { Items } from "./Items";
 
 export module AsteroidData {
 
+    /*
     export enum EAsteroidType {
         GOLD,
         IRON,
@@ -10,9 +12,10 @@ export module AsteroidData {
         URANIUM,
         DIAMOND
     }
+    */
 
     export interface IAsteroid extends ObjectInterfaces.IGameObject {
-        type : EAsteroidType,
+        type : Items.EMineralItemType,
         hardness : number,
         size : number
     }
@@ -25,37 +28,37 @@ export module AsteroidData {
         mineral : string
     }
 
-    const asteroidTypeToAsteroidInfoMap : { [key: number]: IAsteroidInfo } = {
+    const mineralTypeToAsteroidInfoMap : { [key: number]: IAsteroidInfo } = {
         
-        [EAsteroidType.GOLD] : {
+        [Items.EMineralItemType.GOLD_ORE] : {
             name : "Gold Asteroid",
             description : "This asteroid ...",
             massPerM2 : 100,
             sprite : SPRITES.GOLD_ASTEROID.sprite,
             mineral : "Gold Ore"
         },
-        [EAsteroidType.DIAMOND] : {
+        [Items.EMineralItemType.DIAMOND_ORE] : {
             name : "Diamond Asteroid",
             description : "This asteroid ...",
             massPerM2 : 100,
             sprite : SPRITES.DIAMOND_ASTEROID.sprite,
             mineral : "Diamond Ore"
         },
-        [EAsteroidType.IRON] : {
+        [Items.EMineralItemType.IRON_ORE] : {
             name : "Iron Asteroid",
             description : "This asteroid ...",
             massPerM2 : 100,
             sprite : SPRITES.IRON_ASTEROID.sprite,
             mineral : "Iron Ore"
         },
-        [EAsteroidType.TITANIUM] : {
+        [Items.EMineralItemType.TITANIUM_ORE] : {
             name : "Titanium Asteroid",
             description : "This asteroid ...",
             massPerM2 : 100,
             sprite : SPRITES.TITANIUM_ASTEROID.sprite,
             mineral : "Titanium Ore"
         },
-        [EAsteroidType.URANIUM] : {
+        [Items.EMineralItemType.URANIUM_ORE] : {
             name : "Uranium Asteroid",
             description : "This asteroid ...",
             massPerM2 : 100,
@@ -64,7 +67,7 @@ export module AsteroidData {
         }
     }
 
-    export function getAsteroidInfo(asteroidType : EAsteroidType) : IAsteroidInfo {
-        return asteroidTypeToAsteroidInfoMap[asteroidType];
+    export function getAsteroidInfo(asteroidType : Items.EMineralItemType) : IAsteroidInfo {
+        return mineralTypeToAsteroidInfoMap[asteroidType];
     }
 }

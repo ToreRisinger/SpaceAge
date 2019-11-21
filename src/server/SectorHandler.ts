@@ -1,8 +1,8 @@
 import * as map_config from "./resources/server-map.json";
 import { Sector } from "./Sector";
 import { AsteroidBeltSector } from "./AstriodBeltSector";
-import { AsteroidData } from "../shared/scripts/AsteroidData";
 import { ObjectInterfaces } from "../shared/scripts/ObjectInterfaces.js";
+import { Items } from "../shared/scripts/Items.js";
 
 export class SectorHandler {
 
@@ -102,18 +102,18 @@ export class SectorHandler {
         }
     }
 
-    private getAsteroidType(typeString : string) : AsteroidData.EAsteroidType | undefined {
+    private getAsteroidType(typeString : string) : Items.EMineralItemType | undefined {
         switch (typeString) {
             case "gold":
-                return AsteroidData.EAsteroidType.GOLD;
+                return Items.EMineralItemType.GOLD_ORE;
             case "iron":
-                return AsteroidData.EAsteroidType.IRON; 
+                return Items.EMineralItemType.IRON_ORE; 
             case "diamond":
-                return AsteroidData.EAsteroidType.DIAMOND;
+                return Items.EMineralItemType.DIAMOND_ORE;
             case "uranium":
-                return AsteroidData.EAsteroidType.URANIUM;
+                return Items.EMineralItemType.URANIUM_ORE;
             case "titanium":
-                return AsteroidData.EAsteroidType.TITANIUM;   
+                return Items.EMineralItemType.TITANIUM_ORE;   
             default:
                 return undefined;
         }

@@ -2,6 +2,7 @@ import { ObjectInterfaces } from "../shared/scripts/ObjectInterfaces";
 import { IdHandler } from "./IdHandler";
 import { ItemFactory } from "./ItemFactory";
 import { Items } from "../shared/scripts/Items";
+import { ShipModules } from "../shared/scripts/ShipModules";
 
 export module Database {
 
@@ -41,6 +42,9 @@ export module Database {
           isMoving : false,
           hasDestination : false,
           isAttacking : false,
+          isMining : false,
+          hasWeapon : false,
+          hasMiningLaser : false,
           targetId : -1,
           destVec : [0, 0],
           velVec : [0, 0],
@@ -49,11 +53,11 @@ export module Database {
                         //TODO load from data base, dont create new shit
                         {moduleItem: ItemFactory.createModule(Items.EModuleItemType.POWER_MODULE, 1), x: -1, y : -1},
                         {moduleItem: ItemFactory.createModule(Items.EModuleItemType.SHIELD_MODULE, 1), x: 0, y : -1},
-                        {moduleItem: ItemFactory.createModule(Items.EModuleItemType.ENGINE_MODULE, 1), x: 1, y : -1},
-                        {moduleItem: ItemFactory.createModule(Items.EModuleItemType.LASER_MODULE, 1), x: -1, y : 0},
+                        {moduleItem: ItemFactory.createModule(Items.EModuleItemType.LASER_MODULE, 1), x: 1, y : -1},
+                        {moduleItem: ItemFactory.createModule(Items.EModuleItemType.ENGINE_MODULE, 1), x: -1, y : 0},
                         {moduleItem: ItemFactory.createModule(Items.EModuleItemType.MAIN_MODULE, 1), x: 0, y : 0},
                         {moduleItem: ItemFactory.createModule(Items.EModuleItemType.CARGO_HOLD_MODULE, 1), x: 1, y : 0},
-                        {moduleItem: ItemFactory.createModule(Items.EModuleItemType.CLOAK_SYSTEM_MODULE, 1), x: -1, y : 1},
+                        {moduleItem: ItemFactory.createModule(Items.EModuleItemType.MINING_LASER_MODULE, 1), x: -1, y : 1},
                         {moduleItem: ItemFactory.createModule(Items.EModuleItemType.RADAR_MODULE, 1), x: 0, y : 1},
                         {moduleItem: ItemFactory.createModule(Items.EModuleItemType.ARMOR_MODULE, 1), x: 1, y : 1}
                     ],
@@ -91,6 +95,20 @@ export module Database {
         }  
 
         let updatedShip = updateShipProperties(ship);
+
+        for(let i = 0; i < ship.modules.length; i++) {
+          let mod = ship.modules[i].moduleItem;
+          if(mod.itemType == Items.EModuleItemType.MINING_LASER_MODULE) {
+            ship.hasMiningLaser = true;
+          }
+
+          if(mod.itemType == Items.EModuleItemType.TURRET_MODULE ||
+            mod.itemType == Items.EModuleItemType.LASER_MODULE ||
+            mod.itemType == Items.EModuleItemType.RAIL_GUN_MODULE ||
+            mod.itemType == Items.EModuleItemType.MINING_LASER_MODULE) {
+              ship.hasWeapon = true;
+            }
+        }
 
         let newPlayer : ObjectInterfaces.IPlayer = {
           playerId : playerId,
