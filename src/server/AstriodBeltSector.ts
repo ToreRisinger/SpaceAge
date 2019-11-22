@@ -7,6 +7,7 @@ import { ObjectInterfaces } from "../shared/scripts/ObjectInterfaces";
 import { ItemFactory } from "./ItemFactory";
 import { Items } from "../shared/scripts/Items";
 import { CargoUtils } from "./CargoUtils";
+import { Asteroid } from "../client/scripts/game_objects/Asteroid";
 
 const math = require('mathjs');
 
@@ -62,12 +63,10 @@ export class AsteroidBeltSector extends Sector {
             }
         });
 
+        this.handleDestroyedAsteroids();
         this.sendAsteroidUpdates();
         this.sendUpdatedCargo();
-        /*
-        TODO check if any ship died
-        handleDestroyedShip(ship);
-        */
+        
     }
 
     private createAsteroid() {
@@ -81,13 +80,6 @@ export class AsteroidBeltSector extends Sector {
         }
 
         this.asteroids.set(asteroid.id, asteroid);
-    }
-
-    private sendAsteroidUpdates() {
-        let packet : any = PacketFactory.createAsteroidsUpdatePacket(this.asteroids);
-        this.players.forEach((player: ObjectInterfaces.IPlayer, key: number) => {
-          player.socket.emit("ServerEvent", packet);
-        });
     }
 
     private handleMiningShip(miningShip : ObjectInterfaces.IShip, player : ObjectInterfaces.IPlayer) {
@@ -114,10 +106,32 @@ export class AsteroidBeltSector extends Sector {
         }
     }
 
+    private sendAsteroidUpdates() {
+        let packet : any = PacketFactory.createAsteroidsUpdatePacket(this.asteroids);
+        this.players.forEach((player: ObjectInterfaces.IPlayer, key: number) => {
+          player.socket.emit("ServerEvent", packet);
+        });
+    }
+
     private sendUpdatedCargo() {
         CargoUtils.getPlayersWithChangedCargo().forEach((player: ObjectInterfaces.IPlayer, key: number) => {
             let packet : any = PacketFactory.createCargoUpdatePacket(player.cargo);
             player.socket.emit("ServerEvent", packet);
         });
+    }
+
+    private handleDestroyedAsteroids() {
+        let allAsteroidsToDestroy = Array.from(this.asteroids.values()).filter(current => current.size == 0).map(asteroid => asteroid.id);
+        if(allAsteroidsToDestroy.length > 0) {
+            this.sendDestroyedAsteroids(allAsteroidsToDestroy);
+            allAsteroidsToDestroy.forEach(asteroid => this.asteroids.delete(asteroid))
+        }
+    }
+
+    private sendDestroyedAsteroids(asteroidIdsTodestroy : number[]) {
+        let packet : any = PacketFactory.createDestroyedGameObjectsPacket(asteroidIdsTodestroy);
+        this.players.forEach((player: ObjectInterfaces.IPlayer, key: number) => {
+            player.socket.emit("ServerEvent", packet);
+          });
     }
 }

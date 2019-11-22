@@ -26,6 +26,7 @@ export class Asteroid extends RadarDetectable {
 
     public destroy() {
         this.sprite.destroy();
+        super.destroy();
     }
 
     public getAsteroidData() : AsteroidData.IAsteroid {

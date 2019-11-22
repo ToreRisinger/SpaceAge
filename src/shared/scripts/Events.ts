@@ -18,6 +18,7 @@ export module Events {
         SHIPS_UPDATE_EVENT,
         ASTEROIDS_UPDATE_EVENT,
         CARGO_UPDATE_EVENT,
+        GAME_OBJECT_DESTOYED_EVENT,
 
         //Chat events
         CLIENT_SEND_CHAT_MESSAGE_EVENT,
@@ -111,6 +112,12 @@ export module Events {
     export interface CARGO_UPDATE_EVENT_CONFIG extends GameEvent {
         data : {
             cargo : ObjectInterfaces.ICargo
+        }
+    }
+
+    export interface GAME_OBJECT_DESTOYED_EVENT_CONFIG extends GameEvent {
+        data : {
+            gameObjectIds : Array<number>
         }
     }
 

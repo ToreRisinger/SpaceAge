@@ -67,4 +67,15 @@ export module PacketFactory {
 
     return packet;
   }
+
+  export function createDestroyedGameObjectsPacket(objectsToDestroy : Array<number>) {
+    let packet : Events.GAME_OBJECT_DESTOYED_EVENT_CONFIG = {
+      eventId : Events.EEventType.GAME_OBJECT_DESTOYED_EVENT,
+      data : {
+        gameObjectIds : objectsToDestroy
+      }
+    }
+
+    return packet;
+  }
 }

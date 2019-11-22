@@ -11,7 +11,6 @@ export module GameObjectHandler {
 
     let thisShipId : number = -1;
     let gameObjects = new Map<number, GameObject>();
-    let visibleGameObjects = new Map<number, GameObject>();
 
     export function init() {
         subscribeToInitialEvents();
@@ -86,6 +85,17 @@ export module GameObjectHandler {
         }
     }
 
+    function onGameObjectsDestroyed(event : Events.GAME_OBJECT_DESTOYED_EVENT_CONFIG) {
+        event.data.gameObjectIds.forEach(gameObjectId => {
+            let gameObject = gameObjects.get(gameObjectId);
+            if(gameObject != undefined) {
+                gameObject.destroy();
+                gameObjects.delete(gameObjectId);
+            }
+        });
+        
+    }
+
     function subscribeToInitialEvents() {
         EventHandler.on(Events.EEventType.INITAL_GAME_LOAD_EVENT, onInitialGameLoad);
     }
@@ -96,6 +106,7 @@ export module GameObjectHandler {
         EventHandler.on(Events.EEventType.SHIPS_UPDATE_EVENT, onShipsUpdate);
         EventHandler.on(Events.EEventType.ASTEROIDS_UPDATE_EVENT, onAsteroidsUpdate);
         EventHandler.on(Events.EEventType.CARGO_UPDATE_EVENT, onCargoUpdate);
+        EventHandler.on(Events.EEventType.GAME_OBJECT_DESTOYED_EVENT, onGameObjectsDestroyed);
     }
 
     function destroyGameObject(objectId : number) {

@@ -42,8 +42,20 @@ export module TargetHandler {
         }
     }
 
+    function onGameObjectsDestroyed(event : Events.GAME_OBJECT_DESTOYED_EVENT_CONFIG) {
+        if(GlobalData.targetObject != undefined) {
+            //@ts-ignore
+            let found = event.data.gameObjectIds.filter(gameObjectId => gameObjectId == GlobalData.targetObject.getGameObjectData().id);
+            if(found) {
+                GlobalData.targetObject = undefined;
+                sendTargetChangedEvent();
+            }
+        }
+    }
+
     function subscribeToEvents() {
         EventHandler.on(Events.EEventType.TARGET_CHANGE_REQUEST_EVENT, onTargetChangeRequest);
         EventHandler.on(Events.EEventType.PLAYER_DISCONNECTED_EVENT, onPlayerDisconnect);
+        EventHandler.on(Events.EEventType.GAME_OBJECT_DESTOYED_EVENT, onGameObjectsDestroyed);
     }
 }
