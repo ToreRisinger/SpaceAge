@@ -9,7 +9,8 @@ export module PacketFactory {
         let packet : Events.INITAL_GAME_LOAD_EVENT_CONFIG = {
             eventId : Events.EEventType.INITAL_GAME_LOAD_EVENT,
             data : {
-              ship : player.ship
+              ship : player.ship,
+              cargo : player.cargo
             }
         }
     
@@ -44,15 +45,26 @@ export module PacketFactory {
       return packet;
   }
 
-    export function createPlayerDisconnectedPacket(disconnectedShipId : number) {
-      let packet : Events.PLAYER_DISCONNECTED_EVENT_CONFIG = {
-        eventId : Events.EEventType.PLAYER_DISCONNECTED_EVENT,
-        data : {
-          shipId : disconnectedShipId
+  export function createPlayerDisconnectedPacket(disconnectedShipId : number) {
+    let packet : Events.PLAYER_DISCONNECTED_EVENT_CONFIG = {
+      eventId : Events.EEventType.PLAYER_DISCONNECTED_EVENT,
+      data : {
+        shipId : disconnectedShipId
           
-        }
       }
-
-      return packet;
     }
+
+    return packet;
+  }
+
+  export function createCargoUpdatePacket(cargo : ObjectInterfaces.ICargo) {
+    let packet : Events.CARGO_UPDATE_EVENT_CONFIG = {
+      eventId : Events.EEventType.CARGO_UPDATE_EVENT,
+      data : {
+        cargo : cargo
+      }
+    }
+
+    return packet;
+  }
 }

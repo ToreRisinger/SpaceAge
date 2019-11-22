@@ -6,6 +6,7 @@ import { PacketFactory } from "./PacketFactory";
 import { ObjectInterfaces } from "../shared/scripts/ObjectInterfaces";
 import { ItemFactory } from "./ItemFactory";
 import { Items } from "../shared/scripts/Items";
+import { CargoUtils } from "./CargoUtils";
 
 const math = require('mathjs');
 
@@ -55,13 +56,14 @@ export class AsteroidBeltSector extends Sector {
             this.createAsteroid();
         }
 
-        this.ships.forEach((ship: ObjectInterfaces.IShip, key: number) => {
-            if(ship.isMining) {
-              this.handleMiningShip(ship);
+        this.players.forEach((player: ObjectInterfaces.IPlayer, key: number) => {
+            if(player.ship.isMining) {
+              this.handleMiningShip(player.ship, player);
             }
         });
 
         this.sendAsteroidUpdates();
+        this.sendUpdatedCargo();
         /*
         TODO check if any ship died
         handleDestroyedShip(ship);
@@ -88,7 +90,7 @@ export class AsteroidBeltSector extends Sector {
         });
     }
 
-    private handleMiningShip(miningShip : ObjectInterfaces.IShip) {
+    private handleMiningShip(miningShip : ObjectInterfaces.IShip, player : ObjectInterfaces.IPlayer) {
         let targetAsteroid = this.asteroids.get(miningShip.targetId);
         if(targetAsteroid != undefined) {
           let miningShipPos = [miningShip.x, miningShip.y];
@@ -97,15 +99,25 @@ export class AsteroidBeltSector extends Sector {
           let miningShipToAsteroidDistance : number = math.length(miningShipToAsteroidVec);
           let miningShipMiningRange = miningShip.stats[ObjectInterfaces.EShipStatType.mining_laser_range];
           if(miningShipToAsteroidDistance <= miningShipMiningRange) {
-            let sizeMined = miningShip.stats[ObjectInterfaces.EShipStatType.mining_laser_strength] / targetAsteroid.hardness;
+            let sizeMined = Math.floor(miningShip.stats[ObjectInterfaces.EShipStatType.mining_laser_strength] / targetAsteroid.hardness);
+            if(sizeMined == 0) {
+                sizeMined = 1;
+            }
             if(targetAsteroid.size >= sizeMined) {
-                miningShip.cargo.items.push(ItemFactory.createMineral(targetAsteroid.type, sizeMined));
+                CargoUtils.addItemToPlayerCargo(ItemFactory.createMineral(targetAsteroid.type, sizeMined), player);
                 targetAsteroid.size = targetAsteroid.size - sizeMined;
             } else {
-                miningShip.cargo.items.push(ItemFactory.createMineral(targetAsteroid.type, targetAsteroid.size));
+                CargoUtils.addItemToPlayerCargo(ItemFactory.createMineral(targetAsteroid.type, targetAsteroid.size), player);
                 targetAsteroid.size = 0;
             }
           } 
         }
+    }
+
+    private sendUpdatedCargo() {
+        CargoUtils.getPlayersWithChangedCargo().forEach((player: ObjectInterfaces.IPlayer, key: number) => {
+            let packet : any = PacketFactory.createCargoUpdatePacket(player.cargo);
+            player.socket.emit("ServerEvent", packet);
+        });
     }
 }

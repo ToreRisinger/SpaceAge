@@ -48,7 +48,6 @@ export module Database {
           targetId : -1,
           destVec : [0, 0],
           velVec : [0, 0],
-          cargo : cargo,
           modules : [
                         //TODO load from data base, dont create new shit
                         {moduleItem: ItemFactory.createModule(Items.EModuleItemType.POWER_MODULE, 1), x: -1, y : -1},
@@ -113,7 +112,8 @@ export module Database {
         let newPlayer : ObjectInterfaces.IPlayer = {
           playerId : playerId,
           socket : socket,
-          ship : updatedShip
+          ship : updatedShip,
+          cargo : cargo
         }
 
         return newPlayer;

@@ -3,12 +3,15 @@ import CargoContainer from "./CargoContainer";
 import { Items } from "../../../../../shared/scripts/Items";
 import { GlobalData } from "../../../modules/GlobalData";
 import { ObjectInterfaces } from "../../../../../shared/scripts/ObjectInterfaces";
+import { EventHandler } from "../../../modules/EventHandler";
+import { Events } from "../../../../../shared/scripts/Events";
 
 export interface CargoPanelState { items : Array<Items.IItem>}
 
 export default class CargoPanel extends React.Component<{}, CargoPanelState> {
    
    private waitForPlayerShipInitTimer : ReturnType<typeof setTimeout> | undefined;
+   private eventHandlerWaitTimer : ReturnType<typeof setTimeout> | undefined;
 
    constructor(props : {}) {
       super(props)
@@ -17,6 +20,8 @@ export default class CargoPanel extends React.Component<{}, CargoPanelState> {
       }
       this.waitForPlayerShipInitTimer = undefined;
       this.waitForPlayerShipInitialization = this.waitForPlayerShipInitialization.bind(this);
+      this.eventHandlerRegistration = this.eventHandlerRegistration.bind(this);
+      this.onCargoUpdated = this.onCargoUpdated.bind(this);
    }
 
    componentDidMount() {
@@ -24,17 +29,37 @@ export default class CargoPanel extends React.Component<{}, CargoPanelState> {
          () => this.waitForPlayerShipInitialization(),
          1000
       );
+      this.eventHandlerWaitTimer = setInterval(
+         () => this.eventHandlerRegistration(),
+         1000
+      );
+   }
+
+   eventHandlerRegistration() {
+      if(EventHandler.isInitialized()) {
+         EventHandler.on(Events.EEventType.PLAYER_CARGO_UPDATED_EVENT, this.onCargoUpdated)
+         if(this.eventHandlerWaitTimer != undefined) {
+            clearInterval(this.eventHandlerWaitTimer);
+        }
+      }
    }
 
    waitForPlayerShipInitialization() {
       if(GlobalData.playerShip != undefined) {
          this.setState({
-            items : GlobalData.playerShip.getShipData().cargo.items
+            items : GlobalData.playerShip.getCargo().items
          })
          if(this.waitForPlayerShipInitTimer != undefined) {
             clearInterval(this.waitForPlayerShipInitTimer);
         }
       }
+   }
+
+   onCargoUpdated(event : Events.PLAYER_CARGO_UPDATED_EVENT_CONFIG) {
+      this.setState({
+         //@ts-ignore
+         items : GlobalData.playerShip.getCargo().items
+      })
    }
 
    render() {

@@ -203,7 +203,6 @@ export module ObjectInterfaces {
         targetId : number,
         destVec : Array<number>
         velVec : Array<number>
-        cargo : ICargo
         modules : Array<{ moduleItem: Items.IItem, x : number, y : number }>
         stats : {
             [EShipStatType.acceleration] : number,
@@ -249,6 +248,7 @@ export module ObjectInterfaces {
     export interface IPlayer {
         playerId : number,
         socket: any,
-        ship: IShip
+        ship: IShip,
+        cargo : ICargo
     }
 }

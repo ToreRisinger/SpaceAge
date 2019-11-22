@@ -17,6 +17,7 @@ export module Events {
         PLAYER_DISCONNECTED_EVENT,
         SHIPS_UPDATE_EVENT,
         ASTEROIDS_UPDATE_EVENT,
+        CARGO_UPDATE_EVENT,
 
         //Chat events
         CLIENT_SEND_CHAT_MESSAGE_EVENT,
@@ -30,6 +31,7 @@ export module Events {
         PLAYER_STOP_ATTACKING_EVENT,
         PLAYER_START_MINING_EVENT,
         PLAYER_STOP_MINING_EVENT,
+        PLAYER_CARGO_UPDATED_EVENT,
 
         //GameState changes events
         SPACE_SCENE_GAME_STATE_EVENT,
@@ -56,7 +58,8 @@ export module Events {
 
     export interface INITAL_GAME_LOAD_EVENT_CONFIG extends GameEvent {
         data : {
-            ship : ObjectInterfaces.IShip
+            ship : ObjectInterfaces.IShip,
+            cargo : ObjectInterfaces.ICargo
         }
     }
 
@@ -80,9 +83,7 @@ export module Events {
     }
 
     export interface PLAYER_STOP_ATTACKING_EVENT_CONFIG extends GameEvent {
-        data :  {
-            
-        }
+        data :  { }
     }
 
     export interface PLAYER_START_MINING_EVENT_CONFIG extends GameEvent {
@@ -92,9 +93,7 @@ export module Events {
     }
 
     export interface PLAYER_STOP_MINING_EVENT_CONFIG extends GameEvent {
-        data :  {
-            
-        }
+        data :  { }
     }
 
     export interface SHIPS_UPDATE_EVENT_CONFIG extends GameEvent {
@@ -107,6 +106,16 @@ export module Events {
         data : {
             asteroids : Array<AsteroidData.IAsteroid>
         }
+    }
+
+    export interface CARGO_UPDATE_EVENT_CONFIG extends GameEvent {
+        data : {
+            cargo : ObjectInterfaces.ICargo
+        }
+    }
+
+    export interface PLAYER_CARGO_UPDATED_EVENT_CONFIG extends GameEvent {
+        data : {}
     }
 
     export interface PLAYER_DISCONNECTED_EVENT_CONFIG extends GameEvent {

@@ -31,6 +31,7 @@ export module GameObjectHandler {
         let data : any = eventData.data;
         let ship : ObjectInterfaces.IShip = data.ship; 
         let newShip : Ship = new Ship(ship, true);
+        newShip.setCargo(eventData.data.cargo);
       
         thisShipId = ship.id;
         gameObjects.set(thisShipId, newShip);
@@ -74,6 +75,17 @@ export module GameObjectHandler {
         });
     }
 
+    function onCargoUpdate(event : Events.CARGO_UPDATE_EVENT_CONFIG) {
+        if(GlobalData.playerShip != undefined) {
+            GlobalData.playerShip.setCargo(event.data.cargo);
+            let eventToSend : Events.PLAYER_CARGO_UPDATED_EVENT_CONFIG = {
+                eventId : Events.EEventType.PLAYER_CARGO_UPDATED_EVENT,
+                data : { }
+            }
+            EventHandler.pushEvent(eventToSend);
+        }
+    }
+
     function subscribeToInitialEvents() {
         EventHandler.on(Events.EEventType.INITAL_GAME_LOAD_EVENT, onInitialGameLoad);
     }
@@ -83,6 +95,7 @@ export module GameObjectHandler {
         EventHandler.on(Events.EEventType.PLAYER_DISCONNECTED_EVENT, onPlayerDisconnect);
         EventHandler.on(Events.EEventType.SHIPS_UPDATE_EVENT, onShipsUpdate);
         EventHandler.on(Events.EEventType.ASTEROIDS_UPDATE_EVENT, onAsteroidsUpdate);
+        EventHandler.on(Events.EEventType.CARGO_UPDATE_EVENT, onCargoUpdate);
     }
 
     function destroyGameObject(objectId : number) {
