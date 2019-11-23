@@ -45,7 +45,7 @@ export module TargetHandler {
     function onGameObjectsDestroyed(event : Events.GAME_OBJECT_DESTOYED_EVENT_CONFIG) {
         if(GlobalData.targetObject != undefined) {
             //@ts-ignore
-            let found = event.data.gameObjectIds.filter(gameObjectId => gameObjectId == GlobalData.targetObject.getGameObjectData().id);
+            let found = event.data.gameObjectIds.find(gameObjectId => gameObjectId == GlobalData.targetObject.getGameObjectData().id);
             if(found) {
                 GlobalData.targetObject = undefined;
                 sendTargetChangedEvent();

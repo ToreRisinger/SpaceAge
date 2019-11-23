@@ -84,7 +84,8 @@ export class AsteroidBeltSector extends Sector {
 
     private handleMiningShip(miningShip : ObjectInterfaces.IShip, player : ObjectInterfaces.IPlayer) {
         let targetAsteroid = this.asteroids.get(miningShip.targetId);
-        if(targetAsteroid != undefined) {
+        let cargoSpaceLeft = miningShip.stats[ObjectInterfaces.EShipStatType.cargo_hold] - CargoUtils.getCargoSize(player);
+        if(targetAsteroid != undefined && cargoSpaceLeft > 0) {
           let miningShipPos = [miningShip.x, miningShip.y];
           let asteroidPos = [targetAsteroid.x, targetAsteroid.y];
           let miningShipToAsteroidVec = math.subtract(miningShipPos, asteroidPos);
@@ -95,6 +96,11 @@ export class AsteroidBeltSector extends Sector {
             if(sizeMined == 0) {
                 sizeMined = 1;
             }
+
+            if(sizeMined > cargoSpaceLeft) {
+                sizeMined = cargoSpaceLeft;
+            }
+
             if(targetAsteroid.size >= sizeMined) {
                 CargoUtils.addItemToPlayerCargo(ItemFactory.createMineral(targetAsteroid.type, sizeMined), player);
                 targetAsteroid.size = targetAsteroid.size - sizeMined;
@@ -132,6 +138,6 @@ export class AsteroidBeltSector extends Sector {
         let packet : any = PacketFactory.createDestroyedGameObjectsPacket(asteroidIdsTodestroy);
         this.players.forEach((player: ObjectInterfaces.IPlayer, key: number) => {
             player.socket.emit("ServerEvent", packet);
-          });
+        });
     }
 }

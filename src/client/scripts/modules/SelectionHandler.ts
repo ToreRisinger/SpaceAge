@@ -50,7 +50,7 @@ export module SelectionHandler {
     function onGameObjectsDestroyed(event : Events.GAME_OBJECT_DESTOYED_EVENT_CONFIG) {
         if(GlobalData.selectedObject != undefined) {
             //@ts-ignore
-            let found = event.data.gameObjectIds.filter(gameObjectId => gameObjectId == GlobalData.selectedObject.getGameObjectData().id);
+            let found = event.data.gameObjectIds.find(gameObjectId => gameObjectId == GlobalData.selectedObject.getGameObjectData().id);
             if(found) {
                 GlobalData.selectedObject = undefined;
                 sendSelectionChangedEvent();

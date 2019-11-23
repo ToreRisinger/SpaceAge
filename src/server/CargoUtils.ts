@@ -24,4 +24,13 @@ export module CargoUtils {
     export function clear() {
         playersWithUpdatedCargo.clear();
     }
+
+    export function getCargoSize(player : ObjectInterfaces.IPlayer) : number {
+        let cargoHoldSize = 0
+        for(let i = 0; i < player.cargo.items.length; i++) {
+           let itemInfo : Items.IItemInfo = Items.getItemInfo(player.cargo.items[i].itemType);
+           cargoHoldSize += player.cargo.items[i].quantity * itemInfo.size;
+        }
+        return cargoHoldSize;
+    }
 }

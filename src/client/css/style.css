@@ -181,8 +181,11 @@ body {
 }
 
 #navigation_panel_title {
-    background-color: rgba(0, 0, 0, 0.0);
+    /*background-color: rgba(0, 0, 0, 0.0);
     color: rgb(199, 199, 199);
+    */
+    background-color: rgb(199, 199, 199);
+    color: rgb(0, 0, 0);
     font-family: consolas;
     font-size: 15px;
     position: absolute;
@@ -190,7 +193,7 @@ body {
     left: 0px;
     right: 0px;
     text-align: center;
-    height: 30px;
+    height: 20px;
 }
 
 #navigation_panel_table_header {
@@ -372,12 +375,31 @@ body {
 }
 
 #cargo_panel_title {
+    /*
     background-color: rgba(0, 0, 0, 0.0);
     color: rgb(199, 199, 199);
+    */
+    background-color: rgb(199, 199, 199);
+    color: rgb(0, 0, 0);
     font-family: consolas;
     font-size: 15px;
     text-align: center;
-    height: 5%;
+    height: 22px;
+    margin-bottom: 2px;
+}
+
+#cargo_panel_title_cargo_full {
+    /*
+    background-color: rgba(0, 0, 0, 0.0);
+    color: rgb(199, 199, 199);
+    */
+    background-color: rgb(199, 199, 199);
+    color: rgb(155, 30, 30);
+    font-family: consolas;
+    font-size: 15px;
+    text-align: center;
+    height: 22px;
+    margin-bottom: 2px;
 }
 
 .CargoContainer {
