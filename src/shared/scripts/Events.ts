@@ -2,6 +2,7 @@ import { ObjectInterfaces } from "./ObjectInterfaces"
 import { GameObject } from "../../client/scripts/game_objects/GameObject";
 import { RadarDetectable } from "../../client/scripts/game_objects/RadarDetectable";
 import { AsteroidData } from "./AsteroidData";
+import { Sectors } from "./Sectors";
 
 
 export module Events {
@@ -60,7 +61,8 @@ export module Events {
     export interface INITAL_GAME_LOAD_EVENT_CONFIG extends GameEvent {
         data : {
             ship : ObjectInterfaces.IShip,
-            cargo : ObjectInterfaces.ICargo
+            cargo : ObjectInterfaces.ICargo,
+            sectors : Array<Sectors.ISector>
         }
     }
 

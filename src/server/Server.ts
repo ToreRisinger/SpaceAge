@@ -41,7 +41,7 @@ export module Server {
 
           sectorHandler.addPlayerToSector(newPlayer, playerShipSector.sector_x, playerShipSector.sector_y);
 
-          socket.emit('ServerEvent', PacketFactory.createPlayerLoadEventPacket(newPlayer));
+          socket.emit('ServerEvent', PacketFactory.createPlayerLoadEventPacket(newPlayer, sectorHandler.getSectors()));
           sendServerMessage(newPlayer, "Welcome to SpaceAge!");
 
           socket.on('disconnect', function () {

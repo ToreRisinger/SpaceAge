@@ -7,6 +7,7 @@ import { Items } from "../shared/scripts/Items.js";
 export class SectorHandler {
 
     private sectors : Map<string, Sector>;
+    private SECTOR_COORD_TO_MAP_COORD : number = 6000000000;
 
     private playersToSectorMap :  Map<number, {x : number, y : number}>;
 
@@ -14,6 +15,10 @@ export class SectorHandler {
         this.sectors = new Map();
         this.playersToSectorMap = new Map<number, {x : number, y : number}>();
         this.createSectors();
+    }
+
+    public getSectors() : Array<Sector> {
+        return Array.from(this.sectors.values());
     }
 
     public update40ms() {
@@ -30,10 +35,6 @@ export class SectorHandler {
 
     public addPlayerToSector(player : ObjectInterfaces.IPlayer, sector_x : number, sector_y : number) {
         let sector = this.sectors.get("" + sector_x + sector_y);
-        console.log(sector);
-        console.log(this.sectors);
-        console.log(sector_x);
-        console.log(sector_y);
         if(sector != undefined) {
             sector.addPlayer(player);
             this.playersToSectorMap.set(player.playerId, {x: sector_x, y: sector_y });
@@ -65,8 +66,8 @@ export class SectorHandler {
                     throw new Error("Error reading asteroid-type value in config.");
                 }
 
-                this.sectors.set("" + sector.x + sector.y, new AsteroidBeltSector(sector.x, 
-                    sector.y,
+                this.sectors.set("" + sector.x + sector.y, new AsteroidBeltSector(sector.x * this.SECTOR_COORD_TO_MAP_COORD, 
+                    sector.y * this.SECTOR_COORD_TO_MAP_COORD,
                     //@ts-ignore
                     sector["name"],
                     asteriod_type, 
@@ -121,5 +122,4 @@ export class SectorHandler {
                 return undefined;
         }
     }
-
 }

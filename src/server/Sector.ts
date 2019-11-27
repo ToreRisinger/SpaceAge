@@ -23,6 +23,18 @@ export class Sector {
         this.players = new Map<number, ObjectInterfaces.IPlayer>();
     }
 
+    public getX() {
+      return this.x;
+    }
+
+    public getY() {
+      return this.y;
+    }
+
+    public getName() {
+      return this.sectorName;
+    }
+
     public update40ms() {
         this.updateShipPositions();
         this.sendShipUpdates();

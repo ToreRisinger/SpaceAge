@@ -1,16 +1,28 @@
 import { Events } from "../shared/scripts/Events";
 import { ObjectInterfaces } from "../shared/scripts/ObjectInterfaces";
 import { AsteroidData } from "../shared/scripts/AsteroidData";
+import { Sector } from "./Sector";
+import { Sectors } from "../shared/scripts/Sectors";
 
 
 export module PacketFactory {
 
-    export function createPlayerLoadEventPacket(player : ObjectInterfaces.IPlayer) {
+    export function createPlayerLoadEventPacket(player : ObjectInterfaces.IPlayer, sectors : Array<Sector>) {
+        let sectorArray : Array<Sectors.ISector> = new Array();
+        for(let i = 0; i < sectors.length; i++) {
+          sectorArray.push({
+            x : sectors[i].getX(),
+            y : sectors[i].getY(),
+            name : sectors[i].getName()
+          });
+        }
+
         let packet : Events.INITAL_GAME_LOAD_EVENT_CONFIG = {
             eventId : Events.EEventType.INITAL_GAME_LOAD_EVENT,
             data : {
               ship : player.ship,
-              cargo : player.cargo
+              cargo : player.cargo,
+              sectors : sectorArray
             }
         }
     
