@@ -6,78 +6,78 @@ import { Items } from "../shared/scripts/Items.js";
 
 export class SectorHandler {
 
-    private SECTOR_WIDTH : number = 8;
-    private SECTOR_HEIGHT : number = 8;
-
-    private sectors : Array<Array<Sector>>;
+    private sectors : Map<string, Sector>;
 
     private playersToSectorMap :  Map<number, {x : number, y : number}>;
 
     constructor() {
-        this.sectors = new Array<Array<Sector>>();
+        this.sectors = new Map();
         this.playersToSectorMap = new Map<number, {x : number, y : number}>();
         this.createSectors();
     }
 
     public update40ms() {
-        for(let x = 0; x < this.SECTOR_WIDTH; x++) {
-            for(let y = 0; y < this.SECTOR_HEIGHT; y++) {
-                this.sectors[x][y].update40ms();
-            }
-        }
+        this.sectors.forEach((value, key) => {
+            value.update40ms();
+        });
     }
 
     public update1000ms() {
-        for(let x = 0; x < this.SECTOR_WIDTH; x++) {
-            for(let y = 0; y < this.SECTOR_HEIGHT; y++) {
-                this.sectors[x][y].update1000ms();
-            }
-        }
+        this.sectors.forEach((value, key) => {
+            value.update1000ms();
+        });
     }
 
     public addPlayerToSector(player : ObjectInterfaces.IPlayer, sector_x : number, sector_y : number) {
-        this.sectors[sector_x][sector_y].addPlayer(player);
-        this.playersToSectorMap.set(player.playerId, {x: sector_x, y: sector_y });
+        let sector = this.sectors.get("" + sector_x + sector_y);
+        console.log(sector);
+        console.log(this.sectors);
+        console.log(sector_x);
+        console.log(sector_y);
+        if(sector != undefined) {
+            sector.addPlayer(player);
+            this.playersToSectorMap.set(player.playerId, {x: sector_x, y: sector_y });
+        } else {
+            //TODO error?
+        }
     }
 
     public removePlayerFromSector(player : ObjectInterfaces.IPlayer) {
         let sectorCoordinates = this.playersToSectorMap.get(player.playerId);
         if(sectorCoordinates != undefined) {
-            this.sectors[sectorCoordinates.x][sectorCoordinates.y].removePlayer(player);
-            this.playersToSectorMap.delete(player.playerId);
+            let sector = this.sectors.get("" + sectorCoordinates.x + sectorCoordinates.y);
+            if(sector != undefined) {
+                sector.removePlayer(player);
+                this.playersToSectorMap.delete(player.playerId);
+            }
         }
     }
 
     private createSectors() {
-        for(let x = 0; x < this.SECTOR_WIDTH; x++) {
-            this.sectors.push(new Array<Sector>());
-            for(let y = 0; y < this.SECTOR_HEIGHT; y++) {
-                let sector = map_config.sections.find(sector => sector.x == x && sector.y == y);
-                if(sector != undefined) {
-                    if(sector.type == "none") {
-                        this.sectors[x].push(new Sector(x, y));
-                    } else if(sector.type == "asteroid-belt") {
-                        this.verifySectorData(sector);
-                        
-                        //@ts-ignore
-                        let asteriod_type = this.getAsteroidType(sector["asteroid-type"]);
-                        if(asteriod_type == undefined) {
-                            throw new Error("Error reading asteroid-type value in config.");
-                        }
+       for(let i = 0; i < map_config.sections.length; i++) {
+           let sector = map_config.sections[i];
+           if(sector.type == "asteroid-belt") {
+                this.verifySectorData(sector);
 
-                        this.sectors[x].push(new AsteroidBeltSector(x, 
-                            y, 
-                            asteriod_type, 
-                            //@ts-ignore
-                            sector["asteroid-hardness"], 
-                            sector["asteroid-min-size"], 
-                            sector["asteroid-max-size"],
-                            sector["asteroid-generation-rate"],
-                            sector["max-number-of-asteroids"]));
-                    }
+                //@ts-ignore
+                let asteriod_type = this.getAsteroidType(sector["asteroid-type"]);
+                if(asteriod_type == undefined) {
+                    throw new Error("Error reading asteroid-type value in config.");
                 }
-            }    
-        }
+
+                this.sectors.set("" + sector.x + sector.y, new AsteroidBeltSector(sector.x, 
+                    sector.y,
+                    //@ts-ignore
+                    sector["name"],
+                    asteriod_type, 
+                    //@ts-ignore
+                    sector["asteroid-hardness"], 
+                    sector["asteroid-min-size"], 
+                    sector["asteroid-max-size"],
+                    sector["asteroid-generation-rate"],
+                    sector["max-number-of-asteroids"]));
+           }
+       }
     }
 
     private verifySectorData(sector : Object) {
@@ -99,6 +99,9 @@ export class SectorHandler {
         //@ts-ignore
         } else if(sector["max-number-of-asteroids"] == undefined) {
             throw new Error("Error reading max-number-of-asteroids value in config.");
+        //@ts-ignore
+        } else if(sector["name"] == undefined) {
+            throw new Error("Error reading name value in config.");
         }
     }
 

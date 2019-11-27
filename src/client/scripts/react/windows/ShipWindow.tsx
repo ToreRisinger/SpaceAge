@@ -2,11 +2,11 @@ import React, { Fragment }  from "react";
 import WindowHeader from "./WindowHeader";
 import { GlobalData } from "./../../modules/GlobalData";
 import { ObjectInterfaces } from "./../../../../shared/scripts/ObjectInterfaces";
+import ShipDisplay from "./ShipDisplay";
 
 export interface ShipWindowProps {
     window_open: boolean
 }
-
 
 export interface ShipWindowState { ship : ObjectInterfaces.IShip | undefined; }
 
@@ -86,11 +86,10 @@ export default class ShipWindow extends React.Component<ShipWindowProps, ShipWin
                             
                             <hr></hr>
                             <pre>Mining laser strength:       {ship ? ship.stats[ObjectInterfaces.EShipStatType.mining_laser_strength] : "N/A"}</pre>
-                            <pre>Mining laser range:          {ship ? ship.stats[ObjectInterfaces.EShipStatType.mining_laser_range] : "N/A"} m</pre>
-                            
+                            <pre>Mining laser range:          {ship ? ship.stats[ObjectInterfaces.EShipStatType.mining_laser_range] : "N/A"} m</pre>    
                         </div> 
                         <div id="ship_window_right_section">
-
+                            <ShipDisplay/>
                         </div>  
                     </div>
                 }

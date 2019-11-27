@@ -12,9 +12,12 @@ export class Sector {
     protected x : number;
     protected y : number;
 
-    constructor(x : number, y : number) {
+    protected sectorName : string;
+
+    constructor(x : number, y : number, sectorName : string) {
         this.x = x;
         this.y = y;
+        this.sectorName = sectorName;
 
         this.ships = new Map<number, ObjectInterfaces.IShip>();
         this.players = new Map<number, ObjectInterfaces.IPlayer>();

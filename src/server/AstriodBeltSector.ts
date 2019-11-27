@@ -7,7 +7,6 @@ import { ObjectInterfaces } from "../shared/scripts/ObjectInterfaces";
 import { ItemFactory } from "./ItemFactory";
 import { Items } from "../shared/scripts/Items";
 import { CargoUtils } from "./CargoUtils";
-import { Asteroid } from "../client/scripts/game_objects/Asteroid";
 
 const math = require('mathjs');
 
@@ -27,13 +26,14 @@ export class AsteroidBeltSector extends Sector {
     constructor(
         x : number, 
         y : number, 
+        sectorName : string,
         type : Items.EMineralItemType, 
         hardness : number, 
         minSize : number, 
         maxSize : number, 
         generationRate : number,
         maxNrOfAsteroids : number) {
-        super(x, y);
+        super(x, y, sectorName);
         this.type = type;
         this.hardness = hardness;
         this.minSize = minSize;

@@ -126,7 +126,7 @@ body {
 }
 
 #ship_window {
-
+    text-align: center;
 }
 
 #map_window {
@@ -142,7 +142,7 @@ body {
     top: 0px;
     right: 0px;
     left: 0px;
-    height: 7%;
+    height: 80px;
 }
 
 .WindowHeaderText {
@@ -152,19 +152,20 @@ body {
 }
 
 #ship_window_left_section {
-    margin: 0px;  
-    top: 0px;
-    left: 0px;
     height: 100%;
     width: 25%;
+    display: inline-block;
 }
 
 #ship_window_right_section {
-    margin: 0px;  
-    top: 0px;
-    right: 0px;
     height: 100%;
     width: 75%;
+    display: inline-block;
+}
+
+#ship_display {
+    width: 100%;
+    height: 100%;
 }
 
 /*
