@@ -27,6 +27,54 @@
             "asteroid-min-size": 100,
             "asteroid-max-size": 1000,
             "max-number-of-asteroids": 20
+        },
+        {
+            "x": 2,
+            "y": 1,
+            "type": "asteroid-belt",
+            "name": "Mars belt III",
+            "asteroid-type": "gold",
+            "asteroid-hardness": 1,
+            "asteroid-generation-rate": 5,
+            "asteroid-min-size": 100,
+            "asteroid-max-size": 1000,
+            "max-number-of-asteroids": 20
+        },
+        {
+            "x": -4,
+            "y": -2,
+            "type": "asteroid-belt",
+            "name": "Mars belt IV",
+            "asteroid-type": "gold",
+            "asteroid-hardness": 1,
+            "asteroid-generation-rate": 5,
+            "asteroid-min-size": 100,
+            "asteroid-max-size": 1000,
+            "max-number-of-asteroids": 20
+        },
+        {
+            "x": -3,
+            "y": 1,
+            "type": "asteroid-belt",
+            "name": "Mars belt V",
+            "asteroid-type": "gold",
+            "asteroid-hardness": 1,
+            "asteroid-generation-rate": 5,
+            "asteroid-min-size": 100,
+            "asteroid-max-size": 1000,
+            "max-number-of-asteroids": 20
+        },
+        {
+            "x": -1,
+            "y": 4,
+            "type": "asteroid-belt",
+            "name": "Mars belt VI",
+            "asteroid-type": "gold",
+            "asteroid-hardness": 1,
+            "asteroid-generation-rate": 5,
+            "asteroid-min-size": 100,
+            "asteroid-max-size": 1000,
+            "max-number-of-asteroids": 20
         }
     ]
 }
