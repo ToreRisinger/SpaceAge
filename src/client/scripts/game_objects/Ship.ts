@@ -12,7 +12,7 @@ export class Ship extends RadarDetectable {
     private shipCargo : ObjectInterfaces.ICargo;
 
     constructor(ship_config : ObjectInterfaces.IShip, thisPlayerShip : boolean) {
-        super(ship_config, SPRITES.SHIP_ICON.sprite, thisPlayerShip);
+        super(ship_config, SPRITES.SHIP_ICON.sprite, thisPlayerShip, false);
         this.ship_config = ship_config;
         this.shipCargo = {
             items : []

@@ -247,5 +247,14 @@ export const SPRITES = {
             width: 19,
             height: 19
         }
+    },
+    SECTOR_ICON: {
+        animation : undefined,
+        sprite : {
+            key: "sector_icon",
+            file: "icons/sector_icon.png",
+            width: 19,
+            height: 19
+        }
     }
 }

@@ -6,6 +6,7 @@ import { Events } from "../../../../shared/scripts/Events";
 import { EventHandler } from "../EventHandler";
 import { GameObject } from "../../game_objects/GameObject";
 import { RadarDetectable } from "../../game_objects/RadarDetectable";
+import { Asteroid } from "../../game_objects/Asteroid";
 
 export class LockTargetAbility extends Ability {
 
@@ -42,10 +43,14 @@ export class LockTargetAbility extends Ability {
     }
 
     private calculateState() {
-        if(GlobalData.targetObject != undefined) {
+        if(GlobalData.targetObject != undefined 
+            && (GlobalData.targetObject instanceof Asteroid 
+            || GlobalData.targetObject instanceof Ship)) {
             this.setState(EAbilityState.ACTIVATED);
             this.setUnlockVariables();
-        } else if(GlobalData.selectedObject != undefined) {
+        } else if(GlobalData.selectedObject != undefined 
+            && (GlobalData.selectedObject instanceof Asteroid 
+            || GlobalData.selectedObject instanceof Ship)) {
             this.setState(EAbilityState.ENABLED);
             this.setLockVariables();
         } else {

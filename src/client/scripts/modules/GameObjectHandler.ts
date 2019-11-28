@@ -6,6 +6,9 @@ import { ObjectInterfaces } from "../../../shared/scripts/ObjectInterfaces";
 import { GlobalData } from "./GlobalData";
 import { AsteroidData } from "../../../shared/scripts/AsteroidData";
 import { Asteroid } from "../game_objects/Asteroid";
+import { Sector } from "../game_objects/Sector";
+import { Sectors } from "../../../shared/scripts/Sectors";
+import { SPRITES } from "../../../shared/scripts/SPRITES";
 
 export module GameObjectHandler {
 
@@ -37,6 +40,11 @@ export module GameObjectHandler {
 
         //@ts-ignore
         GlobalData.playerShip = gameObjects.get(thisShipId); 
+
+        eventData.data.sectors.forEach((value: Sectors.ISector, index: number, array: Sectors.ISector[]) => 
+            gameObjects.set(value.id, new Sector(value)));
+        
+        console.log(gameObjects);
         
         subscribeToEvents();
     }

@@ -3,6 +3,7 @@ import { ObjectInterfaces } from "../shared/scripts/ObjectInterfaces";
 import { AsteroidData } from "../shared/scripts/AsteroidData";
 import { Sector } from "./Sector";
 import { Sectors } from "../shared/scripts/Sectors";
+import { IdHandler } from "./IdHandler";
 
 
 export module PacketFactory {
@@ -11,6 +12,7 @@ export module PacketFactory {
         let sectorArray : Array<Sectors.ISector> = new Array();
         for(let i = 0; i < sectors.length; i++) {
           sectorArray.push({
+            id : IdHandler.getNewGameObjectId(),
             x : sectors[i].getX(),
             y : sectors[i].getY(),
             name : sectors[i].getName()

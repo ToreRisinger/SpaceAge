@@ -75,8 +75,8 @@ export class AsteroidBeltSector extends Sector {
             hardness : this.hardness,
             size : Utils.getRandomNumber(this.minSize, this.maxSize),
             type : this.type,
-            x : Utils.getRandomNumber(0, 1000),
-            y : Utils.getRandomNumber(0, 1000)
+            x : Utils.getRandomNumber(0, 1000) + this.getX(),
+            y : Utils.getRandomNumber(0, 1000) + this.getY()
         }
 
         this.asteroids.set(asteroid.id, asteroid);

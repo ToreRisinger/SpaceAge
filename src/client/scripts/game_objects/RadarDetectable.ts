@@ -20,13 +20,14 @@ export abstract class RadarDetectable extends GameObject {
     private thisPlayerShip : boolean;
 
     private baseColor : number;
-
     private firstUpdate : boolean = true;
+    private alwaysVisible : boolean;
 
-    constructor(game_object_config : ObjectInterfaces.IGameObject, iconSprite : ObjectInterfaces.ISprite, thisPlayerShip : boolean) {
+    constructor(game_object_config : ObjectInterfaces.IGameObject, iconSprite : ObjectInterfaces.ISprite, thisPlayerShip : boolean, alwaysVisible : boolean) {
         super(game_object_config);
         this.thisPlayerShip = thisPlayerShip;
-        this.detected = this.thisPlayerShip;
+        this.alwaysVisible = alwaysVisible;
+        this.detected = this.thisPlayerShip || this.alwaysVisible;
         this.distanceToPlayerShip = 0;
 
         this.icon = iconSprite;
@@ -35,13 +36,11 @@ export abstract class RadarDetectable extends GameObject {
         this.iconSprite.setInteractive();
         this.iconSprite.setDepth(DRAW_LAYERS.GRAPHICS_LAYER);
         this.isHoverVar = false;
-
+        
         this.iconSprite.on('pointerover', () => {
-            //this.hoverStateChange = !this.isHoverOrSelected;
             this.isHoverVar = true;
         });
         this.iconSprite.on('pointerout', () =>  {
-            //this.hoverStateChange = this.isHoverOrSelected;
             this.isHoverVar = false;
         });
         this.iconSprite.on('pointerdown', () =>  {
@@ -88,7 +87,6 @@ export abstract class RadarDetectable extends GameObject {
     public setIsHover(value : boolean) {
         this.isHoverVar = value;
     }
-
 
     public getIconPath() {
         return "assets/sprite/" + this.icon.file;
@@ -137,7 +135,7 @@ export abstract class RadarDetectable extends GameObject {
     }
 
     private calculateDetectedByRadar(distance : number, radarMass : number) {
-        if(!this.thisPlayerShip) {
+        if(!(this.thisPlayerShip || this.alwaysVisible)) {
             //@ts-ignore
             let playerShip : Ship =  GlobalData.playerShip;
             let radarRange : number = playerShip.getShipData().stats[ObjectInterfaces.EShipStatType.radar_range];

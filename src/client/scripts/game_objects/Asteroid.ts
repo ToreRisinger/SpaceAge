@@ -12,7 +12,7 @@ export class Asteroid extends RadarDetectable {
     private sprite : Phaser.GameObjects.Sprite;
 
     constructor(asteroid_config : AsteroidData.IAsteroid) {
-        super(asteroid_config, SPRITES.ASTEROID_ICON.sprite, false);
+        super(asteroid_config, SPRITES.ASTEROID_ICON.sprite, false, false);
         this.asteroid_config = asteroid_config;
         this.sprite = GameScene.getInstance().addSprite(Math.floor(this.asteroid_config.x), Math.floor(this.asteroid_config.y), AsteroidData.getAsteroidInfo(this.asteroid_config.type).sprite.key);
         this.setupSprite();

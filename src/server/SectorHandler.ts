@@ -36,6 +36,8 @@ export class SectorHandler {
     public addPlayerToSector(player : ObjectInterfaces.IPlayer, sector_x : number, sector_y : number) {
         let sector = this.sectors.get("" + sector_x + sector_y);
         if(sector != undefined) {
+            player.ship.x = sector.getX();
+            player.ship.y = sector.getY();
             sector.addPlayer(player);
             this.playersToSectorMap.set(player.playerId, {x: sector_x, y: sector_y });
         } else {

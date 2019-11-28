@@ -1,9 +1,8 @@
+import { ObjectInterfaces } from "./ObjectInterfaces";
 
 export module Sectors {
 
-    export interface ISector {
-        x : number,
-        y : number,
+    export interface ISector extends ObjectInterfaces.IGameObject {
         name : string
     }
     

@@ -2,7 +2,6 @@ import { ObjectInterfaces } from "../shared/scripts/ObjectInterfaces";
 import { IdHandler } from "./IdHandler";
 import { ItemFactory } from "./ItemFactory";
 import { Items } from "../shared/scripts/Items";
-import { ShipModules } from "../shared/scripts/ShipModules";
 
 export module Database {
 

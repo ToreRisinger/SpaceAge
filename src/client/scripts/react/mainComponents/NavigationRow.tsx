@@ -1,5 +1,6 @@
 import React from "react";
 import { RadarDetectable } from "../../game_objects/RadarDetectable";
+import { Utils } from "../../../../shared/scripts/Utils";
 
 export interface NavigationRowProps { object : RadarDetectable}
 
@@ -27,6 +28,7 @@ export default class NavigationRow extends React.Component<NavigationRowProps, {
     render() {
         let iconPath = this.props.object.getIconPath();
         let rowClassString = "navigation_row Unselectable ";
+        
         if(this.props.object.isTarget()) {
             rowClassString += "navigation_row_target";
         } else if(this.props.object.isSelected()) {
@@ -42,7 +44,7 @@ export default class NavigationRow extends React.Component<NavigationRowProps, {
                    {this.props.object.getDisplayName()}
                 </div>
                 <div className="navigation_row_distance Unselectable">
-                    {this.props.object.getDistanceToPlayerShip()}
+                    {Utils.formatMeters(this.props.object.getDistanceToPlayerShip())}
                 </div>  
             </div>
         );
