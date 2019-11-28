@@ -44,8 +44,6 @@ export module GameObjectHandler {
         eventData.data.sectors.forEach((value: Sectors.ISector, index: number, array: Sectors.ISector[]) => 
             gameObjects.set(value.id, new Sector(value)));
         
-        console.log(gameObjects);
-        
         subscribeToEvents();
     }
 
