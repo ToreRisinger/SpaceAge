@@ -14,10 +14,13 @@ export class Sector {
 
     protected sectorName : string;
 
-    constructor(x : number, y : number, sectorName : string) {
+    protected id : number;
+
+    constructor(x : number, y : number, sectorName : string, id : number) {
         this.x = x;
         this.y = y;
         this.sectorName = sectorName;
+        this.id = id;
 
         this.ships = new Map<number, ObjectInterfaces.IShip>();
         this.players = new Map<number, ObjectInterfaces.IPlayer>();
@@ -33,6 +36,10 @@ export class Sector {
 
     public getName() {
       return this.sectorName;
+    }
+
+    public getId() {
+      return this.id;
     }
 
     public update40ms() {

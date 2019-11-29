@@ -27,13 +27,14 @@ export class AsteroidBeltSector extends Sector {
         x : number, 
         y : number, 
         sectorName : string,
+        id : number,
         type : Items.EMineralItemType, 
         hardness : number, 
         minSize : number, 
         maxSize : number, 
         generationRate : number,
         maxNrOfAsteroids : number) {
-        super(x, y, sectorName);
+        super(x, y, sectorName, id);
         this.type = type;
         this.hardness = hardness;
         this.minSize = minSize;

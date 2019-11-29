@@ -40,8 +40,11 @@ export module Server {
           console.log('a user connected: ' + newPlayer.ship.id);
 
           sectorHandler.addPlayerToSector(newPlayer, playerShipSector.sector_x, playerShipSector.sector_y);
-
-          socket.emit('ServerEvent', PacketFactory.createPlayerLoadEventPacket(newPlayer, sectorHandler.getSectors()));
+          let sector = sectorHandler.getSectorOfPlayer(newPlayer);
+          //@ts-ignore
+          let sectorId = sector.getId();
+          
+          socket.emit('ServerEvent', PacketFactory.createPlayerLoadEventPacket(newPlayer, sectorHandler.getSectors(), sectorId));
           sendServerMessage(newPlayer, "Welcome to SpaceAge!");
 
           socket.on('disconnect', function () {

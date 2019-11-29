@@ -6,6 +6,7 @@ import { AttackAbility } from "./AttackAbility";
 import { EventHandler } from "../EventHandler";
 import { Events } from "../../../../shared/scripts/Events";
 import { MiningAbility } from "./MiningAbility";
+import { WarpDriveAbility } from "./WarpDriveAbility";
 
 export module AbilityHandler {
 
@@ -49,6 +50,7 @@ export module AbilityHandler {
                 abilities.push(new LockTargetAbility(GlobalData.playerShip));
             }
            
+            abilities.push(new WarpDriveAbility(GlobalData.playerShip));
         }
         
         //@ts-ignore

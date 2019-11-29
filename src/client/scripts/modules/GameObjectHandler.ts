@@ -41,8 +41,12 @@ export module GameObjectHandler {
         //@ts-ignore
         GlobalData.playerShip = gameObjects.get(thisShipId); 
 
-        eventData.data.sectors.forEach((value: Sectors.ISector, index: number, array: Sectors.ISector[]) => 
-            gameObjects.set(value.id, new Sector(value)));
+        eventData.data.sectors.forEach((value: Sectors.ISector, index: number, array: Sectors.ISector[]) => {
+            gameObjects.set(value.id, new Sector(value));
+        });
+
+        //@ts-ignore
+        GlobalData.sector = gameObjects.get(eventData.data.clientSectorId);
         
         subscribeToEvents();
     }

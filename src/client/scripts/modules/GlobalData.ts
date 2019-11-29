@@ -1,6 +1,7 @@
 import { Ship } from "../game_objects/Ship";
 import { ObjectInterfaces } from "../../../shared/scripts/ObjectInterfaces"
 import { RadarDetectable } from "../game_objects/RadarDetectable";
+import { Sector } from "../game_objects/Sector";
 
 export module GlobalData {
 
@@ -10,6 +11,7 @@ export module GlobalData {
     export let targetObject : RadarDetectable | undefined = undefined;
 
     export let playerShip : Ship | undefined = undefined;
+    export let sector : Sector | undefined = undefined;
     
     /* Camera */
     export let cameraZoom : number = 1;

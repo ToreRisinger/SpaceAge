@@ -114,7 +114,7 @@ export module Database {
           playerId : playerId,
           socket : socket,
           ship : updatedShip,
-          cargo : cargo
+          cargo : cargo,
         }
 
         return newPlayer;

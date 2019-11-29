@@ -3,6 +3,7 @@ import { Sector } from "./Sector";
 import { AsteroidBeltSector } from "./AstriodBeltSector";
 import { ObjectInterfaces } from "../shared/scripts/ObjectInterfaces.js";
 import { Items } from "../shared/scripts/Items.js";
+import { IdHandler } from "./IdHandler.js";
 
 export class SectorHandler {
 
@@ -34,7 +35,7 @@ export class SectorHandler {
     }
 
     public addPlayerToSector(player : ObjectInterfaces.IPlayer, sector_x : number, sector_y : number) {
-        let sector = this.sectors.get("" + sector_x + sector_y);
+        let sector = this.getSector(sector_x, sector_y);
         if(sector != undefined) {
             player.ship.x = sector.getX();
             player.ship.y = sector.getY();
@@ -48,12 +49,21 @@ export class SectorHandler {
     public removePlayerFromSector(player : ObjectInterfaces.IPlayer) {
         let sectorCoordinates = this.playersToSectorMap.get(player.playerId);
         if(sectorCoordinates != undefined) {
-            let sector = this.sectors.get("" + sectorCoordinates.x + sectorCoordinates.y);
+            let sector = this.getSector(sectorCoordinates.x, sectorCoordinates.y);
             if(sector != undefined) {
                 sector.removePlayer(player);
                 this.playersToSectorMap.delete(player.playerId);
             }
         }
+    }
+
+    public getSectorOfPlayer(player : ObjectInterfaces.IPlayer) : Sector | undefined {
+        let sectorCoords = this.playersToSectorMap.get(player.playerId);
+        if(sectorCoords != undefined) {
+            return this.getSector(sectorCoords.x, sectorCoords.y);
+        }
+
+        return undefined;
     }
 
     private createSectors() {
@@ -68,10 +78,11 @@ export class SectorHandler {
                     throw new Error("Error reading asteroid-type value in config.");
                 }
 
-                this.sectors.set("" + sector.x + sector.y, new AsteroidBeltSector(sector.x * this.SECTOR_COORD_TO_MAP_COORD, 
+                this.addSector(sector.x, sector.y, new AsteroidBeltSector(sector.x * this.SECTOR_COORD_TO_MAP_COORD, 
                     sector.y * this.SECTOR_COORD_TO_MAP_COORD,
                     //@ts-ignore
                     sector["name"],
+                    IdHandler.getNewGameObjectId(),
                     asteriod_type, 
                     //@ts-ignore
                     sector["asteroid-hardness"], 
@@ -123,5 +134,13 @@ export class SectorHandler {
             default:
                 return undefined;
         }
+    }
+
+    private getSector(x : number, y : number) : Sector | undefined {
+        return this.sectors.get("" + x + y);
+    }
+
+    private addSector(x : number, y : number, sector : Sector) {
+        this.sectors.set("" + x + y, sector);
     }
 }

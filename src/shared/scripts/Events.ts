@@ -62,7 +62,8 @@ export module Events {
         data : {
             ship : ObjectInterfaces.IShip,
             cargo : ObjectInterfaces.ICargo,
-            sectors : Array<Sectors.ISector>
+            sectors : Array<Sectors.ISector>,
+            clientSectorId : number
         }
     }
 

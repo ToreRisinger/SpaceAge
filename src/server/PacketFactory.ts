@@ -8,11 +8,11 @@ import { IdHandler } from "./IdHandler";
 
 export module PacketFactory {
 
-    export function createPlayerLoadEventPacket(player : ObjectInterfaces.IPlayer, sectors : Array<Sector>) {
+    export function createPlayerLoadEventPacket(player : ObjectInterfaces.IPlayer, sectors : Array<Sector>, sectorId : number) {
         let sectorArray : Array<Sectors.ISector> = new Array();
         for(let i = 0; i < sectors.length; i++) {
           sectorArray.push({
-            id : IdHandler.getNewGameObjectId(),
+            id : sectors[i].getId(),
             x : sectors[i].getX(),
             y : sectors[i].getY(),
             name : sectors[i].getName()
@@ -24,7 +24,8 @@ export module PacketFactory {
             data : {
               ship : player.ship,
               cargo : player.cargo,
-              sectors : sectorArray
+              sectors : sectorArray,
+              clientSectorId : sectorId
             }
         }
     

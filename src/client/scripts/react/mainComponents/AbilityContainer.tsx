@@ -20,6 +20,9 @@ export default class AbilityContainer extends React.Component<AbilityContainerPr
         return (
             <div className="ability_container">
                 <img className={this.getClassName()} src={this.props.ability.getIconPath()} onClick={this.onClickAbility}/>
+                {this.props.ability.getState() == EAbilityState.COOLDOWN &&
+                    <div className="cooldown_counter Unselectable">{this.props.ability.getCooldownRemaining()}</div>
+                }
             </div>
         );
     }
