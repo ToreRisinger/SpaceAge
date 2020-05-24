@@ -30,4 +30,8 @@ export module Utils {
     export function getRandomNumber(min : number, max : number) {
         return Math.floor(Math.random() * (max - min) + min);
     }
+
+    export function vec2Length(vec2 : Array<number>) {
+        return Math.sqrt((vec2[0] * vec2[0]) + (vec2[1] * vec2[1]));
+    };
 }

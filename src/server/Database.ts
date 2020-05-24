@@ -23,13 +23,13 @@ export module Database {
         items.push(ItemFactory.createMineral(Items.EMineralItemType.IRON_ORE, 1));
         items.push(ItemFactory.createMineral(Items.EMineralItemType.TITANIUM_ORE, 1));
         items.push(ItemFactory.createMineral(Items.EMineralItemType.URANIUM_ORE, 1));
-        /*
+        
         items.push(ItemFactory.createModule(Items.EModuleItemType.SHIELD_MODULE, 1));
         items.push(ItemFactory.createModule(Items.EModuleItemType.ARMOR_MODULE, 2));
         items.push(ItemFactory.createModule(Items.EModuleItemType.CLOAK_SYSTEM_MODULE, 3));
         items.push(ItemFactory.createModule(Items.EModuleItemType.RAIL_GUN_MODULE, 4));
         items.push(ItemFactory.createModule(Items.EModuleItemType.TRACKING_SYSTEM_MODULE, 5));
-        */
+        
 
         let cargo : ObjectInterfaces.ICargo = {
           items : items
@@ -46,6 +46,9 @@ export module Database {
           isMining : false,
           hasWeapon : false,
           hasMiningLaser : false,
+          isWarping : false,
+          warpDestination : [0, 0],
+          warpSource : [0, 0],
           targetId : -1,
           destVec : [0, 0],
           velVec : [0, 0],
@@ -130,12 +133,15 @@ export module Database {
       );
 
       newShip.stats[ObjectInterfaces.EShipStatType.max_speed] = 1000;
+
       newShip.stats[ObjectInterfaces.EShipStatType.acceleration] = 
         newShip.stats[ObjectInterfaces.EShipStatType.thrust] / newShip.stats[ObjectInterfaces.EShipStatType.mass];
 
 
+
       //TODO weapon range average calculation  
       newShip.stats[ObjectInterfaces.EShipStatType.weapon_range] = 2000;
+    
 
       newShip.properties.currentArmor = newShip.stats[ObjectInterfaces.EShipStatType.armor];
       newShip.properties.currentShield = newShip.stats[ObjectInterfaces.EShipStatType.shield];

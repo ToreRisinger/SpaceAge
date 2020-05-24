@@ -8,7 +8,6 @@ import { AsteroidData } from "../../../shared/scripts/AsteroidData";
 import { Asteroid } from "../game_objects/Asteroid";
 import { Sector } from "../game_objects/Sector";
 import { Sectors } from "../../../shared/scripts/Sectors";
-import { SPRITES } from "../../../shared/scripts/SPRITES";
 
 export module GameObjectHandler {
 
@@ -103,8 +102,26 @@ export module GameObjectHandler {
                 gameObjects.delete(gameObjectId);
             }
         });
-        
     }
+
+    function onSectorChanged(event : Events.CHANGE_SECTOR_EVENT_CONFIG) {
+        //@ts-ignore
+        let gameObject = gameObjects.get(event.data.clientSectorId);
+        if(gameObject instanceof Sector) {
+            //@ts-ignore
+            GlobalData.sector = gameObject;
+            //@ts-ignore
+            let newSectorX = GlobalData.sector.getMapX();
+            //@ts-ignore
+            let newSectorY = GlobalData.sector.getMapY();
+            gameObjects.forEach((element, key) => {
+                if(element instanceof Sector) {
+                    element.onSectorChanged(newSectorX, newSectorY);
+                }
+            });
+        }  
+    }
+
 
     function subscribeToInitialEvents() {
         EventHandler.on(Events.EEventType.INITAL_GAME_LOAD_EVENT, onInitialGameLoad);
@@ -117,6 +134,8 @@ export module GameObjectHandler {
         EventHandler.on(Events.EEventType.ASTEROIDS_UPDATE_EVENT, onAsteroidsUpdate);
         EventHandler.on(Events.EEventType.CARGO_UPDATE_EVENT, onCargoUpdate);
         EventHandler.on(Events.EEventType.GAME_OBJECT_DESTOYED_EVENT, onGameObjectsDestroyed);
+        EventHandler.on(Events.EEventType.CHANGE_SECTOR_EVENT, onSectorChanged);
+        
     }
 
     function destroyGameObject(objectId : number) {

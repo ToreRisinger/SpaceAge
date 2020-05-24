@@ -3,6 +3,7 @@ import { Events } from "../shared/scripts/Events";
 import { Database } from "./Database";
 import { PacketFactory } from "./PacketFactory"
 import { SectorHandler } from "./SectorHandler";
+import { Sector } from "./Sector";
 
 const math = require('mathjs');
 
@@ -99,6 +100,11 @@ export module Server {
         }
         case Events.EEventType.PLAYER_STOP_MINING_EVENT : {
           onPlayerStopMiningEvent(player, event);
+          break;
+        }
+        case Events.EEventType.PLAYER_START_WARP_REQUEST_EVENT : {
+          onPlayerStartWarpEvent(player, event);
+          break;
         }
         default: {
           break;
@@ -146,7 +152,6 @@ export module Server {
       ship.targetId = targetId;
     }
 
-    //Server event functions
     function onPlayerSetNewDestinationEvent(player : ObjectInterfaces.IPlayer, event : Events.PLAYER_SET_NEW_DESTINATION_EVENT_CONFIG) {
       let xLength = player.ship.x - event.data.destinationX;
       let yLength = player.ship.y - event.data.destinationY;
@@ -160,6 +165,18 @@ export module Server {
 
     function onPlayerStopShipEvent(player : ObjectInterfaces.IPlayer, event : Events.PLAYER_STOP_SHIP_EVENT_CONFIG) {
       player.ship.hasDestination = false;
+    }
+
+    function onPlayerStartWarpEvent(player : ObjectInterfaces.IPlayer, event : Events.PLAYER_START_WARP_REQUEST_EVENT_CONFIG) {
+      //TODO, add check if they should be able to warp
+      let sector = sectorHandler.getSectors().find(sector => sector.getId() == event.data.targetId);
+      if(sector != undefined && !player.ship.isWarping) {
+        player.ship.isWarping = true;
+        player.ship.warpDestination = [sector.getX(), sector.getY()];
+        player.ship.warpSource  = [player.ship.x, player.ship.y];
+        player.ship.hasDestination = false;
+        sectorHandler.onPlayerStartWarping(player, sector);
+      }
     }
 
     function onChatMessageEvent(player : ObjectInterfaces.IPlayer, event : Events.CLIENT_SEND_CHAT_MESSAGE_EVENT_CONFIG) {

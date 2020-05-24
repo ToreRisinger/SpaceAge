@@ -40,6 +40,9 @@ export class Ship extends RadarDetectable {
     public update() {
         this.shipSprite.updateSpritePosition(this.getPos());
         super.update();
+
+        if(this.isThisPlayerShip()) {
+        }
     }
 
     public getIsMoving() {

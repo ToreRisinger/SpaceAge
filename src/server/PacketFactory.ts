@@ -93,4 +93,15 @@ export module PacketFactory {
 
     return packet;
   }
+
+  export function createSectorChangedPacket(sectorId : number) {
+    let packet : Events.CHANGE_SECTOR_EVENT_CONFIG = {
+      eventId : Events.EEventType.CHANGE_SECTOR_EVENT,
+      data : {
+        clientSectorId : sectorId
+      }
+    }
+
+    return packet;
+  }
 }

@@ -2,6 +2,10 @@ import { ObjectInterfaces } from "../shared/scripts/ObjectInterfaces";
 import { PacketFactory } from "./PacketFactory";
 
 const math = require('mathjs');
+math.length = function vec2Length(vec2 : Array<number>) {
+  return Math.sqrt((vec2[0] * vec2[0]) + (vec2[1] * vec2[1]));
+};
+
 let UPDATES_PER_SECOND : number = 25;
 
 export class Sector {
@@ -12,11 +16,22 @@ export class Sector {
     protected x : number;
     protected y : number;
 
+    protected sector_x : number;
+    protected sector_y : number;
+
     protected sectorName : string;
 
     protected id : number;
 
-    constructor(x : number, y : number, sectorName : string, id : number) {
+    constructor(
+      sector_x : number,
+      sector_y : number, 
+      x : number, 
+      y : number, 
+      sectorName : string, 
+      id : number) {
+        this.sector_x = sector_x;
+        this.sector_y = sector_y;
         this.x = x;
         this.y = y;
         this.sectorName = sectorName;
@@ -24,6 +39,14 @@ export class Sector {
 
         this.ships = new Map<number, ObjectInterfaces.IShip>();
         this.players = new Map<number, ObjectInterfaces.IPlayer>();
+    }
+
+    public getSectorX() {
+      return this.sector_x;
+    }
+
+    public getSectorY() {
+      return this.sector_y;
     }
 
     public getX() {
@@ -43,8 +66,15 @@ export class Sector {
     }
 
     public update40ms() {
-        this.updateShipPositions();
-        this.sendShipUpdates();
+      this.ships.forEach((ship: ObjectInterfaces.IShip, key: number) => {
+        if(ship.isWarping) {
+          this.updateWarpingShipPosition(ship);
+        } else if(ship.isMoving || ship.hasDestination) {
+          this.updateShipPosition(ship);
+        }
+      });
+        
+      this.sendShipUpdates();
     }
 
     public update1000ms() {
@@ -78,7 +108,22 @@ export class Sector {
         });
     }
 
-    private updateShipPositions() {
+    private updateWarpingShipPosition(ship : ObjectInterfaces.IShip) {
+      let totalLength = math.length(math.subtract(ship.warpDestination,[this.x + ship.warpSource[0], this.y + ship.warpSource[1]] ));
+      let distanceTraveled = math.length(math.subtract([this.x + ship.warpSource[0], this.y + ship.warpSource[1]], [this.x + ship.x, this.y + ship.y]));;
+      let shipToDest = math.subtract(ship.warpDestination, [this.x + ship.x, this.y + ship.y]);
+      
+      let speed = 1000000;
+      let ratio = distanceTraveled / totalLength;
+      let acceleration = 1 + ratio * speed;
+      let velVec = math.multiply(math.multiply(shipToDest, 1/math.length(shipToDest)), acceleration);
+
+      ship.x = ship.x + velVec[0];
+      ship.y = ship.y + velVec[1];
+      ship.meters_per_second = math.length(velVec) / UPDATES_PER_SECOND
+    }
+
+    private updateShipPosition(ship : ObjectInterfaces.IShip) {
         function getMidPointVec(shipToDestVec :  Array<number>, goodVelVecComp : Array<number>, badVelVecComp : Array<number>) {
           function getDivider(goodVelVecComp : Array<number>, badVelVecComp : Array<number>) {
             if(math.length(badVelVecComp) != 0) {
@@ -117,50 +162,48 @@ export class Sector {
           return newVelVec;
         }
         
-        this.ships.forEach((ship: ObjectInterfaces.IShip, key: number) => {
-          let shipAcceleration = ship.stats[ObjectInterfaces.EShipStatType.acceleration];
-          let destVec = ship.destVec;
-          let shipPosVec = [ship.x, ship.y];
-          let shipToDestVec = math.subtract(destVec, shipPosVec);
-          let normalizedShipToDestVec = math.multiply(shipToDestVec, 1/math.length(shipToDestVec));
-          let goodVelVecComp = math.multiply(normalizedShipToDestVec, math.multiply(ship.velVec, normalizedShipToDestVec));
-          let badVelVecComp = math.subtract(ship.velVec, goodVelVecComp);
+        let shipAcceleration = ship.stats[ObjectInterfaces.EShipStatType.acceleration];
+        let destVec = ship.destVec;
+        let shipPosVec = [ship.x, ship.y];
+        let shipToDestVec = math.subtract(destVec, shipPosVec);
+        let normalizedShipToDestVec = math.multiply(shipToDestVec, 1/math.length(shipToDestVec));
+        let goodVelVecComp = math.multiply(normalizedShipToDestVec, math.multiply(ship.velVec, normalizedShipToDestVec));
+        let badVelVecComp = math.subtract(ship.velVec, goodVelVecComp);
+        
+        if(ship.hasDestination) {
+          if(math.length(shipToDestVec) <= shipAcceleration / UPDATES_PER_SECOND && math.length(ship.velVec) - shipAcceleration / UPDATES_PER_SECOND <= 0) {
+            ship.isMoving = false;
+            ship.x = ship.destVec[0];
+            ship.y = ship.destVec[1];
+            ship.hasDestination = false;
+          }
+        } else if(math.length(ship.velVec) - shipAcceleration / UPDATES_PER_SECOND <= 0) {
+          ship.isMoving = false;
+        }
           
-          if(ship.hasDestination) {
-            if(math.length(shipToDestVec) <= shipAcceleration / UPDATES_PER_SECOND && math.length(ship.velVec) - shipAcceleration / UPDATES_PER_SECOND <= 0) {
-              ship.isMoving = false;
-              ship.x = ship.destVec[0];
-              ship.y = ship.destVec[1];
-              ship.hasDestination = false;
-            }
+        if(ship.isMoving) { 
+          let newVelVec = ship.hasDestination
+            ? calculateNewVelocityVector(shipToDestVec, ship.velVec, goodVelVecComp, badVelVecComp, shipAcceleration)
+            : math.subtract(ship.velVec, math.multiply(ship.velVec, (shipAcceleration/UPDATES_PER_SECOND)/math.length(ship.velVec)));
+
+          //newVelVec is NaN NaN
+          let newVelVecLength = math.length(newVelVec);
+
+          let shipMaxSpeed = ship.stats[ObjectInterfaces.EShipStatType.max_speed];
+          if(newVelVecLength > shipMaxSpeed) {
+            ship.velVec = math.multiply(newVelVec, shipMaxSpeed/newVelVecLength)
           } else {
-            if(math.length(ship.velVec) - shipAcceleration / UPDATES_PER_SECOND <= 0) {
-              ship.isMoving = false;
-            }
+            ship.velVec = newVelVec;
+            //Here velvec is destoyed 
           }
-           
-          if(ship.isMoving) {
-            let newVelVec = ship.hasDestination 
-              ? calculateNewVelocityVector(shipToDestVec, ship.velVec, goodVelVecComp, badVelVecComp, shipAcceleration)
-              : math.subtract(ship.velVec, math.multiply(ship.velVec, (shipAcceleration/UPDATES_PER_SECOND)/math.length(ship.velVec)));
 
-            let newVelVecLength = math.length(newVelVec);
-
-            let shipMaxSpeed = ship.stats[ObjectInterfaces.EShipStatType.max_speed];
-            if(newVelVecLength > shipMaxSpeed) {
-              ship.velVec = math.multiply(newVelVec, shipMaxSpeed/newVelVecLength)
-            } else {
-              ship.velVec = newVelVec;
-            }
-
-            ship.x = ship.x + ship.velVec[0] / UPDATES_PER_SECOND;
-            ship.y = ship.y + ship.velVec[1] / UPDATES_PER_SECOND;
-            ship.meters_per_second = math.length(ship.velVec);
-          } else {
-            ship.meters_per_second = 0;
-            ship.velVec = [0, 0];
-          }
-        });
+          ship.x = ship.x + ship.velVec[0] / UPDATES_PER_SECOND;
+          ship.y = ship.y + ship.velVec[1] / UPDATES_PER_SECOND;
+          ship.meters_per_second = math.length(ship.velVec);
+        } else {
+          ship.meters_per_second = 0;
+          ship.velVec = [0, 0];
+        }
     }
 
     private handleAttackingShip(attackingShip : ObjectInterfaces.IShip) {

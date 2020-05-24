@@ -5,7 +5,6 @@ import { GameScene } from "../scenes/GameScene";
 import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
 import { Utils } from "../../../shared/scripts/Utils";
 
-
 export class Asteroid extends RadarDetectable {
 
     private asteroid_config : AsteroidData.IAsteroid;

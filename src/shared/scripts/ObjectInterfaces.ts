@@ -200,6 +200,9 @@ export module ObjectInterfaces {
         isMining : boolean,
         hasWeapon : boolean,
         hasMiningLaser : boolean,
+        isWarping : boolean,
+        warpDestination : Array<number>,
+        warpSource : Array<number>,
         targetId : number,
         destVec : Array<number>
         velVec : Array<number>

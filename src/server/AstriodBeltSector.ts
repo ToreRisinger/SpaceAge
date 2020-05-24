@@ -24,6 +24,8 @@ export class AsteroidBeltSector extends Sector {
     private asteroids : Map<number, AsteroidData.IAsteroid>;
 
     constructor(
+        sector_x : number,
+        sector_y : number,
         x : number, 
         y : number, 
         sectorName : string,
@@ -34,7 +36,7 @@ export class AsteroidBeltSector extends Sector {
         maxSize : number, 
         generationRate : number,
         maxNrOfAsteroids : number) {
-        super(x, y, sectorName, id);
+        super(sector_x, sector_y, x, y, sectorName, id);
         this.type = type;
         this.hardness = hardness;
         this.minSize = minSize;
@@ -76,8 +78,8 @@ export class AsteroidBeltSector extends Sector {
             hardness : this.hardness,
             size : Utils.getRandomNumber(this.minSize, this.maxSize),
             type : this.type,
-            x : Utils.getRandomNumber(0, 1000) + this.getX(),
-            y : Utils.getRandomNumber(0, 1000) + this.getY()
+            x : Utils.getRandomNumber(0, 1000),
+            y : Utils.getRandomNumber(0, 1000)
         }
 
         this.asteroids.set(asteroid.id, asteroid);

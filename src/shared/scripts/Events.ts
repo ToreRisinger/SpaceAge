@@ -3,6 +3,7 @@ import { GameObject } from "../../client/scripts/game_objects/GameObject";
 import { RadarDetectable } from "../../client/scripts/game_objects/RadarDetectable";
 import { AsteroidData } from "./AsteroidData";
 import { Sectors } from "./Sectors";
+import { Sector } from "../../client/scripts/game_objects/Sector";
 
 
 export module Events {
@@ -20,6 +21,7 @@ export module Events {
         ASTEROIDS_UPDATE_EVENT,
         CARGO_UPDATE_EVENT,
         GAME_OBJECT_DESTOYED_EVENT,
+        CHANGE_SECTOR_EVENT,
 
         //Chat events
         CLIENT_SEND_CHAT_MESSAGE_EVENT,
@@ -34,6 +36,8 @@ export module Events {
         PLAYER_START_MINING_EVENT,
         PLAYER_STOP_MINING_EVENT,
         PLAYER_CARGO_UPDATED_EVENT,
+        PLAYER_START_WARP_REQUEST_EVENT,
+        SECTOR_CHANGED_EVENT,
 
         //GameState changes events
         SPACE_SCENE_GAME_STATE_EVENT,
@@ -64,6 +68,18 @@ export module Events {
             cargo : ObjectInterfaces.ICargo,
             sectors : Array<Sectors.ISector>,
             clientSectorId : number
+        }
+    }
+
+    export interface CHANGE_SECTOR_EVENT_CONFIG extends GameEvent {
+        data : {
+            clientSectorId : number
+        }
+    }
+
+    export interface SECTOR_CHANGED_EVENT_CONFIG extends GameEvent {
+        data : {
+            
         }
     }
 
@@ -126,6 +142,12 @@ export module Events {
 
     export interface PLAYER_CARGO_UPDATED_EVENT_CONFIG extends GameEvent {
         data : {}
+    }
+
+    export interface PLAYER_START_WARP_REQUEST_EVENT_CONFIG extends GameEvent {
+        data : {
+            targetId : number
+        }
     }
 
     export interface PLAYER_DISCONNECTED_EVENT_CONFIG extends GameEvent {

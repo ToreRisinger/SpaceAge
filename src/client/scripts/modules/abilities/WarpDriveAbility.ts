@@ -83,18 +83,17 @@ export class WarpDriveAbility extends Ability {
     }
 
     private startWarpDrive() {
-        /*
-        if(GlobalData.targetObject != undefined) {
+        if(this.shouldBeEnabled()) {
             this.setState(EAbilityState.ACTIVATED);
-            let newEvent : Events.PLAYER_START_MINING_EVENT_CONFIG = {
-                eventId : Events.EEventType.PLAYER_START_MINING_EVENT,
+            let newEvent : Events.PLAYER_START_WARP_REQUEST_EVENT_CONFIG = {
+                eventId : Events.EEventType.PLAYER_START_WARP_REQUEST_EVENT,
                 data : {
-                    targetId : GlobalData.targetObject.getGameObjectData().id
+                    //@ts-ignore
+                    targetId : GlobalData.selectedObject.getGameObjectData().id
                 }
             }
             EventHandler.pushEvent(newEvent);
         } 
-        */
     }
 
     private shouldBeEnabled() {
