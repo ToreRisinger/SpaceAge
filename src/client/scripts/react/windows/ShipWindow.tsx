@@ -88,9 +88,14 @@ export default class ShipWindow extends React.Component<ShipWindowProps, ShipWin
                             <pre>Mining laser strength:       {ship ? ship.stats[ObjectInterfaces.EShipStatType.mining_laser_strength] : "N/A"}</pre>
                             <pre>Mining laser range:          {ship ? ship.stats[ObjectInterfaces.EShipStatType.mining_laser_range] : "N/A"} m</pre>    
                         </div> 
-                        <div id="ship_window_right_section">
-                            <ShipDisplay/>
-                        </div>  
+                        {ship ?
+                            <div id="ship_window_right_section">
+                                <ShipDisplay modules={ship.modules}/>
+                            </div>  
+                            :
+                            <div id="ship_window_right_section"></div> 
+                        }
+                        
                     </div>
                 }
             </Fragment>

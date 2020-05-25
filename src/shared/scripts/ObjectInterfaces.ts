@@ -189,6 +189,12 @@ export module ObjectInterfaces {
         y : number
     }
 
+    export interface IShipModuleInstance {
+        moduleItem: Items.IItem, 
+        x : number, 
+        y : number
+    }
+
     /**
      * SHIP
      */
@@ -206,7 +212,7 @@ export module ObjectInterfaces {
         targetId : number,
         destVec : Array<number>
         velVec : Array<number>
-        modules : Array<{ moduleItem: Items.IItem, x : number, y : number }>
+        modules : Array<IShipModuleInstance>
         stats : {
             [EShipStatType.acceleration] : number,
             [EShipStatType.max_speed] : number,

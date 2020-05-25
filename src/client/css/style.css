@@ -116,6 +116,7 @@ body {
     padding-top: 15px;
     padding-left: 25px;
     padding-right: 25px;
+    padding-bottom: 25px;
     left: 50px;
     top: 0px;
     right: 0px;
@@ -126,7 +127,7 @@ body {
 }
 
 #ship_window {
-    text-align: center;
+   
 }
 
 #map_window {
@@ -153,19 +154,34 @@ body {
 
 #ship_window_left_section {
     height: 100%;
-    width: 25%;
-    display: inline-block;
+    float: left;
+    width: 30%;
+    
 }
 
 #ship_window_right_section {
     height: 100%;
-    width: 75%;
-    display: inline-block;
+    width: 70%;
+    margin-left: 30%;
 }
 
-#ship_display {
-    width: 100%;
-    height: 100%;
+#ship_display_container {
+    display: grid;
+    z-index: inherit;
+    grid-gap: 2px 2px;
+    overflow-y: scroll;
+    overflow-x: scroll;
+    border: 1px solid rgb(40, 40, 40);
+    background-color: rgba(0, 0, 0, 0);
+    width: 80%;
+    height: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+#ship_display_container::-webkit-scrollbar-thumb {
+    border: 1px solid rgb(199, 199, 199);
+    margin-left: 2px;
 }
 
 /*
@@ -454,14 +470,16 @@ body {
     visibility:visible;
 }
 
+.CargoItem .ItemToolTipWrapper:hover {
+    visibility:hidden;
+}
+
 .ItemToolTipWrapper {
-    position: absolute;
+    position: fixed;
     visibility: hidden;
     z-index: 25;
     border: 1px solid rgb(40, 40, 40);
-    background-color: rgba(0, 0, 0, 0.6);
-    right: 302px;
-    top: 0%;
+    background-color: rgba(0, 0, 0, 1.0);
     width: 300px;
     padding: 4px;
 }
@@ -687,6 +705,7 @@ body {
 /* width */
 ::-webkit-scrollbar {
     width: 8px;
+    height: 8px;
 }
 
 /* Track */
@@ -696,7 +715,7 @@ body {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.0);
+    background: rgba(100, 100, 100, 1.0);
     border: none;
 }
 

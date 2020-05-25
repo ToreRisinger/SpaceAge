@@ -1,19 +1,36 @@
-import React, { Fragment } from "react";
+import React, { Fragment, MouseEvent } from "react";
 import { Items } from "../../../../../shared/scripts/Items";
 import ItemToolTipModuleAttributes from "./ItemToolTipModuleAttributes";
 
 export interface CargoItemProps { item : Items.IItem }
+export interface CargoItemState { mouseX : number, mouseY : number }
 
-export default class CargoItem extends React.Component<CargoItemProps, {}> {
+export default class CargoItem extends React.Component<CargoItemProps, CargoItemState> {
 
-   constructor(props : CargoItemProps) {
+    constructor(props : CargoItemProps) {
       super(props)
-   }
+      this.state = {
+        mouseX : 0,
+        mouseY : 0
+      }
+      this.onMouseMove = this.onMouseMove.bind(this);
+    }
 
-   render() {
+    private onMouseMove: { (event: MouseEvent): void } = (event: MouseEvent) => {
+        this.setState({mouseX: event.pageX - event.nativeEvent.offsetX, mouseY: event.pageY - event.nativeEvent.offsetY});
+    }
+
+    render() {
+        const styles = {
+            top : this.state.mouseY - 50,
+            left : this.state.mouseX - 320
+        }
+
+        console.log(styles);
+        
         let itemInfo : Items.IItemInfo = Items.getItemInfo(this.props.item.itemType);
         return (
-            <div className="CargoItem Unselectable">
+            <div className="CargoItem Unselectable" onMouseMove={this.onMouseMove}>
                 <img className="CargoItemImage" src={itemInfo.image}/>
 
                 {itemInfo.canStack &&
@@ -21,7 +38,7 @@ export default class CargoItem extends React.Component<CargoItemProps, {}> {
                         <div className="CargoItemStockLabel">{this.props.item.quantity}</div>
                     </div>     
                 }
-                <div className="ItemToolTipWrapper">
+                <div className="ItemToolTipWrapper" style={styles}>
                     <span className="ItemToolTipContainer Unselectable">
                         <div className="ItemToolTipTitle">{itemInfo.name}</div>
                         <hr></hr>

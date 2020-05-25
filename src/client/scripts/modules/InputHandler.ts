@@ -1,7 +1,4 @@
 import { GameScene } from "../scenes/GameScene";
-import { GlobalData } from "./GlobalData";
-import { Events } from "../../../shared/scripts/Events";
-import { EventHandler } from "./EventHandler";
 
 export module InputHandler {
 
