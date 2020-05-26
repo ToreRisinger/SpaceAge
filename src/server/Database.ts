@@ -2,8 +2,32 @@ import { ObjectInterfaces } from "../shared/scripts/ObjectInterfaces";
 import { IdHandler } from "./IdHandler";
 import { ItemFactory } from "./ItemFactory";
 import { Items } from "../shared/scripts/Items";
+import { connect } from "http2";
+import { Utils } from "../shared/scripts/Utils";
+
+const MongoClient = require('mongodb').MongoClient
+const url = 'mongodb://127.0.0.1:27017'
+const dbName = 'space-age-test'
 
 export module Database {
+
+    let db;
+
+    export function startDb() {
+      //@ts-ignore
+      MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
+        console.log(`Connecting to database...`)
+        if (err) {
+          console.log("Failed: " + err)
+          return;
+        }
+      
+        // Storing a reference to the database so you can use it later
+        db = client.db(dbName)
+        console.log(`Connected MongoDB: ${url}`)
+        console.log(`Database: ${dbName}`)
+      })
+    }
 
     export function getPlayerId(username : string) {
       return IdHandler.getNewPlayerId();
@@ -163,5 +187,4 @@ export module Database {
       newShip.properties.currentHull = newShip.stats[ObjectInterfaces.EShipStatType.hull];
       return newShip;
     }
-
 }

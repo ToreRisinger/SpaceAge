@@ -1,0 +1,10 @@
+build/index.js
+build/public/bundle*
+build/public/css
+build/public/index.html
+build/server/
+js-src
+node_modules
+package-lock.json
+build/shared
+build/public/phaser.js

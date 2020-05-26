@@ -34,4 +34,8 @@ export module Utils {
     export function vec2Length(vec2 : Array<number>) {
         return Math.sqrt((vec2[0] * vec2[0]) + (vec2[1] * vec2[1]));
     };
+
+    export async function delay(ms: number) {
+        await new Promise(resolve => setTimeout(()=>resolve(), ms));
+    }
 }

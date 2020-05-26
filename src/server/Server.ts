@@ -10,17 +10,17 @@ const math = require('mathjs');
 math.length = function vec2Length(vec2 : Array<number>) {
     return Math.sqrt((vec2[0] * vec2[0]) + (vec2[1] * vec2[1]));
 };
-  
+
+const UPDATES_PER_SECOND : number = 25;
 export module Server {
-
-    let io : any;
     /* Globals */
-
-    let UPDATES_PER_SECOND : number = 25;
-
+    let io : any;
     let sectorHandler : SectorHandler;
 
     export function start(server : any) {
+      console.log('Server started')
+      Database.startDb();
+
       sectorHandler = new SectorHandler();
       
       server.listen(8081, function () {
