@@ -1,32 +1,36 @@
-import { ObjectInterfaces } from "../shared/scripts/ObjectInterfaces";
-import { IdHandler } from "./IdHandler";
-import { ItemFactory } from "./ItemFactory";
-import { Items } from "../shared/scripts/Items";
-import { connect } from "http2";
-import { Utils } from "../shared/scripts/Utils";
+import { IdHandler } from "./../IdHandler";
+import { ItemFactory } from "./../ItemFactory";
+import { ObjectInterfaces } from "../../shared/scripts/ObjectInterfaces";
+import { Items } from "./../../shared/scripts/Items";
+import UserModel from "./models/user.model";
 
-const MongoClient = require('mongodb').MongoClient
-const url = 'mongodb://127.0.0.1:27017'
+const mongoose = require('mongoose')
 const dbName = 'space-age-test'
+const url = 'mongodb://127.0.0.1:27017/' + dbName
 
 export module Database {
 
     let db;
 
     export function startDb() {
-      //@ts-ignore
-      MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
-        console.log(`Connecting to database...`)
-        if (err) {
-          console.log("Failed: " + err)
-          return;
-        }
-      
-        // Storing a reference to the database so you can use it later
-        db = client.db(dbName)
-        console.log(`Connected MongoDB: ${url}`)
-        console.log(`Database: ${dbName}`)
+      db = mongoose.connection
+      db.once('open', (_: any) => {
+        console.log('Database connected:', url)
       })
+      
+      db.on('error', (err: any) => {
+        console.error('connection error:', err)
+      })
+
+      mongoose.connect(url, {
+        useUnifiedTopology : true,
+        useNewUrlParser: true
+      });
+    }
+
+    export function newUser(newUsername: String) {
+      const u = new UserModel({username : newUsername});
+      u.save();
     }
 
     export function getPlayerId(username : string) {

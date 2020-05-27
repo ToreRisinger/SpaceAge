@@ -17,6 +17,7 @@
 -npm install --save react react-dom
 -npm install --save-dev @types/react @types/react-dom
 -npm install mongoose --save
+-npm install @types/mongoose
 -Open VS Code
 -Drag git folder into VS code
 -Terminal -> new Terminal

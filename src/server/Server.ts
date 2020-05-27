@@ -1,9 +1,8 @@
 import { ObjectInterfaces } from "../shared/scripts/ObjectInterfaces";
 import { Events } from "../shared/scripts/Events";
-import { Database } from "./Database";
+import { Database } from "./database/Database";
 import { PacketFactory } from "./PacketFactory"
 import { SectorHandler } from "./SectorHandler";
-import { Sector } from "./Sector";
 
 const math = require('mathjs');
 
@@ -20,7 +19,7 @@ export module Server {
     export function start(server : any) {
       console.log('Server started')
       Database.startDb();
-
+    
       sectorHandler = new SectorHandler();
       
       server.listen(8081, function () {
@@ -36,26 +35,7 @@ export module Server {
     function setupOnConnection() {
         //@ts-ignore
         io.on('connection', function (socket) {
-          let newPlayer : ObjectInterfaces.IPlayer = Database.getPlayer(Database.getPlayerId("toreman"), socket);
-          let playerShipSector = Database.getPlayerShipLocation(newPlayer.playerId);
-          console.log('a user connected: ' + newPlayer.ship.id);
-
-          sectorHandler.addPlayerToSector(newPlayer, playerShipSector.sector_x, playerShipSector.sector_y);
-          let sector = sectorHandler.getSectorOfPlayer(newPlayer);
-          //@ts-ignore
-          let sectorId = sector.getId();
-          
-          socket.emit('ServerEvent', PacketFactory.createPlayerLoadEventPacket(newPlayer, sectorHandler.getSectors(), sectorId));
-          sendServerMessage(newPlayer, "Welcome to SpaceAge!");
-
-          socket.on('disconnect', function () {
-            console.log('user disconnected: ' + newPlayer.ship.id);
-            sectorHandler.removePlayerFromSector(newPlayer);
-          });
-      
-          socket.on('ClientEvent', function(event : Events.GameEvent){
-            handleClientEvent(newPlayer, event);
-          });
+          onConnection(socket);
         });
     }
 
@@ -64,7 +44,38 @@ export module Server {
       setInterval(update1000ms, 1000);
     }
 
-    //Server functions
+    //@ts-ignore
+    function onConnection(socket) {
+      let newPlayer : ObjectInterfaces.IPlayer = Database.getPlayer(Database.getPlayerId("toreman"), socket);
+      let playerShipSector = Database.getPlayerShipLocation(newPlayer.playerId);
+      console.log('a user connected: ' + newPlayer.ship.id);
+
+      sectorHandler.addPlayerToSector(newPlayer, playerShipSector.sector_x, playerShipSector.sector_y);
+      let sector = sectorHandler.getSectorOfPlayer(newPlayer);
+      //@ts-ignore
+      let sectorId = sector.getId();
+      
+      sendLoadEvent(newPlayer, sectorId);
+      sendServerMessage(newPlayer, "Welcome to SpaceAge!");
+
+      socket.on('disconnect', function () {
+        onDisconnect(newPlayer);
+      });
+  
+      socket.on('ClientEvent', function(event : Events.GameEvent){
+        onClientEvent(newPlayer, event);
+      });
+    }
+
+    function onDisconnect(player: ObjectInterfaces.IPlayer) {
+      console.log('user disconnected: ' + player.ship.id);
+      sectorHandler.removePlayerFromSector(player);
+    }
+
+    function onClientEvent(player: ObjectInterfaces.IPlayer, event: Events.GameEvent) {
+      handleClientEvent(player, event);
+    }
+
     function update40ms() {
       sectorHandler.update40ms();
     }
@@ -134,7 +145,6 @@ export module Server {
 
     function stopAttacking(ship : ObjectInterfaces.IShip) {
       ship.isAttacking = false;
-      //ship.targetId = -1;
     }
 
     function startAttacking(ship : ObjectInterfaces.IShip, targetId : number) {
@@ -203,5 +213,9 @@ export module Server {
         }
       }
       player.socket.emit("ServerEvent", packet);  
+    }
+
+    function sendLoadEvent(player : ObjectInterfaces.IPlayer, sectorId: number) {
+      player.socket.emit('ServerEvent', PacketFactory.createPlayerLoadEventPacket(player, sectorHandler.getSectors(), sectorId));
     }
 }

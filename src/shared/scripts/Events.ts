@@ -4,6 +4,7 @@ import { RadarDetectable } from "../../client/scripts/game_objects/RadarDetectab
 import { AsteroidData } from "./AsteroidData";
 import { Sectors } from "./Sectors";
 import { Sector } from "../../client/scripts/game_objects/Sector";
+import { EGameState } from "./EGameState";
 
 
 export module Events {
@@ -40,7 +41,8 @@ export module Events {
         SECTOR_CHANGED_EVENT,
 
         //GameState changes events
-        SPACE_SCENE_GAME_STATE_EVENT,
+        SPACE_SCENE_GAME_STATE_EVENT, //TODO remove
+        GAME_STATE_CHANGE,
 
         //Input
         MOUSE_PRESSED_EVENT,
@@ -60,6 +62,12 @@ export module Events {
     export interface GameEvent {
         eventId : EEventType,
         data : any
+    }
+
+    export interface GAME_STATE_CHANGED extends GameEvent {
+        data : {
+            gameState : EGameState
+        }
     }
 
     export interface INITAL_GAME_LOAD_EVENT_CONFIG extends GameEvent {

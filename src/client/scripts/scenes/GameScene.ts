@@ -1,23 +1,12 @@
 import { CONSTANTS } from "../constants/CONSTANTS";
-import { GameObjectHandler } from "../modules/GameObjectHandler"
-import { EventHandler } from "../modules/EventHandler"
-import { Chat } from "../modules/Chat";
 import { Camera } from "../modules/Camera";
-import { Background } from "../modules/Background";
 import { SPRITES } from "../../../shared/scripts/SPRITES";
-import { Graphics } from "../modules/Graphics";
-import { Com } from "../modules/Com";
-import { GameStates } from "../modules/GameStates";
-import { GUI } from "../modules/GUI";
-import { InputHandler } from "../modules/InputHandler";
-import { SelectionHandler } from "../modules/SelectionHandler";
-import { AbilityHandler } from "../modules/abilities/AbilityHandler";
-import { threadId } from "worker_threads";
-import { TargetHandler } from "../modules/TargetHandler";
+import { GameController } from "../modules/GameController";
 
 export class GameScene extends Phaser.Scene {
     
     private static _instance : GameScene;
+    private gameController : GameController = new GameController();
 
     constructor() {
         super({
@@ -42,36 +31,14 @@ export class GameScene extends Phaser.Scene {
 
     create() {
         this.createAnimations();
-
-        EventHandler.init();
-        AbilityHandler.init();
-        SelectionHandler.init();
-        TargetHandler.init();
-        Background.init();
-        InputHandler.init();
-        GameStates.init();
-        GameObjectHandler.init();
-        Chat.init(); 
-        Camera.init();
-        Graphics.init();
-        Com.init();
-        GUI.init();
+        this.gameController = new GameController();
+        this.gameController.init();
         
         this.scale.on('resize', this.resize, this);
     }
 
     update(time : number, delta : number) { //delta 16.666 @ 60fps
-        InputHandler.update(time, delta);
-        SelectionHandler.update(time, delta);
-        TargetHandler.update(time, delta);
-        EventHandler.update(time, delta);
-        AbilityHandler.update(time, delta);
-        Camera.update(time, delta);
-        GameObjectHandler.update(time, delta);   
-        Background.update(time, delta);
-        Graphics.update(time, delta);
-        GUI.update(time, delta);
-        Chat.update(time, delta);
+        this.gameController.update(time, delta);
     }
 
     addSprite(x : number, y : number, sprite : string) {
