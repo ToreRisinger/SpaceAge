@@ -1,9 +1,10 @@
 import { GameScene } from "../scenes/GameScene";
 import { GameObject } from "../game_objects/GameObject";
-import { GlobalData } from "./GlobalData";
 import { EventHandler } from "./EventHandler";
 import { Events } from "../../../shared/scripts/Events";
 import { InputHandler } from "./InputHandler";
+import { GlobalDataService } from "./GlobalDataService";
+import { Ship } from "../game_objects/Ship";
 
 export module Camera {
 
@@ -18,6 +19,7 @@ export module Camera {
     let currentZoom : number;
     let maxZoom : number;
     let minZoom : number;
+    let initialized : boolean = false;
 
     export function init() {
         camera = GameScene.getInstance().cameras.cameras[0];
@@ -31,6 +33,7 @@ export module Camera {
         currentZoom = CAMERA_MIN_ZOOM;
         minZoom = CAMERA_MIN_ZOOM;
         maxZoom = Math.pow(2, CAMERA_MAX_ZOOM);
+        initialized = true;
     }
 
     export function update(time : number, delta : number) {
@@ -40,30 +43,31 @@ export module Camera {
             zoom(1 - 2 / (1000 / delta));
         }
 
+        let globalDataService = GlobalDataService.getInstance();
         centerOnPlayer();
-        GlobalData.cameraX = x;
-        GlobalData.cameraY = y;
+        globalDataService.setCameraX(x);
+        globalDataService.setCameraY(y);
 
-        GlobalData.cameraZoom = currentZoom;
-        GlobalData.cameraWidth = width * currentZoom;
-        GlobalData.cameraHeight = height * currentZoom;  
+        globalDataService.setCameraZoom(currentZoom);
+        globalDataService.setCameraWidth(width * currentZoom);
+        globalDataService.setCameraHeight(height * currentZoom);  
     }
 
     export function setSize(w : number, h : number) {
-        camera.width = w;
-        width = camera.width;
-        camera.height = h;
-        height = camera.height;
-        centerOnPlayer();
+        if(initialized) {
+            camera.width = w;
+            width = camera.width;
+            camera.height = h;
+            height = camera.height;
+            centerOnPlayer();
+        }
     }
 
     function centerOnPlayer() {
-        let ship : GameObject | undefined =  GlobalData.playerShip;
-        if(ship != undefined){
-            x = ship.getPos().x;
-            y = ship.getPos().y;
-            camera.centerOn(x, y);
-        } 
+        let ship : Ship = GlobalDataService.getInstance().getPlayerShip();
+        x = ship.getPos().x;
+        y = ship.getPos().y;
+        camera.centerOn(x, y);
     }
 
     function zoom(zoom : number) {
@@ -97,8 +101,9 @@ export module Camera {
     }
 
     function updateZoom() {
-        GlobalData.cameraZoom = currentZoom;
-        GlobalData.cameraWidth = width * currentZoom;
-        GlobalData.cameraHeight = height * currentZoom;  
+        let globalDataService = GlobalDataService.getInstance();
+        globalDataService.setCameraZoom(currentZoom);
+        globalDataService.setCameraWidth(width * currentZoom);
+        globalDataService.setCameraHeight(height * currentZoom);  
     }
 }

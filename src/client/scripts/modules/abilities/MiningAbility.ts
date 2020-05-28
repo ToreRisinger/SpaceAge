@@ -1,10 +1,10 @@
 import { Ability } from "./Ability";
-import { GlobalData } from "../GlobalData";
 import { EAbilityState } from "./EAbilityState";
 import { Ship } from "../../game_objects/Ship";
 import { Events } from "../../../../shared/scripts/Events";
 import { EventHandler } from "../EventHandler";
 import { Asteroid } from "../../game_objects/Asteroid";
+import { GlobalDataService } from "../GlobalDataService";
 
 export class MiningAbility extends Ability {
 
@@ -55,32 +55,34 @@ export class MiningAbility extends Ability {
     }
 
     private calculateState() {
+        let targetObject = GlobalDataService.getInstance().getTargetObject();
         switch(this.getState()) {
             case EAbilityState.ACTIVATED : 
-                if(GlobalData.targetObject == undefined) {
+                if(targetObject == undefined) {
                     this.setState(EAbilityState.DISABLED);
                     this.stopMining();
                 }
                 break;
             case EAbilityState.DISABLED :
-                if(GlobalData.targetObject != undefined && GlobalData.targetObject instanceof Asteroid) {
+                if(targetObject != undefined && targetObject instanceof Asteroid) {
                     this.setState(EAbilityState.ENABLED);
                 }
                 break;
             case EAbilityState.ENABLED :
-                if(GlobalData.targetObject == undefined) {
+                if(targetObject == undefined) {
                     this.setState(EAbilityState.DISABLED);
                 }
         }
     }
 
     private startMining() {
-        if(GlobalData.targetObject != undefined) {
+        let targetObject = GlobalDataService.getInstance().getTargetObject();
+        if(targetObject != undefined) {
             this.setState(EAbilityState.ACTIVATED);
             let newEvent : Events.PLAYER_START_MINING_EVENT_CONFIG = {
                 eventId : Events.EEventType.PLAYER_START_MINING_EVENT,
                 data : {
-                    targetId : GlobalData.targetObject.getGameObjectData().id
+                    targetId : targetObject.getGameObjectData().id
                 }
             }
             EventHandler.pushEvent(newEvent);

@@ -13,7 +13,6 @@ export class SectorHandler {
     private sectors : Map<string, Sector>;
     private SECTOR_COORD_TO_MAP_COORD : number = 10000000;
 
-    //private playersToSectorMap :  Map<number, {x : number, y : number}>;
     private playersToSectorMap :  Map<number, Sector>;
 
     private warpingPlayers : Map<number, {

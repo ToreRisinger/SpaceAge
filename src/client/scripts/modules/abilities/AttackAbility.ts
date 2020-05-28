@@ -1,9 +1,9 @@
 import { Ability } from "./Ability";
-import { GlobalData } from "../GlobalData";
 import { EAbilityState } from "./EAbilityState";
 import { Ship } from "../../game_objects/Ship";
 import { Events } from "../../../../shared/scripts/Events";
 import { EventHandler } from "../EventHandler";
+import { GlobalDataService } from "../GlobalDataService";
 
 export class AttackAbility extends Ability {
 
@@ -54,32 +54,34 @@ export class AttackAbility extends Ability {
     }
 
     private calculateState() {
+        let targetObject = GlobalDataService.getInstance().getTargetObject();
         switch(this.getState()) {
             case EAbilityState.ACTIVATED : 
-                if(GlobalData.targetObject == undefined) {
+                if(targetObject == undefined) {
                     this.setState(EAbilityState.DISABLED);
                     this.stopAttack();
                 }
                 break;
             case EAbilityState.DISABLED :
-                if(GlobalData.targetObject != undefined && GlobalData.targetObject instanceof Ship) {
+                if(targetObject != undefined && targetObject instanceof Ship) {
                     this.setState(EAbilityState.ENABLED);
                 }
                 break;
             case EAbilityState.ENABLED :
-                if(GlobalData.targetObject == undefined) {
+                if(targetObject == undefined) {
                     this.setState(EAbilityState.DISABLED);
                 }
         }
     }
 
     private startAttack() {
-        if(GlobalData.targetObject != undefined) {
+        let targetObject = GlobalDataService.getInstance().getTargetObject();
+        if(targetObject != undefined) {
             this.setState(EAbilityState.ACTIVATED);
             let newEvent : Events.PLAYER_START_ATTACKING_EVENT_CONFIG = {
                 eventId : Events.EEventType.PLAYER_START_ATTACKING_EVENT,
                 data : {
-                    targetId : GlobalData.targetObject.getGameObjectData().id
+                    targetId : targetObject.getGameObjectData().id
                 }
             }
             EventHandler.pushEvent(newEvent);

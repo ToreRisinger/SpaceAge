@@ -7,23 +7,107 @@ import Chat from "./mainComponents/ChatWindow";
 import CargoPanel from "./mainComponents/cargo/CargoPanel";
 import RulerPanel from "./mainComponents/RulerPanel";
 import AbilityPanel from "./mainComponents/AbilityPanel";
+import { EventHandler } from "../modules/EventHandler";
+import { Events } from "../../../shared/scripts/Events";
+import { EGameState } from "../../../shared/scripts/EGameState";
+import LoginPage from "./mainComponents/login/LoginPage";
+import LoginInput from "./mainComponents/login/LoginInput";
 
-export default class App extends React.Component {
+export interface AppState { gameState : EGameState; }
+
+export default class App extends React.Component<{}, AppState> {
+    
+    private eventHandlerWaitTimer : ReturnType<typeof setTimeout> | undefined;
+    
     constructor(props : Ship) {
         super(props);
+        this.state = {
+            gameState : EGameState.LOGIN
+        }
+        this.eventHandlerWaitTimer = undefined;
+        this.eventHandlerRegistration = this.eventHandlerRegistration.bind(this);
+        this.onGameStateChange = this.onGameStateChange.bind(this);
     }
- 
-    render() {
-        return (
-            <Fragment>
-                <BottomPanel/>
-                <SideMenu/>
-                <Chat/>
-                <NavigationPanel/>
-                <CargoPanel/>
-                <RulerPanel/>
-                <AbilityPanel/>
-            </Fragment>
+
+    componentDidMount() {
+        this.eventHandlerWaitTimer = setInterval(
+           () => this.eventHandlerRegistration(),
+           1000
         );
     }
-   }
+    
+    componentWillUnmount() {
+        
+    }
+
+    onGameStateChange(event : Events.GAME_STATE_CHANGED) {
+        this.setState({
+            gameState : event.data.gameState
+        })
+    }
+
+    eventHandlerRegistration() {
+        if(EventHandler.isInitialized()) {
+           EventHandler.on(Events.EEventType.GAME_STATE_CHANGE, this.onGameStateChange)
+           
+           if(this.eventHandlerWaitTimer != undefined) {
+              clearInterval(this.eventHandlerWaitTimer);
+          }
+        }
+    }
+ 
+    getElements(gameState : EGameState) {
+        switch(gameState) { 
+            case EGameState.LOGIN : {
+                return (
+                    <Fragment>
+                        <LoginInput/>
+                    </Fragment>
+                )
+            }
+            case EGameState.LOGGING_IN_LOADING: {
+                return (
+                    <Fragment>
+                        
+                    </Fragment>
+                ) 
+            } 
+            case EGameState.CHARACTER_SELECTION: { 
+                return (
+                    <Fragment>
+                        
+                    </Fragment>
+                )
+            }
+            case EGameState.LOADING_GAME: { 
+                return (
+                    <Fragment>
+
+                    </Fragment>
+                )
+            }
+            case EGameState.IN_SPACE: {
+                return (
+                    <Fragment>
+                        <BottomPanel/>
+                        <SideMenu/>
+                        <Chat/>
+                        <NavigationPanel/>
+                        <CargoPanel/>
+                        <RulerPanel/>
+                        <AbilityPanel/>
+                    </Fragment>
+                ) 
+            }
+            default: { 
+               break; 
+            } 
+        } 
+    }
+
+    render() {
+        return (
+            this.getElements(this.state.gameState)
+        )
+    }
+}

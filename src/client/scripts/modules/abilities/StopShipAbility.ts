@@ -1,9 +1,9 @@
 import { Ability } from "./Ability";
-import { GlobalData } from "../GlobalData";
 import { Ship } from "../../game_objects/Ship";
 import { EAbilityState } from "./EAbilityState";
 import { Events } from "../../../../shared/scripts/Events";
 import { EventHandler } from "../EventHandler";
+import { GlobalDataService } from "../GlobalDataService";
 
 export class StopShipAbility extends Ability {
 
@@ -28,7 +28,8 @@ export class StopShipAbility extends Ability {
     }
 
     private calculateState() { 
-        if(GlobalData.playerShip != undefined && GlobalData.playerShip.getShipData().hasDestination) {
+        let playerShip = GlobalDataService.getInstance().getPlayerShip();
+        if(playerShip != undefined && playerShip.getShipData().hasDestination) {
             this.setState(EAbilityState.ENABLED);
         } else {
             this.setState(EAbilityState.DISABLED);

@@ -1,8 +1,8 @@
 import React, { Fragment }  from "react";
 import WindowHeader from "./WindowHeader";
-import { GlobalData } from "./../../modules/GlobalData";
 import { ObjectInterfaces } from "./../../../../shared/scripts/ObjectInterfaces";
 import ShipDisplay from "./ShipDisplay";
+import { GlobalDataService } from "../../modules/GlobalDataService";
 
 export interface ShipWindowProps {
     window_open: boolean
@@ -17,7 +17,7 @@ export default class ShipWindow extends React.Component<ShipWindowProps, ShipWin
     constructor(props : ShipWindowProps) {
         super(props)
         this.state = {
-            ship: GlobalData.getPlayerShipData()
+            ship: GlobalDataService.getInstance().getPlayerShip().getShipData()
         }
         this.timerID = undefined;
     }
@@ -37,7 +37,7 @@ export default class ShipWindow extends React.Component<ShipWindowProps, ShipWin
     
     tick() {
         this.setState({
-            ship: GlobalData.getPlayerShipData()
+            ship: GlobalDataService.getInstance().getPlayerShip().getShipData()
         });
     }
 

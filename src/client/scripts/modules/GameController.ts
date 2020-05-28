@@ -4,38 +4,81 @@ import { SelectionHandler } from "./SelectionHandler";
 import { TargetHandler } from "./TargetHandler";
 import { Background } from "./Background";
 import { InputHandler } from "./InputHandler";
-import { GameStateController } from "./GameStateController";
 import { GameObjectHandler } from "./GameObjectHandler";
 import { Chat } from "./Chat";
 import { Camera } from "./Camera";
 import { Graphics } from "./Graphics";
 import { Com } from "./Com";
 import { GUI } from "./GUI";
-
+import { Events } from "../../../shared/scripts/Events";
+import { EGameState } from "../../../shared/scripts/EGameState";
+import { CharacterListProvider } from "./CharacterListProvider";
+import { GlobalDataService } from "./GlobalDataService";
+import { ObjectInterfaces } from "../../../shared/scripts/ObjectInterfaces";
+import { Sectors } from "../../../shared/scripts/Sectors";
+import { Sector } from "../game_objects/Sector";
+import { Ship } from "../game_objects/Ship";
 
 export class GameController {
 
+    private gameState : EGameState;
+    private updateFunction : (time : number, delta : number) => void = this.loginStateUpdate;
+
     constructor() {
-        
+        this.gameState = EGameState.LOGIN
+        this.changeGameState = this.changeGameState.bind(this);
     }
 
     public init() {
         EventHandler.init();
+        Com.init();
+        this.subscribeToEvents()
+    }
+
+    public inSpaceStateInit(ship : ObjectInterfaces.IShip, cargo : ObjectInterfaces.ICargo, sectors : Array<Sectors.ISector>, clientSectorId: number) {
+        GameObjectHandler.init(ship, cargo, sectors);
+        //@ts-ignore
+        let sector : Sector = GameObjectHandler.getGameObjectsMap().get(clientSectorId);
+        //@ts-ignore
+        let playerShip : Ship = GameObjectHandler.getPlayerShip();
+        GlobalDataService.createInstance("username", playerShip, sector);
+
         AbilityHandler.init();
         SelectionHandler.init();
         TargetHandler.init();
         Background.init();
         InputHandler.init();
-        GameStateController.init();
-        GameObjectHandler.init();
         Chat.init(); 
         Camera.init();
         Graphics.init();
-        Com.init();
         GUI.init();
     }
 
+    public getGameState() : EGameState {
+        return this.gameState;
+    }
+
     public update(time : number, delta : number) {
+        this.updateFunction(time, delta);
+    }
+
+    private loginStateUpdate(time : number, delta : number) {
+        EventHandler.update(time, delta);
+    }
+
+    private loggingInStateUpdate(time : number, delta : number) {
+        EventHandler.update(time, delta);
+    }
+
+    private characterSelectionStateUpdate(time : number, delta : number) {
+        EventHandler.update(time, delta);
+    }
+
+    private loadingGameStateUpdate(time : number, delta : number) {
+        EventHandler.update(time, delta);
+    }
+
+    private inSpaceUpdate(time : number, delta : number) {
         InputHandler.update(time, delta);
         SelectionHandler.update(time, delta);
         TargetHandler.update(time, delta);
@@ -58,5 +101,71 @@ export class GameController {
         Graphics.update(time, delta);
         GUI.update(time, delta);
         Chat.update(time, delta);
+    }
+
+    private onGameStateChange(event : Events.GAME_STATE_CHANGED) {
+        switch(event.data.gameState) { 
+            case EGameState.LOGGING_IN_LOADING: {
+                this.updateFunction = this.loggingInStateUpdate;
+                break; 
+            } 
+            case EGameState.CHARACTER_SELECTION: { 
+                this.updateFunction = this.characterSelectionStateUpdate;
+                break; 
+            }
+            case EGameState.LOADING_GAME: { 
+                this.updateFunction = this.loadingGameStateUpdate;
+                break; 
+            }
+            case EGameState.IN_SPACE: {
+                this.updateFunction = this.inSpaceUpdate;
+                break; 
+            }
+            default: { 
+               break; 
+            } 
+        } 
+    }
+
+    private changeGameState(state : EGameState) {
+        this.gameState = state;
+        this.triggerGameStateChangeEvent();
+    }
+
+    private triggerGameStateChangeEvent() {
+        let event : Events.GAME_STATE_CHANGED = {
+            eventId : Events.EEventType.GAME_STATE_CHANGE,
+            data : {
+                gameState : this.gameState
+            }
+        }
+        EventHandler.pushEvent(event);
+    }
+
+    private onClientLoginReq(event : Events.CLIENT_LOGIN_REQ) {
+        this.changeGameState(EGameState.LOGGING_IN_LOADING);
+    }
+
+    private onServerLoginAck(event : Events.SERVER_LOGIN_ACK) {
+        CharacterListProvider.createInstance(event.data.characters);
+        this.changeGameState(EGameState.CHARACTER_SELECTION);
+    }
+
+    private onClientJoinReq(event : Events.CLIENT_JOIN_REQ) {
+        this.changeGameState(EGameState.LOADING_GAME);
+    }
+
+    private onServerJoinAck(event : Events.SERVER_JOIN_ACK) {
+        this.inSpaceStateInit(event.data.ship, event.data.cargo, event.data.sectors, event.data.clientSectorId);
+        this.changeGameState(EGameState.IN_SPACE);
+    }
+
+    private subscribeToEvents() {
+        EventHandler.on(Events.EEventType.GAME_STATE_CHANGE, this.onGameStateChange);
+
+        EventHandler.on(Events.EEventType.CLIENT_LOGIN_REQ, (event : Events.CLIENT_LOGIN_REQ) => {this.onClientLoginReq(event)});
+        EventHandler.on(Events.EEventType.SERVER_LOGIN_ACK, this.onServerLoginAck);
+        EventHandler.on(Events.EEventType.CLIENT_JOIN_REQ, this.onClientJoinReq);
+        EventHandler.on(Events.EEventType.SERVER_JOIN_ACK, this.onServerJoinAck); 
     }
 }

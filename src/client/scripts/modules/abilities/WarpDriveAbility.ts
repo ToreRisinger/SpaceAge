@@ -1,10 +1,10 @@
 import { Ability } from "./Ability";
-import { GlobalData } from "../GlobalData";
 import { EAbilityState } from "./EAbilityState";
 import { Ship } from "../../game_objects/Ship";
 import { Events } from "../../../../shared/scripts/Events";
 import { EventHandler } from "../EventHandler";
 import { Sector } from "../../game_objects/Sector";
+import { GlobalDataService } from "../GlobalDataService";
 
 export class WarpDriveAbility extends Ability {
 
@@ -97,7 +97,9 @@ export class WarpDriveAbility extends Ability {
     }
 
     private shouldBeEnabled() {
-        return GlobalData.selectedObject != undefined && GlobalData.sector != undefined && GlobalData.selectedObject instanceof Sector 
-            && GlobalData.selectedObject.getGameObjectData().id != GlobalData.sector.getGameObjectData().id;
+        let globalData = GlobalDataService.getInstance();
+        let selectedObject = globalData.getSelectedObject();
+        return selectedObject != undefined && globalData.getSector() != undefined && selectedObject instanceof Sector 
+            && selectedObject.getGameObjectData().id != globalData.getSector().getGameObjectData().id;
     }
 }

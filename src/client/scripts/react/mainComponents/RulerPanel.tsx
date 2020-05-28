@@ -1,8 +1,8 @@
 import React, { Fragment } from "react";
 import { EventHandler } from "../../modules/EventHandler";
 import { Events } from "../../../../shared/scripts/Events";
-import { GlobalData } from "../../modules/GlobalData";
 import { Utils } from "../../../../shared/scripts/Utils";
+import { GlobalDataService } from "../../modules/GlobalDataService";
 
 export interface RulerPanelState { zoom : number }
 
@@ -36,8 +36,9 @@ export default class RulerPanel extends React.Component<{}, RulerPanelState> {
     }
 
     onZoomChange() {
+        let cameraZoom = GlobalDataService.getInstance().getCameraZoom();
         this.setState({
-            zoom : GlobalData.cameraZoom
+            zoom : cameraZoom
         })
     }
 

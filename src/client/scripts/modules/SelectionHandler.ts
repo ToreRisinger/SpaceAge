@@ -1,8 +1,7 @@
 import { EventHandler } from "./EventHandler";
 import { Events } from "../../../shared/scripts/Events";
-import { GlobalData } from "./GlobalData";
 import { InputHandler } from "./InputHandler";
-import { GameObject } from "../game_objects/GameObject";
+import { GlobalDataService } from "./GlobalDataService";
 
 export module SelectionHandler {
 
@@ -11,20 +10,23 @@ export module SelectionHandler {
     }
 
     export function update(time : number, delta : number) {
-        if(GlobalData.selectedObject != undefined && !GlobalData.selectedObject.isDetected()) {
-            GlobalData.selectedObject = undefined;
+        let selectedObject = GlobalDataService.getInstance().getSelectedObject();
+        if(selectedObject != undefined && !selectedObject.isDetected()) {
+            selectedObject = undefined;
             sendSelectionChangedEvent();
-        } else if(InputHandler.getKeyState(InputHandler.KEY.MOUSE_RIGHT) == InputHandler.KEY_STATE.PRESSED && GlobalData.selectedObject != undefined) {
-            GlobalData.selectedObject = undefined;
+        } else if(InputHandler.getKeyState(InputHandler.KEY.MOUSE_RIGHT) == InputHandler.KEY_STATE.PRESSED && selectedObject != undefined) {
+            selectedObject = undefined;
             sendSelectionChangedEvent();
         }
     }
 
     function onSelectionChangeRequest(event : Events.SELECTION_CHANGE_REQUEST_EVENT_CONFIG) {
-        if(GlobalData.playerShip == event.data.object || GlobalData.selectedObject == event.data.object) {
-            GlobalData.selectedObject = undefined;
+        let selectedObject = GlobalDataService.getInstance().getSelectedObject();
+        let playerShip = GlobalDataService.getInstance().getPlayerShip();
+        if(playerShip == event.data.object || selectedObject == event.data.object) {
+            selectedObject = undefined;
         } else {
-            GlobalData.selectedObject = event.data.object;
+            selectedObject = event.data.object;
         }
         
         sendSelectionChangedEvent()
@@ -34,25 +36,27 @@ export module SelectionHandler {
         let newEvent : Events.SELECTION_CHANGED_EVENT_CONFIG = {
             eventId : Events.EEventType.SELECTION_CHANGED_EVENT,
             data : {
-                object : GlobalData.selectedObject
+                object : GlobalDataService.getInstance().getSelectedObject()
             }
         }
         EventHandler.pushEvent(newEvent);
     }
 
     function onPlayerDisconnect(event : Events.PLAYER_DISCONNECTED_EVENT_CONFIG) {
-        if(GlobalData.selectedObject != undefined && GlobalData.selectedObject.getGameObjectData().id == event.data.shipId) {
-            GlobalData.selectedObject = undefined;
+        let selectedObject = GlobalDataService.getInstance().getSelectedObject();
+        if(selectedObject != undefined && selectedObject.getGameObjectData().id == event.data.shipId) {
+            selectedObject = undefined;
             sendSelectionChangedEvent();
         }
     }
 
     function onGameObjectsDestroyed(event : Events.GAME_OBJECT_DESTOYED_EVENT_CONFIG) {
-        if(GlobalData.selectedObject != undefined) {
+        let selectedObject = GlobalDataService.getInstance().getSelectedObject();
+        if(selectedObject != undefined) {
             //@ts-ignore
-            let found = event.data.gameObjectIds.find(gameObjectId => gameObjectId == GlobalData.selectedObject.getGameObjectData().id);
+            let found = event.data.gameObjectIds.find(gameObjectId => gameObjectId == selectedObject.getGameObjectData().id);
             if(found) {
-                GlobalData.selectedObject = undefined;
+                selectedObject = undefined;
                 sendSelectionChangedEvent();
             }
         }

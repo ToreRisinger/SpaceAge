@@ -3,12 +3,12 @@ import { GameScene } from "../scenes/GameScene"
 import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
 import { EventHandler } from "./EventHandler";
 import { Events } from "../../../shared/scripts/Events";
-import { GlobalData } from "./GlobalData";
 import { InputHandler } from "./InputHandler";
+import { GlobalDataService } from "./GlobalDataService";
 
 export module Background {
 
-    let loadingBackground : Phaser.GameObjects.Sprite;
+    //let loadingBackground : Phaser.GameObjects.Sprite;
     let spaceBackground : Phaser.GameObjects.Sprite;
     let BACKRGOUND_SIZE : number = 2000;
     let backgroundClickedCount : number = 0;
@@ -17,17 +17,18 @@ export module Background {
     export function init() {
         subscribeToEvents();
 
-        createLoadingScreen();
+        //createLoadingScreen();
         createBackground();   
 
         spaceBackground.setDisplaySize(BACKRGOUND_SIZE, BACKRGOUND_SIZE);
-        loadingBackground.setDisplaySize(BACKRGOUND_SIZE, BACKRGOUND_SIZE);
+        //loadingBackground.setDisplaySize(BACKRGOUND_SIZE, BACKRGOUND_SIZE);
     }
 
     export function update(time : number, delta : number) {
-        let newBackgroundSize = BACKRGOUND_SIZE * GlobalData.cameraZoom;
-        spaceBackground.setX(GlobalData.cameraX);
-        spaceBackground.setY(GlobalData.cameraY);
+        let globalDataService = GlobalDataService.getInstance();
+        let newBackgroundSize = BACKRGOUND_SIZE * globalDataService.getCameraZoom();
+        spaceBackground.setX(globalDataService.getCameraX());
+        spaceBackground.setY(globalDataService.getCameraY());
         spaceBackground.setDisplaySize(newBackgroundSize, newBackgroundSize);
 
         if(backgroundClicked) {
@@ -45,6 +46,7 @@ export module Background {
         return spaceBackground;
     }
 
+    /*
     function onSpaceSceneStart() {
         loadingBackground.destroy();
     }
@@ -56,19 +58,21 @@ export module Background {
         loadingBackground.setX(GlobalData.cameraX);
         loadingBackground.setY(GlobalData.cameraY);
     }
+    */
 
     function createBackground() {
+        let globalDataService = GlobalDataService.getInstance();
         spaceBackground = GameScene.getInstance().add.sprite(0, 0, CONSTANTS.IMAGE.SPACE_BACKGROUND_1);
         spaceBackground.setInteractive();
         spaceBackground.on('pointerdown', onBackgroundClicked);
         spaceBackground.setDepth(DRAW_LAYERS.BACKGROUND_LAYER);
 
-        spaceBackground.setX(GlobalData.cameraX);
-        spaceBackground.setY(GlobalData.cameraY);
+        spaceBackground.setX(globalDataService.getCameraX());
+        spaceBackground.setY(globalDataService.getCameraY());
     }
 
     function subscribeToEvents() {
-        EventHandler.on(Events.EEventType.SPACE_SCENE_GAME_STATE_EVENT, onSpaceSceneStart);
+        //EventHandler.on(Events.EEventType.SPACE_SCENE_GAME_STATE_EVENT, onSpaceSceneStart);
     }
 
     function onBackgroundClicked() {

@@ -1,10 +1,10 @@
 import React from "react";
 import CargoContainer from "./CargoContainer";
 import { Items } from "../../../../../shared/scripts/Items";
-import { GlobalData } from "../../../modules/GlobalData";
 import { ObjectInterfaces } from "../../../../../shared/scripts/ObjectInterfaces";
 import { EventHandler } from "../../../modules/EventHandler";
 import { Events } from "../../../../../shared/scripts/Events";
+import { GlobalDataService } from "../../../modules/GlobalDataService";
 
 export interface CargoPanelState { items : Array<Items.IItem>}
 
@@ -45,9 +45,10 @@ export default class CargoPanel extends React.Component<{}, CargoPanelState> {
    }
 
    waitForPlayerShipInitialization() {
-      if(GlobalData.playerShip != undefined) {
+      let playerShip = GlobalDataService.getInstance().getPlayerShip();
+      if(playerShip != undefined) {
          this.setState({
-            items : GlobalData.playerShip.getCargo().items
+            items : playerShip.getCargo().items
          })
          if(this.waitForPlayerShipInitTimer != undefined) {
             clearInterval(this.waitForPlayerShipInitTimer);
@@ -63,9 +64,10 @@ export default class CargoPanel extends React.Component<{}, CargoPanelState> {
    }
 
    render() {
+      let playerShip = GlobalDataService.getInstance().getPlayerShip();
       let shipCargoHoldSize = 0;
-      if(GlobalData.playerShip != undefined) {
-         shipCargoHoldSize = GlobalData.playerShip.getShipData().stats[ObjectInterfaces.EShipStatType.cargo_hold];
+      if(playerShip != undefined) {
+         shipCargoHoldSize = playerShip.getShipData().stats[ObjectInterfaces.EShipStatType.cargo_hold];
       }
 
       let cargoHoldSize = 0

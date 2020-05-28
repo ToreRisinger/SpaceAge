@@ -1,7 +1,7 @@
 import React from "react";
 import { ObjectInterfaces } from "../../../../shared/scripts/ObjectInterfaces";
-import { GlobalData } from "../../modules/GlobalData";
 import ShipStatsBottomPanel from "./ShipStatsBottomPanel";
+import { GlobalDataService } from "../../modules/GlobalDataService";
 
 export interface BottomPanelState { ship : ObjectInterfaces.IShip | undefined; }
 
@@ -31,8 +31,9 @@ export default class BottomPanel extends React.Component<{}, BottomPanelState> {
     }
   
     tick() {
+      let globalData = GlobalDataService.getInstance();
       this.setState({
-        ship: GlobalData.getPlayerShipData()
+        ship: globalData.getPlayerShip().getShipData()
       });
     }
 

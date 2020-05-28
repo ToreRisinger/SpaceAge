@@ -1,7 +1,7 @@
 import { EventHandler } from "./EventHandler";
 import { Events } from "../../../shared/scripts/Events";
-import { GlobalData } from "./GlobalData";
 import { InputHandler } from "./InputHandler";
+import { GlobalDataService } from "./GlobalDataService";
 
 export module Chat {
 
@@ -37,13 +37,13 @@ export module Chat {
             //@ts-ignore
             let message : String | null = chat_input.value;
             if(message) {
-                //@ts-ignore
+                let userName = GlobalDataService.getInstance().getUsername();
                 
                 let event : Events.CLIENT_SEND_CHAT_MESSAGE_EVENT_CONFIG = {
                     eventId : Events.EEventType.CLIENT_SEND_CHAT_MESSAGE_EVENT,
                     data : {
                         message: message,
-                        sender: GlobalData.playerUsername
+                        sender: userName
                     }
                 }
 
@@ -51,7 +51,7 @@ export module Chat {
                 //@ts-ignore
                 chat_input.value = null;
 
-                addMessage(GlobalData.playerUsername, message);
+                addMessage(userName, message);
             }
         }
     }

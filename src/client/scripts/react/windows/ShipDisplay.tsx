@@ -1,5 +1,4 @@
 import React from "react";
-import { GlobalData } from "../../modules/GlobalData";
 import { ObjectInterfaces } from "../../../../shared/scripts/ObjectInterfaces";
 import CargoItem from "../mainComponents/cargo/CargoItem";
 import CargoSlot from "../mainComponents/cargo/CargoSlot";

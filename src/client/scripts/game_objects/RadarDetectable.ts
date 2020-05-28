@@ -1,11 +1,11 @@
 import { ObjectInterfaces } from "../../../shared/scripts/ObjectInterfaces";
-import { GlobalData } from "../modules/GlobalData";
 import { Events } from "../../../shared/scripts/Events";
 import { EventHandler } from "../modules/EventHandler";
 import { GameScene } from "../scenes/GameScene";
 import { SPRITES } from "../../../shared/scripts/SPRITES";
 import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
 import { GameObject } from "./GameObject";
+import { GlobalDataService } from "../modules/GlobalDataService";
 
 export abstract class RadarDetectable extends GameObject {
 
@@ -115,11 +115,11 @@ export abstract class RadarDetectable extends GameObject {
     }
 
     public isSelected() : boolean {
-        return GlobalData.selectedObject == this;
+        return GlobalDataService.getInstance().getSelectedObject() == this;
     }
 
     public isTarget() : boolean {
-        return GlobalData.targetObject == this;
+        return GlobalDataService.getInstance().getTargetObject() == this;
     }
 
     public isHover() : boolean {
@@ -175,7 +175,8 @@ export abstract class RadarDetectable extends GameObject {
     }
 
     private calculateIconSizeAndPos() {
-        this.iconSprite.setDisplaySize(SPRITES.SHIP_ICON.sprite.width * GlobalData.cameraZoom, SPRITES.SHIP_ICON.sprite.height * GlobalData.cameraZoom);
+        let cameraZoom = GlobalDataService.getInstance().getCameraZoom();
+        this.iconSprite.setDisplaySize(SPRITES.SHIP_ICON.sprite.width * cameraZoom, SPRITES.SHIP_ICON.sprite.height * cameraZoom);
         this.iconSprite.x = this.getPos().x;
         this.iconSprite.y = this.getPos().y;
     }

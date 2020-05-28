@@ -5,5 +5,4 @@ export module Sectors {
     export interface ISector extends ObjectInterfaces.IGameObject {
         name : string
     }
-    
 }

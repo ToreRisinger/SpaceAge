@@ -1,5 +1,4 @@
 import { Ability } from "./Ability";
-import { GlobalData } from "../GlobalData";
 import { Ship } from "../../game_objects/Ship";
 import { EAbilityState } from "./EAbilityState";
 import { Events } from "../../../../shared/scripts/Events";
@@ -7,6 +6,7 @@ import { EventHandler } from "../EventHandler";
 import { GameObject } from "../../game_objects/GameObject";
 import { RadarDetectable } from "../../game_objects/RadarDetectable";
 import { Asteroid } from "../../game_objects/Asteroid";
+import { GlobalDataService } from "../GlobalDataService";
 
 export class LockTargetAbility extends Ability {
 
@@ -30,9 +30,10 @@ export class LockTargetAbility extends Ability {
     }
 
     public activate() : void {
+        let selectedObject = GlobalDataService.getInstance().getSelectedObject();
         this.calculateState()
         if(this.getState() == EAbilityState.ENABLED) {
-            this.sendEvent(GlobalData.selectedObject);
+            this.sendEvent(selectedObject);
         } else if(this.getState() == EAbilityState.ACTIVATED) {
             this.sendEvent(undefined);
         }
@@ -43,14 +44,16 @@ export class LockTargetAbility extends Ability {
     }
 
     private calculateState() {
-        if(GlobalData.targetObject != undefined 
-            && (GlobalData.targetObject instanceof Asteroid 
-            || GlobalData.targetObject instanceof Ship)) {
+        let selectedObject = GlobalDataService.getInstance().getSelectedObject();
+        let targetObject = GlobalDataService.getInstance().getTargetObject();
+        if(targetObject != undefined 
+            && (targetObject instanceof Asteroid 
+            || targetObject instanceof Ship)) {
             this.setState(EAbilityState.ACTIVATED);
             this.setUnlockVariables();
-        } else if(GlobalData.selectedObject != undefined 
-            && (GlobalData.selectedObject instanceof Asteroid 
-            || GlobalData.selectedObject instanceof Ship)) {
+        } else if(selectedObject != undefined 
+            && (selectedObject instanceof Asteroid 
+            || selectedObject instanceof Ship)) {
             this.setState(EAbilityState.ENABLED);
             this.setLockVariables();
         } else {

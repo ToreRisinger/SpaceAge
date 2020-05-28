@@ -33,7 +33,6 @@ export class GameScene extends Phaser.Scene {
         this.createAnimations();
         this.gameController = new GameController();
         this.gameController.init();
-        
         this.scale.on('resize', this.resize, this);
     }
 

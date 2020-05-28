@@ -2,7 +2,7 @@ import { GameScene } from "../scenes/GameScene";
 import { Ship } from "../game_objects/Ship";
 import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
 import { ObjectInterfaces } from "../../../shared/scripts/ObjectInterfaces";
-import { GlobalData } from "./GlobalData";
+import { GlobalDataService } from "./GlobalDataService";
 
 
 export module Graphics {
@@ -28,11 +28,11 @@ export module Graphics {
 
         circle = new Phaser.Geom.Circle(0, 0, 0);
 
-        createNewLineGraphics(GlobalData.cameraZoom);
+        createNewLineGraphics(GlobalDataService.getInstance().getCameraZoom());
     }
 
     export function update(time : number, delta : number) {
-        let cameraZoom = GlobalData.cameraZoom;
+        let cameraZoom = GlobalDataService.getInstance().getCameraZoom();
 
         selectionLineGraphics.destroy();
         targetLineGraphics.destroy();
@@ -59,13 +59,16 @@ export module Graphics {
                 destinationCircleGraphics.strokeCircleShape(circle).setDepth(DRAW_LAYERS.GRAPHICS_LAYER);
             }
 
-            if(GlobalData.selectedObject != undefined && GlobalData.selectedObject != GlobalData.targetObject) {
-                line.setTo(x, y, GlobalData.selectedObject.getPos().x, GlobalData.selectedObject.getPos().y);
+            let selectedObject = GlobalDataService.getInstance().getSelectedObject();
+            let targetObject = GlobalDataService.getInstance().getTargetObject();
+
+            if(selectedObject != undefined && selectedObject != targetObject) {
+                line.setTo(x, y, selectedObject.getPos().x, selectedObject.getPos().y);
                 selectionLineGraphics.strokeLineShape(line).setDepth(DRAW_LAYERS.DESTINATION_LINE_LAYER);
             }
 
-            if(GlobalData.targetObject != undefined) {
-                line.setTo(x, y, GlobalData.targetObject.getPos().x, GlobalData.targetObject.getPos().y);
+            if(targetObject != undefined) {
+                line.setTo(x, y, targetObject.getPos().x, targetObject.getPos().y);
                 targetLineGraphics.strokeLineShape(line).setDepth(DRAW_LAYERS.DESTINATION_LINE_LAYER);
             }
 

@@ -5,6 +5,7 @@ import { AsteroidData } from "./AsteroidData";
 import { Sectors } from "./Sectors";
 import { Sector } from "../../client/scripts/game_objects/Sector";
 import { EGameState } from "./EGameState";
+import { ICharacter } from "../interfaces/ICharacter";
 
 
 export module Events {
@@ -43,6 +44,10 @@ export module Events {
         //GameState changes events
         SPACE_SCENE_GAME_STATE_EVENT, //TODO remove
         GAME_STATE_CHANGE,
+        CLIENT_LOGIN_REQ,
+        SERVER_LOGIN_ACK,
+        CLIENT_JOIN_REQ,
+        SERVER_JOIN_ACK,
 
         //Input
         MOUSE_PRESSED_EVENT,
@@ -67,6 +72,34 @@ export module Events {
     export interface GAME_STATE_CHANGED extends GameEvent {
         data : {
             gameState : EGameState
+        }
+    }
+
+    export interface CLIENT_LOGIN_REQ extends GameEvent {
+        data : {
+            username : String,
+            password : String
+        }
+    }
+
+    export interface SERVER_LOGIN_ACK extends GameEvent {
+        data : {
+            characters : Array<ICharacter>
+        }
+    }
+
+    export interface CLIENT_JOIN_REQ extends GameEvent {
+        data : {
+            characteer : ICharacter
+        }
+    }
+
+    export interface SERVER_JOIN_ACK extends GameEvent {
+        data : {
+            ship : ObjectInterfaces.IShip,
+            cargo : ObjectInterfaces.ICargo,
+            sectors : Array<Sectors.ISector>,
+            clientSectorId : number
         }
     }
 

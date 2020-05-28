@@ -3,19 +3,29 @@ import { Events } from "../../../shared/scripts/Events"
 import { Ship } from "../game_objects/Ship";
 import { GameObject } from "../game_objects/GameObject";
 import { ObjectInterfaces } from "../../../shared/scripts/ObjectInterfaces";
-import { GlobalData } from "./GlobalData";
 import { AsteroidData } from "../../../shared/scripts/AsteroidData";
 import { Asteroid } from "../game_objects/Asteroid";
 import { Sector } from "../game_objects/Sector";
 import { Sectors } from "../../../shared/scripts/Sectors";
+import { GlobalDataService } from "./GlobalDataService";
 
 export module GameObjectHandler {
 
     let thisShipId : number = -1;
     let gameObjects = new Map<number, GameObject>();
 
-    export function init() {
-        subscribeToInitialEvents();
+    export function init(ship : ObjectInterfaces.IShip, cargo : ObjectInterfaces.ICargo, sectors : Array<Sectors.ISector>) {
+        let newShip : Ship = new Ship(ship, true);
+        newShip.setCargo(cargo);
+      
+        thisShipId = ship.id;
+        gameObjects.set(thisShipId, newShip);
+
+        sectors.forEach((value: Sectors.ISector, index: number, array: Sectors.ISector[]) => {
+            gameObjects.set(value.id, new Sector(value));
+        });
+        
+        subscribeToEvents();
     }
 
     export function update(time : number, delta : number) {
@@ -28,26 +38,12 @@ export module GameObjectHandler {
         return Array.from(gameObjects.values());
     }
 
-    function onInitialGameLoad(eventData : Events.INITAL_GAME_LOAD_EVENT_CONFIG) {
-        let data : any = eventData.data;
-        let ship : ObjectInterfaces.IShip = data.ship; 
-        let newShip : Ship = new Ship(ship, true);
-        newShip.setCargo(eventData.data.cargo);
-      
-        thisShipId = ship.id;
-        gameObjects.set(thisShipId, newShip);
+    export function getGameObjectsMap() :  Map<number, GameObject> {
+        return gameObjects;
+    }
 
-        //@ts-ignore
-        GlobalData.playerShip = gameObjects.get(thisShipId); 
-
-        eventData.data.sectors.forEach((value: Sectors.ISector, index: number, array: Sectors.ISector[]) => {
-            gameObjects.set(value.id, new Sector(value));
-        });
-
-        //@ts-ignore
-        GlobalData.sector = gameObjects.get(eventData.data.clientSectorId);
-        
-        subscribeToEvents();
+    export function getPlayerShip() {
+        return gameObjects.get(thisShipId);
     }
 
     function onPlayerConnect(event : Events.GameEvent) {
@@ -84,14 +80,12 @@ export module GameObjectHandler {
     }
 
     function onCargoUpdate(event : Events.CARGO_UPDATE_EVENT_CONFIG) {
-        if(GlobalData.playerShip != undefined) {
-            GlobalData.playerShip.setCargo(event.data.cargo);
-            let eventToSend : Events.PLAYER_CARGO_UPDATED_EVENT_CONFIG = {
-                eventId : Events.EEventType.PLAYER_CARGO_UPDATED_EVENT,
-                data : { }
-            }
-            EventHandler.pushEvent(eventToSend);
+        GlobalDataService.getInstance().getPlayerShip().setCargo(event.data.cargo);
+        let eventToSend : Events.PLAYER_CARGO_UPDATED_EVENT_CONFIG = {
+            eventId : Events.EEventType.PLAYER_CARGO_UPDATED_EVENT,
+            data : { }
         }
+        EventHandler.pushEvent(eventToSend); 
     }
 
     function onGameObjectsDestroyed(event : Events.GAME_OBJECT_DESTOYED_EVENT_CONFIG) {
@@ -120,11 +114,6 @@ export module GameObjectHandler {
                 }
             });
         }  
-    }
-
-
-    function subscribeToInitialEvents() {
-        EventHandler.on(Events.EEventType.INITAL_GAME_LOAD_EVENT, onInitialGameLoad);
     }
 
     function subscribeToEvents() {

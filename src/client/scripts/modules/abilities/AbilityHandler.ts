@@ -1,5 +1,4 @@
 import { LockTargetAbility } from "./LockTargetAbility";
-import { GlobalData } from "../GlobalData";
 import { Ability } from "./Ability";
 import { StopShipAbility } from "./StopShipAbility"
 import { AttackAbility } from "./AttackAbility";
@@ -7,6 +6,8 @@ import { EventHandler } from "../EventHandler";
 import { Events } from "../../../../shared/scripts/Events";
 import { MiningAbility } from "./MiningAbility";
 import { WarpDriveAbility } from "./WarpDriveAbility";
+import { GlobalDataService } from "../GlobalDataService";
+import { Ship } from "../../game_objects/Ship";
 
 export module AbilityHandler {
 
@@ -31,30 +32,29 @@ export module AbilityHandler {
     }
 
     function onSpaceSceneStart() {
-        if(GlobalData.playerShip != undefined) {
-            let hasMiningLaserOrWeapon = false;
-            if(GlobalData.playerShip.getShipData().hasWeapon) {
-                //@ts-ignore
-                abilities.push(new AttackAbility(GlobalData.playerShip));
-                hasMiningLaserOrWeapon = true;
-            }
+        let playerShip : Ship = GlobalDataService.getInstance().getPlayerShip();
+        let hasMiningLaserOrWeapon = false;
+        if(playerShip.getShipData().hasWeapon) {
+            //@ts-ignore
+            abilities.push(new AttackAbility(playerShip));
+            hasMiningLaserOrWeapon = true;
+        }
 
-            if(GlobalData.playerShip.getShipData().hasMiningLaser) {
-                //@ts-ignore
-                abilities.push(new MiningAbility(GlobalData.playerShip));
-                hasMiningLaserOrWeapon = true;
-            }
+        if(playerShip.getShipData().hasMiningLaser) {
+            //@ts-ignore
+            abilities.push(new MiningAbility(playerShip));
+            hasMiningLaserOrWeapon = true;
+        }
 
-            if(hasMiningLaserOrWeapon) {
-                //@ts-ignore
-                abilities.push(new LockTargetAbility(GlobalData.playerShip));
-            }
-           
-            abilities.push(new WarpDriveAbility(GlobalData.playerShip));
+        if(hasMiningLaserOrWeapon) {
+            //@ts-ignore
+            abilities.push(new LockTargetAbility(playerShip));
         }
         
+        abilities.push(new WarpDriveAbility(playerShip));
+        
         //@ts-ignore
-        abilities.push(new StopShipAbility(GlobalData.playerShip));
+        abilities.push(new StopShipAbility(playerShip));
 
         initialized = true;
     }

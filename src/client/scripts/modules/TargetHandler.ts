@@ -1,6 +1,6 @@
 import { EventHandler } from "./EventHandler";
 import { Events } from "../../../shared/scripts/Events";
-import { GlobalData } from "./GlobalData";
+import { GlobalDataService } from "./GlobalDataService";
 
 export module TargetHandler {
 
@@ -9,45 +9,51 @@ export module TargetHandler {
     }
 
     export function update(time : number, delta : number) {
-        if(GlobalData.targetObject != undefined && !GlobalData.targetObject.isDetected()) {
-            GlobalData.targetObject = undefined;
+        let targetObject = GlobalDataService.getInstance().getTargetObject();
+        if(targetObject != undefined && !targetObject.isDetected()) {
+            targetObject = undefined;
             sendTargetChangedEvent()
         }
     }
 
     function onTargetChangeRequest(event : Events.TARGET_CHANGE_REQUEST_EVENT_CONFIG) {
-        if(GlobalData.playerShip == event.data.object) {
-            GlobalData.targetObject = undefined;
+        let targetObject = GlobalDataService.getInstance().getTargetObject();
+        let playerShip = GlobalDataService.getInstance().getPlayerShip();
+        if(playerShip == event.data.object) {
+            targetObject = undefined;
         } else {
-            GlobalData.targetObject = event.data.object;
+            targetObject = event.data.object;
         }
         
         sendTargetChangedEvent()
     }
 
     function sendTargetChangedEvent() {
+        let targetObject = GlobalDataService.getInstance().getTargetObject();
         let newEvent : Events.TARGET_CHANGED_EVENT_CONFIG = {
             eventId : Events.EEventType.TARGET_CHANGED_EVENT,
             data : {
-                object : GlobalData.targetObject
+                object : targetObject
             }
         }
         EventHandler.pushEvent(newEvent);
     }
 
     function onPlayerDisconnect(event : Events.PLAYER_DISCONNECTED_EVENT_CONFIG) {
-        if(GlobalData.targetObject != undefined && GlobalData.targetObject.getGameObjectData().id == event.data.shipId) {
-            GlobalData.targetObject = undefined;
+        let targetObject = GlobalDataService.getInstance().getTargetObject();
+        if(targetObject != undefined && targetObject.getGameObjectData().id == event.data.shipId) {
+            targetObject = undefined;
             sendTargetChangedEvent();
         }
     }
 
     function onGameObjectsDestroyed(event : Events.GAME_OBJECT_DESTOYED_EVENT_CONFIG) {
-        if(GlobalData.targetObject != undefined) {
+        let targetObject = GlobalDataService.getInstance().getTargetObject();
+        if(targetObject != undefined) {
             //@ts-ignore
-            let found = event.data.gameObjectIds.find(gameObjectId => gameObjectId == GlobalData.targetObject.getGameObjectData().id);
+            let found = event.data.gameObjectIds.find(gameObjectId => gameObjectId == targetObject.getGameObjectData().id);
             if(found) {
-                GlobalData.targetObject = undefined;
+                targetObject = undefined;
                 sendTargetChangedEvent();
             }
         }
