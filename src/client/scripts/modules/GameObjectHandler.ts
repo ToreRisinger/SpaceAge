@@ -102,12 +102,9 @@ export module GameObjectHandler {
         //@ts-ignore
         let gameObject = gameObjects.get(event.data.clientSectorId);
         if(gameObject instanceof Sector) {
-            //@ts-ignore
-            GlobalData.sector = gameObject;
-            //@ts-ignore
-            let newSectorX = GlobalData.sector.getMapX();
-            //@ts-ignore
-            let newSectorY = GlobalData.sector.getMapY();
+            GlobalDataService.getInstance().setSector(gameObject)
+            let newSectorX = GlobalDataService.getInstance().getSector().getMapX();
+            let newSectorY = GlobalDataService.getInstance().getSector().getMapY();
             gameObjects.forEach((element, key) => {
                 if(element instanceof Sector) {
                     element.onSectorChanged(newSectorX, newSectorY);
@@ -123,8 +120,7 @@ export module GameObjectHandler {
         EventHandler.on(Events.EEventType.ASTEROIDS_UPDATE_EVENT, onAsteroidsUpdate);
         EventHandler.on(Events.EEventType.CARGO_UPDATE_EVENT, onCargoUpdate);
         EventHandler.on(Events.EEventType.GAME_OBJECT_DESTOYED_EVENT, onGameObjectsDestroyed);
-        EventHandler.on(Events.EEventType.CHANGE_SECTOR_EVENT, onSectorChanged);
-        
+        EventHandler.on(Events.EEventType.CHANGE_SECTOR_EVENT, onSectorChanged);      
     }
 
     function destroyGameObject(objectId : number) {

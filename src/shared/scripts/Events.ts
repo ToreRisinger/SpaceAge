@@ -1,9 +1,7 @@
 import { ObjectInterfaces } from "./ObjectInterfaces"
-import { GameObject } from "../../client/scripts/game_objects/GameObject";
 import { RadarDetectable } from "../../client/scripts/game_objects/RadarDetectable";
 import { AsteroidData } from "./AsteroidData";
 import { Sectors } from "./Sectors";
-import { Sector } from "../../client/scripts/game_objects/Sector";
 import { EGameState } from "./EGameState";
 import { ICharacter } from "../interfaces/ICharacter";
 
@@ -90,14 +88,13 @@ export module Events {
 
     export interface CLIENT_JOIN_REQ extends GameEvent {
         data : {
-            characteer : ICharacter
+            character : ICharacter
         }
     }
 
     export interface SERVER_JOIN_ACK extends GameEvent {
         data : {
-            ship : ObjectInterfaces.IShip,
-            cargo : ObjectInterfaces.ICargo,
+            character : ICharacter,
             sectors : Array<Sectors.ISector>,
             clientSectorId : number
         }

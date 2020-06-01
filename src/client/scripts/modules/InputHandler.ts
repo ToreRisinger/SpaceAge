@@ -1,4 +1,5 @@
 import { GameScene } from "../scenes/GameScene";
+import { Logger } from "../../../shared/logger/Logger";
 
 export module InputHandler {
 

@@ -89,7 +89,7 @@ export class WarpDriveAbility extends Ability {
                 eventId : Events.EEventType.PLAYER_START_WARP_REQUEST_EVENT,
                 data : {
                     //@ts-ignore
-                    targetId : GlobalData.selectedObject.getGameObjectData().id
+                    targetId : GlobalDataService.getInstance().getSelectedObject().getGameObjectData().id
                 }
             }
             EventHandler.pushEvent(newEvent);

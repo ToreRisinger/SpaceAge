@@ -58,8 +58,7 @@ export default class CargoPanel extends React.Component<{}, CargoPanelState> {
 
    onCargoUpdated(event : Events.PLAYER_CARGO_UPDATED_EVENT_CONFIG) {
       this.setState({
-         //@ts-ignore
-         items : GlobalData.playerShip.getCargo().items
+         items : GlobalDataService.getInstance().getPlayerShip().getCargo().items
       })
    }
 

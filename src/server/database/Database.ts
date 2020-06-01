@@ -2,7 +2,10 @@ import { IdHandler } from "./../IdHandler";
 import { ItemFactory } from "./../ItemFactory";
 import { ObjectInterfaces } from "../../shared/scripts/ObjectInterfaces";
 import { Items } from "./../../shared/scripts/Items";
-import UserModel from "./models/user.model";
+import UserModel, { IUserDocument } from "./models/user.model";
+import { Logger } from "../../shared/logger/Logger";
+import CharacterModel, { ICharacterDocument } from "./models/character.model";
+import { ICharacter } from "../../shared/interfaces/ICharacter";
 
 const mongoose = require('mongoose')
 const dbName = 'space-age-test'
@@ -15,11 +18,11 @@ export module Database {
     export function startDb() {
       db = mongoose.connection
       db.once('open', (_: any) => {
-        console.log('Database connected:', url)
+        Logger.info('Database connected:' + url)
       })
       
       db.on('error', (err: any) => {
-        console.error('connection error:', err)
+        Logger.error('Database connection error: ' + err)
       })
 
       mongoose.connect(url, {
@@ -28,13 +31,38 @@ export module Database {
       });
     }
 
-    export function newUser(newUsername: String) {
-      const u = new UserModel({username : newUsername});
-      u.save();
+    export function newUser(_username: string, callback : (error: string, user: IUserDocument) => void) {
+      const userModel = new UserModel({username : _username});
+      userModel.save(callback);
     }
 
-    export function getPlayerId(username : string) {
-      return IdHandler.getNewPlayerId();
+    export function getUser(usernameToFind: string, callback : (error: string, users: Array<IUserDocument>) => void) : void {
+      UserModel.find({username: usernameToFind}, callback);
+    }
+
+    export function getCharacters(user: IUserDocument, callback: (error: string, characters: Array<ICharacterDocument>) => void) : void {
+      CharacterModel.find({user: user._id}, callback);
+    }
+
+    export function newCharacter(user: IUserDocument, callback: (error: string, character: ICharacterDocument) => void) : void {
+      const model = new CharacterModel({character: createNewCharacter(), user: user._id});
+      model.save(callback);
+    }
+
+    export function writeCharacter(character: ICharacter, user: IUserDocument, callback: (error: string) => void) : void {
+      let ship = character.ship; 
+      ship.isMoving = false;
+      ship.isWarping = false;
+      ship.meters_per_second = 0;
+      ship.targetId = -1;
+      ship.warpDestination = [0, 0];
+      ship.warpSource = [0, 0];
+      ship.destVec = [0, 0];
+      ship.velVec = [0, 0];
+      ship.isWarping = false;
+      ship.isMining = false;
+
+      CharacterModel.findOneAndUpdate({user: user._id, 'character.name': character.name}, {$set:{character:character}}, callback);
     }
 
     export function getPlayerShipLocation(playerId : number) {
@@ -44,26 +72,39 @@ export module Database {
       }
     }
 
-    export function getPlayer(playerId : number, socket : any) : ObjectInterfaces.IPlayer {
-        let items : Array<Items.IItem> = new Array();
-        items.push(ItemFactory.createMineral(Items.EMineralItemType.DIAMOND_ORE, 1));
-        items.push(ItemFactory.createMineral(Items.EMineralItemType.GOLD_ORE, 20));
-        items.push(ItemFactory.createMineral(Items.EMineralItemType.IRON_ORE, 1));
-        items.push(ItemFactory.createMineral(Items.EMineralItemType.TITANIUM_ORE, 1));
-        items.push(ItemFactory.createMineral(Items.EMineralItemType.URANIUM_ORE, 1));
-        
-        items.push(ItemFactory.createModule(Items.EModuleItemType.SHIELD_MODULE, 1));
-        items.push(ItemFactory.createModule(Items.EModuleItemType.ARMOR_MODULE, 2));
-        items.push(ItemFactory.createModule(Items.EModuleItemType.CLOAK_SYSTEM_MODULE, 3));
-        items.push(ItemFactory.createModule(Items.EModuleItemType.RAIL_GUN_MODULE, 4));
-        items.push(ItemFactory.createModule(Items.EModuleItemType.TRACKING_SYSTEM_MODULE, 5));
-        
+    function createNewCharacter() : ICharacter {
+      let items : Array<Items.IItem> = new Array();
+      items.push(ItemFactory.createMineral(Items.EMineralItemType.DIAMOND_ORE, 1));
+      items.push(ItemFactory.createMineral(Items.EMineralItemType.GOLD_ORE, 20));
+      items.push(ItemFactory.createMineral(Items.EMineralItemType.IRON_ORE, 1));
+      items.push(ItemFactory.createMineral(Items.EMineralItemType.TITANIUM_ORE, 1));
+      items.push(ItemFactory.createMineral(Items.EMineralItemType.URANIUM_ORE, 1));
+      
+      items.push(ItemFactory.createModule(Items.EModuleItemType.SHIELD_MODULE, 1));
+      items.push(ItemFactory.createModule(Items.EModuleItemType.ARMOR_MODULE, 2));
+      items.push(ItemFactory.createModule(Items.EModuleItemType.CLOAK_SYSTEM_MODULE, 3));
+      items.push(ItemFactory.createModule(Items.EModuleItemType.RAIL_GUN_MODULE, 4));
+      items.push(ItemFactory.createModule(Items.EModuleItemType.TRACKING_SYSTEM_MODULE, 5));
+      
 
-        let cargo : ObjectInterfaces.ICargo = {
-          items : items
-        }
+      let cargo : ObjectInterfaces.ICargo = {
+        items : items
+      }
+      
+      let character : ICharacter = {
+          cargo: cargo,
+          name: "Character1",
+          sectorCoords: {
+            x: 0, 
+            y: 0
+          },
+          ship: createNewShip()
+      }
+      return character;
+  }
 
-        let ship : ObjectInterfaces.IShip = {
+  function createNewShip() {
+      let ship : ObjectInterfaces.IShip = {
           id: IdHandler.getNewGameObjectId(),
           x : 0,
           y : 0,
@@ -138,35 +179,28 @@ export module Database {
             currentHull : 0,
             currentShield : 0
           }
-        }  
+      }  
 
-        let updatedShip = updateShipProperties(ship);
+      let updatedShip = updateShipProperties(ship);
 
-        for(let i = 0; i < ship.modules.length; i++) {
-          let mod = ship.modules[i].moduleItem;
-          if(mod.itemType == Items.EModuleItemType.MINING_LASER_MODULE) {
-            ship.hasMiningLaser = true;
+      for(let i = 0; i < ship.modules.length; i++) {
+      let mod = ship.modules[i].moduleItem;
+      if(mod.itemType == Items.EModuleItemType.MINING_LASER_MODULE) {
+          ship.hasMiningLaser = true;
+      }
+
+      if(mod.itemType == Items.EModuleItemType.TURRET_MODULE ||
+          mod.itemType == Items.EModuleItemType.LASER_MODULE ||
+          mod.itemType == Items.EModuleItemType.RAIL_GUN_MODULE ||
+          mod.itemType == Items.EModuleItemType.MINING_LASER_MODULE) {
+          ship.hasWeapon = true;
           }
+      }
 
-          if(mod.itemType == Items.EModuleItemType.TURRET_MODULE ||
-              mod.itemType == Items.EModuleItemType.LASER_MODULE ||
-              mod.itemType == Items.EModuleItemType.RAIL_GUN_MODULE ||
-              mod.itemType == Items.EModuleItemType.MINING_LASER_MODULE) {
-              ship.hasWeapon = true;
-            }
-        }
+      return updatedShip;
+  }
 
-        let newPlayer : ObjectInterfaces.IPlayer = {
-          playerId : playerId,
-          socket : socket,
-          ship : updatedShip,
-          cargo : cargo,
-        }
-
-        return newPlayer;
-    }
-
-    function updateShipProperties(ship : ObjectInterfaces.IShip) : ObjectInterfaces.IShip {
+  function updateShipProperties(ship : ObjectInterfaces.IShip) : ObjectInterfaces.IShip {
       let newShip = ship;
       newShip.modules.forEach(
         //@ts-ignore

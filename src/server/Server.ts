@@ -1,10 +1,11 @@
-import { ObjectInterfaces } from "../shared/scripts/ObjectInterfaces";
-import { Events } from "../shared/scripts/Events";
 import { Database } from "./database/Database";
 import { SectorHandler } from "./SectorHandler";
 import { ComManager } from "./ComManager";
+import { Logger } from "../shared/logger/Logger";
 
 const UPDATES_PER_SECOND : number = 25;
+
+const debug : boolean = true;
 
 export module Server {
 
@@ -12,7 +13,8 @@ export module Server {
     let comManager : ComManager;
 
     export function start(server : any) {
-      console.log('Server started')
+      Logger.setDebug(debug);
+      Logger.info("Server started");
       Database.startDb();
     
       sectorHandler = new SectorHandler();

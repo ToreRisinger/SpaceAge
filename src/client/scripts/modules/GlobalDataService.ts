@@ -3,6 +3,7 @@ import { RadarDetectable } from "../game_objects/RadarDetectable";
 import { Ship } from "../game_objects/Ship";
 
 import { Sector } from "../game_objects/Sector";
+import { ICharacter } from "../../../shared/interfaces/ICharacter";
 
 export class GlobalDataService {
 
@@ -22,17 +23,14 @@ export class GlobalDataService {
     private cameraWidth : number = 0;
     private cameraHeight : number = 0;
 
-    /* Server */
-    private ping : number = 1;
-
-    constructor(username : String, playerShip : Ship, sector : Sector) {
-        this.username = username;
+    constructor(character: ICharacter, playerShip : Ship, sector : Sector) {
+        this.username = character.name;
         this.playerShip = playerShip;
         this.sector = sector;
     }
 
-    static createInstance(username : String, playerShip : Ship, sector : Sector) {
-        GlobalDataService._instance = new GlobalDataService(username, playerShip, sector);
+    static createInstance(character: ICharacter, playerShip : Ship, sector : Sector) {
+        GlobalDataService._instance = new GlobalDataService(character, playerShip, sector);
     }
 
     static getInstance() : GlobalDataService {
@@ -51,12 +49,24 @@ export class GlobalDataService {
         return this.sector;
     }
 
+    public setSector(sector : Sector) : void {
+        this.sector = sector;
+    }
+
     public getSelectedObject() : RadarDetectable | undefined {
         return this.selectedObject;
     }
 
     public getTargetObject() : RadarDetectable | undefined {
         return this.targetObject;
+    }
+
+    public setSelectedObject(value : RadarDetectable | undefined) {
+        this.selectedObject = value;
+    }
+
+    public setTargetObject(value : RadarDetectable | undefined) {
+        this.targetObject = value;
     }
 
     /* Camera */

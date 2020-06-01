@@ -11,18 +11,17 @@ export module TargetHandler {
     export function update(time : number, delta : number) {
         let targetObject = GlobalDataService.getInstance().getTargetObject();
         if(targetObject != undefined && !targetObject.isDetected()) {
-            targetObject = undefined;
+            GlobalDataService.getInstance().setTargetObject(undefined);
             sendTargetChangedEvent()
         }
     }
 
     function onTargetChangeRequest(event : Events.TARGET_CHANGE_REQUEST_EVENT_CONFIG) {
-        let targetObject = GlobalDataService.getInstance().getTargetObject();
         let playerShip = GlobalDataService.getInstance().getPlayerShip();
         if(playerShip == event.data.object) {
-            targetObject = undefined;
+            GlobalDataService.getInstance().setTargetObject(undefined);
         } else {
-            targetObject = event.data.object;
+            GlobalDataService.getInstance().setTargetObject(event.data.object);
         }
         
         sendTargetChangedEvent()
@@ -42,7 +41,7 @@ export module TargetHandler {
     function onPlayerDisconnect(event : Events.PLAYER_DISCONNECTED_EVENT_CONFIG) {
         let targetObject = GlobalDataService.getInstance().getTargetObject();
         if(targetObject != undefined && targetObject.getGameObjectData().id == event.data.shipId) {
-            targetObject = undefined;
+            GlobalDataService.getInstance().setTargetObject(undefined);
             sendTargetChangedEvent();
         }
     }
@@ -53,7 +52,7 @@ export module TargetHandler {
             //@ts-ignore
             let found = event.data.gameObjectIds.find(gameObjectId => gameObjectId == targetObject.getGameObjectData().id);
             if(found) {
-                targetObject = undefined;
+                GlobalDataService.getInstance().setTargetObject(undefined);
                 sendTargetChangedEvent();
             }
         }

@@ -67,6 +67,8 @@ export module ObjectInterfaces {
                 return "Max speed";
             case EShipStatType.thrust :
                 return "Thrust";
+            case EShipStatType.power :
+                return "Power";
             case EShipStatType.mass :
                 return "Mass";
             case EShipStatType.hull :

@@ -12,6 +12,8 @@ import { Events } from "../../../shared/scripts/Events";
 import { EGameState } from "../../../shared/scripts/EGameState";
 import LoginPage from "./mainComponents/login/LoginPage";
 import LoginInput from "./mainComponents/login/LoginInput";
+import CharacterSelectionLoadPage from "./mainComponents/login/CharacterSelectionLoadPage";
+import CharacterSelectionPage from "./mainComponents/login/CharacterSelectionPage";
 
 export interface AppState { gameState : EGameState; }
 
@@ -68,14 +70,14 @@ export default class App extends React.Component<{}, AppState> {
             case EGameState.LOGGING_IN_LOADING: {
                 return (
                     <Fragment>
-                        
+                        <CharacterSelectionLoadPage/>
                     </Fragment>
                 ) 
             } 
             case EGameState.CHARACTER_SELECTION: { 
                 return (
                     <Fragment>
-                        
+                        <CharacterSelectionPage/>
                     </Fragment>
                 )
             }

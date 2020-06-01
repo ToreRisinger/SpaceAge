@@ -15,8 +15,7 @@ export module AbilityHandler {
     let initialized = false;
 
     export function init() {
-        subscribeToEvents();
-        initialized = true;
+        createAbilities();
     }
 
     export function update(time : number, delta : number) {
@@ -31,7 +30,7 @@ export module AbilityHandler {
         return initialized;
     }
 
-    function onSpaceSceneStart() {
+    function createAbilities() {
         let playerShip : Ship = GlobalDataService.getInstance().getPlayerShip();
         let hasMiningLaserOrWeapon = false;
         if(playerShip.getShipData().hasWeapon) {
@@ -41,25 +40,15 @@ export module AbilityHandler {
         }
 
         if(playerShip.getShipData().hasMiningLaser) {
-            //@ts-ignore
             abilities.push(new MiningAbility(playerShip));
             hasMiningLaserOrWeapon = true;
         }
 
         if(hasMiningLaserOrWeapon) {
-            //@ts-ignore
             abilities.push(new LockTargetAbility(playerShip));
         }
         
         abilities.push(new WarpDriveAbility(playerShip));
-        
-        //@ts-ignore
         abilities.push(new StopShipAbility(playerShip));
-
-        initialized = true;
-    }
-
-    function subscribeToEvents() {
-        EventHandler.on(Events.EEventType.SPACE_SCENE_GAME_STATE_EVENT, onSpaceSceneStart);
     }
 }

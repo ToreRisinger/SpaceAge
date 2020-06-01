@@ -12,10 +12,10 @@ export module SelectionHandler {
     export function update(time : number, delta : number) {
         let selectedObject = GlobalDataService.getInstance().getSelectedObject();
         if(selectedObject != undefined && !selectedObject.isDetected()) {
-            selectedObject = undefined;
+            GlobalDataService.getInstance().setSelectedObject(undefined);
             sendSelectionChangedEvent();
         } else if(InputHandler.getKeyState(InputHandler.KEY.MOUSE_RIGHT) == InputHandler.KEY_STATE.PRESSED && selectedObject != undefined) {
-            selectedObject = undefined;
+            GlobalDataService.getInstance().setSelectedObject(undefined);
             sendSelectionChangedEvent();
         }
     }
@@ -24,9 +24,9 @@ export module SelectionHandler {
         let selectedObject = GlobalDataService.getInstance().getSelectedObject();
         let playerShip = GlobalDataService.getInstance().getPlayerShip();
         if(playerShip == event.data.object || selectedObject == event.data.object) {
-            selectedObject = undefined;
+            GlobalDataService.getInstance().setSelectedObject(undefined);
         } else {
-            selectedObject = event.data.object;
+            GlobalDataService.getInstance().setSelectedObject(event.data.object);
         }
         
         sendSelectionChangedEvent()
@@ -45,7 +45,7 @@ export module SelectionHandler {
     function onPlayerDisconnect(event : Events.PLAYER_DISCONNECTED_EVENT_CONFIG) {
         let selectedObject = GlobalDataService.getInstance().getSelectedObject();
         if(selectedObject != undefined && selectedObject.getGameObjectData().id == event.data.shipId) {
-            selectedObject = undefined;
+            GlobalDataService.getInstance().setSelectedObject(undefined);
             sendSelectionChangedEvent();
         }
     }
@@ -56,7 +56,7 @@ export module SelectionHandler {
             //@ts-ignore
             let found = event.data.gameObjectIds.find(gameObjectId => gameObjectId == selectedObject.getGameObjectData().id);
             if(found) {
-                selectedObject = undefined;
+                GlobalDataService.getInstance().setSelectedObject(undefined);
                 sendSelectionChangedEvent();
             }
         }

@@ -14,10 +14,11 @@ import { Events } from "../../../shared/scripts/Events";
 import { EGameState } from "../../../shared/scripts/EGameState";
 import { CharacterListProvider } from "./CharacterListProvider";
 import { GlobalDataService } from "./GlobalDataService";
-import { ObjectInterfaces } from "../../../shared/scripts/ObjectInterfaces";
 import { Sectors } from "../../../shared/scripts/Sectors";
 import { Sector } from "../game_objects/Sector";
 import { Ship } from "../game_objects/Ship";
+import { Logger } from "../../../shared/logger/Logger";
+import { ICharacter } from "../../../shared/interfaces/ICharacter";
 
 export class GameController {
 
@@ -35,13 +36,13 @@ export class GameController {
         this.subscribeToEvents()
     }
 
-    public inSpaceStateInit(ship : ObjectInterfaces.IShip, cargo : ObjectInterfaces.ICargo, sectors : Array<Sectors.ISector>, clientSectorId: number) {
-        GameObjectHandler.init(ship, cargo, sectors);
+    public inSpaceStateInit(character: ICharacter, sectors : Array<Sectors.ISector>, clientSectorId: number) {
+        GameObjectHandler.init(character.ship, character.cargo, sectors);
         //@ts-ignore
         let sector : Sector = GameObjectHandler.getGameObjectsMap().get(clientSectorId);
         //@ts-ignore
         let playerShip : Ship = GameObjectHandler.getPlayerShip();
-        GlobalDataService.createInstance("username", playerShip, sector);
+        GlobalDataService.createInstance(character, playerShip, sector);
 
         AbilityHandler.init();
         SelectionHandler.init();
@@ -90,17 +91,6 @@ export class GameController {
         Graphics.update(time, delta);
         GUI.update(time, delta);
         Chat.update(time, delta);
-        InputHandler.update(time, delta);
-        SelectionHandler.update(time, delta);
-        TargetHandler.update(time, delta);
-        EventHandler.update(time, delta);
-        AbilityHandler.update(time, delta);
-        Camera.update(time, delta);
-        GameObjectHandler.update(time, delta);   
-        Background.update(time, delta);
-        Graphics.update(time, delta);
-        GUI.update(time, delta);
-        Chat.update(time, delta);
     }
 
     private onGameStateChange(event : Events.GAME_STATE_CHANGED) {
@@ -128,6 +118,7 @@ export class GameController {
     }
 
     private changeGameState(state : EGameState) {
+        Logger.debug("Game state changed from: " + this.gameState + " to " + state);
         this.gameState = state;
         this.triggerGameStateChangeEvent();
     }
@@ -156,16 +147,16 @@ export class GameController {
     }
 
     private onServerJoinAck(event : Events.SERVER_JOIN_ACK) {
-        this.inSpaceStateInit(event.data.ship, event.data.cargo, event.data.sectors, event.data.clientSectorId);
+        this.inSpaceStateInit(event.data.character, event.data.sectors, event.data.clientSectorId);
         this.changeGameState(EGameState.IN_SPACE);
     }
 
     private subscribeToEvents() {
-        EventHandler.on(Events.EEventType.GAME_STATE_CHANGE, this.onGameStateChange);
+        EventHandler.on(Events.EEventType.GAME_STATE_CHANGE, (event : Events.GAME_STATE_CHANGED) => {this.onGameStateChange(event)});
 
         EventHandler.on(Events.EEventType.CLIENT_LOGIN_REQ, (event : Events.CLIENT_LOGIN_REQ) => {this.onClientLoginReq(event)});
-        EventHandler.on(Events.EEventType.SERVER_LOGIN_ACK, this.onServerLoginAck);
-        EventHandler.on(Events.EEventType.CLIENT_JOIN_REQ, this.onClientJoinReq);
-        EventHandler.on(Events.EEventType.SERVER_JOIN_ACK, this.onServerJoinAck); 
+        EventHandler.on(Events.EEventType.SERVER_LOGIN_ACK, (event : Events.SERVER_LOGIN_ACK) => {this.onServerLoginAck(event)});
+        EventHandler.on(Events.EEventType.CLIENT_JOIN_REQ, (event : Events.CLIENT_JOIN_REQ) => {this.onClientJoinReq(event)});
+        EventHandler.on(Events.EEventType.SERVER_JOIN_ACK, (event : Events.SERVER_JOIN_ACK) => {this.onServerJoinAck(event)}); 
     }
 }

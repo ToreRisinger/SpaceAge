@@ -5,6 +5,7 @@ import { ObjectInterfaces } from "../shared/scripts/ObjectInterfaces.js";
 import { Items } from "../shared/scripts/Items.js";
 import { IdHandler } from "./IdHandler.js";
 import { PacketFactory } from "./PacketFactory.js";
+import { IClient } from "./interfaces/IClient.js";
 
 const math = require('mathjs');
 
@@ -16,7 +17,7 @@ export class SectorHandler {
     private playersToSectorMap :  Map<number, Sector>;
 
     private warpingPlayers : Map<number, {
-        player : ObjectInterfaces.IPlayer, 
+        client : IClient, 
         playerStartPos : Array<number>, 
         destinationSector : Sector, 
         sourceSector : Sector}>;
@@ -48,21 +49,21 @@ export class SectorHandler {
         });
     }
 
-    public addPlayerToSector(player : ObjectInterfaces.IPlayer, sector_x : number, sector_y : number) {
+    public addClientToSector(client : IClient, sector_x : number, sector_y : number) {
         let sector = this.getSector(sector_x, sector_y);
         if(sector != undefined) {
-            sector.addPlayer(player);
-            this.playersToSectorMap.set(player.playerId, sector);
+            sector.addClient(client);
+            this.playersToSectorMap.set(client.id, sector);
         } else {
             //TODO error?
         }
     }
 
-    public removePlayerFromSector(player : ObjectInterfaces.IPlayer) {
-        let sector = this.playersToSectorMap.get(player.playerId);
+    public removePlayerFromSector(client : IClient) {
+        let sector = this.playersToSectorMap.get(client.id);
         if(sector != undefined) {
-            sector.removePlayer(player);
-            this.playersToSectorMap.delete(player.playerId);
+            sector.removeClient(client);
+            this.playersToSectorMap.delete(client.id);
         }
     }
 
@@ -70,13 +71,13 @@ export class SectorHandler {
         return this.playersToSectorMap.get(player.playerId);
     }
 
-    public onPlayerStartWarping(player : ObjectInterfaces.IPlayer, destinationSector : Sector) {
-        let sourceSector = this.playersToSectorMap.get(player.playerId);
+    public onPlayerStartWarping(client: IClient, destinationSector : Sector) {
+        let sourceSector = this.playersToSectorMap.get(client.id);
         if(sourceSector != undefined) {
-            this.warpingPlayers.set(player.playerId, 
+            this.warpingPlayers.set(client.id, 
                 {
-                    player : player, 
-                    playerStartPos : [player.ship.x, player.ship.y],
+                    client : client, 
+                    playerStartPos : [client.character.ship.x, client.character.ship.y],
                     destinationSector: destinationSector, 
                     sourceSector : sourceSector
                 });
@@ -84,14 +85,14 @@ export class SectorHandler {
     }
 
     private handleWarpingPlayers() {
-        let toRemove : Array<ObjectInterfaces.IPlayer> = new Array();
+        let toRemove : Array<IClient> = new Array();
 
         this.warpingPlayers.forEach((value, key) => {
             let sourceCoordinates = [value.sourceSector.getX(), value.sourceSector.getY()];
             let destinationCoordinates = [value.destinationSector.getX(), value.destinationSector.getY()];
 
             let destToSource_test = math.subtract(sourceCoordinates, destinationCoordinates);
-            let distanceTraveled = math.length(math.subtract(value.playerStartPos, [value.player.ship.x, value.player.ship.y]));
+            let distanceTraveled = math.length(math.subtract(value.playerStartPos, [value.client.character.ship.x, value.client.character.ship.y]));
 
             if(distanceTraveled > 20000) {
                 //Player finish warp
@@ -99,24 +100,24 @@ export class SectorHandler {
                 let sectorToEnter = value.destinationSector;
                 if(sectorToLeave != undefined && sectorToEnter != undefined) {
                     let newShipPosition = math.add([0, 0], math.multiply(destToSource_test, 2000/math.length(destToSource_test)));
-                    value.player.ship.x = newShipPosition[0];
-                    value.player.ship.y = newShipPosition[1];
-                    value.player.ship.velVec = [0, 0];
-                    sectorToLeave.removePlayer(value.player);
-                    sectorToEnter.addPlayer(value.player);
-                    toRemove.push(value.player);
-                    this.playersToSectorMap.set(value.player.playerId, sectorToEnter);
-                    this.sendSectorChangedEvent(value.player, sectorToEnter.getId());
-                    value.player.ship.isWarping = false;
-                    value.player.ship.isMoving = false;
-                    value.player.ship.hasDestination = false;
-                    value.player.ship.meters_per_second = 0;
+                    value.client.character.ship.x = newShipPosition[0];
+                    value.client.character.ship.y = newShipPosition[1];
+                    value.client.character.ship.velVec = [0, 0];
+                    sectorToLeave.removeClient(value.client);
+                    sectorToEnter.addClient(value.client);
+                    toRemove.push(value.client);
+                    this.playersToSectorMap.set(value.client.id, sectorToEnter);
+                    this.sendSectorChangedEvent(value.client, sectorToEnter.getId());
+                    value.client.character.ship.isWarping = false;
+                    value.client.character.ship.isMoving = false;
+                    value.client.character.ship.hasDestination = false;
+                    value.client.character.ship.meters_per_second = 0;
                 }
                 //TODO if something goes wrong here..
             }
         });
 
-        toRemove.forEach(player => this.warpingPlayers.delete(player.playerId));
+        toRemove.forEach(client => this.warpingPlayers.delete(client.id));
     }
 
     private playerFinishWarp() {
@@ -193,7 +194,7 @@ export class SectorHandler {
         }
     }
 
-    private getSector(x : number, y : number) : Sector | undefined {
+    public getSector(x : number, y : number) : Sector | undefined {
         let sector : Sector | undefined = undefined;
         this.sectors.forEach((value, key) => {
             if(value.getSectorX() == x && value.getSectorY() == y) {
@@ -208,8 +209,8 @@ export class SectorHandler {
         this.sectors.set("" + x + y, sector);
     }
 
-    private sendSectorChangedEvent(player : ObjectInterfaces.IPlayer, sectorId : number) {
+    private sendSectorChangedEvent(client : IClient, sectorId : number) {
         let packet : any = PacketFactory.createSectorChangedPacket(sectorId);
-        player.socket.emit("ServerEvent", packet);
+        client.socket.emit("ServerEvent", packet);
     }
 }

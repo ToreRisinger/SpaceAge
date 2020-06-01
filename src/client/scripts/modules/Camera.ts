@@ -1,5 +1,4 @@
 import { GameScene } from "../scenes/GameScene";
-import { GameObject } from "../game_objects/GameObject";
 import { EventHandler } from "./EventHandler";
 import { Events } from "../../../shared/scripts/Events";
 import { InputHandler } from "./InputHandler";

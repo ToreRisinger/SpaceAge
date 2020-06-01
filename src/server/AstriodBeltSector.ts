@@ -7,6 +7,7 @@ import { ObjectInterfaces } from "../shared/scripts/ObjectInterfaces";
 import { ItemFactory } from "./ItemFactory";
 import { Items } from "../shared/scripts/Items";
 import { CargoUtils } from "./CargoUtils";
+import { IClient } from "./interfaces/IClient";
 
 const math = require('mathjs');
 
@@ -60,9 +61,9 @@ export class AsteroidBeltSector extends Sector {
             this.createAsteroid();
         }
 
-        this.players.forEach((player: ObjectInterfaces.IPlayer, key: number) => {
-            if(player.ship.isMining) {
-              this.handleMiningShip(player.ship, player);
+        this.clients.forEach((client: IClient, key: number) => {
+            if(client.character.ship.isMining) {
+              this.handleMiningShip(client);
             }
         });
 
@@ -85,17 +86,18 @@ export class AsteroidBeltSector extends Sector {
         this.asteroids.set(asteroid.id, asteroid);
     }
 
-    private handleMiningShip(miningShip : ObjectInterfaces.IShip, player : ObjectInterfaces.IPlayer) {
-        let targetAsteroid = this.asteroids.get(miningShip.targetId);
-        let cargoSpaceLeft = miningShip.stats[ObjectInterfaces.EShipStatType.cargo_hold] - CargoUtils.getCargoSize(player);
+    private handleMiningShip(client: IClient) {
+        let ship = client.character.ship;
+        let targetAsteroid = this.asteroids.get(ship.targetId);
+        let cargoSpaceLeft = ship.stats[ObjectInterfaces.EShipStatType.cargo_hold] - CargoUtils.getCargoSize(client);
         if(targetAsteroid != undefined && cargoSpaceLeft > 0) {
-          let miningShipPos = [miningShip.x, miningShip.y];
+          let miningShipPos = [ship.x, ship.y];
           let asteroidPos = [targetAsteroid.x, targetAsteroid.y];
           let miningShipToAsteroidVec = math.subtract(miningShipPos, asteroidPos);
           let miningShipToAsteroidDistance : number = math.length(miningShipToAsteroidVec);
-          let miningShipMiningRange = miningShip.stats[ObjectInterfaces.EShipStatType.mining_laser_range];
+          let miningShipMiningRange = ship.stats[ObjectInterfaces.EShipStatType.mining_laser_range];
           if(miningShipToAsteroidDistance <= miningShipMiningRange) {
-            let sizeMined = Math.floor(miningShip.stats[ObjectInterfaces.EShipStatType.mining_laser_strength] / targetAsteroid.hardness);
+            let sizeMined = Math.floor(ship.stats[ObjectInterfaces.EShipStatType.mining_laser_strength] / targetAsteroid.hardness);
             if(sizeMined == 0) {
                 sizeMined = 1;
             }
@@ -105,10 +107,10 @@ export class AsteroidBeltSector extends Sector {
             }
 
             if(targetAsteroid.size >= sizeMined) {
-                CargoUtils.addItemToPlayerCargo(ItemFactory.createMineral(targetAsteroid.type, sizeMined), player);
+                CargoUtils.addItemToPlayerCargo(ItemFactory.createMineral(targetAsteroid.type, sizeMined), client);
                 targetAsteroid.size = targetAsteroid.size - sizeMined;
             } else {
-                CargoUtils.addItemToPlayerCargo(ItemFactory.createMineral(targetAsteroid.type, targetAsteroid.size), player);
+                CargoUtils.addItemToPlayerCargo(ItemFactory.createMineral(targetAsteroid.type, targetAsteroid.size), client);
                 targetAsteroid.size = 0;
             }
           } 
@@ -117,15 +119,15 @@ export class AsteroidBeltSector extends Sector {
 
     private sendAsteroidUpdates() {
         let packet : any = PacketFactory.createAsteroidsUpdatePacket(this.asteroids);
-        this.players.forEach((player: ObjectInterfaces.IPlayer, key: number) => {
-          player.socket.emit("ServerEvent", packet);
+        this.clients.forEach((client: IClient, key: number) => {
+          client.socket.emit("ServerEvent", packet);
         });
     }
 
     private sendUpdatedCargo() {
-        CargoUtils.getPlayersWithChangedCargo().forEach((player: ObjectInterfaces.IPlayer, key: number) => {
-            let packet : any = PacketFactory.createCargoUpdatePacket(player.cargo);
-            player.socket.emit("ServerEvent", packet);
+        CargoUtils.getClientsWithChangedCargo().forEach((client: IClient, key: number) => {
+            let packet : any = PacketFactory.createCargoUpdatePacket(client.character.cargo);
+            client.socket.emit("ServerEvent", packet);
         });
     }
 
@@ -139,8 +141,8 @@ export class AsteroidBeltSector extends Sector {
 
     private sendDestroyedAsteroids(asteroidIdsTodestroy : number[]) {
         let packet : any = PacketFactory.createDestroyedGameObjectsPacket(asteroidIdsTodestroy);
-        this.players.forEach((player: ObjectInterfaces.IPlayer, key: number) => {
-            player.socket.emit("ServerEvent", packet);
+        this.clients.forEach((client: IClient, key: number) => {
+            client.socket.emit("ServerEvent", packet);
         });
     }
 }

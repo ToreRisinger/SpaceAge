@@ -3,6 +3,15 @@ import { ObjectInterfaces } from "../shared/scripts/ObjectInterfaces";
 import { Database } from "./database/Database";
 import { PacketFactory } from "./PacketFactory";
 import { Events } from "../shared/scripts/Events";
+import { IUserDocument } from "./database/models/user.model";
+import { Logger } from "../shared/logger/Logger";
+import { ICharacterDocument } from "./database/models/character.model";
+import { ICharacter } from "../shared/interfaces/ICharacter";
+import { Sectors } from "../shared/scripts/Sectors";
+import { Sector } from "./Sector";
+import { IClient } from "./interfaces/IClient";
+import { IdHandler } from "./IdHandler";
+import { Data } from "phaser";
 
 export class ComManager {
 
@@ -13,12 +22,15 @@ export class ComManager {
     private server: any;
     private sectorHandler: SectorHandler;
 
+    private clientMap: Map<number, IClient>; 
+
     constructor(server: any, sectorHandler: SectorHandler) {
+        this.clientMap = new Map<number, IClient>();
         this.sectorHandler = sectorHandler;
         this.server = server;
         
         this.server.listen(8081, function () {
-            console.log(`Listening on ${server.address().port}`);
+            Logger.info(`Listening on ${server.address().port}`);
         });
   
         this.io = require('socket.io').listen(server);
@@ -39,70 +51,189 @@ export class ComManager {
             this.onConnection(socket);
         });
     }
-  
-    //@ts-ignore
-    private onConnection(socket) {
-        let newPlayer : ObjectInterfaces.IPlayer = Database.getPlayer(Database.getPlayerId("toreman"), socket);
-        let playerShipSector = Database.getPlayerShipLocation(newPlayer.playerId);
-        console.log('a user connected: ' + newPlayer.ship.id);
-  
-        this.sectorHandler.addPlayerToSector(newPlayer, playerShipSector.sector_x, playerShipSector.sector_y);
-        let sector = this.sectorHandler.getSectorOfPlayer(newPlayer);
-        //@ts-ignore
-        let sectorId = sector.getId();
-        
-        this.sendLoadEvent(newPlayer, sectorId);
-        this.sendServerMessage(newPlayer, "Welcome to SpaceAge!");
-  
-        socket.on('disconnect', () => {
-            this.onDisconnect(newPlayer);
-        });
-    
+
+    private onConnection(socket: any) {
+        Logger.info("User connected '" + socket.conn.remoteAddress + "'");
         socket.on('ClientEvent', (event : Events.GameEvent) => {
-            this.onClientEvent(newPlayer, event);
+            this.onClientLoginReq(socket, event);
+        });
+        socket.on('disconnect', () => {
+            this.onClientDisconnect();
+        });
+    }
+
+    private onClientLoginReq(socket: any, event: Events.GameEvent) {
+        if(event.eventId == Events.EEventType.CLIENT_LOGIN_REQ) {
+            Database.getUser(event.data.username, (err: string, users: Array<IUserDocument>) => {
+                if(users.length > 0) {
+                    this.onClientLogin(socket, users[0]);
+                } else {
+                    Database.newUser(event.data.username, (err: string, user: IUserDocument) => {
+                        if(err) {
+                            this.connectionError(err, socket);
+                            return;
+                        }
+            
+                        if(user) {
+                            Database.newCharacter(user, (err: string, character: ICharacterDocument) => {
+                                if(err) {
+                                    this.connectionError(err, socket);
+                                    return;
+                                }
+                                this.onClientLogin(socket, user);
+                            });
+                        } else {
+                            this.connectionError(err, socket);
+                            return;
+                        }
+                    });
+                    
+                }
+            });
+        }
+    }
+
+    private onClientLogin(socket: any, user: IUserDocument) {
+        Logger.info("User '" + user.username + "' logged in");
+        Database.getCharacters(user, (err: string, characters: Array<ICharacterDocument>) => {
+            if(err) {
+                this.connectionError(err, socket);
+                return;
+            }
+            socket.on('ClientEvent', (event : Events.GameEvent) => {
+                this.onClientJoinReq(socket, user, event, characters);
+            });
+            this.sendCharacters(socket, characters);
+        })
+    }
+
+    private sendCharacters(socket: any, characters: Array<ICharacterDocument>) {
+        let chars : Array<ICharacter> = [];
+        characters.forEach(c => { chars.push(c.character) });
+        let packet : Events.SERVER_LOGIN_ACK = {
+            eventId : Events.EEventType.SERVER_LOGIN_ACK,
+            data : {
+              characters : chars
+            }
+        }
+        socket.emit("ServerEvent", packet);  
+    }
+
+    private onClientJoinReq(socket: any, user: IUserDocument, event: Events.GameEvent, characters: Array<ICharacterDocument>) {
+        if(event.eventId == Events.EEventType.CLIENT_JOIN_REQ) {
+
+            Logger.info("User '" + user.username + "' joined with character '" + event.data.character.name + "'");
+
+            let character : ICharacter | undefined = undefined;
+            for(let i = 0; i < characters.length; i++) {
+                if(characters[i].character.name == event.data.character.name) {
+                    character = characters[i].character;
+                }
+            }
+
+            if(character == undefined) {
+                this.connectionError("Could not find character: '" + event.data.character.name + "'", socket);
+                return;
+            }
+            
+            let sectorArray : Array<Sectors.ISector> = new Array();
+            let sectors : Array<Sector> = this.sectorHandler.getSectors();
+            for(let i = 0; i < sectors.length; i++) {
+                sectorArray.push({
+                    id : sectors[i].getId(),
+                    x : sectors[i].getX(),
+                    y : sectors[i].getY(),
+                    name : sectors[i].getName()
+                });
+            }
+
+            let sector : Sector | undefined = this.sectorHandler.getSector(0, 0);
+            if(sector == undefined) {
+                this.connectionError("Could not find sector", socket);
+                return;
+            }
+        
+            let packet : Events.SERVER_JOIN_ACK = {
+                eventId : Events.EEventType.SERVER_JOIN_ACK,
+                data : {
+                    character: character,
+                    clientSectorId : sector.getId(),
+                    sectors : sectorArray
+                }
+            }
+            
+            let clientId = IdHandler.getNewPlayerId();
+            let newClient : IClient = {
+                character: character,
+                socket: socket,
+                id: clientId
+            }
+
+            newClient.character.ship.id = IdHandler.getNewGameObjectId();
+
+            this.clientMap.set(clientId, newClient);
+            this.sectorHandler.addClientToSector(newClient, 0, 0);
+
+            socket.on('ClientEvent', (event : Events.GameEvent) => {
+                this.onClientEvent(newClient, event);
+            });
+            socket.on('disconnect', () => {
+                this.onDisconnect(newClient, user);
+            });
+            socket.emit("ServerEvent", packet); 
+            this.sendServerMessage(newClient, "Welcome to SpaceAge!");
+        }  
+    }
+
+    private onClientDisconnect() {
+        Logger.info("User disconnected");
+    }
+  
+    private onDisconnect(client: IClient, user: IUserDocument) {
+        Logger.info("User disconnected with character '" + client.character.name + "' of user '" + user.username + "'.");
+        this.sectorHandler.removePlayerFromSector(client);
+        Database.writeCharacter(client.character, user, (err: string) => {
+            if(err) {
+                Logger.error("Could not write character '" + client.character.name + "' of user '" + user.username + "'.");
+            }
         });
     }
   
-    private onDisconnect(player: ObjectInterfaces.IPlayer) {
-        console.log('user disconnected: ' + player.ship.id);
-        this.sectorHandler.removePlayerFromSector(player);
+    private onClientEvent(client: IClient, event: Events.GameEvent) {
+        this.handleClientEvent(client, event);
     }
   
-    private onClientEvent(player: ObjectInterfaces.IPlayer, event: Events.GameEvent) {
-        this.handleClientEvent(player, event);
-    }
-  
-    private handleClientEvent(player : ObjectInterfaces.IPlayer, event : Events.GameEvent) {
+    private handleClientEvent(client : IClient, event : Events.GameEvent) {
         switch(event.eventId)  {
           case Events.EEventType.PLAYER_SET_NEW_DESTINATION_EVENT : {
-            this.onPlayerSetNewDestinationEvent(player, event);
+            this.onPlayerSetNewDestinationEvent(client, event);
             break;
           }
           case Events.EEventType.CLIENT_SEND_CHAT_MESSAGE_EVENT : {
-            this.onChatMessageEvent(player, event);
+            this.onChatMessageEvent(client, event);
             break;
           }
           case Events.EEventType.PLAYER_STOP_SHIP_EVENT : {
-            this.onPlayerStopShipEvent(player, event);
+            this.onPlayerStopShipEvent(client, event);
             break;
           }
           case Events.EEventType.PLAYER_START_ATTACKING_EVENT : {
-            this.onPlayerStartAttackingEvent(player, event);
+            this.onPlayerStartAttackingEvent(client, event);
             break;
           }
           case Events.EEventType.PLAYER_STOP_ATTACKING_EVENT : {
-            this.onPlayerStopAttackingEvent(player, event);
+            this.onPlayerStopAttackingEvent(client, event);
           }
           case Events.EEventType.PLAYER_START_MINING_EVENT : {
-            this.onPlayerStartMiningEvent(player, event);
+            this.onPlayerStartMiningEvent(client, event);
             break;
           }
           case Events.EEventType.PLAYER_STOP_MINING_EVENT : {
-            this.onPlayerStopMiningEvent(player, event);
+            this.onPlayerStopMiningEvent(client, event);
             break;
           }
           case Events.EEventType.PLAYER_START_WARP_REQUEST_EVENT : {
-            this.onPlayerStartWarpEvent(player, event);
+            this.onPlayerStartWarpEvent(client, event);
             break;
           }
           default: {
@@ -111,24 +242,24 @@ export class ComManager {
         }
     }
   
-    private onPlayerStartAttackingEvent(player : ObjectInterfaces.IPlayer, event : Events.PLAYER_START_ATTACKING_EVENT_CONFIG) {
+    private onPlayerStartAttackingEvent(client: IClient, event : Events.PLAYER_START_ATTACKING_EVENT_CONFIG) {
         if(event.data.targetId != undefined && event.data.targetId > 0) {
-            this.startAttacking(player.ship, event.data.targetId);
+            this.startAttacking(client.character.ship, event.data.targetId);
         }
     }
   
-    private onPlayerStopAttackingEvent(player : ObjectInterfaces.IPlayer, event : Events.PLAYER_STOP_ATTACKING_EVENT_CONFIG) {
-        this.stopAttacking(player.ship);
+    private onPlayerStopAttackingEvent(client: IClient, event : Events.PLAYER_STOP_ATTACKING_EVENT_CONFIG) {
+        this.stopAttacking(client.character.ship);
     }
   
-    private onPlayerStartMiningEvent(player : ObjectInterfaces.IPlayer, event : Events.PLAYER_START_MINING_EVENT_CONFIG) {
+    private onPlayerStartMiningEvent(client: IClient, event : Events.PLAYER_START_MINING_EVENT_CONFIG) {
         if(event.data.targetId != undefined && event.data.targetId > 0) {
-            this.startMining(player.ship, event.data.targetId);
+            this.startMining(client.character.ship, event.data.targetId);
         }
     }
   
-    private onPlayerStopMiningEvent(player : ObjectInterfaces.IPlayer, event : Events.PLAYER_STOP_MINING_EVENT_CONFIG) {
-        this.stopMining(player.ship);
+    private onPlayerStopMiningEvent(client: IClient, event : Events.PLAYER_STOP_MINING_EVENT_CONFIG) {
+        this.stopMining(client.character.ship);
     }
   
     private stopAttacking(ship : ObjectInterfaces.IShip) {
@@ -142,7 +273,6 @@ export class ComManager {
   
     private stopMining(ship : ObjectInterfaces.IShip) {
         ship.isMining = false;
-        //ship.targetId = -1;
     }
   
     private startMining(ship : ObjectInterfaces.IShip, targetId : number) {
@@ -150,38 +280,38 @@ export class ComManager {
         ship.targetId = targetId;
     }
   
-    private onPlayerSetNewDestinationEvent(player : ObjectInterfaces.IPlayer, event : Events.PLAYER_SET_NEW_DESTINATION_EVENT_CONFIG) {
-        let xLength = player.ship.x - event.data.destinationX;
-        let yLength = player.ship.y - event.data.destinationY;
+    private onPlayerSetNewDestinationEvent(client : IClient, event : Events.PLAYER_SET_NEW_DESTINATION_EVENT_CONFIG) {
+        let xLength = client.character.ship.x - event.data.destinationX;
+        let yLength = client.character.ship.y - event.data.destinationY;
         let length = Math.sqrt(xLength * xLength + yLength * yLength);
         if(length != 0) {
-          player.ship.isMoving = true;
-          player.ship.destVec = [event.data.destinationX, event.data.destinationY];
-          player.ship.hasDestination = true;
+            client.character.ship.isMoving = true;
+            client.character.ship.destVec = [event.data.destinationX, event.data.destinationY];
+            client.character.ship.hasDestination = true;
         } 
     }
   
-    private onPlayerStopShipEvent(player : ObjectInterfaces.IPlayer, event : Events.PLAYER_STOP_SHIP_EVENT_CONFIG) {
-        player.ship.hasDestination = false;
+    private onPlayerStopShipEvent(client : IClient, event : Events.PLAYER_STOP_SHIP_EVENT_CONFIG) {
+        client.character.ship.hasDestination = false;
     }
   
-    private onPlayerStartWarpEvent(player : ObjectInterfaces.IPlayer, event : Events.PLAYER_START_WARP_REQUEST_EVENT_CONFIG) {
+    private onPlayerStartWarpEvent(client : IClient, event : Events.PLAYER_START_WARP_REQUEST_EVENT_CONFIG) {
         //TODO, add check if they should be able to warp
         let sector = this.sectorHandler.getSectors().find(sector => sector.getId() == event.data.targetId);
-        if(sector != undefined && !player.ship.isWarping) {
-          player.ship.isWarping = true;
-          player.ship.warpDestination = [sector.getX(), sector.getY()];
-          player.ship.warpSource  = [player.ship.x, player.ship.y];
-          player.ship.hasDestination = false;
-          this.sectorHandler.onPlayerStartWarping(player, sector);
+        if(sector != undefined && !client.character.ship.isWarping) {
+            client.character.ship.isWarping = true;
+            client.character.ship.warpDestination = [sector.getX(), sector.getY()];
+            client.character.ship.warpSource  = [client.character.ship.x, client.character.ship.y];
+            client.character.ship.hasDestination = false;
+            this.sectorHandler.onPlayerStartWarping(client, sector);
         }
     }
   
-    private onChatMessageEvent(player : ObjectInterfaces.IPlayer, event : Events.CLIENT_SEND_CHAT_MESSAGE_EVENT_CONFIG) {
-        this.broadcastChatMessage(player, event.data.message, event.data.sender);
+    private onChatMessageEvent(client : IClient, event : Events.CLIENT_SEND_CHAT_MESSAGE_EVENT_CONFIG) {
+        this.broadcastChatMessage(client, event.data.message, event.data.sender);
     }
   
-    private broadcastChatMessage(player : ObjectInterfaces.IPlayer, message : String, sender : String) {
+    private broadcastChatMessage(client : IClient, message : String, sender : String) {
         let packet : Events.CLIENT_RECEIVE_CHAT_MESSAGE_EVENT_CONFIG = {
           eventId : Events.EEventType.CLIENT_RECEIVE_CHAT_MESSAGE_EVENT,
           data : {
@@ -189,10 +319,10 @@ export class ComManager {
             sender : sender
           }
         }
-        player.socket.broadcast.emit("ServerEvent", packet);  
+        client.socket.broadcast.emit("ServerEvent", packet);  
     }
   
-    private sendServerMessage(player : ObjectInterfaces.IPlayer, message : String) {
+    private sendServerMessage(client : IClient, message : String) {
         let packet : Events.CLIENT_RECEIVE_CHAT_MESSAGE_EVENT_CONFIG = {
           eventId : Events.EEventType.CLIENT_RECEIVE_CHAT_MESSAGE_EVENT,
           data : {
@@ -200,10 +330,16 @@ export class ComManager {
             sender : "Server"
           }
         }
-        player.socket.emit("ServerEvent", packet);  
+        client.socket.emit("ServerEvent", packet);  
     }
-  
-    private sendLoadEvent(player : ObjectInterfaces.IPlayer, sectorId: number) {
-        player.socket.emit('ServerEvent', PacketFactory.createPlayerLoadEventPacket(player, this.sectorHandler.getSectors(), sectorId));
+
+    private disconnectClient(socket: any) {
+        socket.disconnect();
+    }
+
+    private connectionError(err: string, socket: any) {
+        Logger.error(err);
+        Logger.info("Disconnecting user.");
+        this.disconnectClient(socket);
     }
 }

@@ -25,8 +25,6 @@ export default class CargoItem extends React.Component<CargoItemProps, CargoItem
             top : this.state.mouseY - 50,
             left : this.state.mouseX - 320
         }
-
-        console.log(styles);
         
         let itemInfo : Items.IItemInfo = Items.getItemInfo(this.props.item.itemType);
         return (

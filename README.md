@@ -23,7 +23,3 @@
 -Terminal -> new Terminal
 -Write ./build.bat in the terminal, this will build and start the server
 -Go to localhost:8081
-
-Starting the mongoDb server:
->mongo
->use space-age-test

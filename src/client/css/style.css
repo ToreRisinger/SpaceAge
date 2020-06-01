@@ -799,3 +799,79 @@ body {
 #login_submit_button:hover {
     opacity: 1.0;
 }
+
+#character_selection_load_page {
+    position: absolute;
+    background-color: rgb(252, 0, 0);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#character_selection_page {
+    position: absolute;
+    background-color: rgb(0, 0, 0);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#character_selection_container {
+    position: absolute;
+    margin: auto;
+    width: 340px;
+    height: 80%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+#character_list_container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: rgb(0, 0, 0);
+}
+
+#character_container {
+    background-color: rgb(250, 250, 250);
+    border: 1px solid rgb(122, 122, 122);
+    width: 100px;
+    height: 100px;
+    text-align: center;
+    line-height: 100px;
+    margin: 5px;
+}
+
+#join_server_button {
+    background-color: rgb(68, 70, 240);
+    opacity: 0.8;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+}
+
+#join_server_button_disabled {
+    background-color: rgb(99, 99, 99);
+    opacity: 0.8;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+  }
+  
+  #join_server_button:hover {
+      opacity: 1.0;
+  }

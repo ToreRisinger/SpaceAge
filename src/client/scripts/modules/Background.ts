@@ -8,20 +8,15 @@ import { GlobalDataService } from "./GlobalDataService";
 
 export module Background {
 
-    //let loadingBackground : Phaser.GameObjects.Sprite;
     let spaceBackground : Phaser.GameObjects.Sprite;
     let BACKRGOUND_SIZE : number = 2000;
     let backgroundClickedCount : number = 0;
     let backgroundClicked : boolean = false;
 
     export function init() {
-        subscribeToEvents();
-
-        //createLoadingScreen();
         createBackground();   
 
         spaceBackground.setDisplaySize(BACKRGOUND_SIZE, BACKRGOUND_SIZE);
-        //loadingBackground.setDisplaySize(BACKRGOUND_SIZE, BACKRGOUND_SIZE);
     }
 
     export function update(time : number, delta : number) {
@@ -36,7 +31,7 @@ export module Background {
         }
 
 
-        if(backgroundClickedCount > 15) {
+        if(backgroundClickedCount > 30) {
             backgroundClickedCount = 0;
             backgroundClicked = false;
         }
@@ -45,20 +40,6 @@ export module Background {
     export function getSpaceBackground() {
         return spaceBackground;
     }
-
-    /*
-    function onSpaceSceneStart() {
-        loadingBackground.destroy();
-    }
-
-    function createLoadingScreen() {
-        loadingBackground = GameScene.getInstance().add.sprite(0, 0, CONSTANTS.IMAGE.LOADING_BACKGROUND);
-        loadingBackground.setDepth(DRAW_LAYERS.COVER_EVERYTHING_LAYER);
-
-        loadingBackground.setX(GlobalData.cameraX);
-        loadingBackground.setY(GlobalData.cameraY);
-    }
-    */
 
     function createBackground() {
         let globalDataService = GlobalDataService.getInstance();
@@ -71,15 +52,11 @@ export module Background {
         spaceBackground.setY(globalDataService.getCameraY());
     }
 
-    function subscribeToEvents() {
-        //EventHandler.on(Events.EEventType.SPACE_SCENE_GAME_STATE_EVENT, onSpaceSceneStart);
-    }
-
     function onBackgroundClicked() {
         //TODO better solution. This prevents movement when pressing side panels
         let mouseX = InputHandler.getMouseX();
         let mouseY = InputHandler.getMouseY();
-        if(mouseX > 52 && mouseY < GameScene.getInstance().getSceneWidth() - 320) {
+        if(mouseX > 52 && mouseX < GameScene.getInstance().getSceneWidth() - 320) {
             if(backgroundClicked) {
                 let event : Events.BACKGROUND_CLICKED_TWICE_EVENT_CONFIG = {
                     eventId : Events.EEventType.BACKGROUND_CLICKED_TWICE_EVENT,

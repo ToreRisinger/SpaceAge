@@ -6,6 +6,7 @@ import { SPRITES } from "../../../shared/scripts/SPRITES";
 import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
 import { GameObject } from "./GameObject";
 import { GlobalDataService } from "../modules/GlobalDataService";
+import { Ship } from "./Ship";
 
 export abstract class RadarDetectable extends GameObject {
 
@@ -136,8 +137,7 @@ export abstract class RadarDetectable extends GameObject {
 
     private calculateDetectedByRadar(distance : number, radarMass : number) {
         if(!(this.thisPlayerShip || this.alwaysVisible)) {
-            //@ts-ignore
-            let playerShip : Ship =  GlobalData.playerShip;
+            let playerShip : Ship =  GlobalDataService.getInstance().getPlayerShip();
             let radarRange : number = playerShip.getShipData().stats[ObjectInterfaces.EShipStatType.radar_range];
 
             this.detected = false;
@@ -162,8 +162,7 @@ export abstract class RadarDetectable extends GameObject {
     }
 
     private calculateDistanceToPlayerShip() {
-        //@ts-ignore
-        this.distanceToPlayerShip = Math.floor(GlobalData.playerShip.getPos().distance(this.getPos()));
+        this.distanceToPlayerShip = Math.floor(GlobalDataService.getInstance().getPlayerShip().getPos().distance(this.getPos()));
     }
 
     private calculateIconAlpha() {

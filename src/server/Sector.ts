@@ -1,5 +1,6 @@
 import { ObjectInterfaces } from "../shared/scripts/ObjectInterfaces";
 import { PacketFactory } from "./PacketFactory";
+import { IClient } from "./interfaces/IClient";
 
 const math = require('mathjs');
 math.length = function vec2Length(vec2 : Array<number>) {
@@ -11,7 +12,7 @@ let UPDATES_PER_SECOND : number = 25;
 export class Sector {
 
     protected ships : Map<number, ObjectInterfaces.IShip>;
-    protected players :  Map<number, ObjectInterfaces.IPlayer>;
+    protected clients :  Map<number, IClient>;
 
     protected x : number;
     protected y : number;
@@ -38,7 +39,7 @@ export class Sector {
         this.id = id;
 
         this.ships = new Map<number, ObjectInterfaces.IShip>();
-        this.players = new Map<number, ObjectInterfaces.IPlayer>();
+        this.clients = new Map<number, IClient>();
     }
 
     public getSectorX() {
@@ -90,21 +91,21 @@ export class Sector {
         */
     }
 
-    public addPlayer(player : ObjectInterfaces.IPlayer) {
-        this.players.set(player.playerId, player);
-        this.ships.set(player.ship.id, player.ship);
+    public addClient(client : IClient) {
+        this.clients.set(client.id, client);
+        this.ships.set(client.character.ship.id, client.character.ship);
     }
 
-    public removePlayer(player : ObjectInterfaces.IPlayer) {
-        this.players.delete(player.playerId);
-        this.ships.delete(player.ship.id);
-        this.sendPlayerDisconnected(player.ship.id);
+    public removeClient(client : IClient) {
+        this.clients.delete(client.id);
+        this.ships.delete(client.character.ship.id);
+        this.sendClientDisconnected(client.character.ship.id);
     }
 
-    private sendPlayerDisconnected(disconnectedShipId : number) {
+    private sendClientDisconnected(disconnectedShipId : number) {
         let packet : any = PacketFactory.createPlayerDisconnectedPacket(disconnectedShipId);
-        this.players.forEach((player: ObjectInterfaces.IPlayer, key: number) => {
-          player.socket.emit('ServerEvent', packet)
+        this.clients.forEach((client: IClient, key: number) => {
+          client.socket.emit('ServerEvent', packet)
         });
     }
 
@@ -277,9 +278,9 @@ export class Sector {
       }
 
     private sendShipUpdates() {
-        let packet : any = PacketFactory.createShipsUpdatePacket(this.players);
-        this.players.forEach((player: ObjectInterfaces.IPlayer, key: number) => {
-          player.socket.emit("ServerEvent", packet);
+        let packet : any = PacketFactory.createShipsUpdatePacket(this.clients);
+        this.clients.forEach((client: IClient, key: number) => {
+          client.socket.emit("ServerEvent", packet);
         });
     }
 }

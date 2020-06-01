@@ -5,7 +5,6 @@ REM Build the "build" folder
 MKDIR build
 MKDIR build\public
 MKDIR build\shared
-MKDIR build\shared\scripts
 MKDIR build\server
 MKDIR build\server\resources
 MKDIR build\public\css
@@ -15,7 +14,7 @@ copy js-src\index.js build\index.js
 copy src\client\index.html build\public\index.html
 copy src\client\lib\phaser.js build\public\phaser.js
 
-xcopy /Y/E js-src\shared\scripts build\shared\scripts
+xcopy /Y/E js-src\shared build\shared
 xcopy /Y/E js-src\server build\server
 
 copy src\client\css build\public\css

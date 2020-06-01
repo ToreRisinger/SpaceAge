@@ -24,8 +24,11 @@ export module Chat {
     }
 
     function checkEnterPressed() {
+        if(chat_input == null) {
+            chat_input = document.getElementById("chat_input");
+        }
+        
         if(InputHandler.getKeyState(InputHandler.KEY.ENTER) == InputHandler.KEY_STATE.PRESSED) {
-            //@ts-ignore
             if(chat_input === document.activeElement) {
                 //@ts-ignore
                 chat_input.blur();

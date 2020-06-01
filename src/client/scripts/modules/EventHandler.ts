@@ -1,4 +1,5 @@
 import { Events } from "../../../shared/scripts/Events"
+import { GlobalDataService } from "./GlobalDataService";
 
 export module EventHandler {
     let eventQueue: Array<Events.GameEvent> = [];
@@ -19,7 +20,7 @@ export module EventHandler {
             }
 
             //Call callback functions
-            for(let i = 0; i < subscriberMap[event.eventId].length; i++) {
+            for(let i = 0; i < subscriberMap[event.eventId].length; i++) {              
                 subscriberMap[event.eventId][i](event);
             }
         }
