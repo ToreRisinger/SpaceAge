@@ -37,7 +37,7 @@ export class GameController {
     }
 
     public inSpaceStateInit(character: ICharacter, sectors : Array<Sectors.ISector>, clientSectorId: number) {
-        GameObjectHandler.init(character.ship, character.cargo, sectors);
+        GameObjectHandler.init(character, sectors);
         //@ts-ignore
         let sector : Sector = GameObjectHandler.getGameObjectsMap().get(clientSectorId);
         //@ts-ignore

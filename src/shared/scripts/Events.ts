@@ -135,13 +135,13 @@ export module Events {
     }
 
     export interface PLAYER_START_ATTACKING_EVENT_CONFIG extends GameEvent {
-        data :  {
+        data : {
             targetId : number
         }
     }
 
     export interface PLAYER_STOP_ATTACKING_EVENT_CONFIG extends GameEvent {
-        data :  { }
+        data : { }
     }
 
     export interface PLAYER_START_MINING_EVENT_CONFIG extends GameEvent {
@@ -151,12 +151,12 @@ export module Events {
     }
 
     export interface PLAYER_STOP_MINING_EVENT_CONFIG extends GameEvent {
-        data :  { }
+        data : { }
     }
 
     export interface SHIPS_UPDATE_EVENT_CONFIG extends GameEvent {
-        data : {
-            ships : Array<ObjectInterfaces.IShip>
+        data: {
+            characters: Array<{ship: ObjectInterfaces.IShip, characterName : string}>
         }
     }
 

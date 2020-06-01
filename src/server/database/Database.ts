@@ -45,7 +45,7 @@ export module Database {
     }
 
     export function newCharacter(user: IUserDocument, callback: (error: string, character: ICharacterDocument) => void) : void {
-      const model = new CharacterModel({character: createNewCharacter(), user: user._id});
+      const model = new CharacterModel({character: createNewCharacter(user), user: user._id});
       model.save(callback);
     }
 
@@ -72,7 +72,7 @@ export module Database {
       }
     }
 
-    function createNewCharacter() : ICharacter {
+    function createNewCharacter(user: IUserDocument) : ICharacter {
       let items : Array<Items.IItem> = new Array();
       items.push(ItemFactory.createMineral(Items.EMineralItemType.DIAMOND_ORE, 1));
       items.push(ItemFactory.createMineral(Items.EMineralItemType.GOLD_ORE, 20));
@@ -93,7 +93,7 @@ export module Database {
       
       let character : ICharacter = {
           cargo: cargo,
-          name: "Character1",
+          name: user.username + " (Character1)",
           sectorCoords: {
             x: 0, 
             y: 0

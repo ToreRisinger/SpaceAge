@@ -8,12 +8,13 @@ export class Ship extends RadarDetectable {
     private ship_config : ObjectInterfaces.IShip;
     //@ts-ignore
     private shipSprite : ShipSprite;
-
     private shipCargo : ObjectInterfaces.ICargo;
+    private characterName : string;
 
-    constructor(ship_config : ObjectInterfaces.IShip, thisPlayerShip : boolean) {
+    constructor(ship_config : ObjectInterfaces.IShip, thisPlayerShip : boolean, characterName: string) {
         super(ship_config, SPRITES.SHIP_ICON.sprite, thisPlayerShip, false);
         this.ship_config = ship_config;
+        this.characterName = characterName;
         this.shipCargo = {
             items : []
         }
@@ -60,7 +61,7 @@ export class Ship extends RadarDetectable {
     }
 
     public getDisplayName() : string {
-        return "" + this.ship_config.id;
+        return this.characterName;
     }
 
     private buildShip() {

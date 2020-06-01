@@ -8,17 +8,18 @@ import { Asteroid } from "../game_objects/Asteroid";
 import { Sector } from "../game_objects/Sector";
 import { Sectors } from "../../../shared/scripts/Sectors";
 import { GlobalDataService } from "./GlobalDataService";
+import { ICharacter } from "../../../shared/interfaces/ICharacter";
 
 export module GameObjectHandler {
 
     let thisShipId : number = -1;
     let gameObjects = new Map<number, GameObject>();
 
-    export function init(ship : ObjectInterfaces.IShip, cargo : ObjectInterfaces.ICargo, sectors : Array<Sectors.ISector>) {
-        let newShip : Ship = new Ship(ship, true);
-        newShip.setCargo(cargo);
+    export function init(character: ICharacter, sectors : Array<Sectors.ISector>) {
+        let newShip : Ship = new Ship(character.ship, true, character.name);
+        newShip.setCargo(character.cargo);
       
-        thisShipId = ship.id;
+        thisShipId = character.ship.id;
         gameObjects.set(thisShipId, newShip);
 
         sectors.forEach((value: Sectors.ISector, index: number, array: Sectors.ISector[]) => {
@@ -55,15 +56,15 @@ export module GameObjectHandler {
     }
 
     function onShipsUpdate(event : Events.SHIPS_UPDATE_EVENT_CONFIG) {
-        let shipArray : Array<ObjectInterfaces.IShip> = event.data.ships;
-        shipArray.forEach((ship_config: ObjectInterfaces.IShip) => {
-            if(gameObjects.get(ship_config.id) == undefined) {
-                let newShip : Ship = new Ship(ship_config, false);
-                gameObjects.set(ship_config.id, newShip);
+        let array : Array<{ship: ObjectInterfaces.IShip, characterName : string}> = event.data.characters;
+        array.forEach((value : {ship: ObjectInterfaces.IShip, characterName : string}) => {
+            if(gameObjects.get(value.ship.id) == undefined) {
+                let newShip : Ship = new Ship(value.ship, false, value.characterName);
+                gameObjects.set(value.ship.id, newShip);
             } else {
                 //@ts-ignore
-                let oldShip : Ship = gameObjects.get(ship_config.id);
-                oldShip.updateDataObjectConfig(ship_config);
+                let oldShip : Ship = gameObjects.get(value.ship.id);
+                oldShip.updateDataObjectConfig(value.ship);
             }
         });
     }
@@ -99,7 +100,6 @@ export module GameObjectHandler {
     }
 
     function onSectorChanged(event : Events.CHANGE_SECTOR_EVENT_CONFIG) {
-        //@ts-ignore
         let gameObject = gameObjects.get(event.data.clientSectorId);
         if(gameObject instanceof Sector) {
             GlobalDataService.getInstance().setSector(gameObject)

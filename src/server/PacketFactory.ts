@@ -33,15 +33,15 @@ export module PacketFactory {
     }
 
     export function createShipsUpdatePacket(clients : Map<number, IClient>) {
-        let shipArray: Array<ObjectInterfaces.IShip> = [];
+        let array: Array<{ship: ObjectInterfaces.IShip, characterName : string}> = [];
         clients.forEach((client: IClient, key: number) => {
-          shipArray.push(client.character.ship);
+          array.push({characterName: client.character.name, ship: client.character.ship});
         });
     
         let packet : Events.SHIPS_UPDATE_EVENT_CONFIG = {
           eventId : Events.EEventType.SHIPS_UPDATE_EVENT,
           data : {
-            ships : shipArray
+            characters : array
           }
         }
         
