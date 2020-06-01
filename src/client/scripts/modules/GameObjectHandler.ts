@@ -105,11 +105,21 @@ export module GameObjectHandler {
             GlobalDataService.getInstance().setSector(gameObject)
             let newSectorX = GlobalDataService.getInstance().getSector().getMapX();
             let newSectorY = GlobalDataService.getInstance().getSector().getMapY();
+            let objectsToRemove : Array<GameObject> = new Array();
             gameObjects.forEach((element, key) => {
                 if(element instanceof Sector) {
                     element.onSectorChanged(newSectorX, newSectorY);
+                } else if(element instanceof Ship) {
+                    if(element.getShipData().id != thisShipId) {
+                        objectsToRemove.push(element);
+                    }
+                } else {
+                    objectsToRemove.push(element);
                 }
             });
+            for(let i = 0; i < objectsToRemove.length; i++) {
+                destroyGameObject(objectsToRemove[i].getGameObjectData().id);
+            }
         }  
     }
 
