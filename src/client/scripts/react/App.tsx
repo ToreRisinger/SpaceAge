@@ -14,6 +14,7 @@ import LoginPage from "./mainComponents/login/LoginPage";
 import LoginInput from "./mainComponents/login/LoginInput";
 import CharacterSelectionLoadPage from "./mainComponents/login/CharacterSelectionLoadPage";
 import CharacterSelectionPage from "./mainComponents/login/CharacterSelectionPage";
+import LocationPanel from "./mainComponents/LocationPanel";
 
 export interface AppState { gameState : EGameState; }
 
@@ -98,6 +99,7 @@ export default class App extends React.Component<{}, AppState> {
                         <CargoPanel/>
                         <RulerPanel/>
                         <AbilityPanel/>
+                        <LocationPanel/>
                     </Fragment>
                 ) 
             }
