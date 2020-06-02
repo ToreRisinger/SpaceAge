@@ -10,7 +10,6 @@ import AbilityPanel from "./mainComponents/AbilityPanel";
 import { EventHandler } from "../modules/EventHandler";
 import { Events } from "../../../shared/scripts/Events";
 import { EGameState } from "../../../shared/scripts/EGameState";
-import LoginPage from "./mainComponents/login/LoginPage";
 import LoginInput from "./mainComponents/login/LoginInput";
 import CharacterSelectionLoadPage from "./mainComponents/login/CharacterSelectionLoadPage";
 import CharacterSelectionPage from "./mainComponents/login/CharacterSelectionPage";

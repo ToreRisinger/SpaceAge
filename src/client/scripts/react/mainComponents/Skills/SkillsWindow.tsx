@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
-import WindowHeader from "./WindowHeader";
+import WindowHeader from "../../windows/WindowHeader";
+import SkillsContainer from "./SkillsContainer";
 
 export interface SkillsWindowProps {
     window_open: boolean
@@ -17,6 +18,7 @@ export default class SkillsWindow extends React.Component<SkillsWindowProps, {}>
                 {this.props.window_open &&
                     <div id="skills_window" className="UIComponent SidePanelWindow">
                         <WindowHeader text="Skills"/>
+                        <SkillsContainer/>
                     </div>
                 }
             </Fragment>

@@ -1,7 +1,7 @@
 import React, {Fragment}  from "react";
 import ShipWindow from "../windows/ShipWindow";
 import MapWindow from "../windows/MapWindow";
-import SkillsWindow from "../windows/SkillsWindow";
+import SkillsWindow from "./Skills/SkillsWindow";
 
 export interface SidePanelState {
      ship_window_open : boolean,
