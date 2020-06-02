@@ -1,9 +1,10 @@
 import { ObjectInterfaces } from "./ObjectInterfaces"
 import { RadarDetectable } from "../../client/scripts/game_objects/RadarDetectable";
 import { AsteroidData } from "./AsteroidData";
-import { Sectors } from "./Sectors";
 import { EGameState } from "./EGameState";
 import { ICharacter } from "../interfaces/ICharacter";
+import { ICargo } from "../interfaces/ICargo";
+import { ISector } from "../interfaces/ISector";
 
 
 export module Events {
@@ -95,7 +96,7 @@ export module Events {
     export interface SERVER_JOIN_ACK extends GameEvent {
         data : {
             character : ICharacter,
-            sectors : Array<Sectors.ISector>,
+            sectors : Array<ISector>,
             clientSectorId : number
         }
     }
@@ -103,8 +104,8 @@ export module Events {
     export interface INITAL_GAME_LOAD_EVENT_CONFIG extends GameEvent {
         data : {
             ship : ObjectInterfaces.IShip,
-            cargo : ObjectInterfaces.ICargo,
-            sectors : Array<Sectors.ISector>,
+            cargo : ICargo,
+            sectors : Array<ISector>,
             clientSectorId : number
         }
     }
@@ -168,7 +169,7 @@ export module Events {
 
     export interface CARGO_UPDATE_EVENT_CONFIG extends GameEvent {
         data : {
-            cargo : ObjectInterfaces.ICargo
+            cargo : ICargo
         }
     }
 

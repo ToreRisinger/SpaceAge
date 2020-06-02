@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 
-export interface ObjectInfoContainerProps { title : string, fields : Array<string>, description : string | undefined }
+export interface ObjectInfoContainerProps { title : string | undefined, fields : Array<string>, description : string | undefined, centerFields: boolean}
 
 export default class ObjectInfoContainer extends React.Component<ObjectInfoContainerProps, {}> {
 
@@ -9,11 +9,16 @@ export default class ObjectInfoContainer extends React.Component<ObjectInfoConta
    }
 
    render() {
+        const styles = this.props.centerFields ? 'center' : 'left';
         return (   
             <div id="object_info_container" className="Unselectable">
-                <div id="object_info_container_title">{this.props.title}</div>
-                <hr></hr>
-                {this.props.fields.map((object, i) => <div id="object_info_container_field" key={i}>{object}</div>)}
+                {this.props.title &&
+                    <Fragment>
+                        <div id="object_info_container_title">{this.props.title}</div>
+                        <hr></hr>
+                    </Fragment>
+                }
+                {this.props.fields.map((object, i) => <div id="object_info_container_field" style={{textAlign:styles}} key={i}>{object}</div>)}
                 {this.props.description &&
                     <Fragment>
                         <hr></hr>

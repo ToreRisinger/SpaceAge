@@ -3,7 +3,6 @@ import { GameObjectHandler } from "./../../modules/GameObjectHandler"
 import { GameObject } from "./../../game_objects/GameObject"
 import { RadarDetectable } from "../../game_objects/RadarDetectable";
 import  NavigationContainer  from "./NavigationContainer"
-import  ObjectInfoPanel  from "./ObjectInfoPanel"
 import { EventHandler } from "./../../modules/EventHandler";
 import { Events } from "../../../../shared/scripts/Events";
 import TargetPanel from "./TargetPanel";

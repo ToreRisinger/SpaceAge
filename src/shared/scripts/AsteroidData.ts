@@ -1,6 +1,7 @@
 import { ObjectInterfaces } from "./ObjectInterfaces";
 import { SPRITES } from "./SPRITES";
 import { Items } from "./Items";
+import { ISprite } from "../interfaces/ISprite";
 
 export module AsteroidData {
 
@@ -23,7 +24,7 @@ export module AsteroidData {
     export interface IAsteroidInfo {
         name : string,
         description : string,
-        sprite : ObjectInterfaces.ISprite,
+        sprite : ISprite,
         massPerM2 : number,
         mineral : string
     }

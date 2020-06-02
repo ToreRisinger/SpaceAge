@@ -6,23 +6,23 @@ import { ObjectInterfaces } from "../../../shared/scripts/ObjectInterfaces";
 import { AsteroidData } from "../../../shared/scripts/AsteroidData";
 import { Asteroid } from "../game_objects/Asteroid";
 import { Sector } from "../game_objects/Sector";
-import { Sectors } from "../../../shared/scripts/Sectors";
 import { GlobalDataService } from "./GlobalDataService";
 import { ICharacter } from "../../../shared/interfaces/ICharacter";
+import { ISector } from "../../../shared/interfaces/ISector";
 
 export module GameObjectHandler {
 
     let thisShipId : number = -1;
     let gameObjects = new Map<number, GameObject>();
 
-    export function init(character: ICharacter, sectors : Array<Sectors.ISector>) {
+    export function init(character: ICharacter, sectors : Array<ISector>) {
         let newShip : Ship = new Ship(character.ship, true, character.name);
         newShip.setCargo(character.cargo);
       
         thisShipId = character.ship.id;
         gameObjects.set(thisShipId, newShip);
 
-        sectors.forEach((value: Sectors.ISector, index: number, array: Sectors.ISector[]) => {
+        sectors.forEach((value: ISector, index: number, array: ISector[]) => {
             gameObjects.set(value.id, new Sector(value));
         });
         

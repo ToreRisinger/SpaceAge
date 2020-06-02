@@ -6,6 +6,7 @@ import { Items } from "../shared/scripts/Items.js";
 import { IdHandler } from "./IdHandler.js";
 import { PacketFactory } from "./PacketFactory.js";
 import { IClient } from "./interfaces/IClient.js";
+import { IPlayer } from "../shared/interfaces/IPlayer.js";
 
 const math = require('mathjs');
 
@@ -13,8 +14,8 @@ export class SectorHandler {
 
     private sectors : Map<string, Sector>;
     private SECTOR_COORD_TO_MAP_COORD : number = 10000000;
-
     private playersToSectorMap :  Map<number, Sector>;
+    private location: string = "unknown";
 
     private warpingPlayers : Map<number, {
         client : IClient, 
@@ -27,6 +28,10 @@ export class SectorHandler {
         this.warpingPlayers = new Map();
         this.playersToSectorMap = new Map<number, Sector>();
         this.createSectors();
+    }
+
+    public getLocation(): string {
+        return this.location;
     }
 
     public getSectors() : Array<Sector> {
@@ -67,7 +72,7 @@ export class SectorHandler {
         }
     }
 
-    public getSectorOfPlayer(player : ObjectInterfaces.IPlayer) : Sector | undefined {
+    public getSectorOfPlayer(player : IPlayer) : Sector | undefined {
         return this.playersToSectorMap.get(player.playerId);
     }
 
@@ -125,9 +130,10 @@ export class SectorHandler {
     }
 
     private createSectors() {
-       for(let i = 0; i < map_config.sections.length; i++) {
-           let sector = map_config.sections[i];
-           if(sector.type == "asteroid-belt") {
+        this.location = map_config.location;
+        for(let i = 0; i < map_config.sections.length; i++) {
+            let sector = map_config.sections[i];
+            if(sector.type == "asteroid-belt") {
                 this.verifySectorData(sector);
 
                 //@ts-ignore
@@ -148,8 +154,8 @@ export class SectorHandler {
                     sector["asteroid-max-size"],
                     sector["asteroid-generation-rate"],
                     sector["max-number-of-asteroids"]));
-           }
-       }
+            }
+        }
     }
 
     private verifySectorData(sector : Object) {

@@ -9,6 +9,7 @@ export class GlobalDataService {
 
     private static _instance : GlobalDataService;
     /* Player */
+    private character : ICharacter;
     private username : String;
     private playerShip : Ship;
     private sector : Sector;
@@ -23,7 +24,9 @@ export class GlobalDataService {
     private cameraWidth : number = 0;
     private cameraHeight : number = 0;
 
+
     constructor(character: ICharacter, playerShip : Ship, sector : Sector) {
+        this.character = character;
         this.username = character.name;
         this.playerShip = playerShip;
         this.sector = sector;
@@ -35,6 +38,10 @@ export class GlobalDataService {
 
     static getInstance() : GlobalDataService {
         return GlobalDataService._instance;
+    }
+
+    public getCharacter() : ICharacter {
+        return this.character;
     }
 
     public getUsername() : String {

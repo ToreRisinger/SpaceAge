@@ -1,5 +1,6 @@
-import { ObjectInterfaces } from "./ObjectInterfaces";
 import { SPRITES } from "./SPRITES";
+import { Stats } from "../stats/Stats";
+import { ISprite } from "../interfaces/ISprite";
 
 export module Items {
 
@@ -37,8 +38,8 @@ export module Items {
     export type EItemType = EModuleItemType | EMineralItemType;
   
     export interface IModuleStat {
-        property : ObjectInterfaces.EShipStatType,
-        modifier : ObjectInterfaces.EShipStatModifier,
+        property : Stats.EStatType,
+        modifier : Stats.EStatModifier,
         value : number;
     }
 
@@ -61,7 +62,7 @@ export module Items {
         size : number,
         cargoSpace : number,
         canStack : boolean,
-        sprite : ObjectInterfaces.ISprite | undefined,
+        sprite : ISprite | undefined,
     }
 
     const itemTypeToItemInfoMap : { [key: number]: IItemInfo } = {

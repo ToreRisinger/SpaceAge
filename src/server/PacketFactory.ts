@@ -2,14 +2,15 @@ import { Events } from "../shared/scripts/Events";
 import { ObjectInterfaces } from "../shared/scripts/ObjectInterfaces";
 import { AsteroidData } from "../shared/scripts/AsteroidData";
 import { Sector } from "./Sector";
-import { Sectors } from "../shared/scripts/Sectors";
 import { IClient } from "./interfaces/IClient";
+import { ICargo } from "../shared/interfaces/ICargo";
+import { ISector } from "../shared/interfaces/ISector";
 
 
 export module PacketFactory {
 
     export function createPlayerLoadEventPacket(client: IClient, sectors : Array<Sector>, sectorId : number) {
-        let sectorArray : Array<Sectors.ISector> = new Array();
+        let sectorArray : Array<ISector> = new Array();
         for(let i = 0; i < sectors.length; i++) {
           sectorArray.push({
             id : sectors[i].getId(),
@@ -72,7 +73,7 @@ export module PacketFactory {
     return packet;
   }
 
-  export function createCargoUpdatePacket(cargo : ObjectInterfaces.ICargo) {
+  export function createCargoUpdatePacket(cargo : ICargo) {
     let packet : Events.CARGO_UPDATE_EVENT_CONFIG = {
       eventId : Events.EEventType.CARGO_UPDATE_EVENT,
       data : {

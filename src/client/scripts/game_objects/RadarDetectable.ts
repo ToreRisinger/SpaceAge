@@ -7,6 +7,8 @@ import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
 import { GameObject } from "./GameObject";
 import { GlobalDataService } from "../modules/GlobalDataService";
 import { Ship } from "./Ship";
+import { ISprite } from "../../../shared/interfaces/ISprite";
+import { Stats } from "../../../shared/stats/Stats";
 
 export abstract class RadarDetectable extends GameObject {
 
@@ -14,7 +16,7 @@ export abstract class RadarDetectable extends GameObject {
     private isHoverVar : boolean;
     private ICON_ALPHA_DEFAULT : number = 0.5;
     private ICON_ALPHA_HOVER : number = 1;
-    private icon : ObjectInterfaces.ISprite;
+    private icon : ISprite;
 
     private detected : boolean;
     private distanceToPlayerShip : number;
@@ -24,7 +26,7 @@ export abstract class RadarDetectable extends GameObject {
     private firstUpdate : boolean = true;
     private alwaysVisible : boolean;
 
-    constructor(game_object_config : ObjectInterfaces.IGameObject, iconSprite : ObjectInterfaces.ISprite, thisPlayerShip : boolean, alwaysVisible : boolean) {
+    constructor(game_object_config : ObjectInterfaces.IGameObject, iconSprite : ISprite, thisPlayerShip : boolean, alwaysVisible : boolean) {
         super(game_object_config);
         this.thisPlayerShip = thisPlayerShip;
         this.alwaysVisible = alwaysVisible;
@@ -138,7 +140,7 @@ export abstract class RadarDetectable extends GameObject {
     private calculateDetectedByRadar(distance : number, radarMass : number) {
         if(!(this.thisPlayerShip || this.alwaysVisible)) {
             let playerShip : Ship =  GlobalDataService.getInstance().getPlayerShip();
-            let radarRange : number = playerShip.getShipData().stats[ObjectInterfaces.EShipStatType.radar_range];
+            let radarRange : number = playerShip.getShipData().stats[Stats.EStatType.radar_range];
 
             this.detected = false;
             if(distance <= radarRange) {
@@ -146,7 +148,7 @@ export abstract class RadarDetectable extends GameObject {
                 return;
             }
 
-            if(distance >= radarRange * 2) {
+            if(distance >= radarRange * 10) {
                 this.detected = false;
                 return;
             }

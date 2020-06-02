@@ -3,11 +3,11 @@ import { AsteroidData } from "../shared/scripts/AsteroidData";
 import { IdHandler } from "./IdHandler";
 import { Utils } from "../shared/scripts/Utils";
 import { PacketFactory } from "./PacketFactory";
-import { ObjectInterfaces } from "../shared/scripts/ObjectInterfaces";
 import { ItemFactory } from "./ItemFactory";
 import { Items } from "../shared/scripts/Items";
 import { CargoUtils } from "./CargoUtils";
 import { IClient } from "./interfaces/IClient";
+import { Stats } from "../shared/stats/Stats";
 
 const math = require('mathjs');
 
@@ -89,15 +89,15 @@ export class AsteroidBeltSector extends Sector {
     private handleMiningShip(client: IClient) {
         let ship = client.character.ship;
         let targetAsteroid = this.asteroids.get(ship.targetId);
-        let cargoSpaceLeft = ship.stats[ObjectInterfaces.EShipStatType.cargo_hold] - CargoUtils.getCargoSize(client);
+        let cargoSpaceLeft = ship.stats[Stats.EStatType.cargo_hold] - CargoUtils.getCargoSize(client);
         if(targetAsteroid != undefined && cargoSpaceLeft > 0) {
           let miningShipPos = [ship.x, ship.y];
           let asteroidPos = [targetAsteroid.x, targetAsteroid.y];
           let miningShipToAsteroidVec = math.subtract(miningShipPos, asteroidPos);
           let miningShipToAsteroidDistance : number = math.length(miningShipToAsteroidVec);
-          let miningShipMiningRange = ship.stats[ObjectInterfaces.EShipStatType.mining_laser_range];
+          let miningShipMiningRange = ship.stats[Stats.EStatType.mining_laser_range];
           if(miningShipToAsteroidDistance <= miningShipMiningRange) {
-            let sizeMined = Math.floor(ship.stats[ObjectInterfaces.EShipStatType.mining_laser_strength] / targetAsteroid.hardness);
+            let sizeMined = Math.floor(ship.stats[Stats.EStatType.mining_laser_strength] / targetAsteroid.hardness);
             if(sizeMined == 0) {
                 sizeMined = 1;
             }

@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { Items } from "../../../../../shared/scripts/Items";
-import { ObjectInterfaces } from "../../../../../shared/scripts/ObjectInterfaces";
+import { Stats } from "../../../../../shared/stats/Stats";
 
 export interface ItemToolTipModuleStatProps { stat : Items.IModuleStat}
 
@@ -13,9 +13,9 @@ export default class ItemToolTipModuleStat extends React.Component<ItemToolTipMo
    render() {
         return (
             <div className="ItemToolTipElement">
-                {ObjectInterfaces.shipStatTypeToString(this.props.stat.property) + ": "}
-                <span style={{color:'rgb(64, 233, 73)'}}>{ObjectInterfaces.shipStatModifierToString(this.props.stat.modifier) + this.props.stat.value}</span>
-                {" " + ObjectInterfaces.shipStatTypeUnitToString(this.props.stat.property)}
+                {Stats.statTypeToString(this.props.stat.property) + ": "}
+                <span style={{color:'rgb(64, 233, 73)'}}>{Stats.statModifierToString(this.props.stat.modifier) + this.props.stat.value}</span>
+                {" " + Stats.statTypeUnitToString(this.props.stat.property)}
             </div>   
         );
    }

@@ -2,13 +2,15 @@ import { ObjectInterfaces } from "../../../shared/scripts/ObjectInterfaces"
 import { ShipSprite } from "./ShipSprite";
 import { RadarDetectable } from "./RadarDetectable";
 import { SPRITES } from "../../../shared/scripts/SPRITES";
+import { ICargo } from "../../../shared/interfaces/ICargo";
+import { Stats } from "../../../shared/stats/Stats";
 
 export class Ship extends RadarDetectable {
 
     private ship_config : ObjectInterfaces.IShip;
     //@ts-ignore
     private shipSprite : ShipSprite;
-    private shipCargo : ObjectInterfaces.ICargo;
+    private shipCargo : ICargo;
     private characterName : string;
 
     constructor(ship_config : ObjectInterfaces.IShip, thisPlayerShip : boolean, characterName: string) {
@@ -25,11 +27,11 @@ export class Ship extends RadarDetectable {
         }
     }
 
-    public setCargo(cargo : ObjectInterfaces.ICargo) {
+    public setCargo(cargo : ICargo) {
         this.shipCargo = cargo;
     }
 
-    public getCargo() : ObjectInterfaces.ICargo {
+    public getCargo() : ICargo {
         return this.shipCargo;
     }
 
@@ -69,7 +71,7 @@ export class Ship extends RadarDetectable {
     }
 
     protected getRadarMass() : number {
-        return this.getShipData().stats[ObjectInterfaces.EShipStatType.mass] * ( 1 - this.getShipData().stats[ObjectInterfaces.EShipStatType.radar_signature_reduction] / 100)
+        return this.getShipData().stats[Stats.EStatType.mass] * ( 1 - this.getShipData().stats[Stats.EStatType.radar_signature_reduction] / 100)
     }
 
     protected setVisible(value : boolean) : void {

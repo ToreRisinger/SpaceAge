@@ -7,11 +7,10 @@ import { IUserDocument } from "./database/models/user.model";
 import { Logger } from "../shared/logger/Logger";
 import { ICharacterDocument } from "./database/models/character.model";
 import { ICharacter } from "../shared/interfaces/ICharacter";
-import { Sectors } from "../shared/scripts/Sectors";
 import { Sector } from "./Sector";
 import { IClient } from "./interfaces/IClient";
 import { IdHandler } from "./IdHandler";
-import { Data } from "phaser";
+import { ISector } from "../shared/interfaces/ISector";
 
 export class ComManager {
 
@@ -75,7 +74,7 @@ export class ComManager {
                         }
             
                         if(user) {
-                            Database.newCharacter(user, (err: string, character: ICharacterDocument) => {
+                            Database.newCharacter(user, this.sectorHandler.getLocation(), (err: string, character: ICharacterDocument) => {
                                 if(err) {
                                     this.connectionError(err, socket);
                                     return;
@@ -136,7 +135,7 @@ export class ComManager {
                 return;
             }
             
-            let sectorArray : Array<Sectors.ISector> = new Array();
+            let sectorArray : Array<ISector> = new Array();
             let sectors : Array<Sector> = this.sectorHandler.getSectors();
             for(let i = 0; i < sectors.length; i++) {
                 sectorArray.push({

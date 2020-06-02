@@ -1,6 +1,7 @@
 import { ObjectInterfaces } from "../shared/scripts/ObjectInterfaces";
 import { PacketFactory } from "./PacketFactory";
 import { IClient } from "./interfaces/IClient";
+import { Stats } from "../shared/stats/Stats";
 
 const math = require('mathjs');
 math.length = function vec2Length(vec2 : Array<number>) {
@@ -163,7 +164,7 @@ export class Sector {
           return newVelVec;
         }
         
-        let shipAcceleration = ship.stats[ObjectInterfaces.EShipStatType.acceleration];
+        let shipAcceleration = ship.stats[Stats.EStatType.acceleration];
         let destVec = ship.destVec;
         let shipPosVec = [ship.x, ship.y];
         let shipToDestVec = math.subtract(destVec, shipPosVec);
@@ -190,7 +191,7 @@ export class Sector {
           //newVelVec is NaN NaN
           let newVelVecLength = math.length(newVelVec);
 
-          let shipMaxSpeed = ship.stats[ObjectInterfaces.EShipStatType.max_speed];
+          let shipMaxSpeed = ship.stats[Stats.EStatType.max_speed];
           if(newVelVecLength > shipMaxSpeed) {
             ship.velVec = math.multiply(newVelVec, shipMaxSpeed/newVelVecLength)
           } else {
@@ -214,17 +215,17 @@ export class Sector {
           let targetShipPos = [targetShip.x, targetShip.y];
           let attackingShipToTargetShipVec = math.subtract(attackingShipPos, targetShipPos);
           let attackingShipToTargetShipDistance : number = math.length(attackingShipToTargetShipVec);
-          let attackingShipWeaponRange = attackingShip.stats[ObjectInterfaces.EShipStatType.weapon_range];
+          let attackingShipWeaponRange = attackingShip.stats[Stats.EStatType.weapon_range];
           if(attackingShipToTargetShipDistance <= attackingShipWeaponRange) {
-            this.dealDamageToShip(targetShip, attackingShip.stats[ObjectInterfaces.EShipStatType.normal_dps], ObjectInterfaces.EDamageType.NORMAL_DAMAGE);
-            this.dealDamageToShip(targetShip, attackingShip.stats[ObjectInterfaces.EShipStatType.explosive_dps], ObjectInterfaces.EDamageType.EXPLOSIVE_DAMAGE);
-            this.dealDamageToShip(targetShip, attackingShip.stats[ObjectInterfaces.EShipStatType.heat_dps], ObjectInterfaces.EDamageType.HEAT_DAMAGE);
-            this.dealDamageToShip(targetShip, attackingShip.stats[ObjectInterfaces.EShipStatType.impact_dps], ObjectInterfaces.EDamageType.IMPACT_DAMAGE);
+            this.dealDamageToShip(targetShip, attackingShip.stats[Stats.EStatType.normal_dps], Stats.EDamageType.NORMAL_DAMAGE);
+            this.dealDamageToShip(targetShip, attackingShip.stats[Stats.EStatType.explosive_dps], Stats.EDamageType.EXPLOSIVE_DAMAGE);
+            this.dealDamageToShip(targetShip, attackingShip.stats[Stats.EStatType.heat_dps], Stats.EDamageType.HEAT_DAMAGE);
+            this.dealDamageToShip(targetShip, attackingShip.stats[Stats.EStatType.impact_dps], Stats.EDamageType.IMPACT_DAMAGE);
           } 
         }
       }
   
-      private dealDamageToShip(ship : ObjectInterfaces.IShip, damage : number, damageType : ObjectInterfaces.EDamageType) {
+      private dealDamageToShip(ship : ObjectInterfaces.IShip, damage : number, damageType : Stats.EDamageType) {
         let damageLeft = damage;
         let shield = ship.properties.currentShield;
         let armor = ship.properties.currentArmor;
@@ -258,20 +259,20 @@ export class Sector {
         }
       }
   
-      private getDamageTypeResist(ship : ObjectInterfaces.IShip, damageType : ObjectInterfaces.EDamageType) : number {
+      private getDamageTypeResist(ship : ObjectInterfaces.IShip, damageType : Stats.EDamageType) : number {
         let resist : number = 0;
         switch(damageType) {
-          case ObjectInterfaces.EDamageType.NORMAL_DAMAGE :
+          case Stats.EDamageType.NORMAL_DAMAGE :
             resist = 1;
             break;
-          case ObjectInterfaces.EDamageType.EXPLOSIVE_DAMAGE :
-            resist = 1 - ship.stats[ObjectInterfaces.EShipStatType.armor_explosion_resistance] / 100;
+          case Stats.EDamageType.EXPLOSIVE_DAMAGE :
+            resist = 1 - ship.stats[Stats.EStatType.armor_explosion_resistance] / 100;
             break;
-          case ObjectInterfaces.EDamageType.HEAT_DAMAGE :
-            resist = 1 - ship.stats[ObjectInterfaces.EShipStatType.armor_heat_resistance] / 100;
+          case Stats.EDamageType.HEAT_DAMAGE :
+            resist = 1 - ship.stats[Stats.EStatType.armor_heat_resistance] / 100;
             break;
-          case ObjectInterfaces.EDamageType.IMPACT_DAMAGE :
-            resist = 1 - ship.stats[ObjectInterfaces.EShipStatType.armor_impact_resistance] / 100;
+          case Stats.EDamageType.IMPACT_DAMAGE :
+            resist = 1 - ship.stats[Stats.EStatType.armor_impact_resistance] / 100;
             break;  
         }
         return resist;

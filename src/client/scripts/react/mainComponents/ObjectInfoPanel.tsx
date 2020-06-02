@@ -5,6 +5,7 @@ import ObjectInfoContainer from "./ObjectInfoContainer";
 import { Asteroid } from "../../game_objects/Asteroid";
 import { RadarDetectable } from "../../game_objects/RadarDetectable";
 import { AsteroidData } from "../../../../shared/scripts/AsteroidData";
+import { Stats } from "../../../../shared/stats/Stats";
 
 export interface ObjectInfoPanelProps { object: RadarDetectable | undefined }
 
@@ -20,7 +21,7 @@ export default class ObjectInfoPanel extends React.Component<ObjectInfoPanelProp
 
          return (
             <div id="object_info_panel" className="UIComponent">
-               {this.props.object != undefined ? <ObjectInfoContainer title={this.props.object.getDisplayName()} fields={fields} description={description}/> : ""}
+               {this.props.object != undefined ? <ObjectInfoContainer title={this.props.object.getDisplayName()} fields={fields} description={description} centerFields={false}/> : ""}
             </div>
          );
    }
@@ -32,6 +33,7 @@ export default class ObjectInfoPanel extends React.Component<ObjectInfoPanelProp
          ret.push("Shield: " + selectedObject.getShipData().properties.currentShield);
          ret.push("Armor:  " + selectedObject.getShipData().properties.currentArmor);
          ret.push("Hull:   " + selectedObject.getShipData().properties.currentHull);
+         ret.push("Mass:   " + selectedObject.getShipData().stats[Stats.EStatType.mass] + " kg");
       } else if(selectedObject instanceof Asteroid) {
          let asteroidInfo = AsteroidData.getAsteroidInfo(selectedObject.getAsteroidData().type);
          ret.push("Hardness: " + selectedObject.getAsteroidData().hardness);

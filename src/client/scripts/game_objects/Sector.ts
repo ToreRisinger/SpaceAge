@@ -1,14 +1,14 @@
 import { RadarDetectable } from "./RadarDetectable";
 import { SPRITES } from "../../../shared/scripts/SPRITES";
-import { Sectors } from "../../../shared/scripts/Sectors";
+import { ISector } from "../../../shared/interfaces/ISector";
 
 export class Sector extends RadarDetectable {
     
-    private config : Sectors.ISector;
+    private config : ISector;
     private map_x : number;
     private map_y : number;
 
-    constructor(sector_object_config : Sectors.ISector) {
+    constructor(sector_object_config : ISector) {
         super(sector_object_config, SPRITES.SECTOR_ICON.sprite, false, true);
         this.config = sector_object_config;
         this.map_x = this.config.x;

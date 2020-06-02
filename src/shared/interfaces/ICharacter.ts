@@ -1,11 +1,13 @@
 import { ObjectInterfaces } from "../scripts/ObjectInterfaces";
+import { ICargo } from "./ICargo";
 
 export interface ICharacter {
-    name : string,
-    cargo : ObjectInterfaces.ICargo,
-    sectorCoords : {
+    name: string,
+    cargo: ICargo,
+    sectorCoords: {
         x: number,
         y: number
     },
-    ship : ObjectInterfaces.IShip
+    location: string,
+    ship: ObjectInterfaces.IShip
 }

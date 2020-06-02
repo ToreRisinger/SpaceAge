@@ -14,11 +14,11 @@ import { Events } from "../../../shared/scripts/Events";
 import { EGameState } from "../../../shared/scripts/EGameState";
 import { CharacterListProvider } from "./CharacterListProvider";
 import { GlobalDataService } from "./GlobalDataService";
-import { Sectors } from "../../../shared/scripts/Sectors";
 import { Sector } from "../game_objects/Sector";
 import { Ship } from "../game_objects/Ship";
 import { Logger } from "../../../shared/logger/Logger";
 import { ICharacter } from "../../../shared/interfaces/ICharacter";
+import { ISector } from "../../../shared/interfaces/ISector";
 
 export class GameController {
 
@@ -36,7 +36,7 @@ export class GameController {
         this.subscribeToEvents()
     }
 
-    public inSpaceStateInit(character: ICharacter, sectors : Array<Sectors.ISector>, clientSectorId: number) {
+    public inSpaceStateInit(character: ICharacter, sectors : Array<ISector>, clientSectorId: number) {
         GameObjectHandler.init(character, sectors);
         //@ts-ignore
         let sector : Sector = GameObjectHandler.getGameObjectsMap().get(clientSectorId);

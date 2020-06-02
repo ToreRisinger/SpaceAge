@@ -6,6 +6,8 @@ import UserModel, { IUserDocument } from "./models/user.model";
 import { Logger } from "../../shared/logger/Logger";
 import CharacterModel, { ICharacterDocument } from "./models/character.model";
 import { ICharacter } from "../../shared/interfaces/ICharacter";
+import { ICargo } from "../../shared/interfaces/ICargo";
+import { Stats } from "../../shared/stats/Stats";
 
 const mongoose = require('mongoose')
 const dbName = 'space-age-test'
@@ -44,8 +46,8 @@ export module Database {
       CharacterModel.find({user: user._id}, callback);
     }
 
-    export function newCharacter(user: IUserDocument, callback: (error: string, character: ICharacterDocument) => void) : void {
-      const model = new CharacterModel({character: createNewCharacter(user), user: user._id});
+    export function newCharacter(user: IUserDocument, location: string, callback: (error: string, character: ICharacterDocument) => void) : void {
+      const model = new CharacterModel({character: createNewCharacter(user, location), user: user._id});
       model.save(callback);
     }
 
@@ -72,7 +74,7 @@ export module Database {
       }
     }
 
-    function createNewCharacter(user: IUserDocument) : ICharacter {
+    function createNewCharacter(user: IUserDocument, location: string) : ICharacter {
       let items : Array<Items.IItem> = new Array();
       items.push(ItemFactory.createMineral(Items.EMineralItemType.DIAMOND_ORE, 1));
       items.push(ItemFactory.createMineral(Items.EMineralItemType.GOLD_ORE, 20));
@@ -87,7 +89,7 @@ export module Database {
       items.push(ItemFactory.createModule(Items.EModuleItemType.TRACKING_SYSTEM_MODULE, 5));
       
 
-      let cargo : ObjectInterfaces.ICargo = {
+      let cargo : ICargo = {
         items : items
       }
       
@@ -98,6 +100,7 @@ export module Database {
             x: 0, 
             y: 0
           },
+          location: location,
           ship: createNewShip()
       }
       return character;
@@ -149,30 +152,30 @@ export module Database {
                         {moduleItem: ItemFactory.createModule(Items.EModuleItemType.ARMOR_MODULE, 1), x: 13, y : 12}
                     ],
           stats : {
-            [ObjectInterfaces.EShipStatType.acceleration] : 0,
-            [ObjectInterfaces.EShipStatType.max_speed] : 0,
-            [ObjectInterfaces.EShipStatType.thrust] : 0,
-            [ObjectInterfaces.EShipStatType.mass] : 0,
-            [ObjectInterfaces.EShipStatType.power] : 0,
-            [ObjectInterfaces.EShipStatType.hull] : 0,
-            [ObjectInterfaces.EShipStatType.armor] : 0,
-            [ObjectInterfaces.EShipStatType.shield] : 0,
-            [ObjectInterfaces.EShipStatType.radar_range] : 0,
-            [ObjectInterfaces.EShipStatType.shield_generation] : 0,
-            [ObjectInterfaces.EShipStatType.armor_impact_resistance] : 0,
-            [ObjectInterfaces.EShipStatType.armor_heat_resistance] : 0,
-            [ObjectInterfaces.EShipStatType.armor_explosion_resistance] : 0,
-            [ObjectInterfaces.EShipStatType.target_dodge_reduction] : 0,
-            [ObjectInterfaces.EShipStatType.cargo_hold] : 0,
-            [ObjectInterfaces.EShipStatType.dodge] : 0,
-            [ObjectInterfaces.EShipStatType.radar_signature_reduction] : 0,
-            [ObjectInterfaces.EShipStatType.weapon_range] : 0,
-            [ObjectInterfaces.EShipStatType.explosive_dps] : 0,
-            [ObjectInterfaces.EShipStatType.impact_dps] : 0,
-            [ObjectInterfaces.EShipStatType.heat_dps] : 0,
-            [ObjectInterfaces.EShipStatType.normal_dps] : 0,
-            [ObjectInterfaces.EShipStatType.mining_laser_strength] : 0,
-            [ObjectInterfaces.EShipStatType.mining_laser_range] : 0
+            [Stats.EStatType.acceleration] : 0,
+            [Stats.EStatType.max_speed] : 0,
+            [Stats.EStatType.thrust] : 0,
+            [Stats.EStatType.mass] : 0,
+            [Stats.EStatType.power] : 0,
+            [Stats.EStatType.hull] : 0,
+            [Stats.EStatType.armor] : 0,
+            [Stats.EStatType.shield] : 0,
+            [Stats.EStatType.radar_range] : 0,
+            [Stats.EStatType.shield_generation] : 0,
+            [Stats.EStatType.armor_impact_resistance] : 0,
+            [Stats.EStatType.armor_heat_resistance] : 0,
+            [Stats.EStatType.armor_explosion_resistance] : 0,
+            [Stats.EStatType.target_dodge_reduction] : 0,
+            [Stats.EStatType.cargo_hold] : 0,
+            [Stats.EStatType.dodge] : 0,
+            [Stats.EStatType.radar_signature_reduction] : 0,
+            [Stats.EStatType.weapon_range] : 0,
+            [Stats.EStatType.explosive_dps] : 0,
+            [Stats.EStatType.impact_dps] : 0,
+            [Stats.EStatType.heat_dps] : 0,
+            [Stats.EStatType.normal_dps] : 0,
+            [Stats.EStatType.mining_laser_strength] : 0,
+            [Stats.EStatType.mining_laser_range] : 0
           },
           properties : {
             currentArmor: 0,
@@ -209,20 +212,20 @@ export module Database {
         )
       );
 
-      newShip.stats[ObjectInterfaces.EShipStatType.max_speed] = 1000;
+      newShip.stats[Stats.EStatType.max_speed] = 1000;
 
-      newShip.stats[ObjectInterfaces.EShipStatType.acceleration] = 
-        newShip.stats[ObjectInterfaces.EShipStatType.thrust] / newShip.stats[ObjectInterfaces.EShipStatType.mass];
+      newShip.stats[Stats.EStatType.acceleration] = 
+        newShip.stats[Stats.EStatType.thrust] / newShip.stats[Stats.EStatType.mass];
 
 
 
       //TODO weapon range average calculation  
-      newShip.stats[ObjectInterfaces.EShipStatType.weapon_range] = 2000;
+      newShip.stats[Stats.EStatType.weapon_range] = 2000;
     
 
-      newShip.properties.currentArmor = newShip.stats[ObjectInterfaces.EShipStatType.armor];
-      newShip.properties.currentShield = newShip.stats[ObjectInterfaces.EShipStatType.shield];
-      newShip.properties.currentHull = newShip.stats[ObjectInterfaces.EShipStatType.hull];
+      newShip.properties.currentArmor = newShip.stats[Stats.EStatType.armor];
+      newShip.properties.currentShield = newShip.stats[Stats.EStatType.shield];
+      newShip.properties.currentHull = newShip.stats[Stats.EStatType.hull];
       return newShip;
     }
 }

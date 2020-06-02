@@ -1,4 +1,3 @@
-import { ObjectInterfaces } from "../../../shared/scripts/ObjectInterfaces";
 import { GameScene } from "../scenes/GameScene";
 import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
 import { ShipModules } from "../../../shared/scripts/ShipModules"

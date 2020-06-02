@@ -360,6 +360,10 @@ body {
     
 }
 
+#location_info_panel {
+    justify-content: center;
+}
+
 #object_info_container {
     padding: 4px;
 }
@@ -375,7 +379,7 @@ body {
     word-wrap: break-word;
     overflow-wrap: break-word;
     hyphens: auto;
-    width: 100%;
+    
     font-size: 12px;
     font-family: consolas;
     margin-bottom: 3px;
@@ -888,3 +892,8 @@ body {
   #join_server_button:hover {
       opacity: 1.0;
   }
+
+  sup {
+    font-size:xx-small; 
+    vertical-align:top;
+}
