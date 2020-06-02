@@ -1,22 +1,12 @@
-import { ObjectInterfaces } from "../scripts/ObjectInterfaces";
 import { Stats } from "../stats/Stats"
 
 export module Skills {
 
-    //TODO
-    /*
-        1. Make EShipStatType perhaps named something more generic to also include ship size, possibility to use certain modules etc.
-        Its basically a generic stat for a character, not bound to ship
-
-        2. ModuleStatGenerationConfig, move and rename to someting more generic to be able to increasy any Stat.
-        Should exist a base interface with stat+modificatino, then subclasses can extend to add min/max or whtever they need
-    */
-
-    export enum ESKillStatType {
+    export enum EStatTypeSkillExtensions {
         MAX_NR_OF_MODULES = 24
     }
 
-    export type ESkillStatType = ESKillStatType | Stats.EStatType;
+    export type ESkillStatType = EStatTypeSkillExtensions | Stats.EStatType;
 
     export interface IStatModificationDef {
         stat: ESkillStatType,
@@ -30,73 +20,306 @@ export module Skills {
     export interface ISkillInfo {
         name: string
         maxLevel: number,
-        description: string
+        description: string,
+        startLearningTime: number,
+        learningTimeIncrease: number,
         stats: ISkillStatModificationDef
     }
 
     export interface ISkill {
-        skillType: ESKillStatType,
+        skillType: ESkillStatType,
         level: number
     }
 
     const skillTypeToSkillInfoMap : { [key: number]: ISkillInfo } = {
-        /*
-            acceleration = 24,
-            max_speed,
-            thrust,
-            mass,
-            power,
-            hull,
-            armor,
-            shield, 
-            radar_range,
-            shield_generation,
-            armor_impact_resistance,
-            armor_heat_resistance,
-            armor_explosion_resistance,
-            target_dodge_reduction,
-            cargo_hold,
-            dodge,
-            radar_signature_reduction,
-            weapon_range,
-            explosive_dps,
-            impact_dps,
-            heat_dps,
-            normal_dps,
-            mining_laser_strength,
-            mining_laser_range,
-            max_nr_of_modules
-        */
+        [Stats.EStatType.mining_laser_range] : {
+            name: "Astroid Detection",
+            description: "Increases ship " + Stats.statTypeToString(Stats.EStatType.mining_laser_range) + ".",
+            maxLevel: 5,
+            startLearningTime: 1,
+            learningTimeIncrease: 0.1,
+            stats: {
+                modifier: Stats.EStatModifier.increase_percentage,
+                stat: Stats.EStatType.mining_laser_range,
+                values: [0.5, 1, 1.5, 2, 2.5]
+            }
+        },
+        [Stats.EStatType.mining_laser_strength] : {
+            name: "Miner",
+            description: "Increases ship " + Stats.statTypeToString(Stats.EStatType.mining_laser_strength) + ".",
+            maxLevel: 5,
+            startLearningTime: 1,
+            learningTimeIncrease: 0.1,
+            stats: {
+                modifier: Stats.EStatModifier.increase_percentage,
+                stat: Stats.EStatType.mining_laser_strength,
+                values: [0.5, 1, 1.5, 2, 2.5]
+            }
+        },
+        [Stats.EStatType.normal_dps] : {
+            name: "Weaponry",
+            description: "Increases ship " + Stats.statTypeToString(Stats.EStatType.normal_dps) + ".",
+            maxLevel: 5,
+            startLearningTime: 1,
+            learningTimeIncrease: 0.1,
+            stats: {
+                modifier: Stats.EStatModifier.increase_percentage,
+                stat: Stats.EStatType.normal_dps,
+                values: [0.5, 1, 1.5, 2, 2.5]
+            }
+        },
+        [Stats.EStatType.heat_dps] : {
+            name: "Ammunition Design",
+            description: "Increases ship " + Stats.statTypeToString(Stats.EStatType.heat_dps) + ".",
+            maxLevel: 5,
+            startLearningTime: 1,
+            learningTimeIncrease: 0.1,
+            stats: {
+                modifier: Stats.EStatModifier.increase_percentage,
+                stat: Stats.EStatType.heat_dps,
+                values: [0.5, 1, 1.5, 2, 2.5]
+            }
+        },
+        [Stats.EStatType.impact_dps] : {
+            name: "Ammunition Expert",
+            description: "Increases ship " + Stats.statTypeToString(Stats.EStatType.impact_dps) + ".",
+            maxLevel: 5,
+            startLearningTime: 1,
+            learningTimeIncrease: 0.1,
+            stats: {
+                modifier: Stats.EStatModifier.increase_percentage,
+                stat: Stats.EStatType.impact_dps,
+                values: [0.5, 1, 1.5, 2, 2.5]
+            }
+        },
+        [Stats.EStatType.explosive_dps] : {
+            name: "Demolition",
+            description: "Increases ship " + Stats.statTypeToString(Stats.EStatType.explosive_dps) + ".",
+            maxLevel: 5,
+            startLearningTime: 1,
+            learningTimeIncrease: 0.1,
+            stats: {
+                modifier: Stats.EStatModifier.increase_percentage,
+                stat: Stats.EStatType.explosive_dps,
+                values: [0.5, 1, 1.5, 2, 2.5]
+            }
+        },
+        [Stats.EStatType.weapon_range] : {
+            name: "Target Detection",
+            description: "Increases ship " + Stats.statTypeToString(Stats.EStatType.weapon_range) + ".",
+            maxLevel: 5,
+            startLearningTime: 1,
+            learningTimeIncrease: 0.1,
+            stats: {
+                modifier: Stats.EStatModifier.increase_percentage,
+                stat: Stats.EStatType.weapon_range,
+                values: [0.5, 1, 1.5, 2, 2.5]
+            }
+        },
+        [Stats.EStatType.radar_signature_reduction] : {
+            name: "Radar Distruption",
+            description: "Increases ship " + Stats.statTypeToString(Stats.EStatType.radar_signature_reduction) + ".",
+            maxLevel: 5,
+            startLearningTime: 1,
+            learningTimeIncrease: 0.1,
+            stats: {
+                modifier: Stats.EStatModifier.increase_percentage,
+                stat: Stats.EStatType.radar_signature_reduction,
+                values: [0.5, 1, 1.5, 2, 2.5]
+            }
+        },
+        [Stats.EStatType.dodge] : {
+            name: "Evade",
+            description: "Increases ship " + Stats.statTypeToString(Stats.EStatType.dodge) + ".",
+            maxLevel: 5,
+            startLearningTime: 1,
+            learningTimeIncrease: 0.1,
+            stats: {
+                modifier: Stats.EStatModifier.increase_percentage,
+                stat: Stats.EStatType.dodge,
+                values: [0.5, 1, 1.5, 2, 2.5]
+            }
+        },
+        [Stats.EStatType.cargo_hold] : {
+            name: "Horder",
+            description: "Increases ship " + Stats.statTypeToString(Stats.EStatType.cargo_hold) + ".",
+            maxLevel: 5,
+            startLearningTime: 1,
+            learningTimeIncrease: 0.1,
+            stats: {
+                modifier: Stats.EStatModifier.increase_percentage,
+                stat: Stats.EStatType.cargo_hold,
+                values: [0.5, 1, 1.5, 2, 2.5]
+            }
+        },
+        [Stats.EStatType.target_dodge_reduction] : {
+            name: "Scout",
+            description: "Increases ship " + Stats.statTypeToString(Stats.EStatType.target_dodge_reduction) + ".",
+            maxLevel: 5,
+            startLearningTime: 1,
+            learningTimeIncrease: 0.1,
+            stats: {
+                modifier: Stats.EStatModifier.increase_percentage,
+                stat: Stats.EStatType.target_dodge_reduction,
+                values: [0.5, 1, 1.5, 2, 2.5]
+            }
+        },
+        [Stats.EStatType.armor_explosion_resistance] : {
+            name: "Armor Plating",
+            description: "Increases ship " + Stats.statTypeToString(Stats.EStatType.armor_explosion_resistance) + ".",
+            maxLevel: 5,
+            startLearningTime: 1,
+            learningTimeIncrease: 0.1,
+            stats: {
+                modifier: Stats.EStatModifier.increase_percentage,
+                stat: Stats.EStatType.armor_explosion_resistance,
+                values: [0.5, 1, 1.5, 2, 2.5]
+            }
+        },
+        [Stats.EStatType.armor_heat_resistance] : {
+            name: "Armor Bending",
+            description: "Increases ship " + Stats.statTypeToString(Stats.EStatType.armor_heat_resistance) + ".",
+            maxLevel: 5,
+            startLearningTime: 1,
+            learningTimeIncrease: 0.1,
+            stats: {
+                modifier: Stats.EStatModifier.increase_percentage,
+                stat: Stats.EStatType.armor_heat_resistance,
+                values: [0.5, 1, 1.5, 2, 2.5]
+            }
+        },
+        [Stats.EStatType.armor_impact_resistance] : {
+            name: "Armor hardening",
+            description: "Increases ship " + Stats.statTypeToString(Stats.EStatType.armor_impact_resistance) + ".",
+            maxLevel: 5,
+            startLearningTime: 1,
+            learningTimeIncrease: 0.1,
+            stats: {
+                modifier: Stats.EStatModifier.increase_percentage,
+                stat: Stats.EStatType.armor_impact_resistance,
+                values: [0.5, 1, 1.5, 2, 2.5]
+            }
+        },
+        [Stats.EStatType.shield_generation] : {
+            name: "Shield generator calibrator",
+            description: "Increases ship " + Stats.statTypeToString(Stats.EStatType.shield_generation) + ".",
+            maxLevel: 5,
+            startLearningTime: 1,
+            learningTimeIncrease: 0.1,
+            stats: {
+                modifier: Stats.EStatModifier.increase_percentage,
+                stat: Stats.EStatType.shield_generation,
+                values: [0.5, 1, 1.5, 2, 2.5]
+            }
+        },
+        [Stats.EStatType.shield] : {
+            name: "Shield generator mechanic",
+            description: "Increases ship " + Stats.statTypeToString(Stats.EStatType.shield) + ".",
+            maxLevel: 5,
+            startLearningTime: 1,
+            learningTimeIncrease: 0.1,
+            stats: {
+                modifier: Stats.EStatModifier.increase_percentage,
+                stat: Stats.EStatType.shield,
+                values: [0.5, 1, 1.5, 2, 2.5]
+            }
+        },
+        [Stats.EStatType.armor] : {
+            name: "Armor technician",
+            description: "Increases ship " + Stats.statTypeToString(Stats.EStatType.armor) + ".",
+            maxLevel: 5,
+            startLearningTime: 1,
+            learningTimeIncrease: 0.1,
+            stats: {
+                modifier: Stats.EStatModifier.increase_percentage,
+                stat: Stats.EStatType.armor,
+                values: [0.5, 1, 1.5, 2, 2.5]
+            }
+        },
+        [Stats.EStatType.hull] : {
+            name: "Preserver",
+            description: "Increases ship " + Stats.statTypeToString(Stats.EStatType.hull) + ".",
+            maxLevel: 5,
+            startLearningTime: 1,
+            learningTimeIncrease: 0.1,
+            stats: {
+                modifier: Stats.EStatModifier.increase_percentage,
+                stat: Stats.EStatType.hull,
+                values: [0.5, 1, 1.5, 2, 2.5]
+            }
+        },
+        [Stats.EStatType.power] : {
+            name: "Electrician",
+            description: "Increases ship " + Stats.statTypeToString(Stats.EStatType.power) + ".",
+            maxLevel: 5,
+            startLearningTime: 1,
+            learningTimeIncrease: 0.1,
+            stats: {
+                modifier: Stats.EStatModifier.increase_percentage,
+                stat: Stats.EStatType.power,
+                values: [0.5, 1, 1.5, 2, 2.5]
+            }
+        },
+        [Stats.EStatType.thrust] : {
+            name: "Engine Calibrator",
+            description: "Increases ship " + Stats.statTypeToString(Stats.EStatType.thrust) + ".",
+            maxLevel: 5,
+            startLearningTime: 1,
+            learningTimeIncrease: 0.1,
+            stats: {
+                modifier: Stats.EStatModifier.increase_percentage,
+                stat: Stats.EStatType.thrust,
+                values: [0.5, 1, 1.5, 2, 2.5]
+            }
+        },
+        [Stats.EStatType.max_speed] : {
+            name: "Navigator",
+            description: "Increases ship " + Stats.statTypeToString(Stats.EStatType.max_speed) + ".",
+            maxLevel: 5,
+            startLearningTime: 1,
+            learningTimeIncrease: 0.1,
+            stats: {
+                modifier: Stats.EStatModifier.increase_percentage,
+                stat: Stats.EStatType.max_speed,
+                values: [0.5, 1, 1.5, 2, 2.5]
+            }
+        },
         [Stats.EStatType.acceleration] : {
-            name: "Surveyor",
+            name: "Engine Mechanic",
             description: "Increases ship " + Stats.statTypeToString(Stats.EStatType.acceleration) + ".",
             maxLevel: 5,
+            startLearningTime: 1,
+            learningTimeIncrease: 0.1,
             stats: {
-                modifier: Stats.EStatModifier.increase_additive,
+                modifier: Stats.EStatModifier.increase_percentage,
                 stat: Stats.EStatType.radar_range,
                 values: [0.5, 1, 1.5, 2, 2.5]
             }
         },
-        [Stats.EStatType.acceleration] : {
+        [Stats.EStatType.radar_range] : {
             name: "Surveyor",
             description: "Increases ship " + Stats.statTypeToString(Stats.EStatType.radar_range) + ".",
             maxLevel: 5,
+            startLearningTime: 1,
+            learningTimeIncrease: 0.1,
             stats: {
                 modifier: Stats.EStatModifier.increase_additive,
                 stat: Stats.EStatType.acceleration,
-                values: [0.5, 1, 1.5, 2, 2.5]
+                values: [1000, 2000, 3000, 4000, 5000]
             }
         },
-        [ESKillStatType.MAX_NR_OF_MODULES] : {
+        [EStatTypeSkillExtensions.MAX_NR_OF_MODULES] : {
             name: "Commander",
             description: "Increases the maximum number of modules your ship can contain.",
             maxLevel: 5,
+            startLearningTime: 1,
+            learningTimeIncrease: 0.1,
             stats: {
                 modifier: Stats.EStatModifier.neutral,
-                stat: ESKillStatType.MAX_NR_OF_MODULES,
+                stat: EStatTypeSkillExtensions.MAX_NR_OF_MODULES,
                 values: [5, 10, 50, 100, 200]
             }
-        },
+        }
     }
 
     export function getSkillInfo(statType : ESkillStatType) : ISkillInfo {

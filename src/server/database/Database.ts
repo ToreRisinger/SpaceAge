@@ -8,6 +8,7 @@ import CharacterModel, { ICharacterDocument } from "./models/character.model";
 import { ICharacter } from "../../shared/interfaces/ICharacter";
 import { ICargo } from "../../shared/interfaces/ICargo";
 import { Stats } from "../../shared/stats/Stats";
+import { Skills } from "../../shared/skills/Skills";
 
 const mongoose = require('mongoose')
 const dbName = 'space-age-test'
@@ -92,6 +93,32 @@ export module Database {
       let cargo : ICargo = {
         items : items
       }
+
+      let skills : Array<Skills.ISkill> = new Array();
+      skills.push({level: 1, skillType: Skills.EStatTypeSkillExtensions.MAX_NR_OF_MODULES});
+      skills.push({level: 1, skillType: Stats.EStatType.acceleration});
+      skills.push({level: 1, skillType: Stats.EStatType.max_speed});
+      skills.push({level: 1, skillType: Stats.EStatType.thrust});
+      skills.push({level: 1, skillType: Stats.EStatType.power});
+      skills.push({level: 1, skillType: Stats.EStatType.hull});
+      skills.push({level: 1, skillType: Stats.EStatType.armor});
+      skills.push({level: 1, skillType: Stats.EStatType.shield});
+      skills.push({level: 1, skillType: Stats.EStatType.radar_range});
+      skills.push({level: 1, skillType: Stats.EStatType.shield_generation});
+      skills.push({level: 1, skillType: Stats.EStatType.armor_impact_resistance});
+      skills.push({level: 1, skillType: Stats.EStatType.armor_heat_resistance});
+      skills.push({level: 1, skillType: Stats.EStatType.armor_explosion_resistance});
+      skills.push({level: 1, skillType: Stats.EStatType.target_dodge_reduction});
+      skills.push({level: 1, skillType: Stats.EStatType.cargo_hold});
+      skills.push({level: 1, skillType: Stats.EStatType.dodge});
+      skills.push({level: 1, skillType: Stats.EStatType.radar_signature_reduction});
+      skills.push({level: 1, skillType: Stats.EStatType.weapon_range});
+      skills.push({level: 1, skillType: Stats.EStatType.explosive_dps});
+      skills.push({level: 1, skillType: Stats.EStatType.impact_dps});
+      skills.push({level: 1, skillType: Stats.EStatType.heat_dps});
+      skills.push({level: 1, skillType: Stats.EStatType.normal_dps});
+      skills.push({level: 1, skillType: Stats.EStatType.mining_laser_strength});
+      skills.push({level: 1, skillType: Stats.EStatType.mining_laser_range});
       
       let character : ICharacter = {
           cargo: cargo,
@@ -101,7 +128,8 @@ export module Database {
             y: 0
           },
           location: location,
-          ship: createNewShip()
+          ship: createNewShip(),
+          skills: skills
       }
       return character;
   }
