@@ -3,44 +3,59 @@ import { GlobalDataService } from "../../../modules/GlobalDataService";
 import { Skills } from "../../../../../shared/skills/Skills";
 import { Stats } from "../../../../../shared/stats/Stats";
 import SkillContainer from "./SkillContainer";
+import { EventHandler } from "../../../modules/EventHandler";
+import { Events } from "../../../../../shared/scripts/Events";
 
-export default class SkillsContainer extends React.Component<{}, {}> {
+export interface SkillsContainerState { skillList: Skills.ISkillList, currentlyTraining: Stats.EStatType | undefined }
 
-    private skillList: Skills.ISkillList;
+export default class SkillsContainer extends React.Component<{}, SkillsContainerState> {
 
     constructor(props : {}) {
         super(props)
-        this.skillList = GlobalDataService.getInstance().getCharacter().skills.skillList//Array.from(GlobalDataService.getInstance().getCharacter().skills.skillList.values());
+        this.state = {
+            skillList: GlobalDataService.getInstance().getCharacter().skills.skillList,
+            currentlyTraining : GlobalDataService.getInstance().getCharacter().skills.currentlyTraining
+        }
+        EventHandler.on(Events.EEventType.SKILL_STATE_EVENT, this.onSkillStateChanged)
+    }
+
+    onSkillStateChanged(event: Events.SKILL_STATE_EVENT_CONFIG) {
+        this.setState({
+            skillList : event.data.skills.skillList,
+            currentlyTraining : event.data.skills.currentlyTraining
+        });
+
+        
     }
 
     render() {
         return (
             <div id="skills_container">
-                <SkillContainer skill={this.skillList[Stats.EStatType.max_nr_of_modules]} training={false} />
-                <SkillContainer skill={this.skillList[Stats.EStatType.acceleration]} training={false} />
-                <SkillContainer skill={this.skillList[Stats.EStatType.max_speed]} training={false} />
-                <SkillContainer skill={this.skillList[Stats.EStatType.thrust]} training={false} />
-                <SkillContainer skill={this.skillList[Stats.EStatType.power]} training={false} />
-                <SkillContainer skill={this.skillList[Stats.EStatType.hull]} training={false} />
-                <SkillContainer skill={this.skillList[Stats.EStatType.armor]} training={false} />
-                <SkillContainer skill={this.skillList[Stats.EStatType.shield]} training={false} />
-                <SkillContainer skill={this.skillList[Stats.EStatType.radar_range]} training={false} />
-                <SkillContainer skill={this.skillList[Stats.EStatType.shield_generation]} training={false} />
-                <SkillContainer skill={this.skillList[Stats.EStatType.armor_impact_resistance]} training={false} />
-                <SkillContainer skill={this.skillList[Stats.EStatType.armor_heat_resistance]} training={false} />
-                <SkillContainer skill={this.skillList[Stats.EStatType.armor_explosion_resistance]} training={false} />
-                <SkillContainer skill={this.skillList[Stats.EStatType.target_dodge_reduction]} training={false} />
-                <SkillContainer skill={this.skillList[Stats.EStatType.radar_signature_reduction]} training={false} />
-                <SkillContainer skill={this.skillList[Stats.EStatType.cargo_hold]} training={false} />
-                <SkillContainer skill={this.skillList[Stats.EStatType.dodge]} training={false} />
-                <SkillContainer skill={this.skillList[Stats.EStatType.radar_signature_reduction]} training={false} />
-                <SkillContainer skill={this.skillList[Stats.EStatType.weapon_range]} training={false} />
-                <SkillContainer skill={this.skillList[Stats.EStatType.explosive_dps]} training={false} />
-                <SkillContainer skill={this.skillList[Stats.EStatType.impact_dps]} training={false} />
-                <SkillContainer skill={this.skillList[Stats.EStatType.heat_dps]} training={false} />
-                <SkillContainer skill={this.skillList[Stats.EStatType.normal_dps]} training={false} />
-                <SkillContainer skill={this.skillList[Stats.EStatType.mining_laser_strength]} training={false} />
-                <SkillContainer skill={this.skillList[Stats.EStatType.mining_laser_range]} training={false} />
+                <SkillContainer skill={this.state.skillList[Stats.EStatType.max_nr_of_modules]} currentlyTraining={this.state.currentlyTraining} />
+                <SkillContainer skill={this.state.skillList[Stats.EStatType.acceleration]} currentlyTraining={this.state.currentlyTraining} />
+                <SkillContainer skill={this.state.skillList[Stats.EStatType.max_speed]} currentlyTraining={this.state.currentlyTraining} />
+                <SkillContainer skill={this.state.skillList[Stats.EStatType.thrust]} currentlyTraining={this.state.currentlyTraining} />
+                <SkillContainer skill={this.state.skillList[Stats.EStatType.power]} currentlyTraining={this.state.currentlyTraining}/>
+                <SkillContainer skill={this.state.skillList[Stats.EStatType.hull]} currentlyTraining={this.state.currentlyTraining}/>
+                <SkillContainer skill={this.state.skillList[Stats.EStatType.armor]} currentlyTraining={this.state.currentlyTraining}/>
+                <SkillContainer skill={this.state.skillList[Stats.EStatType.shield]} currentlyTraining={this.state.currentlyTraining} />
+                <SkillContainer skill={this.state.skillList[Stats.EStatType.radar_range]} currentlyTraining={this.state.currentlyTraining} />
+                <SkillContainer skill={this.state.skillList[Stats.EStatType.shield_generation]} currentlyTraining={this.state.currentlyTraining}/>
+                <SkillContainer skill={this.state.skillList[Stats.EStatType.armor_impact_resistance]} currentlyTraining={this.state.currentlyTraining}/>
+                <SkillContainer skill={this.state.skillList[Stats.EStatType.armor_heat_resistance]} currentlyTraining={this.state.currentlyTraining}/>
+                <SkillContainer skill={this.state.skillList[Stats.EStatType.armor_explosion_resistance]} currentlyTraining={this.state.currentlyTraining}/>
+                <SkillContainer skill={this.state.skillList[Stats.EStatType.target_dodge_reduction]} currentlyTraining={this.state.currentlyTraining}/>
+                <SkillContainer skill={this.state.skillList[Stats.EStatType.radar_signature_reduction]} currentlyTraining={this.state.currentlyTraining}/>
+                <SkillContainer skill={this.state.skillList[Stats.EStatType.cargo_hold]} currentlyTraining={this.state.currentlyTraining}/>
+                <SkillContainer skill={this.state.skillList[Stats.EStatType.dodge]} currentlyTraining={this.state.currentlyTraining}/>
+                <SkillContainer skill={this.state.skillList[Stats.EStatType.radar_signature_reduction]} currentlyTraining={this.state.currentlyTraining}/>
+                <SkillContainer skill={this.state.skillList[Stats.EStatType.weapon_range]} currentlyTraining={this.state.currentlyTraining}/>
+                <SkillContainer skill={this.state.skillList[Stats.EStatType.explosive_dps]} currentlyTraining={this.state.currentlyTraining}/>
+                <SkillContainer skill={this.state.skillList[Stats.EStatType.impact_dps]} currentlyTraining={this.state.currentlyTraining}/>
+                <SkillContainer skill={this.state.skillList[Stats.EStatType.heat_dps]} currentlyTraining={this.state.currentlyTraining}/>
+                <SkillContainer skill={this.state.skillList[Stats.EStatType.normal_dps]} currentlyTraining={this.state.currentlyTraining}/>
+                <SkillContainer skill={this.state.skillList[Stats.EStatType.mining_laser_strength]} currentlyTraining={this.state.currentlyTraining}/>
+                <SkillContainer skill={this.state.skillList[Stats.EStatType.mining_laser_range]} currentlyTraining={this.state.currentlyTraining}/>
             </div>
         );
     }

@@ -197,10 +197,23 @@ body {
 
 #skill_train_bar {
     border: 1px solid rgb(122, 122, 122);
-    background-image: linear-gradient(rgb(0, 0, 0), rgb(63, 63, 63));
-    text-align: center;
+    background-image: linear-gradient(rgb(63, 63, 63), rgb(0, 0, 0));
     margin-top: 5px;
-    margin-bottom: 0px
+    margin-bottom: 0px;
+    display: grid;
+}
+
+#skill_train_bar_progress {
+    background-image: linear-gradient(rgb(116, 104, 0), rgb(71, 64, 1));
+    height: 100%;
+    grid-column: 1;
+    grid-row: 1;
+}
+
+#skill_train_bar_progress_text {
+    grid-column: 1;
+    grid-row: 1;
+    text-align: center;
 }
 
 .WindowHeader {

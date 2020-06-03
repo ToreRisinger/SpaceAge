@@ -133,10 +133,10 @@ export module Database {
           ship: createNewShip(),
           skills: {
             skillList: {
-              [Stats.EStatType.max_nr_of_modules]: {level: 1, skillType: Stats.EStatType.max_nr_of_modules, progress: 0},
-              [Stats.EStatType.acceleration]: {level: 1, skillType: Stats.EStatType.acceleration, progress: 0},
-              [Stats.EStatType.max_speed]: {level: 1, skillType: Stats.EStatType.max_speed, progress: 0},
-              [Stats.EStatType.thrust]: {level: 1, skillType: Stats.EStatType.thrust, progress: 0},
+              [Stats.EStatType.max_nr_of_modules]: {level: 1, skillType: Stats.EStatType.max_nr_of_modules, progress: 1},
+              [Stats.EStatType.acceleration]: {level: 1, skillType: Stats.EStatType.acceleration, progress: 2},
+              [Stats.EStatType.max_speed]: {level: 1, skillType: Stats.EStatType.max_speed, progress: 3},
+              [Stats.EStatType.thrust]: {level: 1, skillType: Stats.EStatType.thrust, progress: 4},
               [Stats.EStatType.power]: {level: 1, skillType: Stats.EStatType.power, progress: 0},
               [Stats.EStatType.hull]: {level: 1, skillType: Stats.EStatType.hull, progress: 0},
               [Stats.EStatType.armor]: {level: 1, skillType: Stats.EStatType.armor, progress: 0},
