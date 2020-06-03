@@ -1,5 +1,8 @@
 export module Stats {
 
+    let RED = "rgb(255, 84, 84)";
+    let GREEN = "rgb(108, 255, 89)";
+
     export enum EStatModifier {
         increase_additive,
         decrease_additive,
@@ -32,7 +35,8 @@ export module Stats {
         heat_dps,
         normal_dps,
         mining_laser_strength,
-        mining_laser_range
+        mining_laser_range,
+        max_nr_of_modules
     }
 
     //TODO move to stat module
@@ -94,6 +98,8 @@ export module Stats {
                 return "Mining laser strength";
             case EStatType.mining_laser_range :
                 return "Mining laser range";
+            case EStatType.max_nr_of_modules : 
+                return "Maximum number of modules";
             default :
                 return "";
         }
@@ -102,53 +108,55 @@ export module Stats {
     export function statTypeUnitToString(value : EStatType) : string {
         switch(value) {
             case EStatType.acceleration : 
-                return "m/s<sup>2</sup>";
+                return ' m/s<sup>2</sup> ';
             case EStatType.max_speed :
-                return "m/s";
+                return " m/s ";
             case EStatType.thrust :
-                return "N";
+                return " N ";
             case EStatType.mass :
-                return "kg";
+                return " kg ";
             case EStatType.hull :
-                return "";
+                return " ";
             case EStatType.armor :
-                return "";
+                return " ";
             case EStatType.shield :
-                return "";
+                return " ";
             case EStatType.radar_range :
-                return "m";
+                return " m ";
             case EStatType.shield_generation :
-                return "points per second";
+                return " points per second";
             case EStatType.armor_impact_resistance :
-                return "";
+                return " ";
             case EStatType.armor_heat_resistance :
-                return "";
+                return " ";
             case EStatType.armor_explosion_resistance :
-                return "";
+                return " ";
             case EStatType.target_dodge_reduction :
-                return "";
+                return " ";
             case EStatType.cargo_hold :
-                return "m<sup>2</sup>";
+                return ' m<sup>2</sup> ';
             case EStatType.dodge :
-                return "";
+                return " ";
             case EStatType.radar_signature_reduction :
-                return "";
+                return " ";
             case EStatType.weapon_range :
-                return "m";
+                return " m ";
             case EStatType.explosive_dps :
-                return "damage per second";
+                return " damage per second ";
             case EStatType.impact_dps :
-                return "damage per second";
+                return " damage per second ";
             case EStatType.heat_dps :
-                return "damage per second";
+                return " damage per second ";
             case EStatType.normal_dps :
-                return "damage per second";
+                return " damage per second ";
             case EStatType.mining_laser_strength :
-                return "";
+                return " ";
             case EStatType.mining_laser_range :
-                return "m";
+                return " m ";
+            case EStatType.max_nr_of_modules : 
+                return " ";
             default :
-                return "";
+                return " ";
         }
     }
 
@@ -156,10 +164,29 @@ export module Stats {
         switch(value) {
             case EStatModifier.decrease_additive :
                 return "-";
-            case EStatModifier.increase_additive :
+            case EStatModifier.decrease_percentage:
+                return "-";
+            case EStatModifier.increase_additive:
+                return "+";
+            case EStatModifier.increase_percentage:
                 return "+";
             default :
                 return "";
+        }
+    }
+
+    export function statModifierColor(value : EStatModifier) : string {
+        switch(value) {
+            case EStatModifier.decrease_additive :
+                return RED;
+            case EStatModifier.decrease_percentage:
+                return RED;
+            case EStatModifier.increase_additive:
+                return GREEN;
+            case EStatModifier.increase_percentage:
+                return GREEN;
+            default :
+                return GREEN;
         }
     }
 }

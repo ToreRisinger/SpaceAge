@@ -52,7 +52,7 @@ export default class ShipWindow extends React.Component<ShipWindowProps, ShipWin
                         <div id="ship_window_left_section">
                             <pre>Thrust:                      {ship ? ship.stats[Stats.EStatType.thrust] : "N/A"} N</pre>
                             <pre>Acceleration:                {ship ? Math.round(ship.stats[Stats.EStatType.acceleration]) : "N/A"} m/s<sup>2</sup></pre>
-                            <pre>Max speed:                   {ship ? ship.stats[Stats.EStatType.max_speed] : "N/A"} km/h</pre>
+                            <pre>Max speed:                   {ship ? ship.stats[Stats.EStatType.max_speed] : "N/A"} m/s</pre>
                             <pre>Mass:                        {ship ? ship.stats[Stats.EStatType.mass] : "N/A"} kg</pre>
                             
                             <hr></hr>

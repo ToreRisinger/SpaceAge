@@ -11,11 +11,12 @@ export default class ItemToolTipModuleStat extends React.Component<ItemToolTipMo
    }
 
    render() {
+        let unitType: string = " " + Stats.statTypeUnitToString(this.props.stat.property);
         return (
             <div className="ItemToolTipElement">
                 {Stats.statTypeToString(this.props.stat.property) + ": "}
-                <span style={{color:'rgb(64, 233, 73)'}}>{Stats.statModifierToString(this.props.stat.modifier) + this.props.stat.value}</span>
-                {" " + Stats.statTypeUnitToString(this.props.stat.property)}
+                <span style={{color: Stats.statModifierColor(this.props.stat.modifier)}}>{Stats.statModifierToString(this.props.stat.modifier) + this.props.stat.value}</span>
+                <span dangerouslySetInnerHTML={{__html: unitType}}></span>
             </div>   
         );
    }

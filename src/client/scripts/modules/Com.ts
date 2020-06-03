@@ -22,6 +22,8 @@ export module Com {
         EventHandler.on(Events.EEventType.SERVER_LOGIN_ACK, onClientEvent);
         EventHandler.on(Events.EEventType.SERVER_JOIN_ACK, onClientEvent);
 
+        EventHandler.on(Events.EEventType.TRAIN_SKILL_START, onClientEvent);
+
         EventHandler.on(Events.EEventType.PLAYER_START_ATTACKING_EVENT, onClientEvent);
         EventHandler.on(Events.EEventType.PLAYER_STOP_ATTACKING_EVENT, onClientEvent);
         EventHandler.on(Events.EEventType.PLAYER_START_MINING_EVENT, onClientEvent);

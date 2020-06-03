@@ -94,32 +94,34 @@ export module Database {
         items : items
       }
 
-      let skills : Array<Skills.ISkill> = new Array();
-      skills.push({level: 1, skillType: Skills.EStatTypeSkillExtensions.MAX_NR_OF_MODULES});
-      skills.push({level: 1, skillType: Stats.EStatType.acceleration});
-      skills.push({level: 1, skillType: Stats.EStatType.max_speed});
-      skills.push({level: 1, skillType: Stats.EStatType.thrust});
-      skills.push({level: 1, skillType: Stats.EStatType.power});
-      skills.push({level: 1, skillType: Stats.EStatType.hull});
-      skills.push({level: 1, skillType: Stats.EStatType.armor});
-      skills.push({level: 1, skillType: Stats.EStatType.shield});
-      skills.push({level: 1, skillType: Stats.EStatType.radar_range});
-      skills.push({level: 1, skillType: Stats.EStatType.shield_generation});
-      skills.push({level: 1, skillType: Stats.EStatType.armor_impact_resistance});
-      skills.push({level: 1, skillType: Stats.EStatType.armor_heat_resistance});
-      skills.push({level: 1, skillType: Stats.EStatType.armor_explosion_resistance});
-      skills.push({level: 1, skillType: Stats.EStatType.target_dodge_reduction});
-      skills.push({level: 1, skillType: Stats.EStatType.cargo_hold});
-      skills.push({level: 1, skillType: Stats.EStatType.dodge});
-      skills.push({level: 1, skillType: Stats.EStatType.radar_signature_reduction});
-      skills.push({level: 1, skillType: Stats.EStatType.weapon_range});
-      skills.push({level: 1, skillType: Stats.EStatType.explosive_dps});
-      skills.push({level: 1, skillType: Stats.EStatType.impact_dps});
-      skills.push({level: 1, skillType: Stats.EStatType.heat_dps});
-      skills.push({level: 1, skillType: Stats.EStatType.normal_dps});
-      skills.push({level: 1, skillType: Stats.EStatType.mining_laser_strength});
-      skills.push({level: 1, skillType: Stats.EStatType.mining_laser_range});
-      
+      /*
+      let skills : Map<Skills.ESkillStatType, Skills.ISkill> = new Map();
+      skills.set(Skills.EStatTypeSkillExtensions.MAX_NR_OF_MODULES, {level: 1, skillType: Skills.EStatTypeSkillExtensions.MAX_NR_OF_MODULES, progress: 0});
+      skills.set(Stats.EStatType.acceleration, {level: 1, skillType: Stats.EStatType.acceleration, progress: 0});
+      skills.set(Stats.EStatType.max_speed, {level: 1, skillType: Stats.EStatType.max_speed, progress: 0});
+      skills.set(Stats.EStatType.thrust, {level: 1, skillType: Stats.EStatType.thrust, progress: 0});
+      skills.set(Stats.EStatType.power, {level: 1, skillType: Stats.EStatType.power, progress: 0});
+      skills.set(Stats.EStatType.hull, {level: 1, skillType: Stats.EStatType.hull, progress: 0});
+      skills.set(Stats.EStatType.armor, {level: 1, skillType: Stats.EStatType.armor, progress: 0});
+      skills.set(Stats.EStatType.shield, {level: 1, skillType: Stats.EStatType.shield, progress: 0});
+      skills.set(Stats.EStatType.radar_range, {level: 1, skillType: Stats.EStatType.radar_range, progress: 0});
+      skills.set(Stats.EStatType.shield_generation, {level: 1, skillType: Stats.EStatType.shield_generation, progress: 0});
+      skills.set(Stats.EStatType.armor_impact_resistance, {level: 1, skillType: Stats.EStatType.armor_impact_resistance, progress: 0});
+      skills.set(Stats.EStatType.armor_heat_resistance, {level: 1, skillType: Stats.EStatType.armor_heat_resistance, progress: 0});
+      skills.set(Stats.EStatType.armor_explosion_resistance, {level: 1, skillType: Stats.EStatType.armor_explosion_resistance, progress: 0});
+      skills.set(Stats.EStatType.target_dodge_reduction, {level: 1, skillType: Stats.EStatType.target_dodge_reduction, progress: 0});
+      skills.set(Stats.EStatType.cargo_hold, {level: 1, skillType: Stats.EStatType.cargo_hold, progress: 0});
+      skills.set(Stats.EStatType.dodge, {level: 1, skillType: Stats.EStatType.dodge, progress: 0});
+      skills.set(Stats.EStatType.radar_signature_reduction, {level: 1, skillType: Stats.EStatType.radar_signature_reduction, progress: 0});
+      skills.set(Stats.EStatType.weapon_range, {level: 1, skillType: Stats.EStatType.weapon_range, progress: 0});
+      skills.set(Stats.EStatType.explosive_dps, {level: 1, skillType: Stats.EStatType.explosive_dps, progress: 0});
+      skills.set(Stats.EStatType.impact_dps, {level: 1, skillType: Stats.EStatType.impact_dps, progress: 0});
+      skills.set(Stats.EStatType.heat_dps, {level: 1, skillType: Stats.EStatType.heat_dps, progress: 0});
+      skills.set(Stats.EStatType.normal_dps, {level: 1, skillType: Stats.EStatType.normal_dps, progress: 0});
+      skills.set(Stats.EStatType.mining_laser_strength, {level: 1, skillType: Stats.EStatType.mining_laser_strength, progress: 0});
+      skills.set(Stats.EStatType.mining_laser_range, {level: 1, skillType: Stats.EStatType.mining_laser_range, progress: 0});
+      */
+
       let character : ICharacter = {
           cargo: cargo,
           name: user.username + " (Character1)",
@@ -129,7 +131,35 @@ export module Database {
           },
           location: location,
           ship: createNewShip(),
-          skills: skills
+          skills: {
+            skillList: {
+              [Stats.EStatType.max_nr_of_modules]: {level: 1, skillType: Stats.EStatType.max_nr_of_modules, progress: 0},
+              [Stats.EStatType.acceleration]: {level: 1, skillType: Stats.EStatType.acceleration, progress: 0},
+              [Stats.EStatType.max_speed]: {level: 1, skillType: Stats.EStatType.max_speed, progress: 0},
+              [Stats.EStatType.thrust]: {level: 1, skillType: Stats.EStatType.thrust, progress: 0},
+              [Stats.EStatType.power]: {level: 1, skillType: Stats.EStatType.power, progress: 0},
+              [Stats.EStatType.hull]: {level: 1, skillType: Stats.EStatType.hull, progress: 0},
+              [Stats.EStatType.armor]: {level: 1, skillType: Stats.EStatType.armor, progress: 0},
+              [Stats.EStatType.shield]: {level: 1, skillType: Stats.EStatType.shield, progress: 0},
+              [Stats.EStatType.radar_range]: {level: 1, skillType: Stats.EStatType.radar_range, progress: 0},
+              [Stats.EStatType.shield_generation]: {level: 1, skillType: Stats.EStatType.shield_generation, progress: 0},
+              [Stats.EStatType.armor_impact_resistance]: {level: 1, skillType: Stats.EStatType.armor_impact_resistance, progress: 0},
+              [Stats.EStatType.armor_heat_resistance]: {level: 1, skillType: Stats.EStatType.armor_heat_resistance, progress: 0},
+              [Stats.EStatType.armor_explosion_resistance]: {level: 1, skillType: Stats.EStatType.armor_explosion_resistance, progress: 0},
+              [Stats.EStatType.target_dodge_reduction]: {level: 1, skillType: Stats.EStatType.target_dodge_reduction, progress: 0},
+              [Stats.EStatType.cargo_hold]: {level: 1, skillType: Stats.EStatType.cargo_hold, progress: 0},
+              [Stats.EStatType.dodge]: {level: 1, skillType: Stats.EStatType.dodge, progress: 0},
+              [Stats.EStatType.radar_signature_reduction]: {level: 1, skillType: Stats.EStatType.radar_signature_reduction, progress: 0},
+              [Stats.EStatType.weapon_range]: {level: 1, skillType: Stats.EStatType.weapon_range, progress: 0},
+              [Stats.EStatType.explosive_dps]: {level: 1, skillType: Stats.EStatType.explosive_dps, progress: 0},
+              [Stats.EStatType.impact_dps]: {level: 1, skillType: Stats.EStatType.impact_dps, progress: 0},
+              [Stats.EStatType.heat_dps]: {level: 1, skillType: Stats.EStatType.heat_dps, progress: 0},
+              [Stats.EStatType.normal_dps]: {level: 1, skillType: Stats.EStatType.normal_dps, progress: 0},
+              [Stats.EStatType.mining_laser_strength]: {level: 1, skillType: Stats.EStatType.mining_laser_strength, progress: 0},
+              [Stats.EStatType.mining_laser_range]: {level: 1, skillType: Stats.EStatType.mining_laser_range, progress: 0}
+            },
+            currentlyTraining: undefined
+          }
       }
       return character;
   }
@@ -236,6 +266,7 @@ export module Database {
       newShip.modules.forEach(
         //@ts-ignore
         module => module.moduleItem.module.stats.forEach(
+          //@ts-ignore
           moduleProp => ship.stats[moduleProp.property] = ship.stats[moduleProp.property] + moduleProp.value
         )
       );

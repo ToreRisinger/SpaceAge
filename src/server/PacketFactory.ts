@@ -49,6 +49,17 @@ export module PacketFactory {
         return packet;
     }
 
+    export function createSkillStatePacket(client: IClient) {
+      let packet : Events.SKILL_STATE_EVENT_CONFIG = {
+        eventId : Events.EEventType.SKILL_STATE_EVENT,
+        data : {
+          skills: client.character.skills
+        }
+      }
+      
+      return packet;
+  }
+
     export function createAsteroidsUpdatePacket(asteroids : Map<number, AsteroidData.IAsteroid>) {
       let asteroidArray: Array<AsteroidData.IAsteroid> = Array.from(asteroids.values());
   

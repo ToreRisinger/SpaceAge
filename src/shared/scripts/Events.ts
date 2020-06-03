@@ -5,6 +5,8 @@ import { EGameState } from "./EGameState";
 import { ICharacter } from "../interfaces/ICharacter";
 import { ICargo } from "../interfaces/ICargo";
 import { ISector } from "../interfaces/ISector";
+import { Skills } from "../skills/Skills";
+import { Stats } from "../stats/Stats";
 
 
 export module Events {
@@ -23,6 +25,7 @@ export module Events {
         CARGO_UPDATE_EVENT,
         GAME_OBJECT_DESTOYED_EVENT,
         CHANGE_SECTOR_EVENT,
+        SKILL_STATE_EVENT,
 
         //Chat events
         CLIENT_SEND_CHAT_MESSAGE_EVENT,
@@ -39,6 +42,8 @@ export module Events {
         PLAYER_CARGO_UPDATED_EVENT,
         PLAYER_START_WARP_REQUEST_EVENT,
         SECTOR_CHANGED_EVENT,
+        TRAIN_SKILL_START,
+        TRAIN_SKILL_STOP,
 
         //GameState changes events
         SPACE_SCENE_GAME_STATE_EVENT, //TODO remove
@@ -257,6 +262,27 @@ export module Events {
         data : {
             sender : String;
             message : String;
+        }
+    }
+
+    export interface TRAIN_SKILL_START_CONFIG extends GameEvent {
+        data: {
+            skill: Stats.EStatType
+        }
+    }
+
+    export interface TRAIN_SKILL_STOP_CONFIG extends GameEvent {
+        data: {
+            skill: Stats.EStatType
+        }
+    }
+
+    export interface SKILL_STATE_EVENT_CONFIG extends GameEvent {
+        data: {
+            skills: {
+                skillList: Skills.ISkillList,
+                currentlyTraining: Stats.EStatType | undefined
+            }
         }
     }
  

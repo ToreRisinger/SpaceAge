@@ -138,38 +138,69 @@ body {
     
 }
 
-/*
-#character_list_container {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    background-color: rgb(0, 0, 0);
-}
-
-#character_container {
-    background-color: rgb(250, 250, 250);
-    border: 1px solid rgb(122, 122, 122);
-    width: 335px;
-    height: 100px;
-    text-align: center;
-    line-height: 100px;
-    margin: 5px;
-}
-*/
-
 #skills_container {
     margin: auto;  
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 #skill_container {
     border: 1px solid rgb(122, 122, 122);
-    width: 200px;
-    height: 100px;
-    text-align: center;
-    line-height: 100px;
+    width: 240px;
     margin: 5px;
+    padding: 4px;
+}
+
+#skill_title {
+    text-align: center;
+    text-align: center;
+    font-size: 15px;
+}
+
+#skill_description {
+    text-align: left;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    width: 100%;
+    font-size: 12px;
+    color:  rgb(95, 95, 95);
+}
+
+#skill_level {
+    
+}
+
+#skill_current_effect {
+
+}
+
+#skill_next_level_effect {
+
+}
+
+.SkillField {
+    margin-bottom: 3px;
+}
+
+#skill_train_button {
+    border: 2px solid rgb(122, 122, 122);
+    background-color: rgb(63, 63, 63);
+    text-align: center;
+    margin-top: 5px;
+}
+
+#skill_train_button:hover {
+    background-color: rgb(97, 97, 97);
+}
+
+#skill_train_bar {
+    border: 1px solid rgb(122, 122, 122);
+    background-image: linear-gradient(rgb(0, 0, 0), rgb(63, 63, 63));
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 0px
 }
 
 .WindowHeader {

@@ -45,6 +45,18 @@ export class ComManager {
         
     } 
 
+    public update1min() {
+        this.getClients().forEach(client => {
+                let packet : any = PacketFactory.createSkillStatePacket(client);
+                client.socket.emit("ServerEvent", packet);
+            }
+        );
+    }
+
+    public getClients() : Array<IClient> {
+        return Array.from(this.clientMap.values());
+    }
+
     private setupOnConnection() {
         this.io.on('connection', (socket: any) => {
             this.onConnection(socket);
@@ -63,18 +75,18 @@ export class ComManager {
 
     private onClientLoginReq(socket: any, event: Events.GameEvent) {
         if(event.eventId == Events.EEventType.CLIENT_LOGIN_REQ) {
-            Database.getUser(event.data.username, (err: string, users: Array<IUserDocument>) => {
+            Database.getUser(event.data.username, (err: any, users: Array<IUserDocument>) => {
                 if(users.length > 0) {
                     this.onClientLogin(socket, users[0]);
                 } else {
-                    Database.newUser(event.data.username, (err: string, user: IUserDocument) => {
+                    Database.newUser(event.data.username, (err: any, user: IUserDocument) => {
                         if(err) {
                             this.connectionError(err, socket);
                             return;
                         }
-            
                         if(user) {
-                            Database.newCharacter(user, this.sectorHandler.getLocation(), (err: string, character: ICharacterDocument) => {
+
+                            Database.newCharacter(user, this.sectorHandler.getLocation(), (err: any, character: ICharacterDocument) => {
                                 if(err) {
                                     this.connectionError(err, socket);
                                     return;
