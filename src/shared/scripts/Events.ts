@@ -61,7 +61,8 @@ export module Events {
         SELECTION_CHANGED_EVENT,
         TARGET_CHANGE_REQUEST_EVENT,
         TARGET_CHANGED_EVENT,
-        ZOOM_CHANGED_EVENT
+        ZOOM_CHANGED_EVENT,
+        SKILL_STATE_UPDATED_EVENT,
 
         /*
             SERVER EVENTS
@@ -273,7 +274,7 @@ export module Events {
 
     export interface TRAIN_SKILL_STOP_CONFIG extends GameEvent {
         data: {
-            skill: Stats.EStatType
+            
         }
     }
 
@@ -284,6 +285,10 @@ export module Events {
                 currentlyTraining: Stats.EStatType | undefined
             }
         }
+    }
+
+    export interface SKILL_STATE_UPDATED_EVENT_CONFIG extends GameEvent {
+        data : {}
     }
  
     

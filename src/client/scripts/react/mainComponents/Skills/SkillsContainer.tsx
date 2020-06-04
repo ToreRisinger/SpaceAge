@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { GlobalDataService } from "../../../modules/GlobalDataService";
 import { Skills } from "../../../../../shared/skills/Skills";
 import { Stats } from "../../../../../shared/stats/Stats";
@@ -16,16 +16,16 @@ export default class SkillsContainer extends React.Component<{}, SkillsContainer
             skillList: GlobalDataService.getInstance().getCharacter().skills.skillList,
             currentlyTraining : GlobalDataService.getInstance().getCharacter().skills.currentlyTraining
         }
-        EventHandler.on(Events.EEventType.SKILL_STATE_EVENT, this.onSkillStateChanged)
+        this.onSkillStateChanged = this.onSkillStateChanged.bind(this);
+        EventHandler.on(Events.EEventType.SKILL_STATE_UPDATED_EVENT, this.onSkillStateChanged)
+        
     }
 
-    onSkillStateChanged(event: Events.SKILL_STATE_EVENT_CONFIG) {
+    onSkillStateChanged(event: Events.SKILL_STATE_UPDATED_EVENT_CONFIG) {
         this.setState({
-            skillList : event.data.skills.skillList,
-            currentlyTraining : event.data.skills.currentlyTraining
-        });
-
-        
+            skillList : GlobalDataService.getInstance().getCharacter().skills.skillList,
+            currentlyTraining : GlobalDataService.getInstance().getCharacter().skills.currentlyTraining
+        });  
     }
 
     render() {
@@ -48,7 +48,6 @@ export default class SkillsContainer extends React.Component<{}, SkillsContainer
                 <SkillContainer skill={this.state.skillList[Stats.EStatType.radar_signature_reduction]} currentlyTraining={this.state.currentlyTraining}/>
                 <SkillContainer skill={this.state.skillList[Stats.EStatType.cargo_hold]} currentlyTraining={this.state.currentlyTraining}/>
                 <SkillContainer skill={this.state.skillList[Stats.EStatType.dodge]} currentlyTraining={this.state.currentlyTraining}/>
-                <SkillContainer skill={this.state.skillList[Stats.EStatType.radar_signature_reduction]} currentlyTraining={this.state.currentlyTraining}/>
                 <SkillContainer skill={this.state.skillList[Stats.EStatType.weapon_range]} currentlyTraining={this.state.currentlyTraining}/>
                 <SkillContainer skill={this.state.skillList[Stats.EStatType.explosive_dps]} currentlyTraining={this.state.currentlyTraining}/>
                 <SkillContainer skill={this.state.skillList[Stats.EStatType.impact_dps]} currentlyTraining={this.state.currentlyTraining}/>

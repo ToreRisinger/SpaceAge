@@ -28,7 +28,7 @@ export module Server {
     function setupGameLoops() {
       setInterval(update40ms, 1000/UPDATES_PER_SECOND);
       setInterval(update1000ms, 1000);
-      setInterval(update1min, 60000);
+      setInterval(update1min, 1000);
     }
 
     function update40ms() {
@@ -43,6 +43,11 @@ export module Server {
 
     function update1min() {
       skillManager.update1min();
+      //TODO update all ship
       comManager.update1min();
+    }
+
+    export function getSkillManager() : SkillManager {
+      return skillManager;
     }
 }

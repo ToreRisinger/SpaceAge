@@ -123,6 +123,15 @@ export module GameObjectHandler {
         }  
     }
 
+    function onSkillStateChanged(event: Events.SKILL_STATE_EVENT_CONFIG) {
+        GlobalDataService.getInstance().getCharacter().skills = event.data.skills;
+        let eventToSend : Events.SKILL_STATE_UPDATED_EVENT_CONFIG = {
+            eventId : Events.EEventType.SKILL_STATE_UPDATED_EVENT,
+            data : { }
+        }
+        EventHandler.pushEvent(eventToSend); 
+    }  
+
     function subscribeToEvents() {
         EventHandler.on(Events.EEventType.PLAYER_CONNECTED_EVENT, onPlayerConnect);
         EventHandler.on(Events.EEventType.PLAYER_DISCONNECTED_EVENT, onPlayerDisconnect);
@@ -130,7 +139,8 @@ export module GameObjectHandler {
         EventHandler.on(Events.EEventType.ASTEROIDS_UPDATE_EVENT, onAsteroidsUpdate);
         EventHandler.on(Events.EEventType.CARGO_UPDATE_EVENT, onCargoUpdate);
         EventHandler.on(Events.EEventType.GAME_OBJECT_DESTOYED_EVENT, onGameObjectsDestroyed);
-        EventHandler.on(Events.EEventType.CHANGE_SECTOR_EVENT, onSectorChanged);      
+        EventHandler.on(Events.EEventType.CHANGE_SECTOR_EVENT, onSectorChanged); 
+        EventHandler.on(Events.EEventType.SKILL_STATE_EVENT, onSkillStateChanged);  
     }
 
     function destroyGameObject(objectId : number) {

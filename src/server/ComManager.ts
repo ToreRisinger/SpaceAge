@@ -11,6 +11,7 @@ import { Sector } from "./Sector";
 import { IClient } from "./interfaces/IClient";
 import { IdHandler } from "./IdHandler";
 import { ISector } from "../shared/interfaces/ISector";
+import { Server } from "./Server";
 
 export class ComManager {
 
@@ -18,21 +19,19 @@ export class ComManager {
     //Sector should only handle game logic
 
     private io: any;
-    private server: any;
     private sectorHandler: SectorHandler;
 
     private clientMap: Map<number, IClient>; 
 
-    constructor(server: any, sectorHandler: SectorHandler) {
+    constructor(ioServer: any, sectorHandler: SectorHandler) {
         this.clientMap = new Map<number, IClient>();
         this.sectorHandler = sectorHandler;
-        this.server = server;
         
-        this.server.listen(8081, function () {
-            Logger.info(`Listening on ${server.address().port}`);
+        ioServer.listen(8081, function () {
+            Logger.info(`Listening on ${ioServer.address().port}`);
         });
   
-        this.io = require('socket.io').listen(server);
+        this.io = require('socket.io').listen(ioServer);
 
         this.setupOnConnection();
     }
@@ -173,7 +172,7 @@ export class ComManager {
                 }
             }
             
-            let clientId = IdHandler.getNewPlayerId();
+            let clientId = IdHandler.getNewClientId();
             let newClient : IClient = {
                 character: character,
                 socket: socket,
@@ -245,6 +244,14 @@ export class ComManager {
           }
           case Events.EEventType.PLAYER_START_WARP_REQUEST_EVENT : {
             this.onPlayerStartWarpEvent(client, event);
+            break;
+          }
+          case Events.EEventType.TRAIN_SKILL_START : {
+            Server.getSkillManager().startTrainSkill(client, event);
+            break;
+          }
+          case Events.EEventType.TRAIN_SKILL_STOP : {
+            Server.getSkillManager().stopTrainSkill(client);
             break;
           }
           default: {

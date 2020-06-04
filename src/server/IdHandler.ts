@@ -2,7 +2,7 @@
 
 export module IdHandler {
     
-    let nextPlayerId = 0;
+    let nextClientId = 0;
     let nextGameObjectId = 0;
     let nextItemId = 0;
 
@@ -10,8 +10,8 @@ export module IdHandler {
         return nextItemId++;
     }
 
-    export function getNewPlayerId() {
-        return nextPlayerId++;
+    export function getNewClientId() {
+        return nextClientId++;
     }
 
     export function getNewGameObjectId() {

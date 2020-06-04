@@ -150,6 +150,12 @@ body {
     width: 240px;
     margin: 5px;
     padding: 4px;
+    -webkit-transition: box-shadow linear 0.5s;
+    transition: box-shadow linear 0.5s;
+}
+
+.SkillContainerInTraining {
+    box-shadow: 0 0 20px rgb(0, 255, 34);
 }
 
 #skill_title {
@@ -204,7 +210,7 @@ body {
 }
 
 #skill_train_bar_progress {
-    background-image: linear-gradient(rgb(116, 104, 0), rgb(71, 64, 1));
+    background-image: linear-gradient(rgb(0, 199, 17), rgb(0, 59, 5));
     height: 100%;
     grid-column: 1;
     grid-row: 1;

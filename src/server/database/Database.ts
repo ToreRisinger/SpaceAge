@@ -133,10 +133,10 @@ export module Database {
           ship: createNewShip(),
           skills: {
             skillList: {
-              [Stats.EStatType.max_nr_of_modules]: {level: 1, skillType: Stats.EStatType.max_nr_of_modules, progress: 1},
-              [Stats.EStatType.acceleration]: {level: 1, skillType: Stats.EStatType.acceleration, progress: 2},
-              [Stats.EStatType.max_speed]: {level: 1, skillType: Stats.EStatType.max_speed, progress: 3},
-              [Stats.EStatType.thrust]: {level: 1, skillType: Stats.EStatType.thrust, progress: 4},
+              [Stats.EStatType.max_nr_of_modules]: {level: 1, skillType: Stats.EStatType.max_nr_of_modules, progress: 0},
+              [Stats.EStatType.acceleration]: {level: 1, skillType: Stats.EStatType.acceleration, progress: 0},
+              [Stats.EStatType.max_speed]: {level: 1, skillType: Stats.EStatType.max_speed, progress: 0},
+              [Stats.EStatType.thrust]: {level: 1, skillType: Stats.EStatType.thrust, progress: 0},
               [Stats.EStatType.power]: {level: 1, skillType: Stats.EStatType.power, progress: 0},
               [Stats.EStatType.hull]: {level: 1, skillType: Stats.EStatType.hull, progress: 0},
               [Stats.EStatType.armor]: {level: 1, skillType: Stats.EStatType.armor, progress: 0},
@@ -263,6 +263,7 @@ export module Database {
 
   function updateShipProperties(ship : ObjectInterfaces.IShip) : ObjectInterfaces.IShip {
       let newShip = ship;
+      
       newShip.modules.forEach(
         //@ts-ignore
         module => module.moduleItem.module.stats.forEach(
@@ -272,14 +273,8 @@ export module Database {
       );
 
       newShip.stats[Stats.EStatType.max_speed] = 1000;
-
-      newShip.stats[Stats.EStatType.acceleration] = 
-        newShip.stats[Stats.EStatType.thrust] / newShip.stats[Stats.EStatType.mass];
-
-
-
-      //TODO weapon range average calculation  
-      newShip.stats[Stats.EStatType.weapon_range] = 2000;
+      newShip.stats[Stats.EStatType.acceleration] = newShip.stats[Stats.EStatType.thrust] / newShip.stats[Stats.EStatType.mass]; 
+      newShip.stats[Stats.EStatType.weapon_range] = 2000; //TODO average of all weapon modules
     
 
       newShip.properties.currentArmor = newShip.stats[Stats.EStatType.armor];
