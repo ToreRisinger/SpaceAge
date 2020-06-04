@@ -2,6 +2,7 @@ import { ObjectInterfaces } from "../shared/scripts/ObjectInterfaces";
 import { PacketFactory } from "./PacketFactory";
 import { IClient } from "./interfaces/IClient";
 import { Stats } from "../shared/stats/Stats";
+import { SClient } from "./objects/SClient";
 
 const math = require('mathjs');
 math.length = function vec2Length(vec2 : Array<number>) {
@@ -13,7 +14,7 @@ let UPDATES_PER_SECOND : number = 25;
 export class Sector {
 
     protected ships : Map<number, ObjectInterfaces.IShip>;
-    protected clients :  Map<number, IClient>;
+    protected clients :  Map<number, SClient>;
 
     protected x : number;
     protected y : number;
@@ -40,7 +41,7 @@ export class Sector {
         this.id = id;
 
         this.ships = new Map<number, ObjectInterfaces.IShip>();
-        this.clients = new Map<number, IClient>();
+        this.clients = new Map<number, SClient>();
     }
 
     public getSectorX() {
@@ -92,21 +93,21 @@ export class Sector {
         */
     }
 
-    public addClient(client : IClient) {
-        this.clients.set(client.id, client);
-        this.ships.set(client.character.ship.id, client.character.ship);
+    public addClient(client : SClient) {
+        this.clients.set(client.getData().id, client);
+        this.ships.set(client.getCharacter().getShip().getData().id, client.getCharacter().getShip().getData());
     }
 
-    public removeClient(client : IClient) {
-        this.clients.delete(client.id);
-        this.ships.delete(client.character.ship.id);
-        this.sendClientDisconnected(client.character.ship.id);
+    public removeClient(client : SClient) {
+        this.clients.delete(client.getData().id);
+        this.ships.delete(client.getCharacter().getShip().getData().id);
+        this.sendClientDisconnected(client.getCharacter().getShip().getData().id);
     }
 
     private sendClientDisconnected(disconnectedShipId : number) {
         let packet : any = PacketFactory.createPlayerDisconnectedPacket(disconnectedShipId);
-        this.clients.forEach((client: IClient, key: number) => {
-          client.socket.emit('ServerEvent', packet)
+        this.clients.forEach((client: SClient, key: number) => {
+          client.getData().socket.emit('ServerEvent', packet)
         });
     }
 
@@ -280,8 +281,8 @@ export class Sector {
 
     private sendShipUpdates() {
         let packet : any = PacketFactory.createShipsUpdatePacket(this.clients);
-        this.clients.forEach((client: IClient, key: number) => {
-          client.socket.emit("ServerEvent", packet);
+        this.clients.forEach((client: SClient, key: number) => {
+          client.getData().socket.emit("ServerEvent", packet);
         });
     }
 }

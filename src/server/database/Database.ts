@@ -9,6 +9,8 @@ import { ICharacter } from "../../shared/interfaces/ICharacter";
 import { ICargo } from "../../shared/interfaces/ICargo";
 import { Stats } from "../../shared/stats/Stats";
 import { Skills } from "../../shared/skills/Skills";
+import { SCharacter } from "../objects/SCharacter";
+import { SShip } from "../objects/SShip";
 
 const mongoose = require('mongoose')
 const dbName = 'space-age-test'
@@ -47,25 +49,15 @@ export module Database {
       CharacterModel.find({user: user._id}, callback);
     }
 
-    export function newCharacter(user: IUserDocument, location: string, callback: (error: string, character: ICharacterDocument) => void) : void {
-      const model = new CharacterModel({character: createNewCharacter(user, location), user: user._id});
+    export function writeNewCharacter(character: SCharacter, user: IUserDocument, callback: (error: string, character: ICharacterDocument) => void) : void {
+      const model = new CharacterModel({character: character.getData(), user: user._id});
       model.save(callback);
     }
 
-    export function writeCharacter(character: ICharacter, user: IUserDocument, callback: (error: string) => void) : void {
-      let ship = character.ship; 
-      ship.isMoving = false;
-      ship.isWarping = false;
-      ship.meters_per_second = 0;
-      ship.targetId = -1;
-      ship.warpDestination = [0, 0];
-      ship.warpSource = [0, 0];
-      ship.destVec = [0, 0];
-      ship.velVec = [0, 0];
-      ship.isWarping = false;
-      ship.isMining = false;
-
-      CharacterModel.findOneAndUpdate({user: user._id, 'character.name': character.name}, {$set:{character:character}}, callback);
+    export function writeCharacter(character: SCharacter, user: IUserDocument, callback: (error: string) => void) : void {
+      let ship : SShip = character.getShip();
+      ship.resetState();
+      CharacterModel.findOneAndUpdate({user: user._id, 'character.name': character.getData().name}, {$set:{character:character.getData()}}, callback);
     }
 
     export function getPlayerShipLocation(playerId : number) {

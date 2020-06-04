@@ -5,6 +5,7 @@ import { Sector } from "./Sector";
 import { IClient } from "./interfaces/IClient";
 import { ICargo } from "../shared/interfaces/ICargo";
 import { ISector } from "../shared/interfaces/ISector";
+import { SClient } from "./objects/SClient";
 
 
 export module PacketFactory {
@@ -33,10 +34,10 @@ export module PacketFactory {
         return packet;
     }
 
-    export function createShipsUpdatePacket(clients : Map<number, IClient>) {
+    export function createShipsUpdatePacket(clients : Map<number, SClient>) {
         let array: Array<{ship: ObjectInterfaces.IShip, characterName : string}> = [];
-        clients.forEach((client: IClient, key: number) => {
-          array.push({characterName: client.character.name, ship: client.character.ship});
+        clients.forEach((client: SClient, key: number) => {
+          array.push({characterName: client.getData().character.name, ship: client.getData().character.ship});
         });
     
         let packet : Events.SHIPS_UPDATE_EVENT_CONFIG = {
@@ -49,11 +50,11 @@ export module PacketFactory {
         return packet;
     }
 
-    export function createSkillStatePacket(client: IClient) {
+    export function createSkillStatePacket(client: SClient) {
       let packet : Events.SKILL_STATE_EVENT_CONFIG = {
         eventId : Events.EEventType.SKILL_STATE_EVENT,
         data : {
-          skills: client.character.skills
+          skills: client.getCharacter().getData().skills
         }
       }
       

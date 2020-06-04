@@ -11,6 +11,7 @@ export default class CharacterSelectionPage extends React.Component<{}, {}> {
 
    render() {
       let characterList : Array<ICharacter> = CharacterListProvider.getInstance().getCharacterList();
+      console.log(characterList)
       return (
          <div id="character_selection_page">
             <CharacterSelectionContainer characterList={characterList}/>

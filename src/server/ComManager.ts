@@ -12,6 +12,9 @@ import { IClient } from "./interfaces/IClient";
 import { IdHandler } from "./IdHandler";
 import { ISector } from "../shared/interfaces/ISector";
 import { Server } from "./Server";
+import { SCharacter } from "./objects/SCharacter";
+import { SClient } from "./objects/SClient";
+import { SShip } from "./objects/SShip";
 
 export class ComManager {
 
@@ -21,10 +24,10 @@ export class ComManager {
     private io: any;
     private sectorHandler: SectorHandler;
 
-    private clientMap: Map<number, IClient>; 
+    private clientMap: Map<number, SClient>; 
 
     constructor(ioServer: any, sectorHandler: SectorHandler) {
-        this.clientMap = new Map<number, IClient>();
+        this.clientMap = new Map<number, SClient>();
         this.sectorHandler = sectorHandler;
         
         ioServer.listen(8081, function () {
@@ -47,12 +50,12 @@ export class ComManager {
     public update1min() {
         this.getClients().forEach(client => {
                 let packet : any = PacketFactory.createSkillStatePacket(client);
-                client.socket.emit("ServerEvent", packet);
+                client.getData().socket.emit("ServerEvent", packet);
             }
         );
     }
 
-    public getClients() : Array<IClient> {
+    public getClients() : Array<SClient> {
         return Array.from(this.clientMap.values());
     }
 
@@ -84,8 +87,8 @@ export class ComManager {
                             return;
                         }
                         if(user) {
-
-                            Database.newCharacter(user, this.sectorHandler.getLocation(), (err: any, character: ICharacterDocument) => {
+                            let newCharacter : SCharacter = SCharacter.createNewCharacter(user, this.sectorHandler.getLocation());
+                            Database.writeNewCharacter(newCharacter, user, (err: any) => {
                                 if(err) {
                                     this.connectionError(err, socket);
                                     return;
@@ -134,14 +137,14 @@ export class ComManager {
 
             Logger.info("User '" + user.username + "' joined with character '" + event.data.character.name + "'");
 
-            let character : ICharacter | undefined = undefined;
+            let characterData : ICharacter | undefined = undefined;
             for(let i = 0; i < characters.length; i++) {
                 if(characters[i].character.name == event.data.character.name) {
-                    character = characters[i].character;
+                    characterData = characters[i].character;
                 }
             }
 
-            if(character == undefined) {
+            if(characterData == undefined) {
                 this.connectionError("Could not find character: '" + event.data.character.name + "'", socket);
                 return;
             }
@@ -162,36 +165,30 @@ export class ComManager {
                 this.connectionError("Could not find sector", socket);
                 return;
             }
-        
+
+            let character : SCharacter = SCharacter.createCharacter(characterData);
+            let client : SClient = new SClient(socket, character);
+
             let packet : Events.SERVER_JOIN_ACK = {
                 eventId : Events.EEventType.SERVER_JOIN_ACK,
                 data : {
-                    character: character,
+                    character: character.getData(),
                     clientSectorId : sector.getId(),
                     sectors : sectorArray
                 }
             }
-            
-            let clientId = IdHandler.getNewClientId();
-            let newClient : IClient = {
-                character: character,
-                socket: socket,
-                id: clientId
-            }
 
-            newClient.character.ship.id = IdHandler.getNewGameObjectId();
-
-            this.clientMap.set(clientId, newClient);
-            this.sectorHandler.addClientToSector(newClient, 0, 0);
+            this.clientMap.set(client.getData().id, client);
+            this.sectorHandler.addClientToSector(client, 0, 0);
 
             socket.on('ClientEvent', (event : Events.GameEvent) => {
-                this.onClientEvent(newClient, event);
+                this.onClientEvent(client, event);
             });
             socket.on('disconnect', () => {
-                this.onDisconnect(newClient, user);
+                this.onDisconnect(client, user);
             });
             socket.emit("ServerEvent", packet); 
-            this.sendServerMessage(newClient, "Welcome to SpaceAge!");
+            this.sendServerMessage(client, "Welcome to SpaceAge!");
         }  
     }
 
@@ -199,21 +196,21 @@ export class ComManager {
         Logger.info("User disconnected");
     }
   
-    private onDisconnect(client: IClient, user: IUserDocument) {
-        Logger.info("User disconnected with character '" + client.character.name + "' of user '" + user.username + "'.");
+    private onDisconnect(client: SClient, user: IUserDocument) {
+        Logger.info("User disconnected with character '" + client.getData().character.name + "' of user '" + user.username + "'.");
         this.sectorHandler.removePlayerFromSector(client);
-        Database.writeCharacter(client.character, user, (err: string) => {
+        Database.writeCharacter(client.getCharacter(), user, (err: string) => {
             if(err) {
-                Logger.error("Could not write character '" + client.character.name + "' of user '" + user.username + "'.");
+                Logger.error("Could not write character '" + client.getData().character.name + "' of user '" + user.username + "'.");
             }
         });
     }
   
-    private onClientEvent(client: IClient, event: Events.GameEvent) {
+    private onClientEvent(client: SClient, event: Events.GameEvent) {
         this.handleClientEvent(client, event);
     }
   
-    private handleClientEvent(client : IClient, event : Events.GameEvent) {
+    private handleClientEvent(client : SClient, event : Events.GameEvent) {
         switch(event.eventId)  {
           case Events.EEventType.PLAYER_SET_NEW_DESTINATION_EVENT : {
             this.onPlayerSetNewDestinationEvent(client, event);
@@ -260,76 +257,44 @@ export class ComManager {
         }
     }
   
-    private onPlayerStartAttackingEvent(client: IClient, event : Events.PLAYER_START_ATTACKING_EVENT_CONFIG) {
-        if(event.data.targetId != undefined && event.data.targetId > 0) {
-            this.startAttacking(client.character.ship, event.data.targetId);
-        }
+    private onPlayerStartAttackingEvent(client: SClient, event : Events.PLAYER_START_ATTACKING_EVENT_CONFIG) {
+        client.getCharacter().getShip().startAttack(event.data.targetId);
     }
   
-    private onPlayerStopAttackingEvent(client: IClient, event : Events.PLAYER_STOP_ATTACKING_EVENT_CONFIG) {
-        this.stopAttacking(client.character.ship);
+    private onPlayerStopAttackingEvent(client: SClient, event : Events.PLAYER_STOP_ATTACKING_EVENT_CONFIG) {
+        client.getCharacter().getShip().stopAttack();
     }
   
-    private onPlayerStartMiningEvent(client: IClient, event : Events.PLAYER_START_MINING_EVENT_CONFIG) {
-        if(event.data.targetId != undefined && event.data.targetId > 0) {
-            this.startMining(client.character.ship, event.data.targetId);
-        }
+    private onPlayerStartMiningEvent(client: SClient, event : Events.PLAYER_START_MINING_EVENT_CONFIG) {
+        client.getCharacter().getShip().startMining(event.data.targetId);
     }
   
-    private onPlayerStopMiningEvent(client: IClient, event : Events.PLAYER_STOP_MINING_EVENT_CONFIG) {
-        this.stopMining(client.character.ship);
+    private onPlayerStopMiningEvent(client: SClient, event : Events.PLAYER_STOP_MINING_EVENT_CONFIG) {
+        client.getCharacter().getShip().stopMining();
     }
   
-    private stopAttacking(ship : ObjectInterfaces.IShip) {
-        ship.isAttacking = false;
+    private onPlayerSetNewDestinationEvent(client : SClient, event : Events.PLAYER_SET_NEW_DESTINATION_EVENT_CONFIG) {
+        client.getCharacter().getShip().newDestination(event.data.destinationX, event.data.destinationY);
     }
   
-    private startAttacking(ship : ObjectInterfaces.IShip, targetId : number) {
-        ship.isAttacking = true;
-        ship.targetId = targetId;
+    private onPlayerStopShipEvent(client : SClient, event : Events.PLAYER_STOP_SHIP_EVENT_CONFIG) {
+        client.getCharacter().getShip().stopMove();
     }
   
-    private stopMining(ship : ObjectInterfaces.IShip) {
-        ship.isMining = false;
-    }
-  
-    private startMining(ship : ObjectInterfaces.IShip, targetId : number) {
-        ship.isMining = true;
-        ship.targetId = targetId;
-    }
-  
-    private onPlayerSetNewDestinationEvent(client : IClient, event : Events.PLAYER_SET_NEW_DESTINATION_EVENT_CONFIG) {
-        let xLength = client.character.ship.x - event.data.destinationX;
-        let yLength = client.character.ship.y - event.data.destinationY;
-        let length = Math.sqrt(xLength * xLength + yLength * yLength);
-        if(length != 0) {
-            client.character.ship.isMoving = true;
-            client.character.ship.destVec = [event.data.destinationX, event.data.destinationY];
-            client.character.ship.hasDestination = true;
-        } 
-    }
-  
-    private onPlayerStopShipEvent(client : IClient, event : Events.PLAYER_STOP_SHIP_EVENT_CONFIG) {
-        client.character.ship.hasDestination = false;
-    }
-  
-    private onPlayerStartWarpEvent(client : IClient, event : Events.PLAYER_START_WARP_REQUEST_EVENT_CONFIG) {
+    private onPlayerStartWarpEvent(client : SClient, event : Events.PLAYER_START_WARP_REQUEST_EVENT_CONFIG) {
         //TODO, add check if they should be able to warp
         let sector = this.sectorHandler.getSectors().find(sector => sector.getId() == event.data.targetId);
-        if(sector != undefined && !client.character.ship.isWarping) {
-            client.character.ship.isWarping = true;
-            client.character.ship.warpDestination = [sector.getX(), sector.getY()];
-            client.character.ship.warpSource  = [client.character.ship.x, client.character.ship.y];
-            client.character.ship.hasDestination = false;
+        if(sector != undefined && ! client.getCharacter().getShip().getData().isWarping) {
+            client.getCharacter().getShip().startWarp(sector);
             this.sectorHandler.onPlayerStartWarping(client, sector);
         }
     }
   
-    private onChatMessageEvent(client : IClient, event : Events.CLIENT_SEND_CHAT_MESSAGE_EVENT_CONFIG) {
+    private onChatMessageEvent(client : SClient, event : Events.CLIENT_SEND_CHAT_MESSAGE_EVENT_CONFIG) {
         this.broadcastChatMessage(client, event.data.message, event.data.sender);
     }
   
-    private broadcastChatMessage(client : IClient, message : String, sender : String) {
+    private broadcastChatMessage(client : SClient, message : String, sender : String) {
         let packet : Events.CLIENT_RECEIVE_CHAT_MESSAGE_EVENT_CONFIG = {
           eventId : Events.EEventType.CLIENT_RECEIVE_CHAT_MESSAGE_EVENT,
           data : {
@@ -337,10 +302,10 @@ export class ComManager {
             sender : sender
           }
         }
-        client.socket.broadcast.emit("ServerEvent", packet);  
+        client.getData().socket.broadcast.emit("ServerEvent", packet);  
     }
   
-    private sendServerMessage(client : IClient, message : String) {
+    private sendServerMessage(client : SClient, message : String) {
         let packet : Events.CLIENT_RECEIVE_CHAT_MESSAGE_EVENT_CONFIG = {
           eventId : Events.EEventType.CLIENT_RECEIVE_CHAT_MESSAGE_EVENT,
           data : {
@@ -348,7 +313,7 @@ export class ComManager {
             sender : "Server"
           }
         }
-        client.socket.emit("ServerEvent", packet);  
+        client.getData().socket.emit("ServerEvent", packet);  
     }
 
     private disconnectClient(socket: any) {

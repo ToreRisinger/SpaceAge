@@ -8,6 +8,7 @@ import { Items } from "../shared/scripts/Items";
 import { CargoUtils } from "./CargoUtils";
 import { IClient } from "./interfaces/IClient";
 import { Stats } from "../shared/stats/Stats";
+import { SClient } from "./objects/SClient";
 
 const math = require('mathjs');
 
@@ -61,8 +62,8 @@ export class AsteroidBeltSector extends Sector {
             this.createAsteroid();
         }
 
-        this.clients.forEach((client: IClient, key: number) => {
-            if(client.character.ship.isMining) {
+        this.clients.forEach((client: SClient, key: number) => {
+            if(client.getData().character.ship.isMining) {
               this.handleMiningShip(client);
             }
         });
@@ -86,8 +87,8 @@ export class AsteroidBeltSector extends Sector {
         this.asteroids.set(asteroid.id, asteroid);
     }
 
-    private handleMiningShip(client: IClient) {
-        let ship = client.character.ship;
+    private handleMiningShip(client: SClient) {
+        let ship = client.getData().character.ship;
         let targetAsteroid = this.asteroids.get(ship.targetId);
         let cargoSpaceLeft = ship.stats[Stats.EStatType.cargo_hold] - CargoUtils.getCargoSize(client);
         if(targetAsteroid != undefined && cargoSpaceLeft > 0) {
@@ -119,15 +120,15 @@ export class AsteroidBeltSector extends Sector {
 
     private sendAsteroidUpdates() {
         let packet : any = PacketFactory.createAsteroidsUpdatePacket(this.asteroids);
-        this.clients.forEach((client: IClient, key: number) => {
-          client.socket.emit("ServerEvent", packet);
+        this.clients.forEach((client: SClient, key: number) => {
+          client.getData().socket.emit("ServerEvent", packet);
         });
     }
 
     private sendUpdatedCargo() {
-        CargoUtils.getClientsWithChangedCargo().forEach((client: IClient, key: number) => {
-            let packet : any = PacketFactory.createCargoUpdatePacket(client.character.cargo);
-            client.socket.emit("ServerEvent", packet);
+        CargoUtils.getClientsWithChangedCargo().forEach((client: SClient, key: number) => {
+            let packet : any = PacketFactory.createCargoUpdatePacket(client.getData().character.cargo);
+            client.getData().socket.emit("ServerEvent", packet);
         });
     }
 
@@ -141,8 +142,8 @@ export class AsteroidBeltSector extends Sector {
 
     private sendDestroyedAsteroids(asteroidIdsTodestroy : number[]) {
         let packet : any = PacketFactory.createDestroyedGameObjectsPacket(asteroidIdsTodestroy);
-        this.clients.forEach((client: IClient, key: number) => {
-            client.socket.emit("ServerEvent", packet);
+        this.clients.forEach((client: SClient, key: number) => {
+            client.getData().socket.emit("ServerEvent", packet);
         });
     }
 }

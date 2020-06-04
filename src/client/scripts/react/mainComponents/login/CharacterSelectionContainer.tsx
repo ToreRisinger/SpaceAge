@@ -27,6 +27,7 @@ export default class CharacterSelectionContainer extends React.Component<Charact
                     character: this.state.character
                 }
             }
+            
             EventHandler.pushEvent(event);
         }
     }
@@ -43,7 +44,6 @@ export default class CharacterSelectionContainer extends React.Component<Charact
 
     render() {
         const button_id = this.state.character == undefined ? "join_server_button_disabled" : "join_server_button"
-
         return (
            <div id="character_selection_container">
                <div id="character_list_container">

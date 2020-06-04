@@ -7,6 +7,7 @@ import { IdHandler } from "./IdHandler.js";
 import { PacketFactory } from "./PacketFactory.js";
 import { IClient } from "./interfaces/IClient.js";
 import { IPlayer } from "../shared/interfaces/IPlayer.js";
+import { SClient } from "./objects/SClient.js";
 
 const math = require('mathjs');
 
@@ -18,7 +19,7 @@ export class SectorHandler {
     private location: string = "unknown";
 
     private warpingPlayers : Map<number, {
-        client : IClient, 
+        client : SClient, 
         playerStartPos : Array<number>, 
         destinationSector : Sector, 
         sourceSector : Sector}>;
@@ -54,21 +55,21 @@ export class SectorHandler {
         });
     }
 
-    public addClientToSector(client : IClient, sector_x : number, sector_y : number) {
+    public addClientToSector(client : SClient, sector_x : number, sector_y : number) {
         let sector = this.getSector(sector_x, sector_y);
         if(sector != undefined) {
             sector.addClient(client);
-            this.playersToSectorMap.set(client.id, sector);
+            this.playersToSectorMap.set(client.getData().id, sector);
         } else {
             //TODO error?
         }
     }
 
-    public removePlayerFromSector(client : IClient) {
-        let sector = this.playersToSectorMap.get(client.id);
+    public removePlayerFromSector(client : SClient) {
+        let sector = this.playersToSectorMap.get(client.getData().id);
         if(sector != undefined) {
             sector.removeClient(client);
-            this.playersToSectorMap.delete(client.id);
+            this.playersToSectorMap.delete(client.getData().id);
         }
     }
 
@@ -76,13 +77,13 @@ export class SectorHandler {
         return this.playersToSectorMap.get(player.playerId);
     }
 
-    public onPlayerStartWarping(client: IClient, destinationSector : Sector) {
-        let sourceSector = this.playersToSectorMap.get(client.id);
+    public onPlayerStartWarping(client: SClient, destinationSector : Sector) {
+        let sourceSector = this.playersToSectorMap.get(client.getData().id);
         if(sourceSector != undefined) {
-            this.warpingPlayers.set(client.id, 
+            this.warpingPlayers.set(client.getData().id, 
                 {
                     client : client, 
-                    playerStartPos : [client.character.ship.x, client.character.ship.y],
+                    playerStartPos : [client.getData().character.ship.x, client.getData().character.ship.y],
                     destinationSector: destinationSector, 
                     sourceSector : sourceSector
                 });
@@ -90,14 +91,15 @@ export class SectorHandler {
     }
 
     private handleWarpingPlayers() {
-        let toRemove : Array<IClient> = new Array();
+        let toRemove : Array<SClient> = new Array();
 
         this.warpingPlayers.forEach((value, key) => {
             let sourceCoordinates = [value.sourceSector.getX(), value.sourceSector.getY()];
             let destinationCoordinates = [value.destinationSector.getX(), value.destinationSector.getY()];
 
             let destToSource_test = math.subtract(sourceCoordinates, destinationCoordinates);
-            let distanceTraveled = math.length(math.subtract(value.playerStartPos, [value.client.character.ship.x, value.client.character.ship.y]));
+            let distanceTraveled = math.length(
+                                        math.subtract(value.playerStartPos, [value.client.getData().character.ship.x, value.client.getData().character.ship.y]));
 
             if(distanceTraveled > 20000) {
                 //Player finish warp
@@ -105,24 +107,24 @@ export class SectorHandler {
                 let sectorToEnter = value.destinationSector;
                 if(sectorToLeave != undefined && sectorToEnter != undefined) {
                     let newShipPosition = math.add([0, 0], math.multiply(destToSource_test, 2000/math.length(destToSource_test)));
-                    value.client.character.ship.x = newShipPosition[0];
-                    value.client.character.ship.y = newShipPosition[1];
-                    value.client.character.ship.velVec = [0, 0];
+                    value.client.getData().character.ship.x = newShipPosition[0];
+                    value.client.getData().character.ship.y = newShipPosition[1];
+                    value.client.getData().character.ship.velVec = [0, 0];
                     sectorToLeave.removeClient(value.client);
                     sectorToEnter.addClient(value.client);
                     toRemove.push(value.client);
-                    this.playersToSectorMap.set(value.client.id, sectorToEnter);
+                    this.playersToSectorMap.set(value.client.getData().id, sectorToEnter);
                     this.sendSectorChangedEvent(value.client, sectorToEnter.getId());
-                    value.client.character.ship.isWarping = false;
-                    value.client.character.ship.isMoving = false;
-                    value.client.character.ship.hasDestination = false;
-                    value.client.character.ship.meters_per_second = 0;
+                    value.client.getData().character.ship.isWarping = false;
+                    value.client.getData().character.ship.isMoving = false;
+                    value.client.getData().character.ship.hasDestination = false;
+                    value.client.getData().character.ship.meters_per_second = 0;
                 }
                 //TODO if something goes wrong here..
             }
         });
 
-        toRemove.forEach(client => this.warpingPlayers.delete(client.id));
+        toRemove.forEach(client => this.warpingPlayers.delete(client.getData().id));
     }
 
     private playerFinishWarp() {
@@ -215,8 +217,8 @@ export class SectorHandler {
         this.sectors.set("" + x + y, sector);
     }
 
-    private sendSectorChangedEvent(client : IClient, sectorId : number) {
+    private sendSectorChangedEvent(client : SClient, sectorId : number) {
         let packet : any = PacketFactory.createSectorChangedPacket(sectorId);
-        client.socket.emit("ServerEvent", packet);
+        client.getData().socket.emit("ServerEvent", packet);
     }
 }

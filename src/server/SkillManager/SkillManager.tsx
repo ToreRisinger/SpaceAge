@@ -3,6 +3,7 @@ import { IClient } from "../interfaces/IClient";
 import { ComManager } from "../ComManager";
 import { Stats } from "../../shared/stats/Stats";
 import { Events } from "../../shared/scripts/Events";
+import { SClient } from "../objects/SClient";
 
 interface IClientSkillMapping {
     client: IClient,
@@ -22,35 +23,35 @@ export class SkillManager {
         this.updateSkillProgress();
     }
 
-    public startTrainSkill(client: IClient,  event: Events.TRAIN_SKILL_START_CONFIG) {
+    public startTrainSkill(client: SClient,  event: Events.TRAIN_SKILL_START_CONFIG) {
         //@ts-ignore
-        if(client.character.skills.skillList[event.data.skill] != undefined ) {
+        if(client.getCharacter().character.skills.skillList[event.data.skill] != undefined ) {
             //@ts-ignore
-            let skill : Skills.ISkill = client.character.skills.skillList[event.data.skill];
+            let skill : Skills.ISkill = client.getData().character.skills.skillList[event.data.skill];
             let skillInfo = Skills.getSkillInfo(skill.skillType);
             if(skill.level < skillInfo.maxLevel) {
-                client.character.skills.currentlyTraining = event.data.skill;
+                client.getData().character.skills.currentlyTraining = event.data.skill;
             }
         }
     }
 
-    public stopTrainSkill(client: IClient) {
-        client.character.skills.currentlyTraining = undefined;
-        this.clientToSkillMap.delete(client.id)
+    public stopTrainSkill(client: SClient) {
+        client.getData().character.skills.currentlyTraining = undefined;
+        this.clientToSkillMap.delete(client.getData().id)
     }
 
     private updateSkillProgress() : void {
         this.comManager.getClients().forEach(client => {
-            let currentlyTraining : Stats.EStatType | undefined = client.character.skills.currentlyTraining;
+            let currentlyTraining : Stats.EStatType | undefined = client.getData().character.skills.currentlyTraining;
             if(currentlyTraining != undefined) {
-                let clientSkillMapping : IClientSkillMapping | undefined = this.clientToSkillMap.get(client.id);
+                let clientSkillMapping : IClientSkillMapping | undefined = this.clientToSkillMap.get(client.getData().id);
                 if(clientSkillMapping == undefined) {
-                    this.clientToSkillMap.set(client.id, {client: client, skillType: currentlyTraining})
+                    this.clientToSkillMap.set(client.getData().id, {client: client.getData(), skillType: currentlyTraining})
                 } else if(clientSkillMapping.skillType != currentlyTraining) {
-                    this.clientToSkillMap.set(client.id, {client: client, skillType: currentlyTraining})
+                    this.clientToSkillMap.set(client.getData().id, {client: client.getData(), skillType: currentlyTraining})
                 } else {
                     //@ts-ignore
-                    let skill : Skills.ISkill = client.character.skills.skillList[currentlyTraining];
+                    let skill : Skills.ISkill = client.getData().character.skills.skillList[currentlyTraining];
                     skill.progress = skill.progress + 60;
                     let skillInfo = Skills.getSkillInfo(skill.skillType);
                     const maxProgress = skillInfo.startLearningTime * (Math.pow(skillInfo.learningTimeIncrease, skill.level - 1));
@@ -59,13 +60,13 @@ export class SkillManager {
                     }
 
                     //@ts-ignore
-                    client.character.skills.skillList[currentlyTraining] = skill;
+                    client.getData().character.skills.skillList[currentlyTraining] = skill;
                 }
             }
         })
     }
 
-    private upgradeSkillLevel(skill: Skills.ISkill, skillInfo: Skills.ISkillInfo, client: IClient) {
+    private upgradeSkillLevel(skill: Skills.ISkill, skillInfo: Skills.ISkillInfo, client: SClient) {
         skill.level = skill.level + 1;
         skill.progress = 0;
         this.stopTrainSkill(client);

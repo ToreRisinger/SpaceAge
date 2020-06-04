@@ -1,14 +1,15 @@
-import { ObjectInterfaces } from "../scripts/ObjectInterfaces";
-import { IdHandler } from "../../server/IdHandler";
-import { ItemFactory } from "../../server/ItemFactory";
-import { Items } from "../scripts/Items";
-import { Stats } from "../stats/Stats";
+import { ObjectInterfaces } from "../../shared/scripts/ObjectInterfaces";
+import { IdHandler } from "../IdHandler";
+import { ItemFactory } from "../ItemFactory";
+import { Items } from "../../shared/scripts/Items";
+import { Stats } from "../../shared/stats/Stats";
+import { Sector } from "../Sector";
 
-export class Ship {
+export class SShip {
 
     private ship: ObjectInterfaces.IShip;
 
-    public static createNewShip() : Ship {
+    public static createNewShip() : SShip {
         let ship : ObjectInterfaces.IShip = {
             id: IdHandler.getNewGameObjectId(),
             x : 0,
@@ -102,11 +103,11 @@ export class Ship {
             }
         }
   
-        return new Ship(updatedShip);
+        return new SShip(updatedShip);
     }
 
-    public static createShip(ship: ObjectInterfaces.IShip) : Ship {
-        return new Ship(ship);
+    public static createShip(ship: ObjectInterfaces.IShip) : SShip {
+        return new SShip(ship);
     }
 
     private constructor(ship: ObjectInterfaces.IShip) {
@@ -117,8 +118,65 @@ export class Ship {
         return this.ship;
     }
 
-    public updateShip() {
-        Ship.updateShipProperties(this.ship);
+    public updateShipStats() {
+        SShip.updateShipProperties(this.ship);
+    }
+
+    public resetState() {
+        this.ship.isMoving = false;
+        this.ship.isWarping = false;
+        this.ship.meters_per_second = 0;
+        this.ship.targetId = -1;
+        this.ship.warpDestination = [0, 0];
+        this.ship.warpSource = [0, 0];
+        this.ship.destVec = [0, 0];
+        this.ship.velVec = [0, 0];
+        this.ship.isWarping = false;
+        this.ship.isMining = false;
+    }
+
+    public stopAttack() {
+        this.ship.isAttacking = false;
+    }
+
+    public startAttack(targetId : number) {
+        if(targetId != undefined && targetId > 0) {
+            this.ship.isAttacking = true;
+            this.ship.targetId = targetId;
+        }
+    }
+
+    public stopMining() {
+        this.ship.isMining = false;
+    }
+
+    public startMining(targetId : number) {
+        if(targetId != undefined && targetId > 0) {
+            this.ship.isMining = true;
+            this.ship.targetId = targetId;
+        }
+    }
+
+    public newDestination(x: number, y: number) {
+        let xLength = this.ship.x - x;
+        let yLength = this.ship.y - y;
+        let length = Math.sqrt(xLength * xLength + yLength * yLength);
+        if(length != 0) {
+            this.ship.isMoving = true;
+            this.ship.destVec = [x, y];
+            this.ship.hasDestination = true;
+        } 
+    }
+
+    public stopMove() {
+        this.ship.hasDestination = false;
+    }
+
+    public startWarp(sector: Sector) {
+            this.ship.isWarping = true;
+            this.ship.warpDestination = [sector.getX(), sector.getY()];
+            this.ship.warpSource = [this.ship.x, this.ship.y];
+            this.ship.hasDestination = false;   
     }
 
     private static updateShipProperties(ship : ObjectInterfaces.IShip) : ObjectInterfaces.IShip {

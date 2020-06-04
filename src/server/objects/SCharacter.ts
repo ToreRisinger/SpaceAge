@@ -1,18 +1,17 @@
-import { ICharacter } from "../interfaces/ICharacter";
-import { IUserDocument } from "../../server/database/models/user.model";
-import { Items } from "../scripts/Items";
-import { ItemFactory } from "../../server/ItemFactory";
-import { ICargo } from "../interfaces/ICargo";
-import { Stats } from "../stats/Stats";
-import { Ship } from "./Ship";
-import { InsHTMLAttributes } from "react";
+import { ICharacter } from "../../shared/interfaces/ICharacter";
+import { IUserDocument } from "../database/models/user.model";
+import { Items } from "../../shared/scripts/Items";
+import { ItemFactory } from "../ItemFactory";
+import { ICargo } from "../../shared/interfaces/ICargo";
+import { Stats } from "../../shared/stats/Stats";
+import { SShip } from "./SShip";
 
-export class Character {
+export class SCharacter {
 
     private character: ICharacter;
-    private ship: Ship;
+    private ship: SShip;
 
-    public static createNewCharacter(user: IUserDocument, location: string) : Character {
+    public static createNewCharacter(user: IUserDocument, location: string) : SCharacter {
         let items : Array<Items.IItem> = new Array();
         items.push(ItemFactory.createMineral(Items.EMineralItemType.DIAMOND_ORE, 1));
         items.push(ItemFactory.createMineral(Items.EMineralItemType.GOLD_ORE, 20));
@@ -30,7 +29,7 @@ export class Character {
         let cargo : ICargo = {
           items : items
         }
-        let ship: Ship = Ship.createNewShip();
+        let ship: SShip = SShip.createNewShip();
         let character : ICharacter = {
             cargo: cargo,
             name: user.username + " (Character1)",
@@ -71,19 +70,23 @@ export class Character {
             }
         }
 
-        return new Character(character, ship);
+        return new SCharacter(character, ship);
     }
 
-    public static createCharacter(character: ICharacter) : Character {
-        return new Character(character, Ship.createShip(character.ship));
+    public static createCharacter(character: ICharacter) : SCharacter {
+        return new SCharacter(character, SShip.createShip(character.ship));
     }
 
-    private constructor(character: ICharacter, ship: Ship) {
+    private constructor(character: ICharacter, ship: SShip) {
         this.character = character;
         this.ship = ship;
     }
 
     public getData() : ICharacter {
         return this.character;
+    }
+
+    public getShip() : SShip {
+      return this.ship;
     }
 }
