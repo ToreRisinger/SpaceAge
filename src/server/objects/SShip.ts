@@ -87,7 +87,7 @@ export class SShip {
             }
         }  
   
-        let updatedShip = this.updateShipProperties(ship);
+        let updatedShip = this.updateShipStats(ship);
   
         for(let i = 0; i < ship.modules.length; i++) {
         let mod = ship.modules[i].moduleItem;
@@ -114,12 +114,12 @@ export class SShip {
         this.ship = ship;
     }
 
-    public getData() : ObjectInterfaces.IShip {
-        return this.ship;
+    public update() {
+        
     }
 
-    public updateShipStats() {
-        SShip.updateShipProperties(this.ship);
+    public getData() : ObjectInterfaces.IShip {
+        return this.ship;
     }
 
     public resetState() {
@@ -179,7 +179,8 @@ export class SShip {
             this.ship.hasDestination = false;   
     }
 
-    private static updateShipProperties(ship : ObjectInterfaces.IShip) : ObjectInterfaces.IShip {
+    private static updateShipStats(ship : ObjectInterfaces.IShip) : ObjectInterfaces.IShip {
+        console.log("update stats");
         let newShip = ship;
         
         newShip.modules.forEach(

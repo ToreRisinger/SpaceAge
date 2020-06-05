@@ -5,11 +5,16 @@ import { ItemFactory } from "../ItemFactory";
 import { ICargo } from "../../shared/interfaces/ICargo";
 import { Stats } from "../../shared/stats/Stats";
 import { SShip } from "./SShip";
+import { Events } from "../../shared/scripts/Events";
+import { Skills } from "../../shared/skills/Skills";
+import { performance } from 'perf_hooks'
 
 export class SCharacter {
 
     private character: ICharacter;
     private ship: SShip;
+    private lastSkillProgressUpdateTime: number = -1;
+    private progressTime: number = 0;
 
     public static createNewCharacter(user: IUserDocument, location: string) : SCharacter {
         let items : Array<Items.IItem> = new Array();
@@ -80,6 +85,7 @@ export class SCharacter {
     private constructor(character: ICharacter, ship: SShip) {
         this.character = character;
         this.ship = ship;
+        this.lastSkillProgressUpdateTime = new Date().getMilliseconds();
     }
 
     public getData() : ICharacter {
@@ -88,5 +94,70 @@ export class SCharacter {
 
     public getShip() : SShip {
       return this.ship;
+    }
+
+    public update(): void {
+      this.ship.update();
+      this.updateSkillProgress();
+    }
+
+    public updateSkillProgress() : void {
+        let currentlyTraining : Stats.EStatType | undefined = this.character.skills.currentlyTraining;
+        if(currentlyTraining != undefined) {
+            //@ts-ignore
+            let skill : Skills.ISkill = this.character.skills.skillList[currentlyTraining];
+            this.increaseSkillProgress(skill);
+            //@ts-ignore
+            this.character.skills.skillList[currentlyTraining] = skill;
+        }
+    }
+
+    private increaseSkillProgress(skill: Skills.ISkill) {
+        skill.progress = skill.progress + this.getProgressTime();
+        let skillInfo = Skills.getSkillInfo(skill.skillType);
+        const maxProgress = skillInfo.startLearningTime * (Math.pow(skillInfo.learningTimeIncrease, skill.level - 1));
+        if(skill.progress >= maxProgress) {
+            this.upgradeSkillLevel(skill, skillInfo);
+        }
+    }
+
+    private getProgressTime() : number {
+        let now = performance.now();
+        this.progressTime += (now - this.lastSkillProgressUpdateTime);
+        let seconds = 0;
+        if(this.progressTime > 1000) {
+          seconds = this.progressTime / 1000;
+          this.progressTime = this.progressTime - seconds * 1000;
+        }
+        this.lastSkillProgressUpdateTime = now;
+        return seconds;
+    }
+
+    private upgradeSkillLevel(skill: Skills.ISkill, skillInfo: Skills.ISkillInfo) {
+        skill.level = skill.level + 1;
+        skill.progress = 0;
+        if(skill.level > skillInfo.maxLevel) {
+            skill.level = skillInfo.maxLevel;
+        }
+
+        this.stopTrainSkill();
+    }
+
+    public startTrainSkill(event: Events.TRAIN_SKILL_START_CONFIG) {
+      //@ts-ignore
+      if(this.character.skills.skillList[event.data.skill] != undefined ) {
+          //@ts-ignore
+          let skill : Skills.ISkill = this.character.skills.skillList[event.data.skill];
+          let skillInfo = Skills.getSkillInfo(skill.skillType);
+          if(skill.level < skillInfo.maxLevel) {
+              this.character.skills.currentlyTraining = event.data.skill;
+          }
+          this.lastSkillProgressUpdateTime = performance.now();
+          this.progressTime = 0;
+      }
+    }
+
+    public stopTrainSkill() {
+        this.character.skills.currentlyTraining = undefined;
     }
 }

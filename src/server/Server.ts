@@ -2,7 +2,6 @@ import { Database } from "./database/Database";
 import { SectorHandler } from "./SectorHandler";
 import { ComManager } from "./ComManager";
 import { Logger } from "../shared/logger/Logger";
-import { SkillManager } from "./SkillManager/SkillManager";
 
 const UPDATES_PER_SECOND : number = 25;
 
@@ -12,7 +11,6 @@ export module Server {
 
     let sectorHandler : SectorHandler;
     let comManager : ComManager;
-    let skillManager : SkillManager;
 
     export function start(server : any) {
       Logger.setDebug(debug);
@@ -21,7 +19,6 @@ export module Server {
     
       sectorHandler = new SectorHandler();
       comManager = new ComManager(server, sectorHandler);
-      skillManager = new SkillManager(comManager);
       setupGameLoops();
     }  
 
@@ -32,22 +29,18 @@ export module Server {
     }
 
     function update40ms() {
+      comManager.getClients().forEach(client => client.update());
       sectorHandler.update40ms();
       comManager.update40ms();
     }
 
     function update1000ms() {
+      comManager.getClients().forEach(client => client.updateSkillProgress());
       sectorHandler.update1000ms();
       comManager.update1000ms();
     }
 
     function update1min() {
-      skillManager.update1min();
-      //TODO update all ship
       comManager.update1min();
-    }
-
-    export function getSkillManager() : SkillManager {
-      return skillManager;
     }
 }

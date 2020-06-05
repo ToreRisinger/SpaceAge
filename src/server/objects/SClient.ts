@@ -1,7 +1,9 @@
 import { IClient } from "../interfaces/IClient";
-import { ICharacter } from "../../shared/interfaces/ICharacter";
 import { IdHandler } from "../IdHandler";
 import { SCharacter } from "./SCharacter";
+import { Events } from "../../shared/scripts/Events";import { Stats } from "../../shared/stats/Stats";
+import { Skills } from "../../shared/skills/Skills";
+;
 
 export class SClient {
 
@@ -17,11 +19,27 @@ export class SClient {
         }
     }
 
+    public update() {
+        this.character.update();
+    }
+
     public getData() : IClient {
         return this.client
     }
 
     public getCharacter() : SCharacter {
         return this.character;
+    }
+
+    public startTrainSkill(event: Events.TRAIN_SKILL_START_CONFIG) {
+        this.character.startTrainSkill(event);
+    }
+
+    public stopTrainSkill() {
+        this.character.stopTrainSkill();
+    }
+
+    public updateSkillProgress() {
+        this.character.updateSkillProgress();
     }
 }

@@ -348,26 +348,4 @@ export module Skills {
     export function getSkillInfo(statType : Stats.EStatType) : ISkillInfo {
         return skillTypeToSkillInfoMap[statType];
     }
-
-    /*
-    export function statTypeToString(value : ESkillStatType) : string {
-        switch(value) {
-            case EStatTypeSkillExtensions.MAX_NR_OF_MODULES : 
-                return "Maximum number of modules";
-            default :
-                return Stats.statTypeToString(value);
-        }
-    }
-
-    export function statTypeUnitToString(value : ESkillStatType) : string {
-        switch(value) {
-            case EStatTypeSkillExtensions.MAX_NR_OF_MODULES : 
-                return " ";
-            default :
-                return Stats.statTypeUnitToString(value);
-        }
-
-    
-    }
-    */
 }

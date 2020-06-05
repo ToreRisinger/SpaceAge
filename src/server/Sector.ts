@@ -189,7 +189,6 @@ export class Sector {
             ? calculateNewVelocityVector(shipToDestVec, ship.velVec, goodVelVecComp, badVelVecComp, shipAcceleration)
             : math.subtract(ship.velVec, math.multiply(ship.velVec, (shipAcceleration/UPDATES_PER_SECOND)/math.length(ship.velVec)));
 
-          //newVelVec is NaN NaN
           let newVelVecLength = math.length(newVelVec);
 
           let shipMaxSpeed = ship.stats[Stats.EStatType.max_speed];
@@ -197,7 +196,6 @@ export class Sector {
             ship.velVec = math.multiply(newVelVec, shipMaxSpeed/newVelVecLength)
           } else {
             ship.velVec = newVelVec;
-            //Here velvec is destoyed 
           }
 
           ship.x = ship.x + ship.velVec[0] / UPDATES_PER_SECOND;

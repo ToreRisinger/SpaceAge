@@ -1,5 +1,4 @@
 import { SectorHandler } from "./SectorHandler";
-import { ObjectInterfaces } from "../shared/scripts/ObjectInterfaces";
 import { Database } from "./database/Database";
 import { PacketFactory } from "./PacketFactory";
 import { Events } from "../shared/scripts/Events";
@@ -8,13 +7,10 @@ import { Logger } from "../shared/logger/Logger";
 import { ICharacterDocument } from "./database/models/character.model";
 import { ICharacter } from "../shared/interfaces/ICharacter";
 import { Sector } from "./Sector";
-import { IClient } from "./interfaces/IClient";
-import { IdHandler } from "./IdHandler";
 import { ISector } from "../shared/interfaces/ISector";
 import { Server } from "./Server";
 import { SCharacter } from "./objects/SCharacter";
 import { SClient } from "./objects/SClient";
-import { SShip } from "./objects/SShip";
 
 export class ComManager {
 
@@ -44,15 +40,15 @@ export class ComManager {
     }
 
     public update1000ms() {
-        
-    } 
-
-    public update1min() {
         this.getClients().forEach(client => {
                 let packet : any = PacketFactory.createSkillStatePacket(client);
                 client.getData().socket.emit("ServerEvent", packet);
             }
         );
+    } 
+
+    public update1min() {
+        
     }
 
     public getClients() : Array<SClient> {
@@ -87,9 +83,8 @@ export class ComManager {
                             return;
                         }
                         if(user) {
-                            let newCharacter : SCharacter = SCharacter.createNewCharacter(user, this.sectorHandler.getLocation());
-                            Database.writeNewCharacter(newCharacter, user, (err: any) => {
-                                if(err) {
+                            Database.writeNewCharacter(user, this.sectorHandler.getLocation(), (err: string | undefined) => {
+                                if(err != undefined) {
                                     this.connectionError(err, socket);
                                     return;
                                 }
@@ -108,7 +103,7 @@ export class ComManager {
 
     private onClientLogin(socket: any, user: IUserDocument) {
         Logger.info("User '" + user.username + "' logged in");
-        Database.getCharacters(user, (err: string, characters: Array<ICharacterDocument>) => {
+        Database.getCharacters(user, (err: string | undefined, characters: Array<SCharacter>) => {
             if(err) {
                 this.connectionError(err, socket);
                 return;
@@ -120,9 +115,9 @@ export class ComManager {
         })
     }
 
-    private sendCharacters(socket: any, characters: Array<ICharacterDocument>) {
+    private sendCharacters(socket: any, characters: Array<SCharacter>) {
         let chars : Array<ICharacter> = [];
-        characters.forEach(c => { chars.push(c.character) });
+        characters.forEach(c => { chars.push(c.getData()) });
         let packet : Events.SERVER_LOGIN_ACK = {
             eventId : Events.EEventType.SERVER_LOGIN_ACK,
             data : {
@@ -132,19 +127,19 @@ export class ComManager {
         socket.emit("ServerEvent", packet);  
     }
 
-    private onClientJoinReq(socket: any, user: IUserDocument, event: Events.GameEvent, characters: Array<ICharacterDocument>) {
+    private onClientJoinReq(socket: any, user: IUserDocument, event: Events.GameEvent, characters: Array<SCharacter>) {
         if(event.eventId == Events.EEventType.CLIENT_JOIN_REQ) {
 
             Logger.info("User '" + user.username + "' joined with character '" + event.data.character.name + "'");
 
-            let characterData : ICharacter | undefined = undefined;
+            let character : SCharacter | undefined = undefined;
             for(let i = 0; i < characters.length; i++) {
-                if(characters[i].character.name == event.data.character.name) {
-                    characterData = characters[i].character;
+                if(characters[i].getData().name == event.data.character.name) {
+                    character = characters[i];
                 }
             }
 
-            if(characterData == undefined) {
+            if(character == undefined) {
                 this.connectionError("Could not find character: '" + event.data.character.name + "'", socket);
                 return;
             }
@@ -166,7 +161,6 @@ export class ComManager {
                 return;
             }
 
-            let character : SCharacter = SCharacter.createCharacter(characterData);
             let client : SClient = new SClient(socket, character);
 
             let packet : Events.SERVER_JOIN_ACK = {
@@ -244,11 +238,13 @@ export class ComManager {
             break;
           }
           case Events.EEventType.TRAIN_SKILL_START : {
-            Server.getSkillManager().startTrainSkill(client, event);
+            client.startTrainSkill(event);
+            //Server.getSkillManager().startTrainSkill(client, event);
             break;
           }
           case Events.EEventType.TRAIN_SKILL_STOP : {
-            Server.getSkillManager().stopTrainSkill(client);
+            client.stopTrainSkill();
+            //Server.getSkillManager().stopTrainSkill(client);
             break;
           }
           default: {
