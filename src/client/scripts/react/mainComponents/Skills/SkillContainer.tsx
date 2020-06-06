@@ -6,31 +6,23 @@ import { Events } from "../../../../../shared/scripts/Events";
 
 export interface SkillContainerProps {
     skill: Skills.ISkill,
-    currentlyTraining: Stats.EStatType | undefined
+    currentlyTraining: boolean,
+    skillIndex: number;
 }
 
 export default class SkillContainer extends React.Component<SkillContainerProps, {}> {
 
-    /*
-        Make tooltip:
-
-        <div id="skill_description" className="SkillField">
-            {description}
-        </div>
-    */
     private SECONDS_IN_A_MINUTE : number = 60;
     private SECONDS_IN_AN_HOUR : number = 60 * this.SECONDS_IN_A_MINUTE;
     private SECONDS_IN_A_DAY : number = 24 * this.SECONDS_IN_AN_HOUR;
-    private thisSkillInTraining: boolean;
+    
 
     constructor(props : SkillContainerProps) {
         super(props)
-        this.thisSkillInTraining = this.props.currentlyTraining == this.props.skill.skillType;
-        
     }
 
     onStopOrTrain() {
-        if(this.thisSkillInTraining) {
+        if(this.props.currentlyTraining) {
             let event : Events.TRAIN_SKILL_STOP_CONFIG = {
                 eventId : Events.EEventType.TRAIN_SKILL_STOP,
                 data : { }
@@ -40,9 +32,10 @@ export default class SkillContainer extends React.Component<SkillContainerProps,
             let event : Events.TRAIN_SKILL_START_CONFIG = {
                 eventId : Events.EEventType.TRAIN_SKILL_START,
                 data : {
-                    skill: this.props.skill.skillType
+                    skillIndex: this.props.skillIndex
                 }
             }
+            console.log(event.data.skillIndex)
             EventHandler.pushEvent(event);
         }
     }
@@ -60,8 +53,7 @@ export default class SkillContainer extends React.Component<SkillContainerProps,
         let statType: Stats.EStatType = skillInfo.stats.stat;
         let progressPercentage = currentProgress > maxProgress ? 100 : (currentProgress / maxProgress) * 100;
         const hasNextLevel = currentLevel < nextLevel;
-        this.thisSkillInTraining = this.props.currentlyTraining == this.props.skill.skillType;
-        const className = "Unselectable " + (this.thisSkillInTraining ? "SkillContainerInTraining": "");
+        const className = "Unselectable " + (this.props.currentlyTraining ? "SkillContainerInTraining": "");
         
         return (
             <div id="skill_container" className={className}>
@@ -90,7 +82,7 @@ export default class SkillContainer extends React.Component<SkillContainerProps,
                             {this.getTimeText(maxProgress - currentProgress)} 
                         </div>
                         <div id="skill_train_button" className="SkillField" onClick={(e) => this.onStopOrTrain()}>
-                            {this.thisSkillInTraining ?
+                            {this.props.currentlyTraining ?
                                 "Stop"
                                 :
                                 "Train"

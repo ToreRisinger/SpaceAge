@@ -2,8 +2,6 @@ import { LockTargetAbility } from "./LockTargetAbility";
 import { Ability } from "./Ability";
 import { StopShipAbility } from "./StopShipAbility"
 import { AttackAbility } from "./AttackAbility";
-import { EventHandler } from "../EventHandler";
-import { Events } from "../../../../shared/scripts/Events";
 import { MiningAbility } from "./MiningAbility";
 import { WarpDriveAbility } from "./WarpDriveAbility";
 import { GlobalDataService } from "../GlobalDataService";
@@ -33,13 +31,13 @@ export module AbilityHandler {
     function createAbilities() {
         let playerShip : Ship = GlobalDataService.getInstance().getPlayerShip();
         let hasMiningLaserOrWeapon = false;
-        if(playerShip.getShipData().hasWeapon) {
+        if(playerShip.getData().state.hasWeapon) {
             //@ts-ignore
             abilities.push(new AttackAbility(playerShip));
             hasMiningLaserOrWeapon = true;
         }
 
-        if(playerShip.getShipData().hasMiningLaser) {
+        if(playerShip.getData().state.hasMiningLaser) {
             abilities.push(new MiningAbility(playerShip));
             hasMiningLaserOrWeapon = true;
         }

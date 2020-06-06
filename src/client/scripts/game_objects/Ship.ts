@@ -4,18 +4,19 @@ import { RadarDetectable } from "./RadarDetectable";
 import { SPRITES } from "../../../shared/scripts/SPRITES";
 import { ICargo } from "../../../shared/interfaces/ICargo";
 import { Stats } from "../../../shared/stats/Stats";
+import { ICharacter } from "../../../shared/interfaces/ICharacter";
 
 export class Ship extends RadarDetectable {
 
-    private ship_config : ObjectInterfaces.IShip;
+    private characterData : ICharacter;
     //@ts-ignore
     private shipSprite : ShipSprite;
     private shipCargo : ICargo;
     private characterName : string;
 
-    constructor(ship_config : ObjectInterfaces.IShip, thisPlayerShip : boolean, characterName: string) {
-        super(ship_config, SPRITES.SHIP_ICON.sprite, thisPlayerShip, false);
-        this.ship_config = ship_config;
+    constructor(characterData : ICharacter, thisPlayerShip : boolean, characterName: string) {
+        super(characterData, SPRITES.SHIP_ICON.sprite, thisPlayerShip, false);
+        this.characterData = characterData;
         this.characterName = characterName;
         this.shipCargo = {
             items : []
@@ -35,9 +36,9 @@ export class Ship extends RadarDetectable {
         return this.shipCargo;
     }
 
-    public updateDataObjectConfig(ship_config : ObjectInterfaces.IShip) {
-        super.updateDataObjectConfig(ship_config);
-        this.ship_config = ship_config;
+    public updateDataObjectConfig(characterData : ICharacter) {
+        super.updateDataObjectConfig(characterData);
+        this.characterData = characterData;
     }
 
     public update() {
@@ -46,11 +47,11 @@ export class Ship extends RadarDetectable {
     }
 
     public getIsMoving() {
-        return this.ship_config.isMoving;
+        return this.characterData.state.isMoving;
     }
 
     public getDestinationPos() {
-        return new Phaser.Math.Vector2(Math.floor(this.ship_config.destVec[0]), Math.floor(this.ship_config.destVec[1]));
+        return new Phaser.Math.Vector2(Math.floor(this.characterData.state.destVec[0]), Math.floor(this.characterData.state.destVec[1]));
     }
 
     public destroy() {
@@ -58,8 +59,8 @@ export class Ship extends RadarDetectable {
         super.destroy();
     }
 
-    public getShipData() : ObjectInterfaces.IShip {
-        return this.ship_config;
+    public getData() : ICharacter {
+        return this.characterData;
     }
 
     public getDisplayName() : string {
@@ -67,11 +68,11 @@ export class Ship extends RadarDetectable {
     }
 
     private buildShip() {
-        this.shipSprite = new ShipSprite(this.ship_config.modules, this.getPos(), this.isThisPlayerShip(), this);
+        this.shipSprite = new ShipSprite(this.characterData.modules, this.getPos(), this.isThisPlayerShip(), this);
     }
 
     protected getRadarMass() : number {
-        return this.getShipData().stats[Stats.EStatType.mass] * ( 1 - this.getShipData().stats[Stats.EStatType.radar_signature_reduction] / 100)
+        return this.characterData.stats[Stats.EStatType.mass] * ( 1 - this.characterData.stats[Stats.EStatType.radar_signature_reduction] / 100)
     }
 
     protected setVisible(value : boolean) : void {

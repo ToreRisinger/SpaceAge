@@ -16,10 +16,10 @@ export module GameObjectHandler {
     let gameObjects = new Map<number, GameObject>();
 
     export function init(character: ICharacter, sectors : Array<ISector>) {
-        let newShip : Ship = new Ship(character.ship, true, character.name);
+        let newShip : Ship = new Ship(character, true, character.name);
         newShip.setCargo(character.cargo);
       
-        thisShipId = character.ship.id;
+        thisShipId = character.id;
         gameObjects.set(thisShipId, newShip);
 
         sectors.forEach((value: ISector, index: number, array: ISector[]) => {
@@ -56,15 +56,14 @@ export module GameObjectHandler {
     }
 
     function onShipsUpdate(event : Events.SHIPS_UPDATE_EVENT_CONFIG) {
-        let array : Array<{ship: ObjectInterfaces.IShip, characterName : string}> = event.data.characters;
-        array.forEach((value : {ship: ObjectInterfaces.IShip, characterName : string}) => {
-            if(gameObjects.get(value.ship.id) == undefined) {
-                let newShip : Ship = new Ship(value.ship, false, value.characterName);
-                gameObjects.set(value.ship.id, newShip);
+        event.data.characters.forEach(obj => {
+            if(gameObjects.get(obj.character.id) == undefined) {
+                let newShip : Ship = new Ship(obj.character, false, obj.character.name);
+                gameObjects.set(obj.character.id, newShip);
             } else {
                 //@ts-ignore
-                let oldShip : Ship = gameObjects.get(value.ship.id);
-                oldShip.updateDataObjectConfig(value.ship);
+                let oldShip : Ship = gameObjects.get(obj.character.id);
+                oldShip.updateDataObjectConfig(obj.character);
             }
         });
     }
@@ -110,7 +109,7 @@ export module GameObjectHandler {
                 if(element instanceof Sector) {
                     element.onSectorChanged(newSectorX, newSectorY);
                 } else if(element instanceof Ship) {
-                    if(element.getShipData().id != thisShipId) {
+                    if(element.getData().id != thisShipId) {
                         objectsToRemove.push(element);
                     }
                 } else {

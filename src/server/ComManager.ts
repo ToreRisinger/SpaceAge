@@ -129,7 +129,6 @@ export class ComManager {
 
     private onClientJoinReq(socket: any, user: IUserDocument, event: Events.GameEvent, characters: Array<SCharacter>) {
         if(event.eventId == Events.EEventType.CLIENT_JOIN_REQ) {
-
             Logger.info("User '" + user.username + "' joined with character '" + event.data.character.name + "'");
 
             let character : SCharacter | undefined = undefined;
@@ -254,34 +253,34 @@ export class ComManager {
     }
   
     private onPlayerStartAttackingEvent(client: SClient, event : Events.PLAYER_START_ATTACKING_EVENT_CONFIG) {
-        client.getCharacter().getShip().startAttack(event.data.targetId);
+        client.getCharacter().startAttack(event.data.targetId);
     }
   
     private onPlayerStopAttackingEvent(client: SClient, event : Events.PLAYER_STOP_ATTACKING_EVENT_CONFIG) {
-        client.getCharacter().getShip().stopAttack();
+        client.getCharacter().stopAttack();
     }
   
     private onPlayerStartMiningEvent(client: SClient, event : Events.PLAYER_START_MINING_EVENT_CONFIG) {
-        client.getCharacter().getShip().startMining(event.data.targetId);
+        client.getCharacter().startMining(event.data.targetId);
     }
   
     private onPlayerStopMiningEvent(client: SClient, event : Events.PLAYER_STOP_MINING_EVENT_CONFIG) {
-        client.getCharacter().getShip().stopMining();
+        client.getCharacter().stopMining();
     }
   
     private onPlayerSetNewDestinationEvent(client : SClient, event : Events.PLAYER_SET_NEW_DESTINATION_EVENT_CONFIG) {
-        client.getCharacter().getShip().newDestination(event.data.destinationX, event.data.destinationY);
+        client.getCharacter().newDestination(event.data.destinationX, event.data.destinationY);
     }
   
     private onPlayerStopShipEvent(client : SClient, event : Events.PLAYER_STOP_SHIP_EVENT_CONFIG) {
-        client.getCharacter().getShip().stopMove();
+        client.getCharacter().stopMove();
     }
   
     private onPlayerStartWarpEvent(client : SClient, event : Events.PLAYER_START_WARP_REQUEST_EVENT_CONFIG) {
         //TODO, add check if they should be able to warp
         let sector = this.sectorHandler.getSectors().find(sector => sector.getId() == event.data.targetId);
-        if(sector != undefined && ! client.getCharacter().getShip().getData().isWarping) {
-            client.getCharacter().getShip().startWarp(sector);
+        if(sector != undefined && ! client.getCharacter().getData().state.isWarping) {
+            client.getCharacter().startWarp(sector);
             this.sectorHandler.onPlayerStartWarping(client, sector);
         }
     }

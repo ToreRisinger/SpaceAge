@@ -15,7 +15,7 @@ export class SClient {
         this.client = {
             socket: socket,
             character: this.character.getData(),
-            id: IdHandler.getNewClientId()
+            id: character.getData().id
         }
     }
 

@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { Items } from "../../../../../shared/scripts/Items";
 import { Stats } from "../../../../../shared/stats/Stats";
 

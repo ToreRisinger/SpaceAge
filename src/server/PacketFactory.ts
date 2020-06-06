@@ -1,43 +1,17 @@
 import { Events } from "../shared/scripts/Events";
 import { ObjectInterfaces } from "../shared/scripts/ObjectInterfaces";
 import { AsteroidData } from "../shared/scripts/AsteroidData";
-import { Sector } from "./Sector";
-import { IClient } from "./interfaces/IClient";
 import { ICargo } from "../shared/interfaces/ICargo";
-import { ISector } from "../shared/interfaces/ISector";
 import { SClient } from "./objects/SClient";
+import { ICharacter } from "../shared/interfaces/ICharacter";
 
 
 export module PacketFactory {
 
-    export function createPlayerLoadEventPacket(client: IClient, sectors : Array<Sector>, sectorId : number) {
-        let sectorArray : Array<ISector> = new Array();
-        for(let i = 0; i < sectors.length; i++) {
-          sectorArray.push({
-            id : sectors[i].getId(),
-            x : sectors[i].getX(),
-            y : sectors[i].getY(),
-            name : sectors[i].getName()
-          });
-        }
-
-        let packet : Events.INITAL_GAME_LOAD_EVENT_CONFIG = {
-            eventId : Events.EEventType.INITAL_GAME_LOAD_EVENT,
-            data : {
-              ship : client.character.ship,
-              cargo : client.character.cargo,
-              sectors : sectorArray,
-              clientSectorId : sectorId
-            }
-        }
-    
-        return packet;
-    }
-
     export function createShipsUpdatePacket(clients : Map<number, SClient>) {
-        let array: Array<{ship: ObjectInterfaces.IShip, characterName : string}> = [];
+        let array: Array<{character: ICharacter}> = [];
         clients.forEach((client: SClient, key: number) => {
-          array.push({characterName: client.getData().character.name, ship: client.getData().character.ship});
+          array.push({character: client.getCharacter().getData()});
         });
     
         let packet : Events.SHIPS_UPDATE_EVENT_CONFIG = {

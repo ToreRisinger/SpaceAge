@@ -73,8 +73,7 @@ export module Database {
 
     export function writeCharacter(character: SCharacter, user: IUserDocument, callback: (error: string) => void) : void {
       //Fix according to above. Add a skill progress last date transformation.
-      let ship : SShip = character.getShip();
-      ship.resetState();
+      character.resetState();
       CharacterModel.findOneAndUpdate({user: user._id, 'character.name': character.getData().name}, {$set:{character:character.getData()}}, callback);
     }
 

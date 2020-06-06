@@ -163,7 +163,7 @@ export module Events {
 
     export interface SHIPS_UPDATE_EVENT_CONFIG extends GameEvent {
         data: {
-            characters: Array<{ship: ObjectInterfaces.IShip, characterName : string}>
+            characters: Array<{character: ICharacter}>
         }
     }
 
@@ -268,7 +268,7 @@ export module Events {
 
     export interface TRAIN_SKILL_START_CONFIG extends GameEvent {
         data: {
-            skill: Stats.EStatType
+            skillIndex: number
         }
     }
 
@@ -281,8 +281,8 @@ export module Events {
     export interface SKILL_STATE_EVENT_CONFIG extends GameEvent {
         data: {
             skills: {
-                skillList: Skills.ISkillList,
-                currentlyTraining: Stats.EStatType | undefined
+                skillList: Array<Skills.ISkill>,
+                currentlyTrainingIndex: number 
             }
         }
     }

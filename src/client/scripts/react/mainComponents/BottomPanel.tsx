@@ -1,9 +1,9 @@
 import React from "react";
-import { ObjectInterfaces } from "../../../../shared/scripts/ObjectInterfaces";
 import ShipStatsBottomPanel from "./ShipStatsBottomPanel";
 import { GlobalDataService } from "../../modules/GlobalDataService";
+import { ICharacter } from "../../../../shared/interfaces/ICharacter";
 
-export interface BottomPanelState { ship : ObjectInterfaces.IShip | undefined; }
+export interface BottomPanelState { character : ICharacter | undefined; }
 
 export default class BottomPanel extends React.Component<{}, BottomPanelState> {
 
@@ -12,7 +12,7 @@ export default class BottomPanel extends React.Component<{}, BottomPanelState> {
    constructor(props : {}) {
       super(props)
       this.state = {
-        ship: undefined
+         character: undefined
       }
       this.timerID = undefined;
    }
@@ -33,14 +33,14 @@ export default class BottomPanel extends React.Component<{}, BottomPanelState> {
     tick() {
       let globalData = GlobalDataService.getInstance();
       this.setState({
-        ship: globalData.getPlayerShip().getShipData()
+         character: globalData.getCharacter()
       });
     }
 
    render() {
       return (
          <div id="bottom_panel" className="UIComponent">
-            <ShipStatsBottomPanel ship={this.state.ship}/>
+            <ShipStatsBottomPanel character={this.state.character}/>
          </div>
       );
    }

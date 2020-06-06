@@ -29,11 +29,11 @@ export default class ObjectInfoPanel extends React.Component<ObjectInfoPanelProp
    getSelectionContainerFields(selectedObject : GameObject | undefined) : Array<string> {
       let ret : Array<string> = new Array<string>();
       if(selectedObject instanceof Ship) {
-         ret.push("Speed:  " + Math.round(selectedObject.getShipData().meters_per_second) + " m/s");
-         ret.push("Shield: " + selectedObject.getShipData().properties.currentShield);
-         ret.push("Armor:  " + selectedObject.getShipData().properties.currentArmor);
-         ret.push("Hull:   " + selectedObject.getShipData().properties.currentHull);
-         ret.push("Mass:   " + selectedObject.getShipData().stats[Stats.EStatType.mass] + " kg");
+         ret.push("Speed:  " + Math.round(selectedObject.getData().state.meters_per_second) + " m/s");
+         ret.push("Shield: " + selectedObject.getData().properties.currentShield);
+         ret.push("Armor:  " + selectedObject.getData().properties.currentArmor);
+         ret.push("Hull:   " + selectedObject.getData().properties.currentHull);
+         ret.push("Mass:   " + selectedObject.getData().stats[Stats.EStatType.mass] + " kg");
       } else if(selectedObject instanceof Asteroid) {
          let asteroidInfo = AsteroidData.getAsteroidInfo(selectedObject.getAsteroidData().type);
          ret.push("Hardness: " + selectedObject.getAsteroidData().hardness);

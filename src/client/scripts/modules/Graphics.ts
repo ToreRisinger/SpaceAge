@@ -51,7 +51,7 @@ export module Graphics {
         if(ship != undefined) {
             let x = ship.getPos().x;
             let y = ship.getPos().y;
-            if(ship.getIsMoving() && ship.getShipData().hasDestination) {
+            if(ship.getIsMoving() && ship.getData().state.hasDestination) {
                 line.setTo(x, y, ship.getDestinationPos().x, ship.getDestinationPos().y);
                 destinationLineGraphics.strokeLineShape(line).setDepth(DRAW_LAYERS.DESTINATION_LINE_LAYER);
     
@@ -72,9 +72,9 @@ export module Graphics {
                 targetLineGraphics.strokeLineShape(line).setDepth(DRAW_LAYERS.DESTINATION_LINE_LAYER);
             }
 
-            circle.setTo(x, y, ship.getShipData().stats[Stats.EStatType.radar_range]);
+            circle.setTo(x, y, ship.getData().stats[Stats.EStatType.radar_range]);
             radarRangeCircleGraphics.strokeCircleShape(circle).setDepth(DRAW_LAYERS.GRAPHICS_LAYER);
-            circle.setTo(x, y, ship.getShipData().stats[Stats.EStatType.radar_range] * 10);
+            circle.setTo(x, y, ship.getData().stats[Stats.EStatType.radar_range] * 10);
             radarRangeMaxCircleGraphics.strokeCircleShape(circle).setDepth(DRAW_LAYERS.GRAPHICS_LAYER);
         }
     }

@@ -6,9 +6,9 @@ import { SPRITES } from "../../../shared/scripts/SPRITES";
 import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
 import { GameObject } from "./GameObject";
 import { GlobalDataService } from "../modules/GlobalDataService";
-import { Ship } from "./Ship";
 import { ISprite } from "../../../shared/interfaces/ISprite";
 import { Stats } from "../../../shared/stats/Stats";
+import { ICharacter } from "../../../shared/interfaces/ICharacter";
 
 export abstract class RadarDetectable extends GameObject {
 
@@ -139,8 +139,8 @@ export abstract class RadarDetectable extends GameObject {
 
     private calculateDetectedByRadar(distance : number, radarMass : number) {
         if(!(this.thisPlayerShip || this.alwaysVisible)) {
-            let playerShip : Ship =  GlobalDataService.getInstance().getPlayerShip();
-            let radarRange : number = playerShip.getShipData().stats[Stats.EStatType.radar_range];
+            let character : ICharacter =  GlobalDataService.getInstance().getCharacter();
+            let radarRange : number = character.stats[Stats.EStatType.radar_range];
 
             this.detected = false;
             if(distance <= radarRange) {

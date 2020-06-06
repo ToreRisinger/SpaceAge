@@ -6,7 +6,6 @@ import { PacketFactory } from "./PacketFactory";
 import { ItemFactory } from "./ItemFactory";
 import { Items } from "../shared/scripts/Items";
 import { CargoUtils } from "./CargoUtils";
-import { IClient } from "./interfaces/IClient";
 import { Stats } from "../shared/stats/Stats";
 import { SClient } from "./objects/SClient";
 
@@ -63,7 +62,7 @@ export class AsteroidBeltSector extends Sector {
         }
 
         this.clients.forEach((client: SClient, key: number) => {
-            if(client.getData().character.ship.isMining) {
+            if(client.getData().character.state.isMining) {
               this.handleMiningShip(client);
             }
         });
@@ -88,17 +87,17 @@ export class AsteroidBeltSector extends Sector {
     }
 
     private handleMiningShip(client: SClient) {
-        let ship = client.getData().character.ship;
-        let targetAsteroid = this.asteroids.get(ship.targetId);
-        let cargoSpaceLeft = ship.stats[Stats.EStatType.cargo_hold] - CargoUtils.getCargoSize(client);
+        let character = client.getData().character;
+        let targetAsteroid = this.asteroids.get(character.state.targetId);
+        let cargoSpaceLeft = client.getCharacter().getData().stats[Stats.EStatType.cargo_hold] - CargoUtils.getCargoSize(client);
         if(targetAsteroid != undefined && cargoSpaceLeft > 0) {
-          let miningShipPos = [ship.x, ship.y];
+          let miningShipPos = [character.x, character.y];
           let asteroidPos = [targetAsteroid.x, targetAsteroid.y];
           let miningShipToAsteroidVec = math.subtract(miningShipPos, asteroidPos);
           let miningShipToAsteroidDistance : number = math.length(miningShipToAsteroidVec);
-          let miningShipMiningRange = ship.stats[Stats.EStatType.mining_laser_range];
+          let miningShipMiningRange = client.getCharacter().getData().stats[Stats.EStatType.mining_laser_range];
           if(miningShipToAsteroidDistance <= miningShipMiningRange) {
-            let sizeMined = Math.floor(ship.stats[Stats.EStatType.mining_laser_strength] / targetAsteroid.hardness);
+            let sizeMined = Math.floor(client.getCharacter().getData().stats[Stats.EStatType.mining_laser_strength] / targetAsteroid.hardness);
             if(sizeMined == 0) {
                 sizeMined = 1;
             }

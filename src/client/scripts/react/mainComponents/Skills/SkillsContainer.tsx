@@ -6,7 +6,7 @@ import SkillContainer from "./SkillContainer";
 import { EventHandler } from "../../../modules/EventHandler";
 import { Events } from "../../../../../shared/scripts/Events";
 
-export interface SkillsContainerState { skillList: Skills.ISkillList, currentlyTraining: Stats.EStatType | undefined }
+export interface SkillsContainerState { skillList: Array<Skills.ISkill>, currentlyTrainingIndex: number }
 
 export default class SkillsContainer extends React.Component<{}, SkillsContainerState> {
 
@@ -14,7 +14,7 @@ export default class SkillsContainer extends React.Component<{}, SkillsContainer
         super(props)
         this.state = {
             skillList: GlobalDataService.getInstance().getCharacter().skills.skillList,
-            currentlyTraining : GlobalDataService.getInstance().getCharacter().skills.currentlyTraining
+            currentlyTrainingIndex : GlobalDataService.getInstance().getCharacter().skills.currentlyTrainingIndex
         }
         this.onSkillStateChanged = this.onSkillStateChanged.bind(this);
         EventHandler.on(Events.EEventType.SKILL_STATE_UPDATED_EVENT, this.onSkillStateChanged)
@@ -24,14 +24,23 @@ export default class SkillsContainer extends React.Component<{}, SkillsContainer
     onSkillStateChanged(event: Events.SKILL_STATE_UPDATED_EVENT_CONFIG) {
         this.setState({
             skillList : GlobalDataService.getInstance().getCharacter().skills.skillList,
-            currentlyTraining : GlobalDataService.getInstance().getCharacter().skills.currentlyTraining
+            currentlyTrainingIndex : GlobalDataService.getInstance().getCharacter().skills.currentlyTrainingIndex
         });  
     }
 
     render() {
+        const currentlyTrainingIndex = this.state.currentlyTrainingIndex;
         return (
             <div id="skills_container">
-                <SkillContainer skill={this.state.skillList[Stats.EStatType.max_nr_of_modules]} currentlyTraining={this.state.currentlyTraining} />
+                 {this.state.skillList.map((object, i) => <SkillContainer skill={object} skillIndex={i} currentlyTraining={i == currentlyTrainingIndex} key={i} />)}
+            </div>
+        );
+    }
+}
+
+/*
+
+<SkillContainer skill={this.state.skillList[Stats.EStatType.max_nr_of_modules]} currentlyTraining={this.state.currentlyTrainingIndex} />
                 <SkillContainer skill={this.state.skillList[Stats.EStatType.acceleration]} currentlyTraining={this.state.currentlyTraining} />
                 <SkillContainer skill={this.state.skillList[Stats.EStatType.max_speed]} currentlyTraining={this.state.currentlyTraining} />
                 <SkillContainer skill={this.state.skillList[Stats.EStatType.thrust]} currentlyTraining={this.state.currentlyTraining} />
@@ -55,7 +64,5 @@ export default class SkillsContainer extends React.Component<{}, SkillsContainer
                 <SkillContainer skill={this.state.skillList[Stats.EStatType.normal_dps]} currentlyTraining={this.state.currentlyTraining}/>
                 <SkillContainer skill={this.state.skillList[Stats.EStatType.mining_laser_strength]} currentlyTraining={this.state.currentlyTraining}/>
                 <SkillContainer skill={this.state.skillList[Stats.EStatType.mining_laser_range]} currentlyTraining={this.state.currentlyTraining}/>
-            </div>
-        );
-    }
-}
+
+                */

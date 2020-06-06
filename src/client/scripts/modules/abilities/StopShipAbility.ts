@@ -29,7 +29,7 @@ export class StopShipAbility extends Ability {
 
     private calculateState() { 
         let playerShip = GlobalDataService.getInstance().getPlayerShip();
-        if(playerShip != undefined && playerShip.getShipData().hasDestination) {
+        if(playerShip != undefined && playerShip.getData().state.hasDestination) {
             this.setState(EAbilityState.ENABLED);
         } else {
             this.setState(EAbilityState.DISABLED);

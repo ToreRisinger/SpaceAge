@@ -3,17 +3,38 @@ import { ICargo } from "./ICargo";
 import { Skills } from "../skills/Skills";
 import { Stats } from "../stats/Stats";
 
-export interface ICharacter {
+export interface ICharacter extends ObjectInterfaces.IGameObject {
     name: string,
     cargo: ICargo,
+    location: string,
     sectorCoords: {
         x: number,
         y: number
     },
     skills: {
-        skillList : Skills.ISkillList
-        currentlyTraining: Stats.EStatType | undefined
+        skillList : Array<Skills.ISkill>
+        currentlyTrainingIndex: number
     }
-    location: string,
-    ship: ObjectInterfaces.IShip
+    stats : Array<number>,
+    properties : {
+        currentArmor: number,
+        currentHull : number,
+        currentShield : number
+    },
+    state: {
+        meters_per_second: number
+        isMoving : boolean,
+        hasDestination : boolean,
+        isAttacking : boolean,
+        isMining : boolean,
+        hasWeapon : boolean,
+        hasMiningLaser : boolean,
+        isWarping : boolean,
+        warpDestination : Array<number>,
+        warpSource : Array<number>,
+        targetId : number,
+        destVec : Array<number>
+        velVec : Array<number>
+    },
+    modules : Array<ObjectInterfaces.IShipModuleInstance>
 }

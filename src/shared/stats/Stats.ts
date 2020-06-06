@@ -189,4 +189,19 @@ export module Stats {
                 return GREEN;
         }
     }
+
+    export function getAddedValue(baseStat: number, modifier: EStatModifier, value: number) : number {
+        switch(modifier) {
+            case EStatModifier.decrease_additive:
+                return -value;
+            case EStatModifier.decrease_percentage:
+                return -(baseStat * value / 100);
+            case EStatModifier.increase_additive:
+                    return value;
+            case EStatModifier.increase_percentage:
+                return baseStat * value / 100;
+            default:
+                return 0;
+        }
+    }
 }

@@ -1,8 +1,9 @@
 import React from "react";
 import { ObjectInterfaces } from "../../../../shared/scripts/ObjectInterfaces";
 import { Stats } from "../../../../shared/stats/Stats";
+import { ICharacter } from "../../../../shared/interfaces/ICharacter";
 
-export interface ShipStatsBottomPanelProps { ship : ObjectInterfaces.IShip | undefined; }
+export interface ShipStatsBottomPanelProps { character : ICharacter | undefined; }
 
 export default class ShipStatsBottomPanel extends React.Component<ShipStatsBottomPanelProps, {}> {
 
@@ -11,13 +12,13 @@ export default class ShipStatsBottomPanel extends React.Component<ShipStatsBotto
    }
 
    render() {
-        if(this.props.ship != undefined) {
+        if(this.props.character != undefined) {
             return (
                 <div id="ship_stats_bottom_panel" className="UIComponent BottomPanelElement Unselectable">
-                    <h1>Speed: {Math.round(this.props.ship.meters_per_second)} m/s</h1>
-                    <h1>Shield: {this.props.ship.properties.currentShield}/{this.props.ship.stats[Stats.EStatType.shield]}</h1> 
-                    <h1>Armor: {this.props.ship.properties.currentArmor}/{this.props.ship.stats[Stats.EStatType.armor]}</h1> 
-                    <h1>Hull: {this.props.ship.properties.currentHull}/{this.props.ship.stats[Stats.EStatType.hull]}</h1> 
+                    <h1>Speed: {Math.round(this.props.character.state.meters_per_second)} m/s</h1>
+                    <h1>Shield: {this.props.character.properties.currentShield}/{this.props.character.stats[Stats.EStatType.shield]}</h1> 
+                    <h1>Armor: {this.props.character.properties.currentArmor}/{this.props.character.stats[Stats.EStatType.armor]}</h1> 
+                    <h1>Hull: {this.props.character.properties.currentHull}/{this.props.character.stats[Stats.EStatType.hull]}</h1> 
                 </div>
             );
         } else {
