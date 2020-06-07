@@ -148,6 +148,7 @@ export class SCharacter {
     }
 
     public static createCharacter(character: ICharacter) : SCharacter {
+        character.id = IdHandler.getNewGameObjectId();
         return new SCharacter(character);
     }
 
@@ -222,6 +223,7 @@ export class SCharacter {
     }
 
     private updateStats(): void {
+      this.resetStats();
       this.applyShipModuleStats();
       this.applySkillStats();
   }
@@ -242,6 +244,12 @@ export class SCharacter {
     this.character.properties.currentArmor = this.character.stats[Stats.EStatType.armor];
     this.character.properties.currentShield = this.character.stats[Stats.EStatType.shield];
     this.character.properties.currentHull = this.character.stats[Stats.EStatType.hull];
+  }
+
+  private resetStats() {
+      for(let i = 0; i < this.character.stats.length; i++) {
+        this.character.stats[i] = 0;
+      }
   }
 
   private applySkillStats() {

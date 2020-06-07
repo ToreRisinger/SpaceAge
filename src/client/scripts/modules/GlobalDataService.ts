@@ -44,6 +44,10 @@ export class GlobalDataService {
         return this.character;
     }
 
+    public setCharacter(character : ICharacter): void {
+        this.character = character;
+    }
+
     public getUsername() : String {
         return this.username;
     }

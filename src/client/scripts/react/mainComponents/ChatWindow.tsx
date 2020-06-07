@@ -2,36 +2,23 @@ import React from "react";
 import { Chat } from "../../modules/Chat"
 import ChatContainer from "./ChatContainer";
 import ChatInput from "./ChatInput";
+import { EventHandler } from "../../modules/EventHandler";
+import { Events } from "../../../../shared/scripts/Events";
 
 export interface ChatState { chatMessages : Array<Chat.IChatMessage>; }
 
 export default class ChatWindow extends React.Component<{}, ChatState> {
-
-    private timerID : ReturnType<typeof setTimeout> | undefined;
 
     constructor(props : {}) {
         super(props)
         this.state = {
             chatMessages: Chat.getChatMessages()
         }
-        this.timerID = undefined;
-        this.tick = this.tick.bind(this);
-    }
-
-    componentDidMount() {
-        this.timerID = setInterval(
-          () => this.tick(),
-          1000
-        );
+        this.onNewChatMessages = this.onNewChatMessages.bind(this);
+        EventHandler.on(Events.EEventType.NEW_CHAT_MESSAGES_RECEIVED, this.onNewChatMessages);       
     }
     
-    componentWillUnmount() {
-        if(this.timerID != undefined) {
-            clearInterval(this.timerID);
-        }
-    }
-    
-    tick() {
+    onNewChatMessages() {
         this.setState({
             chatMessages: Chat.getChatMessages()
         });

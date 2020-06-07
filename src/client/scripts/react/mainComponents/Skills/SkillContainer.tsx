@@ -35,7 +35,6 @@ export default class SkillContainer extends React.Component<SkillContainerProps,
                     skillIndex: this.props.skillIndex
                 }
             }
-            console.log(event.data.skillIndex)
             EventHandler.pushEvent(event);
         }
     }

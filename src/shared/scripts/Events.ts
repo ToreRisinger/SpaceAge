@@ -6,7 +6,6 @@ import { ICharacter } from "../interfaces/ICharacter";
 import { ICargo } from "../interfaces/ICargo";
 import { ISector } from "../interfaces/ISector";
 import { Skills } from "../skills/Skills";
-import { Stats } from "../stats/Stats";
 
 
 export module Events {
@@ -63,6 +62,7 @@ export module Events {
         TARGET_CHANGED_EVENT,
         ZOOM_CHANGED_EVENT,
         SKILL_STATE_UPDATED_EVENT,
+        NEW_CHAT_MESSAGES_RECEIVED,
 
         /*
             SERVER EVENTS
@@ -288,9 +288,12 @@ export module Events {
     }
 
     export interface SKILL_STATE_UPDATED_EVENT_CONFIG extends GameEvent {
-        data : {}
+        data: {}
     }
- 
-    
+
+    export interface NEW_CHAT_MESSAGES_RECEIVED_CONFIG extends GameEvent {
+        data: {}
+    }
+
 }
 

@@ -65,6 +65,12 @@ export module Chat {
 
     function addMessage(sender : String, message : String) {
         chatMessages.unshift({message: message, sender: sender});
+        let event : Events.NEW_CHAT_MESSAGES_RECEIVED_CONFIG = {
+            eventId : Events.EEventType.NEW_CHAT_MESSAGES_RECEIVED,
+            data: {}
+        }
+        EventHandler.pushEvent(event);
+
     }
 
     function onClientChatMessageReceived(event : Events.CLIENT_RECEIVE_CHAT_MESSAGE_EVENT_CONFIG) {

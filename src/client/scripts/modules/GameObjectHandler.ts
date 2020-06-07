@@ -64,6 +64,9 @@ export module GameObjectHandler {
                 //@ts-ignore
                 let oldShip : Ship = gameObjects.get(obj.character.id);
                 oldShip.updateDataObjectConfig(obj.character);
+                if(obj.character.id == thisShipId) {
+                    GlobalDataService.getInstance().setCharacter(obj.character);
+                }
             }
         });
     }
