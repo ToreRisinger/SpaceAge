@@ -5,6 +5,7 @@ import { SClient } from "./objects/SClient";
 import { SCharacter } from "./objects/SCharacter";
 import { SShip } from "./objects/SShip";
 import { ICharacter } from "../shared/interfaces/ICharacter";
+import { DamageService } from "./DamageService";
 
 const math = require('mathjs');
 math.length = function vec2Length(vec2 : Array<number>) {
@@ -213,75 +214,18 @@ export class Sector {
     private handleAttackingShip(attackingCharacter : SCharacter) {
         let targetClient = this.clients.get(attackingCharacter.getData().state.targetId);
         if(targetClient != undefined) {
-          let targetCharacter : SCharacter = targetClient.getCharacter();
-          let attackingShipPos = [attackingCharacter.getData().x, attackingCharacter.getData().y];
-          let targetShipPos = [targetCharacter.getData().x, targetCharacter.getData().y];
-          let attackingShipToTargetShipVec = math.subtract(attackingShipPos, targetShipPos);
-          let attackingShipToTargetShipDistance : number = math.length(attackingShipToTargetShipVec);
-          let attackingShipWeaponRange = attackingCharacter.getData().stats[Stats.EStatType.weapon_range];
-          if(attackingShipToTargetShipDistance <= attackingShipWeaponRange) {
-            this.dealDamageToShip(targetClient, attackingCharacter.getData().stats[Stats.EStatType.normal_dps], Stats.EDamageType.NORMAL_DAMAGE);
-            this.dealDamageToShip(targetClient, attackingCharacter.getData().stats[Stats.EStatType.explosive_dps], Stats.EDamageType.EXPLOSIVE_DAMAGE);
-            this.dealDamageToShip(targetClient, attackingCharacter.getData().stats[Stats.EStatType.heat_dps], Stats.EDamageType.HEAT_DAMAGE);
-            this.dealDamageToShip(targetClient, attackingCharacter.getData().stats[Stats.EStatType.impact_dps], Stats.EDamageType.IMPACT_DAMAGE);
-          } 
+            let targetCharacter : SCharacter = targetClient.getCharacter();
+            let attackingShipPos = [attackingCharacter.getData().x, attackingCharacter.getData().y];
+            let targetShipPos = [targetCharacter.getData().x, targetCharacter.getData().y];
+            let attackingShipToTargetShipVec = math.subtract(attackingShipPos, targetShipPos);
+            let attackingShipToTargetShipDistance : number = math.length(attackingShipToTargetShipVec);
+            let attackingShipWeaponRange = attackingCharacter.getData().stats[Stats.EStatType.weapon_range];
+            if(attackingShipToTargetShipDistance <= attackingShipWeaponRange) {
+                DamageService.attackShip(attackingCharacter, targetCharacter);
+            } 
         }
-      }
+    }
   
-      private dealDamageToShip(client: SClient, damage : number, damageType : Stats.EDamageType) {
-        let character : SCharacter = client.getCharacter();
-        let damageLeft = damage;
-        let shield = character.getData().properties.currentShield;
-        let armor = character.getData().properties.currentArmor;
-        let hull = character.getData().properties.currentHull;
-  
-        //Damage to shield
-        if(shield - damageLeft < 0) {
-          damageLeft -= shield;
-          character.getData().properties.currentShield = 0;
-        } else {
-          character.getData().properties.currentShield -= damageLeft;
-          return;
-        }
-  
-        //Damage to armor
-        let damageTypeResistPercent = this.getDamageTypeResist(character, damageType);
-        let armorDamageAfterResist = math.floor(damageLeft * damageTypeResistPercent);
-        if(armor - armorDamageAfterResist < 0) {
-          damageLeft -= math.floor(armor / damageTypeResistPercent);
-          character.getData().properties.currentArmor = 0;
-        } else {
-          character.getData().properties.currentArmor -= armorDamageAfterResist;
-          return;
-        }
-  
-        //Damage to hull
-        if(hull - damageLeft < 0) {
-          character.getData().properties.currentHull = 0;
-        } else {
-          character.getData().properties.currentHull -= damageLeft;
-        }
-      }
-  
-      private getDamageTypeResist(character: SCharacter, damageType : Stats.EDamageType) : number {
-        let resist : number = 0;
-        switch(damageType) {
-          case Stats.EDamageType.NORMAL_DAMAGE :
-            resist = 1;
-            break;
-          case Stats.EDamageType.EXPLOSIVE_DAMAGE :
-            resist = 1 - character.getData().stats[Stats.EStatType.armor_explosion_resistance] / 100;
-            break;
-          case Stats.EDamageType.HEAT_DAMAGE :
-            resist = 1 - character.getData().stats[Stats.EStatType.armor_heat_resistance] / 100;
-            break;
-          case Stats.EDamageType.IMPACT_DAMAGE :
-            resist = 1 - character.getData().stats[Stats.EStatType.armor_impact_resistance] / 100;
-            break;  
-        }
-        return resist;
-      }
-
     private sendShipUpdates() {
         let packet : any = PacketFactory.createShipsUpdatePacket(this.clients);
         this.clients.forEach((client: SClient, key: number) => {

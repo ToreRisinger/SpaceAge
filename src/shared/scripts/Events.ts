@@ -6,6 +6,7 @@ import { ICharacter } from "../interfaces/ICharacter";
 import { ICargo } from "../interfaces/ICargo";
 import { ISector } from "../interfaces/ISector";
 import { Skills } from "../skills/Skills";
+import { ICombatLogMessage } from "../interfaces/ICombatLogMessage";
 
 
 export module Events {
@@ -30,6 +31,8 @@ export module Events {
         CLIENT_SEND_CHAT_MESSAGE_EVENT,
         CLIENT_RECEIVE_CHAT_MESSAGE_EVENT,
         CHAT_SERVER_MESSAGE_EVENT,
+        CLIENT_RECEIVE_COMBAT_LOG_EVENT,
+        NEW_CHAT_MESSAGES_RECEIVED,
 
         //Game logic events
         PLAYER_SET_NEW_DESTINATION_EVENT,
@@ -62,7 +65,7 @@ export module Events {
         TARGET_CHANGED_EVENT,
         ZOOM_CHANGED_EVENT,
         SKILL_STATE_UPDATED_EVENT,
-        NEW_CHAT_MESSAGES_RECEIVED,
+        
 
         /*
             SERVER EVENTS
@@ -293,6 +296,12 @@ export module Events {
 
     export interface NEW_CHAT_MESSAGES_RECEIVED_CONFIG extends GameEvent {
         data: {}
+    }
+
+    export interface CLIENT_RECEIVE_COMBAT_LOG_EVENT_CONFIG extends GameEvent {
+        data: {
+            message: ICombatLogMessage 
+        }
     }
 
 }

@@ -2,6 +2,7 @@ import { Database } from "./database/Database";
 import { SectorHandler } from "./SectorHandler";
 import { ComManager } from "./ComManager";
 import { Logger } from "../shared/logger/Logger";
+import { DamageService } from "./DamageService";
 
 const UPDATES_PER_SECOND : number = 25;
 
@@ -19,6 +20,7 @@ export module Server {
     
       sectorHandler = new SectorHandler();
       comManager = new ComManager(server, sectorHandler);
+      DamageService.init(comManager);
       setupGameLoops();
     }  
 

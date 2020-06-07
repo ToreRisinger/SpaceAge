@@ -4,13 +4,12 @@ import { PacketFactory } from "./PacketFactory";
 import { Events } from "../shared/scripts/Events";
 import { IUserDocument } from "./database/models/user.model";
 import { Logger } from "../shared/logger/Logger";
-import { ICharacterDocument } from "./database/models/character.model";
 import { ICharacter } from "../shared/interfaces/ICharacter";
 import { Sector } from "./Sector";
 import { ISector } from "../shared/interfaces/ISector";
-import { Server } from "./Server";
 import { SCharacter } from "./objects/SCharacter";
 import { SClient } from "./objects/SClient";
+import { ICombatLogMessage } from "../shared/interfaces/ICombatLogMessage";
 
 export class ComManager {
 
@@ -21,9 +20,11 @@ export class ComManager {
     private sectorHandler: SectorHandler;
 
     private clientMap: Map<number, SClient>; 
+    private combatLogMessages: Array<{attackingClient: SClient, targetClient: SClient, message: ICombatLogMessage}>;
 
     constructor(ioServer: any, sectorHandler: SectorHandler) {
         this.clientMap = new Map<number, SClient>();
+        this.combatLogMessages = new Array();
         this.sectorHandler = sectorHandler;
         
         ioServer.listen(8081, function () {
@@ -36,7 +37,7 @@ export class ComManager {
     }
 
     public update40ms() {
-        
+        this.sendCombatLogMessages();
     }
 
     public update1000ms() {
@@ -319,5 +320,28 @@ export class ComManager {
         Logger.error(err);
         Logger.info("Disconnecting user.");
         this.disconnectClient(socket);
+    }
+
+    public addCombatLogMessage(attacking: SCharacter, target: SCharacter, message: ICombatLogMessage) {
+        let attackingClient = this.clientMap.get(attacking.getData().id);
+        let targetClient = this.clientMap.get(target.getData().id);
+        if(attackingClient != undefined && targetClient != undefined) {
+            this.combatLogMessages.push({attackingClient: attackingClient, targetClient: targetClient, message: message});
+        } 
+    }
+
+    private sendCombatLogMessages() {
+        this.combatLogMessages.forEach(obj => {
+            let packet : Events.CLIENT_RECEIVE_COMBAT_LOG_EVENT_CONFIG = {
+                eventId : Events.EEventType.CLIENT_RECEIVE_COMBAT_LOG_EVENT,
+                data : {
+                  message : obj.message
+                }
+              }
+            obj.attackingClient.getData().socket.emit("ServerEvent", packet); 
+            obj.targetClient.getData().socket.emit("ServerEvent", packet); 
+        });
+        this.combatLogMessages = new Array();
+
     }
 }
