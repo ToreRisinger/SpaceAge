@@ -204,4 +204,8 @@ export module Stats {
                 return 0;
         }
     }
+
+    export function getRatingToPercentage(value: number, mass: number) : number {
+        return Math.log10((value/(mass*0.1)) + 1);
+    }
 }

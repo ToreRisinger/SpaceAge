@@ -73,7 +73,7 @@ export default class ShipWindow extends React.Component<ShipWindowProps, ShipWin
                             <pre>Radar signature reduction:   {character ? character.stats[Stats.EStatType.radar_signature_reduction] : "N/A"}</pre>
                             
                             <hr></hr>
-                            <pre>Dodge:                       {character ? character.stats[Stats.EStatType.dodge] : "N/A"}</pre>
+                            <pre>Dodge:                       {character ? Math.round(character.stats[Stats.EStatType.dodge] * 100) : "N/A"} %</pre>
                             <pre>Target dodge reduction:      {character ? character.stats[Stats.EStatType.target_dodge_reduction] : "N/A"}</pre>
 
                             <hr></hr>

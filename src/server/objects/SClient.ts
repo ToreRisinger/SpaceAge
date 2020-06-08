@@ -19,8 +19,12 @@ export class SClient {
         }
     }
 
-    public update() {
-        this.character.update();
+    public update40ms() {
+        this.character.update40ms();
+    }
+
+    public update1000ms() {
+        this.character.update1000ms();
     }
 
     public getData() : IClient {
@@ -37,9 +41,5 @@ export class SClient {
 
     public stopTrainSkill() {
         this.character.stopTrainSkill();
-    }
-
-    public updateSkillProgress() {
-        this.character.updateSkillProgress();
     }
 }

@@ -8,6 +8,7 @@ import { Items } from "../shared/scripts/Items";
 import { CargoUtils } from "./CargoUtils";
 import { Stats } from "../shared/stats/Stats";
 import { SClient } from "./objects/SClient";
+import { CombatLogManager } from "./CombatLogManager";
 
 const math = require('mathjs');
 
@@ -113,6 +114,8 @@ export class AsteroidBeltSector extends Sector {
                 CargoUtils.addItemToPlayerCargo(ItemFactory.createMineral(targetAsteroid.type, targetAsteroid.size), client);
                 targetAsteroid.size = 0;
             }
+
+            CombatLogManager.addCombatLogAstroidMinedMessage(client.getCharacter(), targetAsteroid, sizeMined);
           } 
         }
     }

@@ -6,7 +6,7 @@ import { ICharacter } from "../interfaces/ICharacter";
 import { ICargo } from "../interfaces/ICargo";
 import { ISector } from "../interfaces/ISector";
 import { Skills } from "../skills/Skills";
-import { ICombatLogMessage } from "../interfaces/ICombatLogMessage";
+import { ICombatLogMessage } from "../interfaces/CombatLogInterfaces";
 
 
 export module Events {

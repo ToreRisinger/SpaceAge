@@ -9,7 +9,7 @@ import { Sector } from "./Sector";
 import { ISector } from "../shared/interfaces/ISector";
 import { SCharacter } from "./objects/SCharacter";
 import { SClient } from "./objects/SClient";
-import { ICombatLogMessage } from "../shared/interfaces/ICombatLogMessage";
+import { ICombatLogMessage } from "../shared/interfaces/CombatLogInterfaces";
 
 export class ComManager {
 
@@ -20,7 +20,7 @@ export class ComManager {
     private sectorHandler: SectorHandler;
 
     private clientMap: Map<number, SClient>; 
-    private combatLogMessages: Array<{attackingClient: SClient, targetClient: SClient, message: ICombatLogMessage}>;
+    private combatLogMessages: Array<{receiver: SClient, message: ICombatLogMessage}>;
 
     constructor(ioServer: any, sectorHandler: SectorHandler) {
         this.clientMap = new Map<number, SClient>();
@@ -322,12 +322,11 @@ export class ComManager {
         this.disconnectClient(socket);
     }
 
-    public addCombatLogMessage(attacking: SCharacter, target: SCharacter, message: ICombatLogMessage) {
-        let attackingClient = this.clientMap.get(attacking.getData().id);
-        let targetClient = this.clientMap.get(target.getData().id);
-        if(attackingClient != undefined && targetClient != undefined) {
-            this.combatLogMessages.push({attackingClient: attackingClient, targetClient: targetClient, message: message});
-        } 
+    public addCombatLogMessage(receiver: SCharacter, message: ICombatLogMessage) {
+        let receiverClient = this.clientMap.get(receiver.getData().id);
+        if(receiverClient != undefined) {
+            this.combatLogMessages.push({receiver: receiverClient, message: message});
+        }
     }
 
     private sendCombatLogMessages() {
@@ -338,10 +337,8 @@ export class ComManager {
                   message : obj.message
                 }
               }
-            obj.attackingClient.getData().socket.emit("ServerEvent", packet); 
-            obj.targetClient.getData().socket.emit("ServerEvent", packet); 
+            obj.receiver.getData().socket.emit("ServerEvent", packet); 
         });
         this.combatLogMessages = new Array();
-
     }
 }

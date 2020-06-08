@@ -631,29 +631,45 @@ body {
     background-color: rgba(0, 0, 0, 0.0);
     display: flex;
     flex-flow: column;
+    color: rgb(0, 0, 0, 0.0);
+}
+
+#chat_window {
+    margin: auto;
+    position: absolute;
+    bottom: 10px;
+    left: 60px;
+    width: 450px; 
+    height: 250px;
+    border: 1px solid rgb(0, 0, 0, 0.0);
+    background-color: rgba(0, 0, 0, 0.0);
+    display: flex;
+    flex-flow: column;
+    color: rgb(0, 0, 0, 0.0);
+}
+
+#chat_window ::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.0);
+    border: none;
 }
 
 #chat_window:hover {
     background-color: rgba(0, 0, 0, 0.6);
     border: 1px solid rgb(40, 40, 40);
+    color: rgb(199, 199, 199);
 }
 
 #chat_window:hover ::-webkit-scrollbar-thumb {
     border: 1px solid rgb(199, 199, 199);
+    background: rgba(100, 100, 100, 1.0);
 }
 
 /*
     Container that contains all chat messages
 */
 #chat_container {
-    /*
-    margin-right: 7px;
-    margin-left: 7px;
-    margin-top: 7px;
-    margin-bottom: 7px;
-    */
     position: absolute;
-    top: 0px;
+    top: 30px;
     left: 0px;
     right: 0px;
     bottom: 20px;
@@ -662,13 +678,14 @@ body {
     display: flex;
     overflow-y: scroll;
     flex-direction: column-reverse;
+    margin: 3px;
 }
 
 .chat_message {
     margin-bottom: 3px;
     color: rgb(199, 199, 199);
     font-family: consolas;
-    font-size: 15px;
+    font-size: 12px;
     z-index: inherit;
     word-wrap: break-word;
     overflow-wrap: break-word;
@@ -685,6 +702,39 @@ body {
     bottom: 0px;
     height: 20px;
     width: 440px;
+}
+
+#chat_tabs_container {
+    position: absolute;
+    height: 30px;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    overflow: hidden;
+}
+
+#chat_tab_button:hover { 
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+#combat_log_tab_button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.ChatTab {
+    color: inherit;
+    text-align: center;
+    float:left;
+    font-family: consolas;
+    font-size: 12px;
+    height: 30px;
+    line-height: 30px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.SelectedTab {
+    text-decoration: underline;
 }
 
 #ruler_panel {

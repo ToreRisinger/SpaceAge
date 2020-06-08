@@ -1,23 +1,24 @@
 import { SCharacter } from "./objects/SCharacter";
 import { Stats } from "../shared/stats/Stats";
-import { ComManager } from "./ComManager";
-import { ICombatLogMessage } from "../shared/interfaces/ICombatLogMessage";
+import { Utils } from "../shared/scripts/Utils";
+import { CombatLogManager } from "./CombatLogManager";
 
 export module DamageService {
 
-    let comManager: ComManager;
-
-    export function init(_comManager: ComManager) {
-        comManager = _comManager;
-    }
-
     export function attackShip(attacking: SCharacter, target: SCharacter) {
+        let dodgeChance = target.getData().stats[Stats.EStatType.dodge];
+        let dodgeReduction = 1 - Stats.getRatingToPercentage(attacking.getData().stats[Stats.EStatType.target_dodge_reduction], attacking.getData().stats[Stats.EStatType.mass]);
+        let calculatedDodgeChance = dodgeChance * dodgeReduction;
+        if(Utils.getRandomNumber(1, 100) <= calculatedDodgeChance * 100) {
+            CombatLogManager.addCombatLogMissMessage(attacking, target);
+            return;
+        }
         let totalDamage = 0;
         totalDamage += dealDamageToShip(attacking, target, attacking.getData().stats[Stats.EStatType.normal_dps], Stats.EDamageType.NORMAL_DAMAGE);
         totalDamage += dealDamageToShip(attacking, target, attacking.getData().stats[Stats.EStatType.explosive_dps], Stats.EDamageType.EXPLOSIVE_DAMAGE);
         totalDamage += dealDamageToShip(attacking, target, attacking.getData().stats[Stats.EStatType.heat_dps], Stats.EDamageType.HEAT_DAMAGE);
         totalDamage += dealDamageToShip(attacking, target, attacking.getData().stats[Stats.EStatType.impact_dps], Stats.EDamageType.IMPACT_DAMAGE);
-        addCombatLogMessage(attacking, target, totalDamage);
+        CombatLogManager.addCombatLogDamageMessage(attacking, target, totalDamage);
     }
 
     function dealDamageToShip(attacking: SCharacter, target: SCharacter, damage : number, damageType : Stats.EDamageType): number {
@@ -71,26 +72,17 @@ export module DamageService {
             break;
             case Stats.EDamageType.EXPLOSIVE_DAMAGE :
             let explosiveResistRating = character.getData().stats[Stats.EStatType.armor_explosion_resistance];
-            resist = 1 - Math.log((explosiveResistRating/(mass/0.01)+1));
+            resist = 1- Stats.getRatingToPercentage(explosiveResistRating, mass);
             break;
             case Stats.EDamageType.HEAT_DAMAGE :
             let heatResistRating = character.getData().stats[Stats.EStatType.armor_heat_resistance];
-            resist = 1 - Math.log((heatResistRating/(mass/0.01)+1));
+            resist = 1 - Stats.getRatingToPercentage(heatResistRating, mass);
             break;
             case Stats.EDamageType.IMPACT_DAMAGE :
             let impactResistRating = character.getData().stats[Stats.EStatType.armor_impact_resistance];
-            resist = 1 - Math.log((impactResistRating/(mass/0.01)+1));
+            resist = 1- Stats.getRatingToPercentage(impactResistRating, mass);
             break;  
         }
         return resist;
-    }
-
-    function addCombatLogMessage(attacking: SCharacter, target: SCharacter, totalDamage: number) {
-        let message : ICombatLogMessage = {
-            attacker: attacking.getData().name,
-            target: target.getData().name,
-            damage: totalDamage
-        }
-        comManager.addCombatLogMessage(attacking, target, message);
     }
 }

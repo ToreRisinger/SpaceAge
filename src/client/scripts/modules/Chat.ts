@@ -2,7 +2,7 @@ import { EventHandler } from "./EventHandler";
 import { Events } from "../../../shared/scripts/Events";
 import { InputHandler } from "./InputHandler";
 import { GlobalDataService } from "./GlobalDataService";
-import { ICombatLogMessage } from "../../../shared/interfaces/ICombatLogMessage";
+import { ICombatLogMessage } from "../../../shared/interfaces/CombatLogInterfaces";
 
 export module Chat {
 
