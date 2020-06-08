@@ -85,12 +85,11 @@ body {
     z-index: 30;
 }
 
-.SidePanelElement {
-    /*margin: auto;*/  
+.SidePanelElement {  
     position: relative;
     height: 50px;
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.0);/*rgba(180, 180, 256, 0.2);*/
+    background-color: rgba(0, 0, 0, 0.0);
     z-index: inherit;
 }
 
@@ -1031,3 +1030,47 @@ input:focus, textarea:focus, select:focus {
     outline: none;
 }
 
+/*
+    TOP PANEL
+*/
+
+#top_button_panel {
+    position: absolute;
+    z-index: 10;
+    display: flex;
+    top: 0;
+    left: 150px;
+    margin: auto;
+}
+
+#toggle_radar_range_button {
+
+}
+
+#toggle_weapon_range_button {
+
+}
+
+#toggle_mining_range_button {
+
+}
+
+.TopPanelButton {
+    width: 35px;
+    height: 35px;
+    float: left;
+    background-color: rgba(0, 0, 0, 0.6);
+    text-align: center;
+    line-height: 35px;
+    font-family: consolas;
+    font-size: 12px;
+    color: rgb(199, 199, 199);
+}
+
+.TopPanelButton:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.SelectedTopPanelButton {
+    text-decoration: underline;
+}
