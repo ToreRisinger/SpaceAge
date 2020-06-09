@@ -1,7 +1,31 @@
 export const SPRITES = {
     
     /*
-            ASTEROIDS
+        SPACE STATION
+    */
+    SPACE_STATION : {
+        animation : undefined,
+        sprite : {
+            key : "SPACE_STATION",
+            file : "space_station/space_station.png",
+            width: 742,
+            height: 742
+        }
+    },
+
+    SPACE_STATION_RADAR: {
+        animation : undefined,
+        sprite : {
+            key : "SPACE_STATION_RADAR",
+            file : "space_station/space_station_radar.png",
+            width: 178,
+            height: 178
+        }
+    },
+
+
+    /*
+        ASTEROIDS
     */
     
     GOLD_ASTEROID : {
@@ -51,7 +75,7 @@ export const SPRITES = {
     },
 
     /*
-            GENERIC MODULE SPRITE
+        GENERIC MODULE SPRITE
     */
 
     SHIP_MODULE: {
@@ -65,7 +89,7 @@ export const SPRITES = {
     },
 
     /*
-            MAIN MODULES
+        MAIN MODULES
     */
 
     MAIN_MODULE_I: {
@@ -248,6 +272,15 @@ export const SPRITES = {
             height: 19
         }
     },
+    SPACE_STATION_ICON: {
+        animation : undefined,
+        sprite : {
+            key: "space_station_icon",
+            file: "icons/space_station_icon.png",
+            width: 19,
+            height: 19
+        }
+    },
     SECTOR_ICON: {
         animation : undefined,
         sprite : {
@@ -255,6 +288,24 @@ export const SPRITES = {
             file: "icons/sector_icon.png",
             width: 19,
             height: 19
+        }
+    },
+    TARGET_ICON: {
+        animation : undefined,
+        sprite : {
+            key: "target_icon",
+            file: "icons/target_icon.png",
+            width: 38,
+            height: 38
+        }
+    },
+    SELECTION_ICON: {
+        animation : undefined,
+        sprite : {
+            key: "selection_icon",
+            file: "icons/selection_icon.png",
+            width: 38,
+            height: 38
         }
     }
 }

@@ -1,15 +1,7 @@
-import { IdHandler } from "./../IdHandler";
-import { ItemFactory } from "./../ItemFactory";
-import { ObjectInterfaces } from "../../shared/scripts/ObjectInterfaces";
-import { Items } from "./../../shared/scripts/Items";
 import UserModel, { IUserDocument } from "./models/user.model";
 import { Logger } from "../../shared/logger/Logger";
 import CharacterModel, { ICharacterDocument } from "./models/character.model";
-import { ICharacter } from "../../shared/interfaces/ICharacter";
-import { ICargo } from "../../shared/interfaces/ICargo";
-import { Stats } from "../../shared/stats/Stats";
 import { SCharacter } from "../objects/SCharacter";
-import { SShip } from "../objects/SShip";
 
 const mongoose = require('mongoose')
 const dbName = 'space-age-test'

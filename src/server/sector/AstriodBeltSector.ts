@@ -1,14 +1,15 @@
 import { Sector } from "./Sector";
-import { AsteroidData } from "../shared/scripts/AsteroidData";
-import { IdHandler } from "./IdHandler";
-import { Utils } from "../shared/scripts/Utils";
-import { PacketFactory } from "./PacketFactory";
-import { ItemFactory } from "./ItemFactory";
-import { Items } from "../shared/scripts/Items";
-import { CargoUtils } from "./CargoUtils";
-import { Stats } from "../shared/stats/Stats";
-import { SClient } from "./objects/SClient";
-import { CombatLogManager } from "./CombatLogManager";
+import { AsteroidData } from "../../shared/scripts/AsteroidData";
+import { IdHandler } from "../IdHandler";
+import { Utils } from "../../shared/scripts/Utils";
+import { PacketFactory } from "../PacketFactory";
+import { ItemFactory } from "../ItemFactory";
+import { Items } from "../../shared/scripts/Items";
+import { CargoUtils } from "../CargoUtils";
+import { Stats } from "../../shared/stats/Stats";
+import { SClient } from "../objects/SClient";
+import { CombatLogManager } from "../CombatLogManager";
+import { ESectorType } from "../../shared/interfaces/ISector";
 
 const math = require('mathjs');
 
@@ -32,13 +33,14 @@ export class AsteroidBeltSector extends Sector {
         y : number, 
         sectorName : string,
         id : number,
+        sectorType: ESectorType,
         type : Items.EMineralItemType, 
         hardness : number, 
         minSize : number, 
         maxSize : number, 
         generationRate : number,
         maxNrOfAsteroids : number) {
-        super(sector_x, sector_y, x, y, sectorName, id);
+        super(sector_x, sector_y, x, y, sectorName, id, sectorType);
         this.type = type;
         this.hardness = hardness;
         this.minSize = minSize;

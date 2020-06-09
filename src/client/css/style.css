@@ -1059,7 +1059,7 @@ input:focus, textarea:focus, select:focus {
     width: 35px;
     height: 35px;
     float: left;
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(0, 0, 0, 0.4);
     text-align: center;
     line-height: 35px;
     font-family: consolas;

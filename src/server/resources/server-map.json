@@ -76,6 +76,12 @@
             "asteroid-min-size": 100,
             "asteroid-max-size": 1000,
             "max-number-of-asteroids": 20
+        },
+        {
+            "x": -3,
+            "y": 3,
+            "type": "space-station",
+            "name": "Mars Station I"
         }
     ]
 }

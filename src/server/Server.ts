@@ -1,5 +1,5 @@
 import { Database } from "./database/Database";
-import { SectorHandler } from "./SectorHandler";
+import { SectorHandler } from "./sector/SectorHandler";
 import { ComManager } from "./ComManager";
 import { Logger } from "../shared/logger/Logger";
 import { DamageService } from "./DamageService";

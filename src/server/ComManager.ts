@@ -1,11 +1,11 @@
-import { SectorHandler } from "./SectorHandler";
+import { SectorHandler } from "./sector/SectorHandler";
 import { Database } from "./database/Database";
 import { PacketFactory } from "./PacketFactory";
 import { Events } from "../shared/scripts/Events";
 import { IUserDocument } from "./database/models/user.model";
 import { Logger } from "../shared/logger/Logger";
 import { ICharacter } from "../shared/interfaces/ICharacter";
-import { Sector } from "./Sector";
+import { Sector } from "./sector/Sector";
 import { ISector } from "../shared/interfaces/ISector";
 import { SCharacter } from "./objects/SCharacter";
 import { SClient } from "./objects/SClient";
@@ -151,7 +151,8 @@ export class ComManager {
                     id : sectors[i].getId(),
                     x : sectors[i].getX(),
                     y : sectors[i].getY(),
-                    name : sectors[i].getName()
+                    name : sectors[i].getName(),
+                    sectorType: sectors[i].getSectorType()
                 });
             }
 

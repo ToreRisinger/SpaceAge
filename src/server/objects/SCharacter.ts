@@ -8,7 +8,7 @@ import { Events } from "../../shared/scripts/Events";
 import { Skills } from "../../shared/skills/Skills";
 import { performance } from 'perf_hooks'
 import { IdHandler } from "../IdHandler"
-import { Sector } from "../Sector";
+import { Sector } from "../sector/Sector";
 
 export class SCharacter {
 

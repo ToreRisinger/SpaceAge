@@ -4,6 +4,8 @@ import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
 import { GlobalDataService } from "./GlobalDataService";
 import { Stats } from "../../../shared/stats/Stats";
 import { Colors } from "./colors/Colors";
+import { EventHandler } from "./EventHandler";
+import { Events } from "../../../shared/scripts/Events";
 
 
 export module Graphics {
@@ -11,15 +13,12 @@ export module Graphics {
     let line : Phaser.Geom.Line;
     let circle : Phaser.Geom.Circle;
 
-    let selectionLineGraphics : Phaser.GameObjects.Graphics;
-    let selectionLineGraphicsColor : number = 0xFFFFFF;
-    
-    let targetLineGraphics : Phaser.GameObjects.Graphics;
-    let targetLineGraphicsColor : number = 0xFF0000;
-    
     let destinationLineGraphics : Phaser.GameObjects.Graphics;
     let destinationCircleGraphics : Phaser.GameObjects.Graphics;
     let destinationGraphicsColor : number = 0x00FF00;
+
+    let destinationCircleGrapicsScale : number;
+    let destinationCircleGraphicsIsFadeIn : boolean;
 
     //Radar
     let radarRangeCircleGraphics : Phaser.GameObjects.Graphics;
@@ -34,27 +33,21 @@ export module Graphics {
     let miningRangeCircleGraphics : Phaser.GameObjects.Graphics;
     let miningRangeColor : number = Colors.HEX.YELLOW;
 
-
     let showRadarRange : boolean = false;
     let showMiningRange : boolean = false;
     let showWeaponRange : boolean = false;
 
     export function init() {
-
         line = new Phaser.Geom.Line(0, 0, 0, 0);
-
         circle = new Phaser.Geom.Circle(0, 0, 0);
-
+        destinationCircleGrapicsScale = 1;
         createNewLineGraphics(GlobalDataService.getInstance().getCameraZoom());
+        subscribeToEvents();
     }
 
     export function update(time : number, delta : number) {
         let cameraZoom = GlobalDataService.getInstance().getCameraZoom();
 
-        selectionLineGraphics.destroy();
-        
-        targetLineGraphics.destroy();
-        
         destinationLineGraphics.destroy();
         destinationCircleGraphics.destroy();
         
@@ -83,22 +76,14 @@ export module Graphics {
             if(ship.getIsMoving() && ship.getData().state.hasDestination) {
                 line.setTo(x, y, ship.getDestinationPos().x, ship.getDestinationPos().y);
                 destinationLineGraphics.strokeLineShape(line).setDepth(DRAW_LAYERS.DESTINATION_LINE_LAYER);
-    
-                circle.setTo(ship.getDestinationPos().x, ship.getDestinationPos().y, 5 * cameraZoom);
+
+                destinationCircleGrapicsScale -= 0.05; 
+                if(destinationCircleGrapicsScale < 1) {
+                    destinationCircleGrapicsScale = 1;
+                }
+
+                circle.setTo(ship.getDestinationPos().x, ship.getDestinationPos().y, 5 * cameraZoom * destinationCircleGrapicsScale);
                 destinationCircleGraphics.strokeCircleShape(circle).setDepth(DRAW_LAYERS.GRAPHICS_LAYER);
-            }
-
-            let selectedObject = GlobalDataService.getInstance().getSelectedObject();
-            let targetObject = GlobalDataService.getInstance().getTargetObject();
-
-            if(selectedObject != undefined && selectedObject != targetObject) {
-                line.setTo(x, y, selectedObject.getPos().x, selectedObject.getPos().y);
-                selectionLineGraphics.strokeLineShape(line).setDepth(DRAW_LAYERS.DESTINATION_LINE_LAYER);
-            }
-
-            if(targetObject != undefined) {
-                line.setTo(x, y, targetObject.getPos().x, targetObject.getPos().y);
-                targetLineGraphics.strokeLineShape(line).setDepth(DRAW_LAYERS.DESTINATION_LINE_LAYER);
             }
 
             if(showRadarRange) {
@@ -121,10 +106,6 @@ export module Graphics {
     }
 
     function createNewLineGraphics(lineWidth : number) {
-        selectionLineGraphics = GameScene.getInstance().add.graphics({lineStyle : { width: lineWidth, color: selectionLineGraphicsColor, alpha: 0.5}});
-        
-        targetLineGraphics = GameScene.getInstance().add.graphics({lineStyle : { width: lineWidth, color: targetLineGraphicsColor, alpha: 0.5}});
-        
         destinationLineGraphics = GameScene.getInstance().add.graphics({lineStyle : { width: lineWidth, color: destinationGraphicsColor, alpha: 0.5}});
         destinationCircleGraphics = GameScene.getInstance().add.graphics({lineStyle : { width: lineWidth, color: destinationGraphicsColor, alpha: 0.5}});
         
@@ -154,5 +135,10 @@ export module Graphics {
         showRadarRange = value;
     }
 
-
-}
+    export function onNewDestination(event: Events.PLAYER_SET_NEW_DESTINATION_EVENT_CONFIG) {
+        destinationCircleGrapicsScale = 2;
+    }
+    
+    export function subscribeToEvents() {
+        EventHandler.on(Events.EEventType.PLAYER_SET_NEW_DESTINATION_EVENT, onNewDestination);
+    }

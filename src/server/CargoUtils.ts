@@ -1,6 +1,4 @@
-import { ObjectInterfaces } from "../shared/scripts/ObjectInterfaces";
 import { Items } from "../shared/scripts/Items";
-import { IClient } from "./interfaces/IClient";
 import { SClient } from "./objects/SClient";
 
 export module CargoUtils {

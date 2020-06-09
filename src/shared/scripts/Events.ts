@@ -7,6 +7,7 @@ import { ICargo } from "../interfaces/ICargo";
 import { ISector } from "../interfaces/ISector";
 import { Skills } from "../skills/Skills";
 import { ICombatLogMessage } from "../interfaces/CombatLogInterfaces";
+import { ISpaceStation } from "../interfaces/ISpaceStation";
 
 
 export module Events {
@@ -23,6 +24,8 @@ export module Events {
         SHIPS_UPDATE_EVENT,
         ASTEROIDS_UPDATE_EVENT,
         CARGO_UPDATE_EVENT,
+        SPACE_STATION_UPDATE_EVENT,
+
         GAME_OBJECT_DESTOYED_EVENT,
         CHANGE_SECTOR_EVENT,
         SKILL_STATE_EVENT,
@@ -173,6 +176,12 @@ export module Events {
     export interface ASTEROIDS_UPDATE_EVENT_CONFIG extends GameEvent {
         data : {
             asteroids : Array<AsteroidData.IAsteroid>
+        }
+    }
+
+    export interface SPACE_STATION_UPDATE_EVENT_CONFIG extends GameEvent {
+        data : {
+            spaceStation: ISpaceStation
         }
     }
 

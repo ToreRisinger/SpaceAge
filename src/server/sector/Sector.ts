@@ -1,11 +1,10 @@
-import { ObjectInterfaces } from "../shared/scripts/ObjectInterfaces";
-import { PacketFactory } from "./PacketFactory";
-import { Stats } from "../shared/stats/Stats";
-import { SClient } from "./objects/SClient";
-import { SCharacter } from "./objects/SCharacter";
-import { SShip } from "./objects/SShip";
-import { ICharacter } from "../shared/interfaces/ICharacter";
-import { DamageService } from "./DamageService";
+import { PacketFactory } from "../PacketFactory";
+import { Stats } from "../../shared/stats/Stats";
+import { SClient } from "../objects/SClient";
+import { SCharacter } from "../objects/SCharacter";
+import { ICharacter } from "../../shared/interfaces/ICharacter";
+import { DamageService } from "../DamageService";
+import { ESectorType } from "../../shared/interfaces/ISector";
 
 const math = require('mathjs');
 math.length = function vec2Length(vec2 : Array<number>) {
@@ -17,16 +16,13 @@ let UPDATES_PER_SECOND : number = 25;
 export class Sector {
 
     protected clients :  Map<number, SClient>;
-
     protected x : number;
     protected y : number;
-
     protected sector_x : number;
     protected sector_y : number;
-
     protected sectorName : string;
-
     protected id : number;
+    protected sectorType: ESectorType;
 
     constructor(
       sector_x : number,
@@ -34,13 +30,15 @@ export class Sector {
       x : number, 
       y : number, 
       sectorName : string, 
-      id : number) {
+      id : number,
+      sectorType: ESectorType) {
         this.sector_x = sector_x;
         this.sector_y = sector_y;
         this.x = x;
         this.y = y;
         this.sectorName = sectorName;
         this.id = id;
+        this.sectorType = sectorType;
 
         this.clients = new Map<number, SClient>();
     }
@@ -67,6 +65,10 @@ export class Sector {
 
     public getId() {
       return this.id;
+    }
+    
+    public getSectorType() : ESectorType {
+      return this.sectorType;
     }
 
     public update40ms() {

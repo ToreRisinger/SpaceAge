@@ -2,34 +2,75 @@ import { EventHandler } from "./EventHandler";
 import { Events } from "../../../shared/scripts/Events";
 import { InputHandler } from "./InputHandler";
 import { GlobalDataService } from "./GlobalDataService";
+import { GameScene } from "../scenes/GameScene";
+import { SPRITES } from "../../../shared/scripts/SPRITES";
+import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
+import { RadarDetectable } from "../game_objects/RadarDetectable";
 
 export module SelectionHandler {
 
+    //let targetIcon: Phaser.GameObjects.Sprite = GameScene.getInstance().addSprite(0, 0, SPRITES.TARGET_ICON.sprite.key);
+    let selectionIcon: Phaser.GameObjects.Sprite;
+    let selectIconFadeInScale: number;
+    let selectIconIsFadingIn: boolean;
+
     export function init() {
+        selectionIcon = GameScene.getInstance().addSprite(0, 0, SPRITES.SELECTION_ICON.sprite.key);
+        selectionIcon.setDepth(DRAW_LAYERS.GRAPHICS_LAYER);
+        selectionIcon.setVisible(false);
+        selectIconIsFadingIn = false;
+        selectIconFadeInScale = 0;
         subscribeToEvents();
     }
 
     export function update(time : number, delta : number) {
         let selectedObject = GlobalDataService.getInstance().getSelectedObject();
-        if(selectedObject != undefined && !selectedObject.isDetected()) {
-            GlobalDataService.getInstance().setSelectedObject(undefined);
-            sendSelectionChangedEvent();
-        } else if(InputHandler.getKeyState(InputHandler.KEY.MOUSE_RIGHT) == InputHandler.KEY_STATE.PRESSED && selectedObject != undefined) {
-            GlobalDataService.getInstance().setSelectedObject(undefined);
-            sendSelectionChangedEvent();
+        let selectedObjectNoLongerVisible: boolean = selectedObject != undefined && !selectedObject.isDetected();
+        let rightClickDetected: boolean = InputHandler.getKeyState(InputHandler.KEY.MOUSE_RIGHT) == InputHandler.KEY_STATE.PRESSED && selectedObject != undefined;
+        if(selectedObjectNoLongerVisible || rightClickDetected) {
+            changeSelection(undefined);
         }
+
+        if(selectedObject != undefined) {
+            selectionIcon.x = selectedObject.getGameObjectData().x;
+            selectionIcon.y = selectedObject.getGameObjectData().y;
+            let cameraZoom = GlobalDataService.getInstance().getCameraZoom();
+            if(selectIconIsFadingIn) {
+                selectionIcon.setDisplaySize(SPRITES.SELECTION_ICON.sprite.width * selectIconFadeInScale * cameraZoom, 
+                    SPRITES.SELECTION_ICON.sprite.height * selectIconFadeInScale * cameraZoom);
+                selectIconFadeInScale -= 0.05;
+                if(selectIconFadeInScale <= 1) {
+                    selectIconIsFadingIn = false;
+                }
+            } else {
+                selectionIcon.setDisplaySize(SPRITES.SELECTION_ICON.sprite.width * cameraZoom, SPRITES.SELECTION_ICON.sprite.height * cameraZoom);
+            }
+            
+        }
+
+        selectionIcon.setVisible(selectedObject != undefined);
     }
 
-    function onSelectionChangeRequest(event : Events.SELECTION_CHANGE_REQUEST_EVENT_CONFIG) {
+    function changeSelection(newSelection: RadarDetectable | undefined) {
         let selectedObject = GlobalDataService.getInstance().getSelectedObject();
         let playerShip = GlobalDataService.getInstance().getPlayerShip();
-        if(playerShip == event.data.object || selectedObject == event.data.object) {
+        if(playerShip == newSelection || selectedObject == newSelection) {
             GlobalDataService.getInstance().setSelectedObject(undefined);
+            
         } else {
-            GlobalDataService.getInstance().setSelectedObject(event.data.object);
+            GlobalDataService.getInstance().setSelectedObject(newSelection);
+        }
+
+        if(newSelection != undefined) {
+            selectIconIsFadingIn = true;
+            selectIconFadeInScale = 2;
         }
         
         sendSelectionChangedEvent()
+    }
+
+    function onSelectionChangeRequest(event : Events.SELECTION_CHANGE_REQUEST_EVENT_CONFIG) {
+        changeSelection(event.data.object);
     }
 
     function sendSelectionChangedEvent() {
@@ -45,8 +86,7 @@ export module SelectionHandler {
     function onPlayerDisconnect(event : Events.PLAYER_DISCONNECTED_EVENT_CONFIG) {
         let selectedObject = GlobalDataService.getInstance().getSelectedObject();
         if(selectedObject != undefined && selectedObject.getGameObjectData().id == event.data.shipId) {
-            GlobalDataService.getInstance().setSelectedObject(undefined);
-            sendSelectionChangedEvent();
+            changeSelection(undefined);
         }
     }
 
@@ -56,8 +96,7 @@ export module SelectionHandler {
             //@ts-ignore
             let found = event.data.gameObjectIds.find(gameObjectId => gameObjectId == selectedObject.getGameObjectData().id);
             if(found) {
-                GlobalDataService.getInstance().setSelectedObject(undefined);
-                sendSelectionChangedEvent();
+                changeSelection(undefined);
             }
         }
     }

@@ -2,13 +2,13 @@ import { EventHandler } from "./EventHandler"
 import { Events } from "../../../shared/scripts/Events"
 import { Ship } from "../game_objects/Ship";
 import { GameObject } from "../game_objects/GameObject";
-import { ObjectInterfaces } from "../../../shared/scripts/ObjectInterfaces";
 import { AsteroidData } from "../../../shared/scripts/AsteroidData";
 import { Asteroid } from "../game_objects/Asteroid";
 import { Sector } from "../game_objects/Sector";
 import { GlobalDataService } from "./GlobalDataService";
 import { ICharacter } from "../../../shared/interfaces/ICharacter";
 import { ISector } from "../../../shared/interfaces/ISector";
+import { SpaceStation } from "../game_objects/SpaceStation";
 
 export module GameObjectHandler {
 
@@ -82,6 +82,15 @@ export module GameObjectHandler {
         });
     }
 
+    function onSpaceStationUpdate(event: Events.SPACE_STATION_UPDATE_EVENT_CONFIG) {
+        if(gameObjects.get(event.data.spaceStation.id) == undefined) {
+            gameObjects.set(event.data.spaceStation.id, new SpaceStation(event.data.spaceStation));
+        } else {
+            //@ts-ignore
+            gameObjects.get(event.data.spaceStation.id).updateDataObjectConfig(event.data.spaceStation);
+        }
+    }
+
     function onCargoUpdate(event : Events.CARGO_UPDATE_EVENT_CONFIG) {
         GlobalDataService.getInstance().getPlayerShip().setCargo(event.data.cargo);
         let eventToSend : Events.PLAYER_CARGO_UPDATED_EVENT_CONFIG = {
@@ -139,10 +148,12 @@ export module GameObjectHandler {
         EventHandler.on(Events.EEventType.PLAYER_DISCONNECTED_EVENT, onPlayerDisconnect);
         EventHandler.on(Events.EEventType.SHIPS_UPDATE_EVENT, onShipsUpdate);
         EventHandler.on(Events.EEventType.ASTEROIDS_UPDATE_EVENT, onAsteroidsUpdate);
+        EventHandler.on(Events.EEventType.SPACE_STATION_UPDATE_EVENT, onSpaceStationUpdate);
         EventHandler.on(Events.EEventType.CARGO_UPDATE_EVENT, onCargoUpdate);
         EventHandler.on(Events.EEventType.GAME_OBJECT_DESTOYED_EVENT, onGameObjectsDestroyed);
         EventHandler.on(Events.EEventType.CHANGE_SECTOR_EVENT, onSectorChanged); 
-        EventHandler.on(Events.EEventType.SKILL_STATE_EVENT, onSkillStateChanged);  
+        EventHandler.on(Events.EEventType.SKILL_STATE_EVENT, onSkillStateChanged);
+          
     }
 
     function destroyGameObject(objectId : number) {

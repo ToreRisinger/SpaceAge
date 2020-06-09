@@ -1,13 +1,13 @@
-import * as map_config from "./resources/server-map.json";
+import * as map_config from "../resources/server-map.json";
 import { Sector } from "./Sector";
 import { AsteroidBeltSector } from "./AstriodBeltSector";
-import { ObjectInterfaces } from "../shared/scripts/ObjectInterfaces.js";
-import { Items } from "../shared/scripts/Items.js";
-import { IdHandler } from "./IdHandler.js";
-import { PacketFactory } from "./PacketFactory.js";
-import { IClient } from "./interfaces/IClient.js";
-import { IPlayer } from "../shared/interfaces/IPlayer.js";
-import { SClient } from "./objects/SClient.js";
+import { Items } from "../../shared/scripts/Items.js";
+import { IdHandler } from "../IdHandler.js";
+import { PacketFactory } from "../PacketFactory.js";
+import { IPlayer } from "../../shared/interfaces/IPlayer.js";
+import { SClient } from "../objects/SClient.js";
+import { ESectorType } from "../../shared/interfaces/ISector.js";
+import { SpaceStationSector } from "./SpaceStationSector.js";
 
 const math = require('mathjs');
 
@@ -149,6 +149,7 @@ export class SectorHandler {
                     //@ts-ignore
                     sector["name"],
                     IdHandler.getNewGameObjectId(),
+                    ESectorType.ASTROID_BELT,
                     asteriod_type, 
                     //@ts-ignore
                     sector["asteroid-hardness"], 
@@ -156,6 +157,13 @@ export class SectorHandler {
                     sector["asteroid-max-size"],
                     sector["asteroid-generation-rate"],
                     sector["max-number-of-asteroids"]));
+            } else if(sector.type == "space-station") {
+                this.addSector(sector.x, sector.y, new SpaceStationSector(sector.x, sector.y, sector.x * this.SECTOR_COORD_TO_MAP_COORD, 
+                    sector.y * this.SECTOR_COORD_TO_MAP_COORD,
+                    //@ts-ignore
+                    sector["name"],
+                    IdHandler.getNewGameObjectId(),
+                    ESectorType.ASTROID_BELT));
             }
         }
     }

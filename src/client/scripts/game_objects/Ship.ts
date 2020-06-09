@@ -1,4 +1,3 @@
-import { ObjectInterfaces } from "../../../shared/scripts/ObjectInterfaces"
 import { ShipSprite } from "./ShipSprite";
 import { RadarDetectable } from "./RadarDetectable";
 import { SPRITES } from "../../../shared/scripts/SPRITES";

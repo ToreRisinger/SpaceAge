@@ -1,10 +1,23 @@
 import { EventHandler } from "./EventHandler";
 import { Events } from "../../../shared/scripts/Events";
 import { GlobalDataService } from "./GlobalDataService";
+import { SPRITES } from "../../../shared/scripts/SPRITES";
+import { GameScene } from "../scenes/GameScene";
+import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
+import { RadarDetectable } from "../game_objects/RadarDetectable";
 
 export module TargetHandler {
+    
+    let targetIcon: Phaser.GameObjects.Sprite;
+    let targetIconFadeInScale: number;
+    let targetIconIsFadingIn: boolean;
 
     export function init() {
+        targetIcon = GameScene.getInstance().addSprite(0, 0, SPRITES.TARGET_ICON.sprite.key);
+        targetIcon.setDepth(DRAW_LAYERS.GRAPHICS_LAYER);
+        targetIcon.setVisible(false);
+        targetIconIsFadingIn = false;
+        targetIconFadeInScale = 0;
         subscribeToEvents();
     }
 
@@ -14,17 +27,44 @@ export module TargetHandler {
             GlobalDataService.getInstance().setTargetObject(undefined);
             sendTargetChangedEvent()
         }
+
+        if(targetObject != undefined) {
+            targetIcon.x = targetObject.getGameObjectData().x;
+            targetIcon.y = targetObject.getGameObjectData().y;
+            let cameraZoom = GlobalDataService.getInstance().getCameraZoom();
+            if(targetIconIsFadingIn) {
+                targetIcon.setDisplaySize(SPRITES.TARGET_ICON.sprite.width * targetIconFadeInScale * cameraZoom, 
+                    SPRITES.TARGET_ICON.sprite.height * targetIconFadeInScale * cameraZoom);
+                targetIconFadeInScale -= 0.05;
+                if(targetIconFadeInScale <= 1) {
+                    targetIconIsFadingIn = false;
+                }
+            } else {
+                targetIcon.setDisplaySize(SPRITES.TARGET_ICON.sprite.width * cameraZoom, SPRITES.TARGET_ICON.sprite.height * cameraZoom);
+            }
+        }
+
+        targetIcon.setVisible(targetObject != undefined);
     }
 
-    function onTargetChangeRequest(event : Events.TARGET_CHANGE_REQUEST_EVENT_CONFIG) {
+    function changeTarget(newTarget: RadarDetectable | undefined) {
         let playerShip = GlobalDataService.getInstance().getPlayerShip();
-        if(playerShip == event.data.object) {
+        if(playerShip == newTarget) {
             GlobalDataService.getInstance().setTargetObject(undefined);
         } else {
-            GlobalDataService.getInstance().setTargetObject(event.data.object);
+            GlobalDataService.getInstance().setTargetObject(newTarget);
+        }
+
+        if(newTarget != undefined) {
+            targetIconIsFadingIn = true;
+            targetIconFadeInScale = 2;
         }
         
         sendTargetChangedEvent()
+    }
+
+    function onTargetChangeRequest(event : Events.TARGET_CHANGE_REQUEST_EVENT_CONFIG) {
+        changeTarget(event.data.object);
     }
 
     function sendTargetChangedEvent() {
@@ -41,8 +81,7 @@ export module TargetHandler {
     function onPlayerDisconnect(event : Events.PLAYER_DISCONNECTED_EVENT_CONFIG) {
         let targetObject = GlobalDataService.getInstance().getTargetObject();
         if(targetObject != undefined && targetObject.getGameObjectData().id == event.data.shipId) {
-            GlobalDataService.getInstance().setTargetObject(undefined);
-            sendTargetChangedEvent();
+            changeTarget(undefined);
         }
     }
 
@@ -52,8 +91,7 @@ export module TargetHandler {
             //@ts-ignore
             let found = event.data.gameObjectIds.find(gameObjectId => gameObjectId == targetObject.getGameObjectData().id);
             if(found) {
-                GlobalDataService.getInstance().setTargetObject(undefined);
-                sendTargetChangedEvent();
+                changeTarget(undefined);
             }
         }
     }
