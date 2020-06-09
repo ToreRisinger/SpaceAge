@@ -8,8 +8,6 @@ import { ShipModuleWrapper } from "./ShipModuleWrapper";
 export class Ship extends RadarDetectable {
 
     private characterData : ICharacter;
-    //@ts-ignore
-    //private shipSprite : ShipSprite;
     private shipModuleWrapper : ShipModuleWrapper;
     private shipCargo : ICargo;
     private characterName : string;

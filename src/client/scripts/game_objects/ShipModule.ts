@@ -1,5 +1,4 @@
 import { Ship } from "./Ship";
-import { Items } from "../../../shared/scripts/Items";
 import { GameScene } from "../scenes/GameScene";
 import { ObjectInterfaces } from "../../../shared/scripts/ObjectInterfaces";
 import { ShipModules } from "../../../shared/scripts/ShipModules";
