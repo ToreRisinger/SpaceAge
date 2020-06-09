@@ -142,3 +142,4 @@ export module Graphics {
     export function subscribeToEvents() {
         EventHandler.on(Events.EEventType.PLAYER_SET_NEW_DESTINATION_EVENT, onNewDestination);
     }
+}

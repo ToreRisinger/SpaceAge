@@ -1,15 +1,16 @@
-import { ShipSprite } from "./ShipSprite";
 import { RadarDetectable } from "./RadarDetectable";
 import { SPRITES } from "../../../shared/scripts/SPRITES";
 import { ICargo } from "../../../shared/interfaces/ICargo";
 import { Stats } from "../../../shared/stats/Stats";
 import { ICharacter } from "../../../shared/interfaces/ICharacter";
+import { ShipModuleWrapper } from "./ShipModuleWrapper";
 
 export class Ship extends RadarDetectable {
 
     private characterData : ICharacter;
     //@ts-ignore
-    private shipSprite : ShipSprite;
+    //private shipSprite : ShipSprite;
+    private shipModuleWrapper : ShipModuleWrapper;
     private shipCargo : ICargo;
     private characterName : string;
 
@@ -21,7 +22,8 @@ export class Ship extends RadarDetectable {
             items : []
         }
 
-        this.buildShip();
+        this.shipModuleWrapper = new ShipModuleWrapper(this, thisPlayerShip);
+
         if(thisPlayerShip) {
             this.setIconBaseColor(0x00ff00);
         }
@@ -41,8 +43,14 @@ export class Ship extends RadarDetectable {
     }
 
     public update() {
-        this.shipSprite.updateSpritePosition(this.getPos());
+        this.shipModuleWrapper.update();
         super.update();
+
+        this.updateEffects();
+    }
+
+    private updateEffects() {
+
     }
 
     public getIsMoving() {
@@ -54,7 +62,7 @@ export class Ship extends RadarDetectable {
     }
 
     public destroy() {
-        this.shipSprite.destroy();
+        this.shipModuleWrapper.destroy();
         super.destroy();
     }
 
@@ -66,15 +74,11 @@ export class Ship extends RadarDetectable {
         return this.characterName;
     }
 
-    private buildShip() {
-        this.shipSprite = new ShipSprite(this.characterData.modules, this.getPos(), this.isThisPlayerShip(), this);
-    }
-
     protected getRadarMass() : number {
         return this.characterData.stats[Stats.EStatType.mass] * ( 1 - this.characterData.stats[Stats.EStatType.radar_signature_reduction] / 100)
     }
 
     protected setVisible(value : boolean) : void {
-        this.shipSprite.setVisible(value);
+        this.shipModuleWrapper.setVisible(value);
     }
 }
