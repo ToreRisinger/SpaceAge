@@ -1,8 +1,8 @@
-import { Ship } from "./Ship";
-import { GameScene } from "../scenes/GameScene";
-import { ObjectInterfaces } from "../../../shared/scripts/ObjectInterfaces";
-import { ShipModules } from "../../../shared/scripts/ShipModules";
-import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
+import { Ship } from "../Ship";
+import { GameScene } from "../../scenes/GameScene";
+import { ObjectInterfaces } from "../../../../shared/scripts/ObjectInterfaces";
+import { ShipModules } from "../../../../shared/scripts/ShipModules";
+import { DRAW_LAYERS } from "../../constants/DRAW_LAYERS";
 
 export class ShipModule {
 
@@ -30,8 +30,12 @@ export class ShipModule {
         this.sprite.y = this.getCalculatedModuleY();
     }
 
-    private getCalculatedModuleX() {
+    protected getCalculatedModuleX() {
         return this.ship.getPos().x + this.module.x * ShipModule.MODULE_SPRITE_SIZE;
+    }
+
+    protected getCalculatedModuleY() {
+        return this.ship.getPos().y + this.module.y * ShipModule.MODULE_SPRITE_SIZE;
     }
 
     public setVisible(value : boolean) : void {
@@ -40,10 +44,6 @@ export class ShipModule {
 
     public destroy() {
         this.sprite.destroy();
-    }
-
-    private getCalculatedModuleY() {
-        return this.ship.getPos().y + this.module.y * ShipModule.MODULE_SPRITE_SIZE;
     }
 
     private setupSprite() {
@@ -64,4 +64,13 @@ export class ShipModule {
             this.sprite.setDepth(DRAW_LAYERS.OTHER_SHIP_LAYER);
         }
     }
+
+    protected getShip(): Ship {
+        return this.ship;
+    }
+
+    protected getSprite(): Phaser.GameObjects.Sprite {
+        return this.sprite;
+    }
+
 }

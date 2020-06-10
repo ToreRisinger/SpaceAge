@@ -2,11 +2,16 @@ import { CONSTANTS } from "../constants/CONSTANTS";
 import { Camera } from "../modules/Camera";
 import { SPRITES } from "../../../shared/scripts/SPRITES";
 import { GameController } from "../modules/GameController";
+import { threadId } from "worker_threads";
+import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
 
 export class GameScene extends Phaser.Scene {
     
     private static _instance : GameScene;
     private gameController : GameController = new GameController();
+
+    //@ts-ignore
+    private particleManager: Phaser.GameObjects.Particles.ParticleEmitterManager;
 
     constructor() {
         super({
@@ -31,6 +36,7 @@ export class GameScene extends Phaser.Scene {
 
     create() {
         this.createAnimations();
+        this.createParticleManagers();
         this.gameController = new GameController();
         this.gameController.init();
         this.scale.on('resize', this.resize, this);
@@ -89,6 +95,7 @@ export class GameScene extends Phaser.Scene {
                 })
             })
        );
+
     }
 
     resize (gameSize : Phaser.Structs.Size, baseSize : Phaser.Structs.Size, displaySize : Phaser.Structs.Size) {
@@ -104,5 +111,14 @@ export class GameScene extends Phaser.Scene {
 
     getSceneHeight() : number {
         return this.sys.game.canvas.height;
+    }
+
+    getParticleManager() : Phaser.GameObjects.Particles.ParticleEmitterManager {
+        return this.particleManager;
+    }
+
+    createParticleManagers() {
+        this.particleManager = GameScene.getInstance().add.particles(SPRITES.SMALL_BULLET.sprite.key);
+        this.particleManager.setDepth(DRAW_LAYERS.GRAPHICS_LAYER);
     }
 }

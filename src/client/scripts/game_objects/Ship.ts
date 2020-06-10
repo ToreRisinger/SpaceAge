@@ -3,7 +3,7 @@ import { SPRITES } from "../../../shared/scripts/SPRITES";
 import { ICargo } from "../../../shared/interfaces/ICargo";
 import { Stats } from "../../../shared/stats/Stats";
 import { ICharacter } from "../../../shared/interfaces/ICharacter";
-import { ShipModuleWrapper } from "./ShipModuleWrapper";
+import { ShipModuleWrapper } from "./shipmodule/ShipModuleWrapper";
 
 export class Ship extends RadarDetectable {
 

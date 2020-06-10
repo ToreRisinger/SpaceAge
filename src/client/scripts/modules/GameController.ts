@@ -7,7 +7,7 @@ import { InputHandler } from "./InputHandler";
 import { GameObjectHandler } from "./GameObjectHandler";
 import { Chat } from "./Chat";
 import { Camera } from "./Camera";
-import { Graphics } from "./Graphics";
+import { Graphics } from "./graphics/Graphics";
 import { Com } from "./Com";
 import { GUI } from "./GUI";
 import { Events } from "../../../shared/scripts/Events";

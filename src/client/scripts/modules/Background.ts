@@ -15,7 +15,6 @@ export module Background {
 
     export function init() {
         createBackground();   
-
         spaceBackground.setDisplaySize(BACKRGOUND_SIZE, BACKRGOUND_SIZE);
     }
 

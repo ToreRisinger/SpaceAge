@@ -1,11 +1,11 @@
-import { GameScene } from "../scenes/GameScene";
-import { Ship } from "../game_objects/Ship";
-import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
-import { GlobalDataService } from "./GlobalDataService";
-import { Stats } from "../../../shared/stats/Stats";
-import { Colors } from "./colors/Colors";
-import { EventHandler } from "./EventHandler";
-import { Events } from "../../../shared/scripts/Events";
+import { GameScene } from "../../scenes/GameScene";
+import { Ship } from "../../game_objects/Ship";
+import { DRAW_LAYERS } from "../../constants/DRAW_LAYERS";
+import { GlobalDataService } from "../GlobalDataService";
+import { Stats } from "../../../../shared/stats/Stats";
+import { Colors } from "../colors/Colors";
+import { EventHandler } from "../EventHandler";
+import { Events } from "../../../../shared/scripts/Events";
 
 
 export module Graphics {
@@ -18,7 +18,6 @@ export module Graphics {
     let destinationGraphicsColor : number = 0x00FF00;
 
     let destinationCircleGrapicsScale : number;
-    let destinationCircleGraphicsIsFadeIn : boolean;
 
     //Radar
     let radarRangeCircleGraphics : Phaser.GameObjects.Graphics;

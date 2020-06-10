@@ -307,5 +307,21 @@ export const SPRITES = {
             width: 38,
             height: 38
         }
-    }
+    },
+
+    /*
+
+        EFFECTS
+
+    */
+
+   SMALL_BULLET: {
+       animation : undefined,
+       sprite : {
+           key: "small_bullet",
+           file: "effects/small_bullet.png",
+           width: 38,
+           height: 38
+       }
+   }
 }

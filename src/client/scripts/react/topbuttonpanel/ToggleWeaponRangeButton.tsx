@@ -1,5 +1,5 @@
 import React from "react";
-import { Graphics } from "../../modules/Graphics";
+import { Graphics } from "../../modules/graphics/Graphics";
 
 export interface ToggleWeaponRangeButtonState { selected: boolean }
 
