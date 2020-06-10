@@ -13,7 +13,10 @@ export class ShipModuleWrapper {
         ship.getData().modules.forEach(_module => {
             if(_module.moduleItem.itemType == Items.EModuleItemType.MINING_LASER_MODULE) {
                 this.modules.push(new MiningLaserShipModule(ship, _module, thisPlayerShip));
-            } else if(_module.moduleItem.itemType == Items.EModuleItemType.LASER_MODULE){
+            } else if(_module.moduleItem.itemType == Items.EModuleItemType.LASER_MODULE
+                || _module.moduleItem.itemType == Items.EModuleItemType.TURRET_MODULE
+                || _module.moduleItem.itemType == Items.EModuleItemType.RAIL_GUN_MODULE
+                || _module.moduleItem.itemType == Items.EModuleItemType.MISSLE_MODULE){
                 this.modules.push(new WeaponShipModule(ship, _module, thisPlayerShip));
             } else {
                 this.modules.push(new ShipModule(ship, _module, thisPlayerShip));

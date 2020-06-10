@@ -320,8 +320,17 @@ export const SPRITES = {
        sprite : {
            key: "small_bullet",
            file: "effects/small_bullet.png",
-           width: 38,
-           height: 38
+           width: 4,
+           height: 4
        }
-   }
+   },
+   SHIELD_DAMAGE_PARTICLE: {
+    animation : undefined,
+    sprite : {
+        key: "shield_damage_particle",
+        file: "effects/shield_damage_particle.png",
+        width: 8,
+        height: 8
+    }
+}
 }

@@ -2,22 +2,26 @@ import { CONSTANTS } from "../constants/CONSTANTS";
 import { Camera } from "../modules/Camera";
 import { SPRITES } from "../../../shared/scripts/SPRITES";
 import { GameController } from "../modules/GameController";
-import { threadId } from "worker_threads";
 import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
+
+export enum EParticleManagerType {
+    SMALL_BULLET,
+    SHIELD_DAMAGE
+}
 
 export class GameScene extends Phaser.Scene {
     
     private static _instance : GameScene;
     private gameController : GameController = new GameController();
 
-    //@ts-ignore
-    private particleManager: Phaser.GameObjects.Particles.ParticleEmitterManager;
+    private particleManagerMap: Map<EParticleManagerType, Phaser.GameObjects.Particles.ParticleEmitterManager>;
 
     constructor() {
         super({
             key: CONSTANTS.SCENES.GAME
         })
         GameScene._instance = this;
+        this.particleManagerMap = new Map();
     }
 
     static getInstance() : GameScene {
@@ -113,12 +117,16 @@ export class GameScene extends Phaser.Scene {
         return this.sys.game.canvas.height;
     }
 
-    getParticleManager() : Phaser.GameObjects.Particles.ParticleEmitterManager {
-        return this.particleManager;
+    createParticleManagers() {
+        let particleManager = GameScene.getInstance().add.particles(SPRITES.SMALL_BULLET.sprite.key);
+        particleManager.setDepth(DRAW_LAYERS.GRAPHICS_LAYER);
+        this.particleManagerMap.set(EParticleManagerType.SMALL_BULLET, particleManager);
+        particleManager = GameScene.getInstance().add.particles(SPRITES.SHIELD_DAMAGE_PARTICLE.sprite.key);
+        particleManager.setDepth(DRAW_LAYERS.GRAPHICS_LAYER);
+        this.particleManagerMap.set(EParticleManagerType.SHIELD_DAMAGE, particleManager);   
     }
 
-    createParticleManagers() {
-        this.particleManager = GameScene.getInstance().add.particles(SPRITES.SMALL_BULLET.sprite.key);
-        this.particleManager.setDepth(DRAW_LAYERS.GRAPHICS_LAYER);
+    getParticleManager(type: EParticleManagerType) {
+        return this.particleManagerMap.get(type);
     }
 }
