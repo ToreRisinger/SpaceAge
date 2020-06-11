@@ -5,6 +5,9 @@ export module InputHandler {
         UP = "up",
         DOWN = "down",
         ENTER = "ENTER",
+        SPACE = "space",
+        Z = "z",
+        X = "x"
     }
 
     export enum EMouseKey {
