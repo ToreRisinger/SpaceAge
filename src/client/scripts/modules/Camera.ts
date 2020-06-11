@@ -7,18 +7,25 @@ import { Ship } from "../game_objects/Ship";
 
 export module Camera {
 
-    let CAMERA_MIN_ZOOM : number = 1;
-    let CAMERA_MAX_ZOOM : number = 35;
+    enum ECameraMode {
+        CENTERED,
+        FREE
+    }
 
-    let camera : Phaser.Cameras.Scene2D.Camera;
-    let x : integer;
-    let y : integer;
-    let width : number;
-    let height : number;
-    let currentZoom : number;
-    let maxZoom : number;
-    let minZoom : number;
-    let initialized : boolean = false;
+    let CAMERA_MIN_ZOOM: number = 1;
+    let CAMERA_MAX_ZOOM: number = 35;
+
+    let cameraMode: ECameraMode = ECameraMode.CENTERED;
+
+    let camera: Phaser.Cameras.Scene2D.Camera;
+    let x: integer;
+    let y: integer;
+    let width: number;
+    let height: number;
+    let currentZoom: number;
+    let maxZoom: number;
+    let minZoom: number;
+    let initialized: boolean = false;
 
     export function init() {
         camera = GameScene.getInstance().cameras.cameras[0];
@@ -36,9 +43,9 @@ export module Camera {
     }
 
     export function update(time : number, delta : number) {
-        if(InputHandler.getKeyState(InputHandler.KEY.UP) == InputHandler.KEY_STATE.DOWN) {
+        if(InputHandler.getKeyState(InputHandler.EKey.UP) == InputHandler.EKeyState.DOWN) {
             zoom(1 + (2 / (1000 / delta)));
-        } else if(InputHandler.getKeyState(InputHandler.KEY.DOWN) == InputHandler.KEY_STATE.DOWN) {
+        } else if(InputHandler.getKeyState(InputHandler.EKey.DOWN) == InputHandler.EKeyState.DOWN) {
             zoom(1 - 2 / (1000 / delta));
         }
 
@@ -70,33 +77,33 @@ export module Camera {
     }
 
     function zoom(zoom : number) {
-       currentZoom = currentZoom * zoom;
-       camera.zoom = camera.zoom / zoom;
-       let zoomed = true;
-       if(currentZoom < minZoom) {
-           if(currentZoom == minZoom) {
-               zoomed = false;
-           }
-           currentZoom = minZoom;
-           camera.zoom = minZoom;
-       } else if(currentZoom > maxZoom) {
+        currentZoom = currentZoom * zoom;
+        camera.zoom = camera.zoom / zoom;
+        let zoomed = true;
+        if(currentZoom < minZoom) {
+            if(currentZoom == minZoom) {
+                zoomed = false;
+            }
+            currentZoom = minZoom;
+            camera.zoom = minZoom;
+        } else if(currentZoom > maxZoom) {
             if(currentZoom == maxZoom) {
                 zoomed = false;
             }
-           currentZoom = maxZoom;
-           camera.zoom = 1/maxZoom;
-       }
-
-       if(zoomed) {
-        let event : Events.ZOOM_CHANGED_EVENT_CONFIG = {
-            eventId : Events.EEventType.ZOOM_CHANGED_EVENT,
-            data : {
-                zoom : currentZoom
-            }
+            currentZoom = maxZoom;
+            camera.zoom = 1/maxZoom;
         }
-        EventHandler.pushEvent(event);
-        updateZoom();
-       }
+
+        if(zoomed) {
+            let event : Events.ZOOM_CHANGED_EVENT_CONFIG = {
+                eventId : Events.EEventType.ZOOM_CHANGED_EVENT,
+                data : {
+                    zoom : currentZoom
+                }
+            }
+            EventHandler.pushEvent(event);
+            updateZoom();
+        }
     }
 
     function updateZoom() {

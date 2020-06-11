@@ -26,7 +26,7 @@ export module SelectionHandler {
     export function update(time : number, delta : number) {
         let selectedObject = GlobalDataService.getInstance().getSelectedObject();
         let selectedObjectNoLongerVisible: boolean = selectedObject != undefined && !selectedObject.isDetected();
-        let rightClickDetected: boolean = InputHandler.getKeyState(InputHandler.KEY.MOUSE_RIGHT) == InputHandler.KEY_STATE.PRESSED && selectedObject != undefined;
+        let rightClickDetected: boolean = InputHandler.getMouseKeyState(InputHandler.EMouseKey.MOUSE_RIGHT) == InputHandler.EKeyState.PRESSED && selectedObject != undefined;
         if(selectedObjectNoLongerVisible || rightClickDetected) {
             changeSelection(undefined);
         }

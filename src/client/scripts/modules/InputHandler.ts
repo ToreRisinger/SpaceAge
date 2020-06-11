@@ -1,29 +1,29 @@
 import { GameScene } from "../scenes/GameScene";
-import { Logger } from "../../../shared/logger/Logger";
-
 export module InputHandler {
 
-    export enum KEY {
-        UP,
-        DOWN,
-        ENTER,
+    export enum EKey {
+        UP = "up",
+        DOWN = "down",
+        ENTER = "ENTER",
+    }
+
+    export enum EMouseKey {
         MOUSE_RIGHT,
         MOUSE_LEFT
     }
 
-    export enum KEY_STATE {
+    export enum EKeyState {
         PRESSED,
         DOWN,
         IDLE
     }
 
-    let keyMap = new Map();
-    let tmpKeyMap = new Map();
+    let mouseKeyStateMap = new Map();
+    let tmpMouseKeyStateMap = new Map();
 
-
-    let upKey : Phaser.Input.Keyboard.Key;
-    let downKey : Phaser.Input.Keyboard.Key;
-    let enterKey : Phaser.Input.Keyboard.Key;
+    let keyMap: Map<string, Phaser.Input.Keyboard.Key> = new Map();
+    let keyStateMap: Map<string, EKeyState> = new Map();
+    let tmpKeyStateMap: Map<string, EKeyState> = new Map();
 
     let mouseInput : Phaser.Input.Pointer;
     let mouseManager : Phaser.Input.Mouse.MouseManager;
@@ -34,14 +34,6 @@ export module InputHandler {
     export function init() {
         let gameScene : GameScene = GameScene.getInstance();
 
-        upKey = GameScene.getInstance().input.keyboard.addKey('up');
-        downKey = GameScene.getInstance().input.keyboard.addKey('down');
-        enterKey = GameScene.getInstance().input.keyboard.addKey('ENTER');
-        
-        upKey.on('down', onKeyUpPressed);
-        downKey.on('down', onKeyDownPressed);
-        enterKey.on('down', onKeyEnterPressed);
-
         mouseInput = gameScene.input.activePointer;
         mouseManager = gameScene.input.mouse;
         mouseManager.disableContextMenu();
@@ -49,61 +41,75 @@ export module InputHandler {
         mouseX = mouseInput.x;
         mouseY = mouseInput.y;
 
-        keyMap.set(KEY.UP, KEY_STATE.IDLE);
-        keyMap.set(KEY.DOWN, KEY_STATE.IDLE);
-        keyMap.set(KEY.ENTER, KEY_STATE.IDLE);
-        keyMap.set(KEY.MOUSE_LEFT, KEY_STATE.IDLE);
-        keyMap.set(KEY.MOUSE_RIGHT, KEY_STATE.IDLE);
-        tmpKeyMap.set(KEY.UP, KEY_STATE.IDLE);
-        tmpKeyMap.set(KEY.DOWN, KEY_STATE.IDLE);
-        tmpKeyMap.set(KEY.ENTER, KEY_STATE.IDLE);
-        tmpKeyMap.set(KEY.MOUSE_LEFT, KEY_STATE.IDLE);
-        tmpKeyMap.set(KEY.MOUSE_RIGHT, KEY_STATE.IDLE);
+        Object.values(EKey).forEach(obj => {
+            let key = GameScene.getInstance().input.keyboard.addKey(obj.toString());
+            key.on('down', () => onKeyPressedCallback(obj));
+            keyMap.set(obj.toString(), key);
+        });
+
+        Object.values(EKey).forEach(obj => {
+            keyStateMap.set(obj.toString(), EKeyState.IDLE);
+            tmpKeyStateMap.set(obj.toString(), EKeyState.IDLE);
+        });
+
+        for(let value in EMouseKey) {
+            mouseKeyStateMap.set(value, EKeyState.IDLE);
+            tmpMouseKeyStateMap.set(value, EKeyState.IDLE);
+        }
     }
 
     export function update(time : number, delta : number) {
-        mouseX = mouseInput.x;
-        mouseY = mouseInput.y;
+        Object.values(EKey).forEach(_enum => {
+            //@ts-ignore
+            keyStateMap.set(_enum.toString(), tmpKeyStateMap.get(_enum.toString()));
+            tmpKeyStateMap.set(_enum.toString(), EKeyState.IDLE);
+        });
 
-        keyMap.set(KEY.UP, tmpKeyMap.get(KEY.UP));
-        keyMap.set(KEY.DOWN, tmpKeyMap.get(KEY.DOWN));
-        keyMap.set(KEY.ENTER, tmpKeyMap.get(KEY.ENTER));
-        keyMap.set(KEY.MOUSE_LEFT, tmpKeyMap.get(KEY.MOUSE_LEFT));
-        keyMap.set(KEY.MOUSE_RIGHT, tmpKeyMap.get(KEY.MOUSE_RIGHT));
+        Object.values(EKey).forEach(_enum => {
+            //@ts-ignore
+            let key = keyMap.get(_enum.toString());
+            //@ts-ignore
+            if(key.isDown && tmpKeyStateMap.get(_enum.toString()) != EKeyState.DOWN) {
+                //@ts-ignore
+                onKeyPressed(_enum, EKeyState.DOWN);
+            }
+        });
 
-        tmpKeyMap.set(KEY.UP, KEY_STATE.IDLE);
-        tmpKeyMap.set(KEY.DOWN, KEY_STATE.IDLE);
-        tmpKeyMap.set(KEY.ENTER, KEY_STATE.IDLE);
-        tmpKeyMap.set(KEY.MOUSE_LEFT, KEY_STATE.IDLE);
-        tmpKeyMap.set(KEY.MOUSE_RIGHT, KEY_STATE.IDLE);
+        /*
+            MOUSE
+        */
+       mouseX = mouseInput.x;
+       mouseY = mouseInput.y;
 
-        if(upKey.isDown && tmpKeyMap.get(KEY.UP) != KEY_STATE.DOWN) {
-            onKeyPressed(KEY.UP, KEY_STATE.DOWN);
-        }
-
-        if(downKey.isDown && tmpKeyMap.get(KEY.DOWN) != KEY_STATE.DOWN) {
-            onKeyPressed(KEY.DOWN, KEY_STATE.DOWN);
-        }
+        Object.values(EMouseKey).filter(obj => !isNaN(Number(obj))).forEach(_enum => {
+            mouseKeyStateMap.set(_enum, tmpMouseKeyStateMap.get(_enum));
+            tmpMouseKeyStateMap.set(_enum, EKeyState.IDLE);
+        });
 
         if(mouseInput.rightButtonDown()) {
-            if(keyMap.get(KEY.MOUSE_RIGHT) != KEY_STATE.PRESSED && keyMap.get(KEY.MOUSE_RIGHT) != KEY_STATE.DOWN) {
-                onKeyPressed(KEY.MOUSE_RIGHT, KEY_STATE.PRESSED);
+            if(mouseKeyStateMap.get(EMouseKey.MOUSE_RIGHT) != EKeyState.PRESSED && mouseKeyStateMap.get(EMouseKey.MOUSE_RIGHT) != EKeyState.DOWN) {
+                onMouseKeyPressed(EMouseKey.MOUSE_RIGHT, EKeyState.PRESSED);
             } else {
-                onKeyPressed(KEY.MOUSE_RIGHT, KEY_STATE.DOWN);
+                onMouseKeyPressed(EMouseKey.MOUSE_RIGHT, EKeyState.DOWN);
             }
         } 
 
         if(mouseInput.leftButtonDown()) {
-            if(keyMap.get(KEY.MOUSE_LEFT) != KEY_STATE.PRESSED) {
-                onKeyPressed(KEY.MOUSE_LEFT, KEY_STATE.PRESSED);
+            if(mouseKeyStateMap.get(EMouseKey.MOUSE_LEFT) != EKeyState.PRESSED && mouseKeyStateMap.get(EMouseKey.MOUSE_RIGHT) != EKeyState.DOWN) {
+                onMouseKeyPressed(EMouseKey.MOUSE_LEFT, EKeyState.PRESSED);
             } else {
-                onKeyPressed(KEY.MOUSE_LEFT, KEY_STATE.DOWN);
+                onMouseKeyPressed(EMouseKey.MOUSE_LEFT, EKeyState.DOWN);
             }
         } 
     }
 
-    export function getKeyState(key : KEY) : KEY_STATE {
-        return keyMap.get(key);
+    export function getKeyState(key: EKey): EKeyState {
+        //@ts-ignore
+        return keyStateMap.get(key.toString());
+    }
+
+    export function getMouseKeyState(key: EMouseKey): EKeyState {
+        return mouseKeyStateMap.get(key);
     }
 
     export function getMouseX() : number {
@@ -114,19 +120,15 @@ export module InputHandler {
         return mouseY;
     }
 
-    function onKeyUpPressed() {
-        onKeyPressed(KEY.UP, KEY_STATE.PRESSED);
+    function onKeyPressedCallback(key: EKey) {
+        onKeyPressed(key, EKeyState.PRESSED);
     }
 
-    function onKeyDownPressed() {
-        onKeyPressed(KEY.DOWN, KEY_STATE.PRESSED);
+    function onKeyPressed(key : EKey, state : EKeyState) {
+        tmpKeyStateMap.set(key.toString(), state);
     }
 
-    function onKeyEnterPressed() {
-        onKeyPressed(KEY.ENTER, KEY_STATE.PRESSED);
-    }
-
-    function onKeyPressed(key : KEY, state : KEY_STATE) {
-        tmpKeyMap.set(key, state);
+    function onMouseKeyPressed(key : EMouseKey, state : EKeyState) {
+        tmpMouseKeyStateMap.set(key, state);
     }
 }

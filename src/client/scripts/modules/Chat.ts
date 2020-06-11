@@ -30,7 +30,7 @@ export module Chat {
             chat_input = document.getElementById("chat_input");
         }
         
-        if(InputHandler.getKeyState(InputHandler.KEY.ENTER) == InputHandler.KEY_STATE.PRESSED) {
+        if(InputHandler.getKeyState(InputHandler.EKey.ENTER) == InputHandler.EKeyState.PRESSED) {
             if(chat_input === document.activeElement) {
                 //@ts-ignore
                 chat_input.blur();
