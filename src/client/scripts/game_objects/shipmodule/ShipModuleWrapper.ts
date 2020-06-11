@@ -21,13 +21,19 @@ export class ShipModuleWrapper {
             } else {
                 this.modules.push(new ShipModule(ship, _module, thisPlayerShip));
             }
-        })
+        });
     }
 
     public update() {
         this.modules.forEach(_module => {
             _module.update();
         })
+
+        /*
+        this.modules.forEach(_module => {
+            _module.rotate(this.rotation);
+        })
+        */
     }
 
     public setVisible(value : boolean) : void {

@@ -11,7 +11,6 @@ import { Utils } from "../../../../shared/scripts/Utils";
 export class WeaponShipModule extends ShipModule {
 
     private bulletEmitter: Phaser.GameObjects.Particles.ParticleEmitter;
-    private static ANGLE_TO_DEGREE: number = 57.2957795;
     private weaponParticleRandomizer: number;
     private weaponParticleRandomizerTimer: number;
     private weaponParticleRandomizerDirection: boolean;
@@ -22,8 +21,8 @@ export class WeaponShipModule extends ShipModule {
         this.bulletEmitter = GameScene.getInstance().getParticleManager(EParticleManagerType.SMALL_BULLET).createEmitter({
             x: 0,
             y: 0,
-            lifespan: 700, //TODO change so this depend on distance between ships
-            speed: { min: 300, max: 400 },
+            lifespan: 300, //TODO change so this depend on distance between ships
+            speed: { min: 1000, max: 1200 },
             angle: 330,
             gravityY: 0,
             scale: { start: 2, end: 0.5},
@@ -31,8 +30,9 @@ export class WeaponShipModule extends ShipModule {
             frequency: 50
         });  
         this.weaponParticleRandomizer = 0;
-        this.weaponParticleRandomizerTimer = Utils.getRandomNumber(0, 100);
+        this.weaponParticleRandomizerTimer = 0;
         this.weaponParticleRandomizerDirection = true;
+        this.bulletEmitter.stop();
     }
 
 
@@ -42,26 +42,25 @@ export class WeaponShipModule extends ShipModule {
     }
 
     private updateBulletParticles() {
+        this.bulletEmitter.stop();
         let shipData : ICharacter = this.getShip().getData();
-        this.bulletEmitter.visible = false;
-        if(shipData.state.isAttacking) {
-            let targetObject: GameObject | undefined = GameObjectHandler.getGameObjectsMap().get(shipData.state.targetId);
-            if(targetObject != undefined && this.targetInRange(targetObject, shipData)) {
-                if(this.weaponParticleRandomizerTimer <= 0) {
-                    this.weaponParticleRandomizerTimer = Utils.getRandomNumber(50, 100);
-                    let randomNumber = Utils.getRandomNumber(0, 15);
-                    if(this.weaponParticleRandomizerDirection) {
-                        randomNumber = -randomNumber;
-                    }
-                    this.weaponParticleRandomizer = WeaponShipModule.ANGLE_TO_DEGREE + randomNumber;
-                    this.weaponParticleRandomizerDirection = !this.weaponParticleRandomizerDirection;
+        let targetObject: GameObject | undefined = GameObjectHandler.getGameObjectsMap().get(shipData.state.targetId);
+        if(shipData.state.isAttacking && targetObject != undefined && this.targetInRange(targetObject, shipData)) {
+            if(this.weaponParticleRandomizerTimer <= 0) {
+                this.weaponParticleRandomizerTimer = Utils.getRandomNumber(50, 100);
+                let randomNumber = Utils.getRandomNumber(0, 15);
+                if(this.weaponParticleRandomizerDirection) {
+                    randomNumber = -randomNumber;
                 }
-                this.weaponParticleRandomizerTimer -= 1;
-                let angle = Phaser.Math.Angle.Between(this.getCalculatedModuleX(), this.getCalculatedModuleY(), targetObject.getGameObjectData().x, targetObject.getGameObjectData().y)
-                this.bulletEmitter.angle.onChange(angle * this.weaponParticleRandomizer);
-                this.bulletEmitter.visible = true;
+                this.weaponParticleRandomizer = Utils.ANGLE_TO_DEGREE + randomNumber;
+                this.weaponParticleRandomizerDirection = !this.weaponParticleRandomizerDirection;
             }
+            this.weaponParticleRandomizerTimer -= 1;
+            let angle = Phaser.Math.Angle.Between(this.getCalculatedModuleX(), this.getCalculatedModuleY(), targetObject.getGameObjectData().x, targetObject.getGameObjectData().y)
+            this.bulletEmitter.angle.onChange(angle * this.weaponParticleRandomizer);
+            this.bulletEmitter.start();
         }
+        
         this.bulletEmitter.startFollow(this.getSprite());
     }
 

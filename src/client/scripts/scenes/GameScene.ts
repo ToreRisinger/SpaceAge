@@ -6,7 +6,9 @@ import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
 
 export enum EParticleManagerType {
     SMALL_BULLET,
-    SHIELD_DAMAGE
+    SHIELD_DAMAGE,
+    ARMOR_DAMAGE,
+    THRUST
 }
 
 export class GameScene extends Phaser.Scene {
@@ -121,9 +123,18 @@ export class GameScene extends Phaser.Scene {
         let particleManager = GameScene.getInstance().add.particles(SPRITES.SMALL_BULLET.sprite.key);
         particleManager.setDepth(DRAW_LAYERS.GRAPHICS_LAYER);
         this.particleManagerMap.set(EParticleManagerType.SMALL_BULLET, particleManager);
+        
         particleManager = GameScene.getInstance().add.particles(SPRITES.SHIELD_DAMAGE_PARTICLE.sprite.key);
         particleManager.setDepth(DRAW_LAYERS.GRAPHICS_LAYER);
         this.particleManagerMap.set(EParticleManagerType.SHIELD_DAMAGE, particleManager);   
+        
+        particleManager = GameScene.getInstance().add.particles(SPRITES.ARMOR_DAMAGE_PARTICLE.sprite.key);
+        particleManager.setDepth(DRAW_LAYERS.GRAPHICS_LAYER);
+        this.particleManagerMap.set(EParticleManagerType.ARMOR_DAMAGE, particleManager);   
+
+        particleManager = GameScene.getInstance().add.particles(SPRITES.THRUST_PARTICLE.sprite.key);
+        particleManager.setDepth(DRAW_LAYERS.BACKGROUND_EFFECT_LAYER);
+        this.particleManagerMap.set(EParticleManagerType.THRUST, particleManager);  
     }
 
     getParticleManager(type: EParticleManagerType) {

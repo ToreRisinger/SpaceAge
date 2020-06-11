@@ -1,6 +1,8 @@
 
 export module Utils {
 
+    export let ANGLE_TO_DEGREE: number = 57.2957795;
+
     export function screenVecToMapVec(vector : Phaser.Math.Vector2, cameraX : number, cameraY : number, cameraWidth : number, cameraHeight : number) : Phaser.Math.Vector2 {
         return new Phaser.Math.Vector2(cameraX - (cameraWidth / 2) + vector.x, cameraY - (cameraHeight / 2) + vector.y)
     }

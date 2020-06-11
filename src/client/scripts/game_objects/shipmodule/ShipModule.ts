@@ -25,6 +25,13 @@ export class ShipModule {
         this.updateSpriteLocation();
     }
 
+    public rotate(radians: number): void {
+        let shipPos : Phaser.Math.Vector2 = new Phaser.Math.Vector2(this.ship.getGameObjectData().x, this.ship.getGameObjectData().y);
+        let thisModulePos : Phaser.Math.Vector2 = new Phaser.Math.Vector2(this.sprite.x, this.sprite.y);
+        Phaser.Math.RotateAroundDistance(this.sprite, shipPos.x, shipPos.y, radians, shipPos.subtract(thisModulePos).length());
+        this.sprite.rotation = radians;
+    }
+
     private updateSpriteLocation() {
         this.sprite.x = this.getCalculatedModuleX();
         this.sprite.y = this.getCalculatedModuleY();

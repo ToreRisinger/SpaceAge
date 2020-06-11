@@ -325,12 +325,30 @@ export const SPRITES = {
        }
    },
    SHIELD_DAMAGE_PARTICLE: {
-    animation : undefined,
-    sprite : {
-        key: "shield_damage_particle",
-        file: "effects/shield_damage_particle.png",
-        width: 8,
-        height: 8
+        animation : undefined,
+        sprite : {
+            key: "shield_damage_particle",
+            file: "effects/shield_damage_particle.png",
+            width: 8,
+            height: 8
+        }
+    },
+    ARMOR_DAMAGE_PARTICLE: {
+        animation : undefined,
+        sprite : {
+            key: "armor_damage_particle",
+            file: "effects/armor_damage_particle.png",
+            width: 4,
+            height: 4
+        }
+    },
+    THRUST_PARTICLE: {
+        animation : undefined,
+        sprite : {
+            key: "thrust_particle",
+            file: "effects/thrust_particle.png",
+            width: 8,
+            height: 8
+        }
     }
-}
 }
