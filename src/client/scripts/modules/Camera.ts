@@ -14,6 +14,7 @@ export module Camera {
 
     let CAMERA_MIN_ZOOM: number = 1;
     let CAMERA_MAX_ZOOM: number = 35;
+    let CAMERA_SPEED: number = 5;
 
     let cameraMode: ECameraMode = ECameraMode.CENTERED;
 
@@ -43,14 +44,39 @@ export module Camera {
     }
 
     export function update(time : number, delta : number) {
-        if(InputHandler.getKeyState(InputHandler.EKey.UP) == InputHandler.EKeyState.DOWN) {
+        if(InputHandler.getKeyState(InputHandler.EKey.Z) == InputHandler.EKeyState.DOWN) {
             zoom(1 + (2 / (1000 / delta)));
-        } else if(InputHandler.getKeyState(InputHandler.EKey.DOWN) == InputHandler.EKeyState.DOWN) {
+        } else if(InputHandler.getKeyState(InputHandler.EKey.X) == InputHandler.EKeyState.DOWN) {
             zoom(1 - 2 / (1000 / delta));
         }
 
+        if(InputHandler.getKeyState(InputHandler.EKey.SPACE) == InputHandler.EKeyState.DOWN) {
+            cameraMode = ECameraMode.CENTERED;
+        }
+
+        if(InputHandler.getKeyState(InputHandler.EKey.DOWN) == InputHandler.EKeyState.DOWN) {
+            cameraMode = ECameraMode.FREE;
+            y += CAMERA_SPEED * currentZoom;
+        }
+
+        if(InputHandler.getKeyState(InputHandler.EKey.UP) == InputHandler.EKeyState.DOWN) {
+            cameraMode = ECameraMode.FREE;
+            y -= CAMERA_SPEED * currentZoom;
+        }
+
+        if(InputHandler.getKeyState(InputHandler.EKey.LEFT) == InputHandler.EKeyState.DOWN) {
+            cameraMode = ECameraMode.FREE;
+            x -= CAMERA_SPEED * currentZoom;
+        }
+
+        if(InputHandler.getKeyState(InputHandler.EKey.RIGHT) == InputHandler.EKeyState.DOWN) {
+            cameraMode = ECameraMode.FREE;
+            x += CAMERA_SPEED * currentZoom;
+        }
+        
+        centerCamera();
+
         let globalDataService = GlobalDataService.getInstance();
-        centerOnPlayer();
         globalDataService.setCameraX(x);
         globalDataService.setCameraY(y);
 
@@ -65,15 +91,19 @@ export module Camera {
             width = camera.width;
             camera.height = h;
             height = camera.height;
-            centerOnPlayer();
+            centerCamera();
         }
     }
 
-    function centerOnPlayer() {
-        let ship : Ship = GlobalDataService.getInstance().getPlayerShip();
-        x = ship.getPos().x;
-        y = ship.getPos().y;
-        camera.centerOn(x, y);
+    function centerCamera() {
+        if(cameraMode == ECameraMode.FREE) {
+            camera.centerOn(x, y);
+        } else {
+            let ship : Ship = GlobalDataService.getInstance().getPlayerShip();
+            x = ship.getPos().x;
+            y = ship.getPos().y;
+            camera.centerOn(x, y);
+        }
     }
 
     function zoom(zoom : number) {

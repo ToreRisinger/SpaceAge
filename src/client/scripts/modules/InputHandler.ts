@@ -4,6 +4,8 @@ export module InputHandler {
     export enum EKey {
         UP = "up",
         DOWN = "down",
+        LEFT = "left",
+        RIGHT = "right",
         ENTER = "ENTER",
         SPACE = "space",
         Z = "z",
