@@ -19,23 +19,28 @@ export module Camera {
     let cameraMode: ECameraMode = ECameraMode.CENTERED;
 
     let camera: Phaser.Cameras.Scene2D.Camera;
-    let x: integer;
-    let y: integer;
+
+    let mapX: integer;
+    let mapY: integer;
+    let cameraX : integer;
+    let cameraY : integer;
+
     let width: number;
     let height: number;
     let currentZoom: number;
     let maxZoom: number;
     let minZoom: number;
     let initialized: boolean = false;
+    let centeredCamera: boolean;
 
     export function init() {
         camera = GameScene.getInstance().cameras.cameras[0];
         width = camera.width;
         height = camera.height;
-        x = 0;
-        y = 0;
+        mapX = 0;
+        mapY = 0;
 
-        camera.centerOn(x, y);
+        camera.centerOn(mapX, mapY);
 
         currentZoom = CAMERA_MIN_ZOOM;
         minZoom = CAMERA_MIN_ZOOM;
@@ -56,33 +61,45 @@ export module Camera {
 
         if(InputHandler.getKeyState(InputHandler.EKey.DOWN) == InputHandler.EKeyState.DOWN) {
             cameraMode = ECameraMode.FREE;
-            y += CAMERA_SPEED * currentZoom;
+            mapY += CAMERA_SPEED * currentZoom;
         }
 
         if(InputHandler.getKeyState(InputHandler.EKey.UP) == InputHandler.EKeyState.DOWN) {
             cameraMode = ECameraMode.FREE;
-            y -= CAMERA_SPEED * currentZoom;
+            mapY -= CAMERA_SPEED * currentZoom;
         }
 
         if(InputHandler.getKeyState(InputHandler.EKey.LEFT) == InputHandler.EKeyState.DOWN) {
             cameraMode = ECameraMode.FREE;
-            x -= CAMERA_SPEED * currentZoom;
+            mapX -= CAMERA_SPEED * currentZoom;
         }
 
         if(InputHandler.getKeyState(InputHandler.EKey.RIGHT) == InputHandler.EKeyState.DOWN) {
             cameraMode = ECameraMode.FREE;
-            x += CAMERA_SPEED * currentZoom;
+            mapX += CAMERA_SPEED * currentZoom;
         }
         
-        centerCamera();
+        setCameraPos();
 
         let globalDataService = GlobalDataService.getInstance();
-        globalDataService.setCameraX(x);
-        globalDataService.setCameraY(y);
+        globalDataService.setCameraX(mapX);
+        globalDataService.setCameraY(mapY);
 
         globalDataService.setCameraZoom(currentZoom);
         globalDataService.setCameraWidth(width * currentZoom);
-        globalDataService.setCameraHeight(height * currentZoom);  
+        globalDataService.setCameraHeight(height * currentZoom);
+    }
+
+    export function getMapPos(): Phaser.Math.Vector2 {
+        return new Phaser.Math.Vector2(mapX + width / 2, mapY + height / 2);
+    }
+
+    export function getCameraOffset() : Phaser.Math.Vector2 {
+        if(centeredCamera) {
+            return new Phaser.Math.Vector2(-mapX, -mapY);
+        } else {
+            return new Phaser.Math.Vector2(0, 0);
+        }
     }
 
     export function setSize(w : number, h : number) {
@@ -91,19 +108,27 @@ export module Camera {
             width = camera.width;
             camera.height = h;
             height = camera.height;
-            centerCamera();
+            setCameraPos();
         }
     }
 
-    function centerCamera() {
-        if(cameraMode == ECameraMode.FREE) {
-            camera.centerOn(x, y);
-        } else {
+    function setCameraPos() {
+        if(cameraMode == ECameraMode.CENTERED) {
             let ship : Ship = GlobalDataService.getInstance().getPlayerShip();
-            x = ship.getPos().x;
-            y = ship.getPos().y;
-            camera.centerOn(x, y);
+            mapX = ship.getPos().x - camera.width / 2;
+            mapY = ship.getPos().y - camera.height / 2;
         }
+
+        if(mapX < 10000000 && mapX > -10000000 && mapY < 10000000 && mapY > -10000000) {
+            camera.scrollX = mapX;
+            camera.scrollY = mapY;
+            centeredCamera = false;
+        } else { //Camera is far away
+            centeredCamera = true;
+            camera.scrollX = 0;
+            camera.scrollY = 0;
+            camera.centerOn(0, 0);
+        }  
     }
 
     function zoom(zoom : number) {
@@ -141,5 +166,17 @@ export module Camera {
         globalDataService.setCameraZoom(currentZoom);
         globalDataService.setCameraWidth(width * currentZoom);
         globalDataService.setCameraHeight(height * currentZoom);  
+    }
+
+    export function getZoom() {
+        return currentZoom;
+    }
+
+    export function getDisplayPos() : Phaser.Math.Vector2 {
+        if(centeredCamera) {
+            return new Phaser.Math.Vector2(0, 0);
+        } else {
+            return getMapPos();
+        }
     }
 }

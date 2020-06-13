@@ -9,15 +9,15 @@ import { GameObjectHandler } from "../modules/GameObjectHandler";
 import { GameScene, EParticleManagerType} from "../scenes/GameScene";
 import { Utils } from "../../../shared/scripts/Utils";
 import { ObjectInterfaces } from "../../../shared/scripts/ObjectInterfaces";
+import { Graphics } from "../modules/graphics/Graphics";
 
 export class Ship extends RadarDetectable {
     
-    private shieldDamageParticleEmitter: Phaser.GameObjects.Particles.ParticleEmitter;
+    private armorDamageParticleEmitter: Graphics.ParticleEmitter;
+    private thrustParticleEmitter: Graphics.ParticleEmitter;
+    private shieldDamageParticleEmitter: Graphics.ParticleEmitter;
     private damageParticleTimer: number;
     private static DAMAGE_EFFECT_TIME: number = 10;
-
-    private armorDamageParticleEmitter: Phaser.GameObjects.Particles.ParticleEmitter;
-    private thrustParticleEmitter: Phaser.GameObjects.Particles.ParticleEmitter;
 
     private characterData : ICharacter;
     private shipModuleWrapper : ShipModuleWrapper;
@@ -39,7 +39,7 @@ export class Ship extends RadarDetectable {
         }
 
         //@ts-ignore
-        this.shieldDamageParticleEmitter = GameScene.getInstance().getParticleManager(EParticleManagerType.SHIELD_DAMAGE).createEmitter({
+        this.shieldDamageParticleEmitter = new Graphics.ParticleEmitter({
             x: 0,
             y: 0,
             lifespan: 100,
@@ -48,10 +48,10 @@ export class Ship extends RadarDetectable {
             scale: { start: 5, end: 5},
             quantity: 1,
             frequency: 10
-        });
+        }, EParticleManagerType.SHIELD_DAMAGE);
         
         //@ts-ignore
-        this.armorDamageParticleEmitter = GameScene.getInstance().getParticleManager(EParticleManagerType.ARMOR_DAMAGE).createEmitter({
+        this.armorDamageParticleEmitter = new Graphics.ParticleEmitter({
             x: 0,
             y: 0,
             lifespan: 100,
@@ -60,10 +60,10 @@ export class Ship extends RadarDetectable {
             scale: { start: 1, end: 1},
             quantity: 2,
             frequency: 10
-        });
+        }, EParticleManagerType.ARMOR_DAMAGE);
 
         //@ts-ignore
-        this.thrustParticleEmitter = GameScene.getInstance().getParticleManager(EParticleManagerType.THRUST).createEmitter({
+        this.thrustParticleEmitter = new Graphics.ParticleEmitter({
             x: 0,
             y: 0,
             lifespan: 3000,
@@ -73,7 +73,8 @@ export class Ship extends RadarDetectable {
             scale: { start: 3, end: 0.1},
             quantity: 1,
             frequency: 1
-        });
+        }, EParticleManagerType.THRUST);
+        
         this.thrustParticleEmitter.stop();
         this.armorDamageParticleEmitter.stop();
         this.shieldDamageParticleEmitter.stop();
@@ -117,8 +118,7 @@ export class Ship extends RadarDetectable {
                         let moduleToShowDamageOn : ObjectInterfaces.IShipModuleInstance = targetObject.getData().modules[Utils.getRandomNumber(0, targetModuleLength - 1)];
                         let x = targetObject.getGameObjectData().x + Utils.getRandomNumber(-100, 100) + moduleToShowDamageOn.x * 38;
                         let y = targetObject.getGameObjectData().y + Utils.getRandomNumber(-100, 100) + moduleToShowDamageOn.y * 38;
-                        this.shieldDamageParticleEmitter.x.onChange(x);
-                        this.shieldDamageParticleEmitter.y.onChange(y);
+                        this.shieldDamageParticleEmitter.setPos(x, y);
                         this.damageParticleTimer = Ship.DAMAGE_EFFECT_TIME;
                     }
                 } else {
@@ -128,8 +128,7 @@ export class Ship extends RadarDetectable {
                         let moduleToShowDamageOn : ObjectInterfaces.IShipModuleInstance = targetObject.getData().modules[Utils.getRandomNumber(0, targetModuleLenght - 1)];
                         let x = targetObject.getGameObjectData().x + moduleToShowDamageOn.x * 38;
                         let y = targetObject.getGameObjectData().y + moduleToShowDamageOn.y * 38;
-                        this.armorDamageParticleEmitter.x.onChange(x);
-                        this.armorDamageParticleEmitter.y.onChange(y);
+                        this.armorDamageParticleEmitter.setPos(x, y);
                         this.damageParticleTimer = Ship.DAMAGE_EFFECT_TIME;
                     }
                 }
@@ -144,9 +143,8 @@ export class Ship extends RadarDetectable {
             let oppositeVelVec = velVec.multiply(new Phaser.Math.Vector2(-1, -1)).add(pos);
 
             let angle = Phaser.Math.Angle.Between(pos.x, pos.y, oppositeVelVec.x, oppositeVelVec.y);
-            this.thrustParticleEmitter.x.onChange(pos.x);
-            this.thrustParticleEmitter.y.onChange(pos.y);
-            this.thrustParticleEmitter.angle.onChange(angle * Utils.ANGLE_TO_DEGREE);
+            this.thrustParticleEmitter.setPos(pos.x, pos.y);
+            this.thrustParticleEmitter.setAngle(angle * Utils.ANGLE_TO_DEGREE);
             this.thrustParticleEmitter.start();
         }
     }

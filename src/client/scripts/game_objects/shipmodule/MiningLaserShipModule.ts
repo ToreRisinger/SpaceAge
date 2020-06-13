@@ -1,22 +1,22 @@
 import { ShipModule } from "./ShipModule";
 import { Ship } from "../Ship";
-import { ObjectInterfaces } from "../../../../shared/scripts/ObjectInterfaces";
-import { GraphicsLine } from "../../modules/graphics/GraphicsLine";
+import { ObjectInterfaces } from "../../../../shared/scripts/ObjectInterfaces";;
 import { Colors } from "../../modules/colors/Colors";
 import { DRAW_LAYERS } from "../../constants/DRAW_LAYERS";
 import { GameObjectHandler } from "../../modules/GameObjectHandler";
 import { GameObject } from "../GameObject";
 import { ICharacter } from "../../../../shared/interfaces/ICharacter";
 import { Stats } from "../../../../shared/stats/Stats";
+import { Graphics } from "../../modules/graphics/Graphics";
 
 export class MiningLaserShipModule extends ShipModule {
 
-    private graphicsLine: GraphicsLine;
+    private graphicsLine: Graphics.Line;
 
     constructor(ship: Ship, _module: ObjectInterfaces.IShipModuleInstance, thisPlayerShip: boolean) {
         super(ship, _module, thisPlayerShip);
         let drawLayer = thisPlayerShip ? DRAW_LAYERS.THIS_PLAYER_SHIP_EFFECT_LAYER : DRAW_LAYERS.OTHER_SHIP_EFFECT_LAYER;
-        this.graphicsLine = new GraphicsLine(Colors.HEX.RED, 1.0, 2, drawLayer, false);
+        this.graphicsLine = new Graphics.Line(Colors.HEX.RED, 1.0, 2, drawLayer, false);
     }
 
     public update() {

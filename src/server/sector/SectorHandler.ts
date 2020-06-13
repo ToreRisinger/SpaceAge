@@ -133,6 +133,7 @@ export class SectorHandler {
 
     private createSectors() {
         this.location = map_config.location;
+
         for(let i = 0; i < map_config.sections.length; i++) {
             let sector = map_config.sections[i];
             if(sector.type == "asteroid-belt") {

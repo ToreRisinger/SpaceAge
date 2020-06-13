@@ -5,15 +5,16 @@ import { SPRITES } from "../../../shared/scripts/SPRITES";
 import { GameScene } from "../scenes/GameScene";
 import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
 import { RadarDetectable } from "../game_objects/RadarDetectable";
+import { Graphics } from "./graphics/Graphics";
 
 export module TargetHandler {
     
-    let targetIcon: Phaser.GameObjects.Sprite;
+    let targetIcon: Graphics.Sprite;
     let targetIconFadeInScale: number;
     let targetIconIsFadingIn: boolean;
 
     export function init() {
-        targetIcon = GameScene.getInstance().addSprite(0, 0, SPRITES.TARGET_ICON.sprite.key);
+        targetIcon = new Graphics.Sprite(SPRITES.TARGET_ICON.sprite, 0, 0);
         targetIcon.setDepth(DRAW_LAYERS.GRAPHICS_LAYER);
         targetIcon.setVisible(false);
         targetIconIsFadingIn = false;
@@ -29,8 +30,7 @@ export module TargetHandler {
         }
 
         if(targetObject != undefined) {
-            targetIcon.x = targetObject.getGameObjectData().x;
-            targetIcon.y = targetObject.getGameObjectData().y;
+            targetIcon.setPos(targetObject.getGameObjectData().x, targetObject.getGameObjectData().y)
             let cameraZoom = GlobalDataService.getInstance().getCameraZoom();
             if(targetIconIsFadingIn) {
                 targetIcon.setDisplaySize(SPRITES.TARGET_ICON.sprite.width * targetIconFadeInScale * cameraZoom, 

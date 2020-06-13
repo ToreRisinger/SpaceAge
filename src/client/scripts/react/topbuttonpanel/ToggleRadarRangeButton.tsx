@@ -1,5 +1,5 @@
 import React from "react";
-import { Graphics } from "../../modules/graphics/Graphics";
+import { GraphicsEffects } from "../../modules/graphics/GraphicEffects";
 
 export interface ToggleRadarRangeButtonState { selected: boolean }
 
@@ -14,7 +14,7 @@ export default class ToggleRadarRangeButton extends React.Component<{}, ToggleRa
    }
 
    onClick() {
-      Graphics.setShowRadarRange(!this.state.selected);
+      GraphicsEffects.setShowRadarRange(!this.state.selected);
       this.setState({
          selected : !this.state.selected
       })

@@ -1,5 +1,5 @@
 import React from "react";
-import { Graphics } from "../../modules/graphics/Graphics";
+import { GraphicsEffects } from "../../modules/graphics/GraphicEffects";
 
 export interface ToggleWeaponRangeButtonState { selected: boolean }
 
@@ -14,7 +14,7 @@ export default class ToggleWeaponRangeButton extends React.Component<{}, ToggleW
    }
 
    onClick() {
-      Graphics.setShowWeaponRange(!this.state.selected);
+      GraphicsEffects.setShowWeaponRange(!this.state.selected);
       this.setState({
          selected : !this.state.selected
       })

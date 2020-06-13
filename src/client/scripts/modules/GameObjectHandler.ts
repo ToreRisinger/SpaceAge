@@ -9,11 +9,14 @@ import { GlobalDataService } from "./GlobalDataService";
 import { ICharacter } from "../../../shared/interfaces/ICharacter";
 import { ISector } from "../../../shared/interfaces/ISector";
 import { SpaceStation } from "../game_objects/SpaceStation";
+import { Planet } from "../game_objects/Planet";
+import { MPlanet } from "./planet/MPlanet";
 
 export module GameObjectHandler {
 
     let thisShipId : number = -1;
     let gameObjects = new Map<number, GameObject>();
+    let planets = new Array<Planet>();
 
     export function init(character: ICharacter, sectors : Array<ISector>) {
         let newShip : Ship = new Ship(character, true, character.name);
@@ -25,6 +28,12 @@ export module GameObjectHandler {
         sectors.forEach((value: ISector, index: number, array: ISector[]) => {
             gameObjects.set(value.id, new Sector(value));
         });
+
+        MPlanet.getPlanets().forEach(planet => {
+            let newPlanet : MPlanet.IPlanet = planet;
+            newPlanet.x -= 224396806000;
+            planets.push(new Planet(newPlanet));
+        });
         
         subscribeToEvents();
     }
@@ -33,6 +42,10 @@ export module GameObjectHandler {
         gameObjects.forEach((object: GameObject, key: number) => {
             object.update();
         });
+
+        planets.forEach(planet => {
+            planet.update();
+        })
     }
 
     export function getGameObjects() : Array<GameObject> {

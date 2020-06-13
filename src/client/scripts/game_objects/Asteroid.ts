@@ -4,23 +4,24 @@ import { SPRITES } from "../../../shared/scripts/SPRITES";
 import { GameScene } from "../scenes/GameScene";
 import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
 import { Utils } from "../../../shared/scripts/Utils";
+import { Graphics } from "../modules/graphics/Graphics";
 
 export class Asteroid extends RadarDetectable {
 
     private asteroid_config : AsteroidData.IAsteroid;
-    private sprite : Phaser.GameObjects.Sprite;
+    private sprite : Graphics.Sprite;
 
     constructor(asteroid_config : AsteroidData.IAsteroid) {
         super(asteroid_config, SPRITES.ASTEROID_ICON.sprite, false, false);
         this.asteroid_config = asteroid_config;
-        this.sprite = GameScene.getInstance().addSprite(Math.floor(this.asteroid_config.x), Math.floor(this.asteroid_config.y), AsteroidData.getAsteroidInfo(this.asteroid_config.type).sprite.key);
+        this.sprite = new Graphics.Sprite(AsteroidData.getAsteroidInfo(this.asteroid_config.type).sprite, Math.floor(this.asteroid_config.x), Math.floor(this.asteroid_config.y));
         this.setupSprite();
     }
 
     public update() {
         super.update();
-        this.sprite.x = Math.floor(this.asteroid_config.x);
-        this.sprite.y = Math.floor(this.asteroid_config.y);
+        let pos = this.getPos();
+        this.sprite.setPos(pos.x, pos.y);
     }
 
     public destroy() {

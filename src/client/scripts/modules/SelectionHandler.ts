@@ -6,16 +6,16 @@ import { GameScene } from "../scenes/GameScene";
 import { SPRITES } from "../../../shared/scripts/SPRITES";
 import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
 import { RadarDetectable } from "../game_objects/RadarDetectable";
+import { Graphics } from "./graphics/Graphics";
 
 export module SelectionHandler {
 
-    //let targetIcon: Phaser.GameObjects.Sprite = GameScene.getInstance().addSprite(0, 0, SPRITES.TARGET_ICON.sprite.key);
-    let selectionIcon: Phaser.GameObjects.Sprite;
+    let selectionIcon: Graphics.Sprite;
     let selectIconFadeInScale: number;
     let selectIconIsFadingIn: boolean;
 
     export function init() {
-        selectionIcon = GameScene.getInstance().addSprite(0, 0, SPRITES.SELECTION_ICON.sprite.key);
+        selectionIcon = new Graphics.Sprite(SPRITES.SELECTION_ICON.sprite, 0, 0);
         selectionIcon.setDepth(DRAW_LAYERS.GRAPHICS_LAYER);
         selectionIcon.setVisible(false);
         selectIconIsFadingIn = false;
@@ -32,8 +32,7 @@ export module SelectionHandler {
         }
 
         if(selectedObject != undefined) {
-            selectionIcon.x = selectedObject.getGameObjectData().x;
-            selectionIcon.y = selectedObject.getGameObjectData().y;
+            selectionIcon.setPos(selectedObject.getGameObjectData().x, selectedObject.getGameObjectData().y);
             let cameraZoom = GlobalDataService.getInstance().getCameraZoom();
             if(selectIconIsFadingIn) {
                 selectionIcon.setDisplaySize(SPRITES.SELECTION_ICON.sprite.width * selectIconFadeInScale * cameraZoom, 

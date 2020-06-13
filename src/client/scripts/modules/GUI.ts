@@ -3,6 +3,7 @@ import { Events } from "../../../shared/scripts/Events";
 import { Utils } from "../../../shared/scripts/Utils";
 import { EventHandler } from "./EventHandler";
 import { GlobalDataService } from "./GlobalDataService";
+import { Camera } from "./Camera";
 
 export module GUI {
     export function init() {
@@ -23,7 +24,7 @@ export module GUI {
     function newDestination(x : number, y : number) {
         let globalData = GlobalDataService.getInstance();
         let newDestination : Phaser.Math.Vector2 = Utils.screenVecToMapVec(new Phaser.Math.Vector2(x * globalData.getCameraZoom(), y * globalData.getCameraZoom()),
-        globalData.getCameraX(), globalData.getCameraY(), globalData.getCameraWidth(), globalData.getCameraHeight());
+        Camera.getMapPos().x, Camera.getMapPos().y, globalData.getCameraWidth(), globalData.getCameraHeight());
         let event : Events.PLAYER_SET_NEW_DESTINATION_EVENT_CONFIG = {
             eventId : Events.EEventType.PLAYER_SET_NEW_DESTINATION_EVENT,
             data : { 

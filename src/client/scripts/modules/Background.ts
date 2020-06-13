@@ -5,6 +5,7 @@ import { EventHandler } from "./EventHandler";
 import { Events } from "../../../shared/scripts/Events";
 import { InputHandler } from "./InputHandler";
 import { GlobalDataService } from "./GlobalDataService";
+import { Camera } from "./Camera";
 
 export module Background {
 
@@ -21,8 +22,8 @@ export module Background {
     export function update(time : number, delta : number) {
         let globalDataService = GlobalDataService.getInstance();
         let newBackgroundSize = BACKRGOUND_SIZE * globalDataService.getCameraZoom();
-        spaceBackground.setX(globalDataService.getCameraX());
-        spaceBackground.setY(globalDataService.getCameraY());
+        spaceBackground.setX(Camera.getDisplayPos().x);
+        spaceBackground.setY(Camera.getDisplayPos().y);
         spaceBackground.setDisplaySize(newBackgroundSize, newBackgroundSize);
 
         if(backgroundClicked) {

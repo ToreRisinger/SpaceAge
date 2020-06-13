@@ -1,144 +1,208 @@
-import { GameScene } from "../../scenes/GameScene";
-import { Ship } from "../../game_objects/Ship";
-import { DRAW_LAYERS } from "../../constants/DRAW_LAYERS";
-import { GlobalDataService } from "../GlobalDataService";
-import { Stats } from "../../../../shared/stats/Stats";
-import { Colors } from "../colors/Colors";
-import { EventHandler } from "../EventHandler";
-import { Events } from "../../../../shared/scripts/Events";
-
+import { GameScene, EParticleManagerType } from "../../scenes/GameScene";
+import { Camera } from "../Camera";
+import { ISprite } from "../../../../shared/interfaces/ISprite";
 
 export module Graphics {
-
-    let line : Phaser.Geom.Line;
-    let circle : Phaser.Geom.Circle;
-
-    let destinationLineGraphics : Phaser.GameObjects.Graphics;
-    let destinationCircleGraphics : Phaser.GameObjects.Graphics;
-    let destinationGraphicsColor : number = 0x00FF00;
-
-    let destinationCircleGrapicsScale : number;
-
-    //Radar
-    let radarRangeCircleGraphics : Phaser.GameObjects.Graphics;
-    let radarRangeMaxCircleGraphics : Phaser.GameObjects.Graphics;
-    let radarRangeColor : number = 0xFFFFFF;
-
-    //Weapon
-    let weaponRangeCircleGraphics : Phaser.GameObjects.Graphics;
-    let weaponRangeColor : number = Colors.HEX.RED;
-
-    //Mining
-    let miningRangeCircleGraphics : Phaser.GameObjects.Graphics;
-    let miningRangeColor : number = Colors.HEX.YELLOW;
-
-    let showRadarRange : boolean = false;
-    let showMiningRange : boolean = false;
-    let showWeaponRange : boolean = false;
-
-    export function init() {
-        line = new Phaser.Geom.Line(0, 0, 0, 0);
-        circle = new Phaser.Geom.Circle(0, 0, 0);
-        destinationCircleGrapicsScale = 1;
-        createNewLineGraphics(GlobalDataService.getInstance().getCameraZoom());
-        subscribeToEvents();
-    }
-
-    export function update(time : number, delta : number) {
-        let cameraZoom = GlobalDataService.getInstance().getCameraZoom();
-
-        destinationLineGraphics.destroy();
-        destinationCircleGraphics.destroy();
-        
-        if(weaponRangeCircleGraphics != undefined) {
-            weaponRangeCircleGraphics.destroy();
-        }
-        
-        if(miningRangeCircleGraphics != undefined) {
-            miningRangeCircleGraphics.destroy();
-        }
-        
-        if(radarRangeCircleGraphics != undefined) {
-            radarRangeCircleGraphics.destroy();
-            radarRangeMaxCircleGraphics.destroy();
+    
+    export class Line {
+        private static line : Phaser.Geom.Line = new Phaser.Geom.Line(0, 0, 0, 0);
+        private lineGraphics: Phaser.GameObjects.Graphics | undefined;
+        private color: number;
+        private lineWidth: number;
+        private alpha: number;
+        private drawlayer: number;
+        private visible: boolean;
+        private startX: number;
+        private startY: number;
+        private endX: number;
+        private endY: number;
+    
+        constructor(color : number, alpha : number, lineWidth: number, drawlayer: number, visible: boolean) {
+            this.color = color;
+            this.lineWidth = lineWidth;
+            this.alpha = alpha;
+            this.drawlayer = drawlayer;
+            this.lineGraphics = undefined;
+            this.visible = visible;
+            this.startX = 0;
+            this.startY = 0;
+            this.endX = 0;
+            this.endY = 0;
         }
     
-        GameScene.getInstance()
-
-        createNewLineGraphics(cameraZoom);
-
-        let ship : Ship = GlobalDataService.getInstance().getPlayerShip();
-       
-        if(ship != undefined) {
-            let x = ship.getPos().x;
-            let y = ship.getPos().y;
-            if(ship.getIsMoving() && ship.getData().state.hasDestination) {
-                line.setTo(x, y, ship.getDestinationPos().x, ship.getDestinationPos().y);
-                destinationLineGraphics.strokeLineShape(line).setDepth(DRAW_LAYERS.DESTINATION_LINE_LAYER);
-
-                destinationCircleGrapicsScale -= 0.05; 
-                if(destinationCircleGrapicsScale < 1) {
-                    destinationCircleGrapicsScale = 1;
-                }
-
-                circle.setTo(ship.getDestinationPos().x, ship.getDestinationPos().y, 5 * cameraZoom * destinationCircleGrapicsScale);
-                destinationCircleGraphics.strokeCircleShape(circle).setDepth(DRAW_LAYERS.GRAPHICS_LAYER);
+        public update(): void {
+            if(this.lineGraphics != undefined) {
+                this.lineGraphics.destroy();
             }
-
-            if(showRadarRange) {
-                circle.setTo(x, y, ship.getData().stats[Stats.EStatType.radar_range]);
-                radarRangeCircleGraphics.strokeCircleShape(circle).setDepth(DRAW_LAYERS.GRAPHICS_LAYER);
-                circle.setTo(x, y, ship.getData().stats[Stats.EStatType.radar_range] * 10);
-                radarRangeMaxCircleGraphics.strokeCircleShape(circle).setDepth(DRAW_LAYERS.GRAPHICS_LAYER);
-            }
-
-            if(showMiningRange) {
-                circle.setTo(x, y, ship.getData().stats[Stats.EStatType.mining_laser_range]);
-                miningRangeCircleGraphics.strokeCircleShape(circle).setDepth(DRAW_LAYERS.GRAPHICS_LAYER);
-            }
-            
-            if(showWeaponRange) {
-                circle.setTo(x, y, ship.getData().stats[Stats.EStatType.weapon_range]);
-                weaponRangeCircleGraphics.strokeCircleShape(circle).setDepth(DRAW_LAYERS.GRAPHICS_LAYER);
-            }
-        }
-    }
-
-    function createNewLineGraphics(lineWidth : number) {
-        destinationLineGraphics = GameScene.getInstance().add.graphics({lineStyle : { width: lineWidth, color: destinationGraphicsColor, alpha: 0.5}});
-        destinationCircleGraphics = GameScene.getInstance().add.graphics({lineStyle : { width: lineWidth, color: destinationGraphicsColor, alpha: 0.5}});
-        
-        if(showRadarRange) {
-            radarRangeCircleGraphics = GameScene.getInstance().add.graphics({lineStyle : { width: lineWidth, color: radarRangeColor, alpha: 0.3}});
-            radarRangeMaxCircleGraphics = GameScene.getInstance().add.graphics({lineStyle : { width: lineWidth, color: radarRangeColor, alpha: 0.2}});
-        }
-       
-        if(showWeaponRange) {
-            weaponRangeCircleGraphics = GameScene.getInstance().add.graphics({lineStyle : { width: lineWidth, color: weaponRangeColor, alpha: 0.5}});
-        }
-        
-        if(showMiningRange) {
-            miningRangeCircleGraphics = GameScene.getInstance().add.graphics({lineStyle : { width: lineWidth, color: miningRangeColor, alpha: 0.5}});
-        }
-    }
-
-    export function setShowMiningRange(value: boolean) {
-        showMiningRange = value;
-    }
-
-    export function setShowWeaponRange(value: boolean) {
-        showWeaponRange = value;
-    }
-
-    export function setShowRadarRange(value: boolean) {
-        showRadarRange = value;
-    }
-
-    export function onNewDestination(event: Events.PLAYER_SET_NEW_DESTINATION_EVENT_CONFIG) {
-        destinationCircleGrapicsScale = 2;
-    }
     
-    export function subscribeToEvents() {
-        EventHandler.on(Events.EEventType.PLAYER_SET_NEW_DESTINATION_EVENT, onNewDestination);
+            if(this.visible) {
+                this.lineGraphics = GameScene.getInstance().add.graphics({lineStyle : { width: this.lineWidth, color: this.color, alpha: this.alpha}});
+                let cameraOffset = Camera.getCameraOffset();
+                Line.line.setTo(this.startX + cameraOffset.x, this.startY + cameraOffset.y, this.endX + cameraOffset.x, this.endY + cameraOffset.y);
+                this.lineGraphics.strokeLineShape(Line.line).setDepth(this.drawlayer);
+            }
+        }
+    
+        public setLineWidth(lineWidth: number) {
+            this.lineWidth = lineWidth;
+        }
+    
+        public setPos(startX: number, startY: number, endX: number, endY: number) {
+            this.startX = startX;
+            this.startY = startY;
+            this.endX = endX;
+            this.endY = endY;
+        }
+    
+        public setVisible(value: boolean): void {
+            this.visible = value;
+        }
+    }
+
+    export class Circle {
+        private static circle: Phaser.Geom.Circle = new Phaser.Geom.Circle(0, 0, 0);
+        private circleGraphics: Phaser.GameObjects.Graphics | undefined;
+        private color: number;
+        private lineWidth: number;
+        private alpha: number;
+        private drawlayer: number;
+        private visible: boolean;
+        private x: number;
+        private y: number;
+        private radius: number;
+        private radiusScale: number;
+        private scaleWithZoom: boolean;
+
+        constructor(color : number, alpha : number, lineWidth: number, drawlayer: number, visible: boolean, radius: number, radiusScale: number, scaleWithZoom: boolean) {
+            this.color = color;
+            this.lineWidth = lineWidth;
+            this.alpha = alpha;
+            this.drawlayer = drawlayer;
+            this.circleGraphics = undefined;
+            this.visible = visible;
+            this.x = 0;
+            this.y = 0;
+            this.radius = radius;
+            this.radiusScale = radiusScale;
+            this.scaleWithZoom = scaleWithZoom;
+        }
+
+        public update() {
+            if(this.circleGraphics != undefined) {
+                this.circleGraphics.destroy();
+            }
+    
+            if(this.visible) {
+                this.circleGraphics = GameScene.getInstance().add.graphics({lineStyle : { width: this.lineWidth, color: this.color, alpha: this.alpha}});
+                let cameraOffset = Camera.getCameraOffset();
+                let cameraScale = this.scaleWithZoom ? Camera.getZoom() : 1;
+                Circle.circle.setTo(this.x + cameraOffset.x, this.y + cameraOffset.y, this.radius * this.radiusScale * cameraScale);
+                this.circleGraphics.strokeCircleShape(Circle.circle).setDepth(this.drawlayer);
+            }
+        }
+
+        public setLineWidth(lineWidth: number) {
+            this.lineWidth = lineWidth;
+        }
+    
+        public setPos(x: number, y: number) {
+            this.x = x;
+            this.y = y;
+        }
+    
+        public setVisible(value: boolean): void {
+            this.visible = value;
+        }
+
+        public setRadiusScale(scale: number) {
+            this.radiusScale = scale;
+        }
+
+        public setRadius(radius: number) {
+            this.radius = radius;
+        }
+    }
+
+    export class ParticleEmitter {
+
+        private emitter: Phaser.GameObjects.Particles.ParticleEmitter;
+
+        constructor(config: ParticleEmitterConfig, particleType: EParticleManagerType) {
+            //@ts-ignore
+            this.emitter = GameScene.getInstance().getParticleManager(particleType).createEmitter(config);
+        }
+
+        public stop() {
+            this.emitter.stop();
+        }
+
+        public start() {
+            this.emitter.start();
+        }
+
+        public setPos(x: number, y: number) {
+            let cameraOffset = Camera.getCameraOffset();
+            this.emitter.setPosition(x + cameraOffset.x, y + cameraOffset.y);
+        }
+
+        public setAngle(angle: number) {
+            this.emitter.angle.onChange(angle);
+        }
+
+        public follow(sprite: Sprite) {
+            this.emitter.startFollow(sprite.getSprite());
+        }
+    }
+
+    export class Sprite {
+
+        private sprite: Phaser.GameObjects.Sprite;
+    
+        constructor(sprite : ISprite, x: number, y: number) {
+            this.sprite = GameScene.getInstance().addSprite(x, y, sprite.key);
+        }
+    
+        public setAlpha(alpha: number): void {
+            this.sprite.alpha = alpha;
+        }
+    
+        public setInteractive(): void {
+            this.sprite.setInteractive();
+        }
+    
+        public setDepth(depth: number) {
+            this.sprite.setDepth(depth);
+        }
+    
+        public on(event: string | symbol, fn: Function, context?: any): Phaser.Events.EventEmitter {
+            return this.sprite.on(event, fn);
+        }
+    
+        public destroy(): void {
+            this.sprite.destroy();
+        }
+    
+        public setTint(tint: number): void {
+            this.sprite.tint = tint;
+        }
+    
+        public setDisplaySize(width: number, height: number) : this {
+            this.sprite.setDisplaySize(width, height);
+            return this;
+        }
+    
+        public setPos(x: number, y: number): void {
+            let cameraOffset = Camera.getCameraOffset();
+            this.sprite.x = x + cameraOffset.x;
+            this.sprite.y = y + cameraOffset.y;
+        }
+    
+        public setVisible(visible: boolean): void {
+            this.sprite.setVisible(visible);
+        }
+
+        public getSprite() : Phaser.GameObjects.Sprite {
+            return this.sprite;
+        }
     }
 }

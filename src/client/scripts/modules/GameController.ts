@@ -7,7 +7,7 @@ import { InputHandler } from "./InputHandler";
 import { GameObjectHandler } from "./GameObjectHandler";
 import { Chat } from "./Chat";
 import { Camera } from "./Camera";
-import { Graphics } from "./graphics/Graphics";
+import { GraphicsEffects } from "./graphics/GraphicEffects";
 import { Com } from "./Com";
 import { GUI } from "./GUI";
 import { Events } from "../../../shared/scripts/Events";
@@ -51,7 +51,7 @@ export class GameController {
         InputHandler.init();
         Chat.init(); 
         Camera.init();
-        Graphics.init();
+        GraphicsEffects.init();
         GUI.init();
     }
 
@@ -88,7 +88,7 @@ export class GameController {
         Camera.update(time, delta);
         GameObjectHandler.update(time, delta);   
         Background.update(time, delta);
-        Graphics.update(time, delta);
+        GraphicsEffects.update(time, delta);
         GUI.update(time, delta);
         Chat.update(time, delta);
     }

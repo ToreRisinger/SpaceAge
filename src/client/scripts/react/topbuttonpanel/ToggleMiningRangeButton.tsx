@@ -1,5 +1,5 @@
 import React from "react";
-import { Graphics } from "../../modules/graphics/Graphics";
+import { GraphicsEffects } from "../../modules/graphics/GraphicEffects";
 
 export interface ToggleMiningRangeButtonState { selected: boolean }
 
@@ -14,7 +14,7 @@ export default class ToggleMiningRangeButton extends React.Component<{}, ToggleM
    }
 
    onClick() {
-      Graphics.setShowMiningRange(!this.state.selected);
+      GraphicsEffects.setShowMiningRange(!this.state.selected);
       this.setState({
          selected : !this.state.selected
       })

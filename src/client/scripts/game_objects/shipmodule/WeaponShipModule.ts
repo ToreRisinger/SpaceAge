@@ -7,10 +7,11 @@ import { Stats } from "../../../../shared/stats/Stats";
 import { GameScene, EParticleManagerType } from "../../scenes/GameScene";
 import { GameObjectHandler } from "../../modules/GameObjectHandler";
 import { Utils } from "../../../../shared/scripts/Utils";
+import { Graphics } from "../../modules/graphics/Graphics";
 
 export class WeaponShipModule extends ShipModule {
 
-    private bulletEmitter: Phaser.GameObjects.Particles.ParticleEmitter;
+    private bulletEmitter: Graphics.ParticleEmitter;
     private weaponParticleRandomizer: number;
     private weaponParticleRandomizerTimer: number;
     private weaponParticleRandomizerDirection: boolean;
@@ -18,7 +19,7 @@ export class WeaponShipModule extends ShipModule {
     constructor(ship: Ship, _module: ObjectInterfaces.IShipModuleInstance, thisPlayerShip: boolean) {
         super(ship, _module, thisPlayerShip);
         //@ts-ignore
-        this.bulletEmitter = GameScene.getInstance().getParticleManager(EParticleManagerType.SMALL_BULLET).createEmitter({
+        this.bulletEmitter = new Graphics.ParticleEmitter({
             x: 0,
             y: 0,
             lifespan: 300, //TODO change so this depend on distance between ships
@@ -28,11 +29,12 @@ export class WeaponShipModule extends ShipModule {
             scale: { start: 2, end: 0.5},
             quantity: 1,
             frequency: 50
-        });  
+        }, EParticleManagerType.SMALL_BULLET);
         this.weaponParticleRandomizer = 0;
         this.weaponParticleRandomizerTimer = 0;
         this.weaponParticleRandomizerDirection = true;
         this.bulletEmitter.stop();
+        this.bulletEmitter.follow(this.getSprite());
     }
 
 
@@ -57,11 +59,9 @@ export class WeaponShipModule extends ShipModule {
             }
             this.weaponParticleRandomizerTimer -= 1;
             let angle = Phaser.Math.Angle.Between(this.getCalculatedModuleX(), this.getCalculatedModuleY(), targetObject.getGameObjectData().x, targetObject.getGameObjectData().y)
-            this.bulletEmitter.angle.onChange(angle * this.weaponParticleRandomizer);
+            this.bulletEmitter.setAngle(angle * this.weaponParticleRandomizer);
             this.bulletEmitter.start();
         }
-        
-        this.bulletEmitter.startFollow(this.getSprite());
     }
 
     private targetInRange(target : GameObject, shipData : ICharacter): boolean {

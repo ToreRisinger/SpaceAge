@@ -1,7 +1,6 @@
 import { ObjectInterfaces } from "../../../shared/scripts/ObjectInterfaces";
 import { Events } from "../../../shared/scripts/Events";
 import { EventHandler } from "../modules/EventHandler";
-import { GameScene } from "../scenes/GameScene";
 import { SPRITES } from "../../../shared/scripts/SPRITES";
 import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
 import { GameObject } from "./GameObject";
@@ -9,10 +8,11 @@ import { GlobalDataService } from "../modules/GlobalDataService";
 import { ISprite } from "../../../shared/interfaces/ISprite";
 import { Stats } from "../../../shared/stats/Stats";
 import { ICharacter } from "../../../shared/interfaces/ICharacter";
+import { Graphics } from "../modules/graphics/Graphics";
 
 export abstract class RadarDetectable extends GameObject {
 
-    private iconSprite : Phaser.GameObjects.Sprite;
+    private iconSprite : Graphics.Sprite;
     private isHoverVar : boolean;
     private ICON_ALPHA_DEFAULT : number = 0.5;
     private ICON_ALPHA_HOVER : number = 1;
@@ -34,8 +34,8 @@ export abstract class RadarDetectable extends GameObject {
         this.distanceToPlayerShip = 0;
 
         this.icon = iconSprite;
-        this.iconSprite = GameScene.getInstance().addSprite(this.getPos().x, this.getPos().y, this.icon.key);
-        this.iconSprite.alpha = this.ICON_ALPHA_DEFAULT;
+        this.iconSprite = new Graphics.Sprite(this.icon, this.getPos().x, this.getPos().y);
+        this.iconSprite.setAlpha(this.ICON_ALPHA_DEFAULT);
         this.iconSprite.setInteractive();
         this.iconSprite.setDepth(DRAW_LAYERS.GRAPHICS_LAYER);
         this.isHoverVar = false;
@@ -130,7 +130,7 @@ export abstract class RadarDetectable extends GameObject {
     }
 
     protected setIconTint(color : number) {
-        this.iconSprite.tint = color;
+        this.iconSprite.setTint(color);
     }
 
     protected setIconBaseColor(color : number) {
@@ -169,17 +169,16 @@ export abstract class RadarDetectable extends GameObject {
 
     private calculateIconAlpha() {
         if(this.isSelected() || this.isHover() || this.isTarget()) {
-            this.iconSprite.alpha = this.ICON_ALPHA_HOVER;
+            this.iconSprite.setAlpha(this.ICON_ALPHA_HOVER);
         } else {
-            this.iconSprite.alpha = this.ICON_ALPHA_DEFAULT;
+            this.iconSprite.setAlpha(this.ICON_ALPHA_DEFAULT);
         }
     }
 
     private calculateIconSizeAndPos() {
         let cameraZoom = GlobalDataService.getInstance().getCameraZoom();
         this.iconSprite.setDisplaySize(SPRITES.SHIP_ICON.sprite.width * cameraZoom, SPRITES.SHIP_ICON.sprite.height * cameraZoom);
-        this.iconSprite.x = this.getPos().x;
-        this.iconSprite.y = this.getPos().y;
+        this.iconSprite.setPos(this.getPos().x, this.getPos().y);
     }
 
     private setVisibleOrInvisible() {

@@ -1,14 +1,14 @@
 import { Ship } from "../Ship";
-import { GameScene } from "../../scenes/GameScene";
 import { ObjectInterfaces } from "../../../../shared/scripts/ObjectInterfaces";
 import { ShipModules } from "../../../../shared/scripts/ShipModules";
 import { DRAW_LAYERS } from "../../constants/DRAW_LAYERS";
+import { Graphics } from "../../modules/graphics/Graphics";
 
 export class ShipModule {
 
     private static MODULE_SPRITE_SIZE = 38;
 
-    private sprite : Phaser.GameObjects.Sprite;
+    private sprite : Graphics.Sprite;
     private ship: Ship;
     private module: ObjectInterfaces.IShipModuleInstance;
     private thisPlayerShip: boolean;
@@ -17,7 +17,7 @@ export class ShipModule {
         this.thisPlayerShip = thisPlayerShip;
         this.ship = ship;
         this.module = _module;
-        this.sprite = GameScene.getInstance().addSprite(this.getCalculatedModuleX(), this.getCalculatedModuleY(), ShipModules.getModuleInfo(this.module.moduleItem.itemType).sprite.key);
+        this.sprite = new Graphics.Sprite( ShipModules.getModuleInfo(this.module.moduleItem.itemType).sprite, this.getCalculatedModuleX(), this.getCalculatedModuleY());
         this.setupSprite();
     }
 
@@ -25,16 +25,8 @@ export class ShipModule {
         this.updateSpriteLocation();
     }
 
-    public rotate(radians: number): void {
-        let shipPos : Phaser.Math.Vector2 = new Phaser.Math.Vector2(this.ship.getGameObjectData().x, this.ship.getGameObjectData().y);
-        let thisModulePos : Phaser.Math.Vector2 = new Phaser.Math.Vector2(this.sprite.x, this.sprite.y);
-        Phaser.Math.RotateAroundDistance(this.sprite, shipPos.x, shipPos.y, radians, shipPos.subtract(thisModulePos).length());
-        this.sprite.rotation = radians;
-    }
-
     private updateSpriteLocation() {
-        this.sprite.x = this.getCalculatedModuleX();
-        this.sprite.y = this.getCalculatedModuleY();
+        this.sprite.setPos(this.getCalculatedModuleX(), this.getCalculatedModuleY());
     }
 
     protected getCalculatedModuleX() {
@@ -76,7 +68,7 @@ export class ShipModule {
         return this.ship;
     }
 
-    protected getSprite(): Phaser.GameObjects.Sprite {
+    protected getSprite(): Graphics.Sprite {
         return this.sprite;
     }
 

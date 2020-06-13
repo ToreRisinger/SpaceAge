@@ -94,22 +94,22 @@ export module Events {
     }
 
     export interface SERVER_LOGIN_ACK extends GameEvent {
-        data : {
-            characters : Array<ICharacter>
+        data: {
+            characters: Array<ICharacter>
         }
     }
 
     export interface CLIENT_JOIN_REQ extends GameEvent {
-        data : {
-            character : ICharacter
+        data: {
+            character: ICharacter
         }
     }
 
     export interface SERVER_JOIN_ACK extends GameEvent {
-        data : {
-            character : ICharacter,
-            sectors : Array<ISector>,
-            clientSectorId : number
+        data: {
+            character: ICharacter,
+            sectors: Array<ISector>,
+            clientSectorId: number
         }
     }
 
