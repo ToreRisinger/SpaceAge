@@ -44,6 +44,7 @@ export class GameController {
         let playerShip : Ship = GameObjectHandler.getPlayerShip();
         GlobalDataService.createInstance(character, playerShip, sector);
 
+        GameObjectHandler.init2();
         AbilityHandler.init();
         SelectionHandler.init();
         TargetHandler.init();
@@ -81,11 +82,11 @@ export class GameController {
 
     private inSpaceUpdate(time : number, delta : number) {
         InputHandler.update(time, delta);
-        SelectionHandler.update(time, delta);
-        TargetHandler.update(time, delta);
         EventHandler.update(time, delta);
         AbilityHandler.update(time, delta);
         Camera.update(time, delta);
+        SelectionHandler.update(time, delta);
+        TargetHandler.update(time, delta);
         GameObjectHandler.update(time, delta);   
         Background.update(time, delta);
         GraphicsEffects.update(time, delta);

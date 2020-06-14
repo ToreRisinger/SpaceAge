@@ -4,6 +4,7 @@ import { Ship } from "../game_objects/Ship";
 
 import { Sector } from "../game_objects/Sector";
 import { ICharacter } from "../../../shared/interfaces/ICharacter";
+import { MPlanet } from "./planet/MPlanet";
 
 export class GlobalDataService {
 
@@ -13,6 +14,8 @@ export class GlobalDataService {
     private username : String;
     private playerShip : Ship;
     private sector : Sector;
+    
+    private planet: MPlanet.IPlanet;
 
     private selectedObject : RadarDetectable | undefined;
     private targetObject : RadarDetectable | undefined;
@@ -30,6 +33,8 @@ export class GlobalDataService {
         this.username = character.name;
         this.playerShip = playerShip;
         this.sector = sector;
+        //@ts-ignore
+        this.planet = MPlanet.getPlanets().find(obj => obj.name == "Mars");
     }
 
     static createInstance(character: ICharacter, playerShip : Ship, sector : Sector) {
@@ -119,5 +124,9 @@ export class GlobalDataService {
 
     public setCameraHeight(value : number) : void {
         this.cameraHeight = value;
+    }
+
+    public getThisPlanet() : MPlanet.IPlanet {
+        return this.planet;
     }
 }

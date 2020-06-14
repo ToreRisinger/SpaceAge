@@ -350,5 +350,21 @@ export const SPRITES = {
             width: 8,
             height: 8
         }
+    },
+
+
+    /*
+
+    PLANETS
+
+    */
+   MARS: {
+    animation : undefined,
+    sprite : {
+        key: "mars",
+        file: "astronomical_object/mars.png",
+        width: 822,
+        height: 816
     }
+},
 }

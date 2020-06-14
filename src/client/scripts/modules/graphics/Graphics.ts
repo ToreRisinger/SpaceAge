@@ -85,6 +85,9 @@ export module Graphics {
             this.radius = radius;
             this.radiusScale = radiusScale;
             this.scaleWithZoom = scaleWithZoom;
+            let cameraOffset = Camera.getCameraOffset();
+            let cameraScale = this.scaleWithZoom ? Camera.getZoom() : 1;
+            Circle.circle.setTo(this.x + cameraOffset.x, this.y + cameraOffset.y, this.radius * this.radiusScale * cameraScale);
         }
 
         public update() {
@@ -92,8 +95,9 @@ export module Graphics {
                 this.circleGraphics.destroy();
             }
     
-            if(this.visible) {
-                this.circleGraphics = GameScene.getInstance().add.graphics({lineStyle : { width: this.lineWidth, color: this.color, alpha: this.alpha}});
+            if(this.visible) {  
+                this.circleGraphics = GameScene.getInstance().add.graphics({lineStyle : { width: this.lineWidth * Camera.getZoom(), color: this.color, alpha: this.alpha}});
+                
                 let cameraOffset = Camera.getCameraOffset();
                 let cameraScale = this.scaleWithZoom ? Camera.getZoom() : 1;
                 Circle.circle.setTo(this.x + cameraOffset.x, this.y + cameraOffset.y, this.radius * this.radiusScale * cameraScale);
@@ -108,6 +112,10 @@ export module Graphics {
         public setPos(x: number, y: number) {
             this.x = x;
             this.y = y;
+        }
+
+        public getRandomPoint(value: number) {
+            return Circle.circle.getPoint(value);
         }
     
         public setVisible(value: boolean): void {
@@ -204,5 +212,11 @@ export module Graphics {
         public getSprite() : Phaser.GameObjects.Sprite {
             return this.sprite;
         }
+
+        public placeOnCircle(point: Phaser.Math.Vector2, distance: number, angle: number) {
+            let circle = new Phaser.Geom.Circle(point.x, point.y, distance);
+            Phaser.Actions.PlaceOnCircle(Array.of(this.sprite), circle, angle);
+        }
+        
     }
 }

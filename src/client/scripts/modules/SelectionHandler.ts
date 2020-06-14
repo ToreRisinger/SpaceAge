@@ -31,8 +31,7 @@ export module SelectionHandler {
             changeSelection(undefined);
         }
 
-        if(selectedObject != undefined) {
-            selectionIcon.setPos(selectedObject.getGameObjectData().x, selectedObject.getGameObjectData().y);
+        if(selectedObject != undefined) {    
             let cameraZoom = GlobalDataService.getInstance().getCameraZoom();
             if(selectIconIsFadingIn) {
                 selectionIcon.setDisplaySize(SPRITES.SELECTION_ICON.sprite.width * selectIconFadeInScale * cameraZoom, 
@@ -44,7 +43,7 @@ export module SelectionHandler {
             } else {
                 selectionIcon.setDisplaySize(SPRITES.SELECTION_ICON.sprite.width * cameraZoom, SPRITES.SELECTION_ICON.sprite.height * cameraZoom);
             }
-            
+            selectionIcon.setPos(selectedObject.getGameObjectData().x, selectedObject.getGameObjectData().y);
         }
 
         selectionIcon.setVisible(selectedObject != undefined);

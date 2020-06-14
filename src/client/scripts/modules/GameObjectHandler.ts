@@ -11,6 +11,7 @@ import { ISector } from "../../../shared/interfaces/ISector";
 import { SpaceStation } from "../game_objects/SpaceStation";
 import { Planet } from "../game_objects/Planet";
 import { MPlanet } from "./planet/MPlanet";
+import { Utils } from "../../../shared/scripts/Utils";
 
 export module GameObjectHandler {
 
@@ -29,13 +30,14 @@ export module GameObjectHandler {
             gameObjects.set(value.id, new Sector(value));
         });
 
+        subscribeToEvents();
+    }
+
+    export function init2() {
         MPlanet.getPlanets().forEach(planet => {
             let newPlanet : MPlanet.IPlanet = planet;
-            newPlanet.x -= 224396806000;
             planets.push(new Planet(newPlanet));
         });
-        
-        subscribeToEvents();
     }
 
     export function update(time : number, delta : number) {

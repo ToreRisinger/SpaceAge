@@ -60,7 +60,6 @@ export module GraphicsEffects {
         let y = ship.getPos().y;
         if(ship.getIsMoving() && ship.getData().state.hasDestination) {
             destinationLine.setLineWidth(cameraZoom);
-            destinationCircle.setLineWidth(cameraZoom);
 
             destinationLine.setPos(x, y, ship.getDestinationPos().x, ship.getDestinationPos().y);
             destinationCircle.setPos(ship.getDestinationPos().x, ship.getDestinationPos().y);
@@ -77,22 +76,18 @@ export module GraphicsEffects {
 
         if(showRadarRange) {
             radarRangeCircle.setPos(x, y);
-            radarRangeCircle.setLineWidth(cameraZoom);
             radarRangeCircle.setRadius(ship.getData().stats[Stats.EStatType.radar_range]);
             radarMaxRangeCircle.setPos(x, y);
-            radarMaxRangeCircle.setLineWidth(cameraZoom);
             radarMaxRangeCircle.setRadius(ship.getData().stats[Stats.EStatType.radar_range] * 10);
         }
 
         if(showMiningRange) {
            miningRangeCircle.setPos(x, y);
-           miningRangeCircle.setLineWidth(cameraZoom);
            miningRangeCircle.setRadius(ship.getData().stats[Stats.EStatType.mining_laser_range]);
         }
         
         if(showWeaponRange) {
            weaponRangeCircle.setPos(x, y);
-           weaponRangeCircle.setLineWidth(cameraZoom);
            weaponRangeCircle.setRadius(ship.getData().stats[Stats.EStatType.weapon_range]);
         }
 
