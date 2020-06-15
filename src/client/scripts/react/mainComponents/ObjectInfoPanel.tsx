@@ -16,7 +16,7 @@ export default class ObjectInfoPanel extends React.Component<ObjectInfoPanelProp
    }
 
    render() {
-         let fields : Array<string> = this.getSelectionContainerFields(this.props.object);
+         let fields : Array<string> = this.props.object == undefined ? new Array() : this.props.object.getDisplayInformation();
          let description : string | undefined = this.getSelectedObjectDescription(this.props.object);
 
          return (
@@ -26,6 +26,7 @@ export default class ObjectInfoPanel extends React.Component<ObjectInfoPanelProp
          );
    }
 
+   /*
    getSelectionContainerFields(selectedObject : GameObject | undefined) : Array<string> {
       let ret : Array<string> = new Array<string>();
       if(selectedObject instanceof Ship) {
@@ -43,6 +44,7 @@ export default class ObjectInfoPanel extends React.Component<ObjectInfoPanelProp
       }
       return ret;
    }
+   */
 
    getSelectedObjectDescription(selectedObject : GameObject | undefined) : string | undefined {
       if(selectedObject instanceof Asteroid) {

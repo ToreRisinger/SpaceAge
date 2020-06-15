@@ -20,8 +20,8 @@ export class Asteroid extends RadarDetectable {
 
     public update() {
         super.update();
-        let pos = this.getPos();
-        this.sprite.setPos(pos.x, pos.y);
+        //let pos = this.getPos();
+        this.sprite.update();
     }
 
     public destroy() {
@@ -40,6 +40,16 @@ export class Asteroid extends RadarDetectable {
 
     public getDisplayName() : string {
         return AsteroidData.getAsteroidInfo(this.asteroid_config.type).name;
+    }
+
+    public getDisplayInformation() : Array<string> {
+        let asteroidInfo = AsteroidData.getAsteroidInfo(this.asteroid_config.type);
+        return new Array<string>(
+                "Hardness: " + this.asteroid_config.hardness, 
+                "Mineral:  " + asteroidInfo.mineral,
+                "Size:   " + Math.round(this.asteroid_config.size) + " m²",
+                "Mass:   " + Math.round(this.asteroid_config.size * asteroidInfo.massPerM2) + " kg",
+            );
     }
 
     protected getRadarMass() : number {

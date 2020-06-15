@@ -8,14 +8,8 @@
         {
             "x": 0,
             "y": 0,
-            "type": "asteroid-belt",
-            "name": "Mars belt I",
-            "asteroid-type": "gold",
-            "asteroid-hardness": 1,
-            "asteroid-generation-rate": 5,
-            "asteroid-min-size": 100,
-            "asteroid-max-size": 1000,
-            "max-number-of-asteroids": 20
+            "type": "space-station",
+            "name": "Mars Station I"
         },
         {
             "x": 1,
@@ -80,8 +74,15 @@
         {
             "x": -3,
             "y": 3,
-            "type": "space-station",
-            "name": "Mars Station I"
+            "type": "asteroid-belt",
+            "name": "Mars belt I",
+            "asteroid-type": "gold",
+            "asteroid-hardness": 1,
+            "asteroid-generation-rate": 5,
+            "asteroid-min-size": 100,
+            "asteroid-max-size": 1000,
+            "max-number-of-asteroids": 20
         }
+        
     ]
 }

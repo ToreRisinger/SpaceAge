@@ -146,6 +146,9 @@ export module GameObjectHandler {
             for(let i = 0; i < objectsToRemove.length; i++) {
                 destroyGameObject(objectsToRemove[i].getGameObjectData().id);
             }
+            planets.forEach(planet => {
+                planet.onSectorChanged(newSectorX, newSectorY);
+            })
         }  
     }
 

@@ -23,6 +23,7 @@ export class ShipModule {
 
     public update() {
         this.updateSpriteLocation();
+        this.sprite.update();
     }
 
     private updateSpriteLocation() {

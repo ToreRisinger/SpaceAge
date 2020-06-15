@@ -80,6 +80,8 @@ export abstract class RadarDetectable extends GameObject {
                 this.setIconTint(this.isTarget() ? 0xff0000 : this.baseColor);
             }
         }
+
+        this.iconSprite.update();
     }
 
     public destroy() {
@@ -128,6 +130,8 @@ export abstract class RadarDetectable extends GameObject {
     public isHover() : boolean {
         return this.isHoverVar;
     }
+
+    public abstract getDisplayInformation() : Array<string>;
 
     protected setIconTint(color : number) {
         this.iconSprite.setTint(color);

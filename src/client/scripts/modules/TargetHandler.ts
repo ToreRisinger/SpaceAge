@@ -42,6 +42,7 @@ export module TargetHandler {
             } else {
                 targetIcon.setDisplaySize(SPRITES.TARGET_ICON.sprite.width * cameraZoom, SPRITES.TARGET_ICON.sprite.height * cameraZoom);
             }
+            targetIcon.update();
         }
 
         targetIcon.setVisible(targetObject != undefined);

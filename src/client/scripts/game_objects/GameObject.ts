@@ -14,6 +14,11 @@ export class GameObject {
         return new Phaser.Math.Vector2(this.game_object_config.x, this.game_object_config.y);
     }
 
+    public setPos(x: number, y: number) {
+        this.game_object_config.x = x;
+        this.game_object_config.y = y;
+    }
+
     public update() {
         
     }

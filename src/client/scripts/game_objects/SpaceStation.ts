@@ -3,32 +3,36 @@ import { ISpaceStation } from "../../../shared/interfaces/ISpaceStation";
 import { SPRITES } from "../../../shared/scripts/SPRITES";
 import { GameScene } from "../scenes/GameScene";
 import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
+import { Graphics } from "../modules/graphics/Graphics";
 
 export class SpaceStation extends RadarDetectable {
     
     private spaceStationData: ISpaceStation;
-    private spaceStationSprite: Phaser.GameObjects.Sprite;
-    private spaceStationRadarSprite: Phaser.GameObjects.Sprite;
+    private spaceStationSprite: Graphics.Sprite;
+    private spaceStationRadarSprite: Graphics.Sprite;
     private spaceStationSpriteRotation: number;
     private spaceStationRadarSpriteRotation: number;
+    private displayInformation: Array<string>;
 
     constructor(spaceStationData: ISpaceStation) {
         super(spaceStationData, SPRITES.SPACE_STATION_ICON.sprite, false, true);
         this.spaceStationData = spaceStationData;
-        this.spaceStationSprite = GameScene.getInstance().addSprite(Math.floor(this.spaceStationData.x), Math.floor(this.spaceStationData.y), SPRITES.SPACE_STATION.sprite.key);
-        this.spaceStationRadarSprite = GameScene.getInstance().addSprite(Math.floor(this.spaceStationData.x + 400), Math.floor(this.spaceStationData.y + 400), SPRITES.SPACE_STATION_RADAR.sprite.key);
+        this.spaceStationSprite = new Graphics.Sprite(SPRITES.SPACE_STATION.sprite, Math.floor(this.spaceStationData.x), Math.floor(this.spaceStationData.y));
+        this.spaceStationRadarSprite = new Graphics.Sprite(SPRITES.SPACE_STATION_RADAR.sprite, Math.floor(this.spaceStationData.x + 400), Math.floor(this.spaceStationData.y + 400));
         this.setupSprite();
         this.spaceStationSpriteRotation = 0;
         this.spaceStationRadarSpriteRotation = 0;
+        this.displayInformation = new Array();
     }
 
     public update() {
         super.update();
         this.spaceStationSprite.setRotation(this.spaceStationSpriteRotation);
         this.spaceStationSpriteRotation += 0.0005;
-
         this.spaceStationRadarSprite.setRotation(this.spaceStationRadarSpriteRotation);
         this.spaceStationRadarSpriteRotation += 0.015;
+        this.spaceStationSprite.update();
+        this.spaceStationRadarSprite.update(); 
     }
 
     protected getRadarMass(): number {
@@ -47,6 +51,10 @@ export class SpaceStation extends RadarDetectable {
         this.spaceStationSprite.destroy();
         this.spaceStationRadarSprite.destroy();
         super.destroy();
+    }
+
+    public getDisplayInformation() : Array<string> {
+        return this.displayInformation;
     }
 
     private setupSprite() {

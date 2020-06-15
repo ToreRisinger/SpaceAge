@@ -4,3 +4,8 @@ export interface ISprite {
     width: number,
     height: number
 }
+
+export interface ISpriteAnimation {
+    animation: number | undefined,
+    sprite : ISprite
+}

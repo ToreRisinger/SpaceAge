@@ -11,46 +11,43 @@ export class Planet extends RadarDetectable {
 
     private planetData: MPlanet.IPlanet;
     private sprite : Graphics.Sprite;
-    private pos: Phaser.Math.Vector2;
-    private angle: number;
-    private distance: number;
     private planetOrbit : Graphics.Circle;
+    private mapPos: Phaser.Math.Vector2;
+    private orbitMapPos: Phaser.Math.Vector2;
+
+    private displayInformation: Array<string>;
     
     constructor(planetData: MPlanet.IPlanet) {
-        super(planetData, SPRITES.SHIP_ICON.sprite, false, true);
+        super(planetData, SPRITES.PLANET_ICON.sprite, false, true);
+        this.planetData = planetData;
+
         let thisPlanet = GlobalDataService.getInstance().getThisPlanet();
         let thisPlanetDistance = thisPlanet.distanceFromSun;
-        this.planetOrbit = new Graphics.Circle(Colors.HEX.WHITE, 0.5, 1, DRAW_LAYERS.GRAPHICS_LAYER, true, planetData.distanceFromSun, 1, false);
-        this.planetOrbit.setPos(-thisPlanetDistance, 0);
-        this.planetData = planetData;
-        this.distance = this.planetData.distanceFromSun;
-        this.angle = 6.28 * (Utils.getRandomNumber(1, 100) / 100); //2pi
-        if(planetData.name == thisPlanet.name) {
-            this.pos = new Phaser.Math.Vector2(0, 0);
-            this.planetOrbit.setVisible(false);
-        } else {
-            let random = Utils.getRandomNumber(0, 100) / 100;
-            let point = this.planetOrbit.getRandomPoint(random);
-            this.pos = new Phaser.Math.Vector2(point.x, point.y);
-            
-            this.pos.x -= thisPlanetDistance;
+        this.planetOrbit = new Graphics.Circle(Colors.HEX.WHITE, 0.5, 1, DRAW_LAYERS.FOREGROUND_LAYER_1, true, planetData.distanceFromSun, 1, false);
+        let point = new Phaser.Geom.Point(0, 0);
+        if(planetData.name != thisPlanet.name) {
+            point = this.planetOrbit.getRandomPoint(Utils.getRandomNumber(0, 100) / 100);
+            point.x -= thisPlanetDistance;
         }
+        let randomX = Utils.getRandomNumber(-5000, 5000);
+        let randomY = Utils.getRandomNumber(-5000, 5000);
+        this.setPos(point.x + randomX, point.y + randomY);
+        this.planetOrbit.setPos(-thisPlanetDistance + randomX, randomY);
 
-        this.planetData.x = this.pos.x;
-        this.planetData.y = this.pos.y;
-        this.updateDataObjectConfig(this.planetData);
-
-        this.sprite = new Graphics.Sprite(SPRITES.MARS.sprite, this.pos.x, this.pos.y);
-        this.sprite.setDepth(DRAW_LAYERS.FOREGROUND_LAYER);
+        this.sprite = new Graphics.Sprite(planetData.sprite.sprite, this.getPos().x, this.getPos().y);
+        this.sprite.setDepth(DRAW_LAYERS.FOREGROUND_LAYER_2);
         this.sprite.setDisplaySize(planetData.diameter / 1000, planetData.diameter / 1000);
+        this.mapPos = new Phaser.Math.Vector2(this.getPos().x, this.getPos().y);
+        this.orbitMapPos = new Phaser.Math.Vector2(this.planetOrbit.getPos().x, this.planetOrbit.getPos().y);
+
+        this.displayInformation = new Array(
+            "Diameter: " + Utils.formatMeters(this.planetData.diameter), "Mass: " + this.planetData.mass);
     }
 
     public update() {
         super.update();
-        this.sprite.setPos(this.pos.x, this.pos.y);
-        this.planetOrbit.setVisible(true);
+        this.sprite.update();
         this.planetOrbit.update();
-
     }
 
     protected getRadarMass(): number {
@@ -63,5 +60,15 @@ export class Planet extends RadarDetectable {
 
     public getDisplayName(): string {
         return this.planetData.name;
+    }
+
+    public onSectorChanged(newSectorX : number, newSectorY : number) {
+        this.setPos(this.mapPos.x - newSectorX, this.mapPos.y - newSectorY);
+        this.sprite.setPos(this.mapPos.x - newSectorX, this.mapPos.y - newSectorY);
+        this.planetOrbit.setPos(this.orbitMapPos.x - newSectorX, this.orbitMapPos.y - newSectorY)
+    }
+
+    public getDisplayInformation() : Array<string> {
+        return this.displayInformation;
     }
 }

@@ -114,6 +114,10 @@ export module Graphics {
             this.y = y;
         }
 
+        public getPos() {
+            return new Phaser.Math.Vector2(this.x, this.y);
+        }
+
         public getRandomPoint(value: number) {
             return Circle.circle.getPoint(value);
         }
@@ -134,10 +138,19 @@ export module Graphics {
     export class ParticleEmitter {
 
         private emitter: Phaser.GameObjects.Particles.ParticleEmitter;
+        private x: number;
+        private y: number;
 
         constructor(config: ParticleEmitterConfig, particleType: EParticleManagerType) {
             //@ts-ignore
             this.emitter = GameScene.getInstance().getParticleManager(particleType).createEmitter(config);
+            this.x = 0;
+            this.y = 0;
+        }
+
+        public update() {
+            let cameraOffset = Camera.getCameraOffset();
+            this.emitter.setPosition(this.x + cameraOffset.x, this.y + cameraOffset.y);
         }
 
         public stop() {
@@ -149,8 +162,8 @@ export module Graphics {
         }
 
         public setPos(x: number, y: number) {
-            let cameraOffset = Camera.getCameraOffset();
-            this.emitter.setPosition(x + cameraOffset.x, y + cameraOffset.y);
+            this.x = x;
+            this.y = y;
         }
 
         public setAngle(angle: number) {
@@ -165,9 +178,19 @@ export module Graphics {
     export class Sprite {
 
         private sprite: Phaser.GameObjects.Sprite;
+        private x: number;
+        private y: number;
     
         constructor(sprite : ISprite, x: number, y: number) {
+            this.x = x;
+            this.y = y;
             this.sprite = GameScene.getInstance().addSprite(x, y, sprite.key);
+        }
+
+        public update() {
+            let cameraOffset = Camera.getCameraOffset();
+            this.sprite.x = this.x + cameraOffset.x;
+            this.sprite.y = this.y + cameraOffset.y;
         }
     
         public setAlpha(alpha: number): void {
@@ -193,6 +216,10 @@ export module Graphics {
         public setTint(tint: number): void {
             this.sprite.tint = tint;
         }
+
+        public setRotation(rotation: number) : void {
+            this.sprite.setRotation(rotation);
+        }
     
         public setDisplaySize(width: number, height: number) : this {
             this.sprite.setDisplaySize(width, height);
@@ -200,9 +227,13 @@ export module Graphics {
         }
     
         public setPos(x: number, y: number): void {
+            this.x = x;
+            this.y = y;
+            /*
             let cameraOffset = Camera.getCameraOffset();
             this.sprite.x = x + cameraOffset.x;
             this.sprite.y = y + cameraOffset.y;
+            */
         }
     
         public setVisible(visible: boolean): void {

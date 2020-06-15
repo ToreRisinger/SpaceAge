@@ -308,6 +308,15 @@ export const SPRITES = {
             height: 38
         }
     },
+    PLANET_ICON: {
+        animation : undefined,
+        sprite : {
+            key: "planet_icon",
+            file: "icons/planet_icon.png",
+            width: 38,
+            height: 38
+        }
+    },
 
     /*
 
@@ -355,16 +364,88 @@ export const SPRITES = {
 
     /*
 
-    PLANETS
+        PLANETS
 
     */
-   MARS: {
-    animation : undefined,
-    sprite : {
-        key: "mars",
-        file: "astronomical_object/mars.png",
-        width: 822,
-        height: 816
-    }
-},
+    SUN: {
+        animation : undefined,
+        sprite : {
+            key: "mercery",
+            file: "astronomical_object/mercery.png",
+            width: 2000,
+            height: 2000
+        },
+    },
+    MERCURY: {
+        animation : undefined,
+        sprite : {
+            key: "mercury",
+            file: "astronomical_object/mercury.png",
+            width: 2000,
+            height: 2000
+        },
+    },
+    VENUS: {
+        animation : undefined,
+        sprite : {
+            key: "venus",
+            file: "astronomical_object/venus.png",
+            width: 2000,
+            height: 2000
+        },
+    },
+    EARTH: {
+        animation : undefined,
+        sprite : {
+            key: "earth",
+            file: "astronomical_object/earth.png",
+            width: 2000,
+            height: 2000
+        },
+    },
+    MARS: {
+        animation : undefined,
+        sprite : {
+            key: "mars",
+            file: "astronomical_object/mars.png",
+            width: 2000,
+            height: 2000
+        },
+    },
+    JUPITER: {
+        animation : undefined,
+        sprite : {
+            key: "jupiter",
+            file: "astronomical_object/jupiter.png",
+            width: 2000,
+            height: 2000
+        },
+    },
+    SATURN: {
+        animation : undefined,
+        sprite : {
+            key: "saturn",
+            file: "astronomical_object/saturn.png",
+            width: 2000,
+            height: 2000
+        },
+    },
+    URANUS: {
+        animation : undefined,
+        sprite : {
+            key: "uranus",
+            file: "astronomical_object/uranus.png",
+            width: 2000,
+            height: 2000
+        },
+    },
+    NEPTUNE: {
+        animation : undefined,
+        sprite : {
+            key: "neptune",
+            file: "astronomical_object/neptune.png",
+            width: 2000,
+            height: 2000
+        },
+    },
 }

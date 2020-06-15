@@ -100,6 +100,16 @@ export class Ship extends RadarDetectable {
         this.updateTargetDamageEffects();
     }
 
+    public getDisplayInformation() : Array<string> {
+        return new Array<string>(
+            "Speed: " + Math.round(this.getData().state.meters_per_second), 
+            "Shield: " + this.getData().properties.currentShield,
+            "Armor: " + this.getData().properties.currentArmor,
+            "Hull: " + this.getData().properties.currentHull,
+            "Mass: " + this.getData().stats[Stats.EStatType.mass] + " kg",
+        );
+    }
+
     private updateTargetDamageEffects() { 
         this.shieldDamageParticleEmitter.stop();
         this.armorDamageParticleEmitter.stop();
@@ -147,6 +157,10 @@ export class Ship extends RadarDetectable {
             this.thrustParticleEmitter.setAngle(angle * Utils.ANGLE_TO_DEGREE);
             this.thrustParticleEmitter.start();
         }
+
+        this.thrustParticleEmitter.update();
+        this.armorDamageParticleEmitter.update();
+        this.shieldDamageParticleEmitter.update();
     }
 
     public getIsMoving() {

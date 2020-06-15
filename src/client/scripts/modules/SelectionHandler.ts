@@ -44,6 +44,7 @@ export module SelectionHandler {
                 selectionIcon.setDisplaySize(SPRITES.SELECTION_ICON.sprite.width * cameraZoom, SPRITES.SELECTION_ICON.sprite.height * cameraZoom);
             }
             selectionIcon.setPos(selectedObject.getGameObjectData().x, selectedObject.getGameObjectData().y);
+            selectionIcon.update();
         }
 
         selectionIcon.setVisible(selectedObject != undefined);

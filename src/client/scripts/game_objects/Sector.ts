@@ -7,12 +7,14 @@ export class Sector extends RadarDetectable {
     private config : ISector;
     private map_x : number;
     private map_y : number;
+    private displayInformation: Array<string>;
 
     constructor(sector_object_config : ISector) {
         super(sector_object_config, SPRITES.SECTOR_ICON.sprite, false, true);
         this.config = sector_object_config;
         this.map_x = this.config.x;
         this.map_y = this.config.y;
+        this.displayInformation = new Array(); 
     }
 
     public update() {
@@ -41,5 +43,9 @@ export class Sector extends RadarDetectable {
         this.config.x = this.map_x - newSectorX;
         //@ts-ignore
         this.config.y = this.map_y - newSectorY;
+    }
+
+    public getDisplayInformation(): string[] {
+        return this.displayInformation;
     }
 }
