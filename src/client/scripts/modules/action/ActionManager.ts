@@ -10,10 +10,12 @@ import { MineAction } from "./actions/MineAction";
 import { StopMineAction } from "./actions/StopMineAction";
 import { StopAction } from "./actions/StopAction";
 import { WarpAction } from "./actions/WarpAction";
+import { InputHandler } from "../InputHandler";
 
 export module ActionManager {
 
     let actions: Array<Action>;
+    let shortcutMap: Map<InputHandler.EKey, Array<Action>>;
 
     export function init() {
         actions = new Array(
@@ -26,7 +28,33 @@ export module ActionManager {
             new StopAction(),
             new WarpAction());
 
+        shortcutMap = new Map();
+        actions.forEach(action => {
+            let array = shortcutMap.get(action.getShortCut());
+            if(array == undefined) {
+                array = new Array();
+                shortcutMap.set(action.getShortCut(), array);
+            }
+            array.push(action);
+            shortcutMap.set(action.getShortCut(), array);
+        });
+
         subscribeToEvents();
+    }
+
+    export function update(time : number, delta : number) {
+        let selection = SelectionHandler.getSelection();
+        let target = TargetHandler.getTarget();
+        shortcutMap.forEach((actions: Array<Action>, key: InputHandler.EKey) => {
+            let performedAction = false;
+            actions.forEach(action => {
+                if(!performedAction && InputHandler.getKeyState(key) == InputHandler.EKeyState.PRESSED 
+                    && action.isEnabled(selection, target)) {
+                    action.run(selection, target);
+                    performedAction = true;
+                }
+            });
+        });
     }
 
     export function getActions() {

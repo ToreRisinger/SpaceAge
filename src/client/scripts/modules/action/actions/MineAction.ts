@@ -5,6 +5,7 @@ import { EventHandler } from "../../EventHandler";
 import { Ship } from "../../../game_objects/Ship";
 import { GlobalDataService } from "../../GlobalDataService";
 import { Asteroid } from "../../../game_objects/Asteroid";
+import { InputHandler } from "../../InputHandler";
 
 export class MineAction extends Action {
    
@@ -26,5 +27,9 @@ export class MineAction extends Action {
     public isEnabled(selection: RadarDetectable | undefined, target: RadarDetectable | undefined): boolean {
         let isMining = GlobalDataService.getInstance().getPlayerShip().getData().state.isMining;
         return target != undefined && target instanceof Asteroid && !isMining;
+    }
+
+    public getShortCut(): InputHandler.EKey {
+        return InputHandler.EKey.M;
     }
 }

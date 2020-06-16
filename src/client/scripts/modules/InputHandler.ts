@@ -8,8 +8,14 @@ export module InputHandler {
         RIGHT = "right",
         ENTER = "ENTER",
         SPACE = "space",
+        A = "a",
+        M = "m",
+        S = "s",
+        T = "t",
+        W = "w",
         Z = "z",
-        X = "x"
+        X = "x",
+        NONE = ""
     }
 
     export enum EMouseKey {

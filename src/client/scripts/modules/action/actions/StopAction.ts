@@ -5,6 +5,7 @@ import { EventHandler } from "../../EventHandler";
 import { GlobalDataService } from "../../GlobalDataService";
 import { Asteroid } from "../../../game_objects/Asteroid";
 import { isSymbol } from "util";
+import { InputHandler } from "../../InputHandler";
 
 export class StopAction extends Action {
    
@@ -25,5 +26,9 @@ export class StopAction extends Action {
     public isEnabled(selection: RadarDetectable | undefined, target: RadarDetectable | undefined): boolean {
         let hasDestination = GlobalDataService.getInstance().getPlayerShip().getData().state.hasDestination;
         return hasDestination;
+    }
+
+    public getShortCut(): InputHandler.EKey {
+        return InputHandler.EKey.S;
     }
 }

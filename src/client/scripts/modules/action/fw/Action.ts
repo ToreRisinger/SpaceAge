@@ -1,4 +1,5 @@
 import { RadarDetectable } from "../../../game_objects/RadarDetectable";
+import { InputHandler } from "../../InputHandler";
 
 export abstract class Action {
 
@@ -15,4 +16,8 @@ export abstract class Action {
     public abstract isEnabled(selection: RadarDetectable | undefined, target: RadarDetectable | undefined): boolean;
 
     public abstract run(selection: RadarDetectable | undefined, target: RadarDetectable | undefined): void;
+
+    public getShortCut(): InputHandler.EKey {
+        return InputHandler.EKey.NONE;
+    }
 }

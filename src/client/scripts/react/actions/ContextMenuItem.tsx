@@ -18,7 +18,7 @@ export default class ContextMenuItem extends React.Component<ContextMenuItemProp
     render() {
         return (
             <div id="context_menu_item" className="Unselectable" onClick={this.onClick}>
-                    {this.props.action.getName()}
+                    {this.props.action.getName() + " (" + this.props.action.getShortCut() + ")"}
             </div>
         );
     }

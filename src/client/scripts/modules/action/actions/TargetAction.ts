@@ -3,6 +3,7 @@ import { Asteroid } from "../../../game_objects/Asteroid";
 import { Ship } from "../../../game_objects/Ship";
 import { RadarDetectable } from "../../../game_objects/RadarDetectable";
 import { TargetHandler } from "../../TargetHandler";
+import { InputHandler } from "../../InputHandler";
 
 export class TargetAction extends Action {
     
@@ -19,5 +20,9 @@ export class TargetAction extends Action {
             && ((context instanceof Asteroid 
             || context instanceof Ship)
             && context != TargetHandler.getTarget());
+    }
+
+    public getShortCut(): InputHandler.EKey {
+        return InputHandler.EKey.T;
     }
 }

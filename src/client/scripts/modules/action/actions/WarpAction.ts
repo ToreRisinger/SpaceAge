@@ -5,6 +5,7 @@ import { EventHandler } from "../../EventHandler";
 import { Ship } from "../../../game_objects/Ship";
 import { GlobalDataService } from "../../GlobalDataService";
 import { Sector } from "../../../game_objects/Sector";
+import { InputHandler } from "../../InputHandler";
 
 export class WarpAction extends Action {
    
@@ -27,5 +28,7 @@ export class WarpAction extends Action {
         return selection != undefined && selection instanceof Sector && !GlobalDataService.getInstance().getCharacter().state.isWarping;
     }
 
-    
+    public getShortCut(): InputHandler.EKey {
+        return InputHandler.EKey.W;
+    }
 }

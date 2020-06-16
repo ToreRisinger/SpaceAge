@@ -3,6 +3,7 @@ import { RadarDetectable } from "../../../game_objects/RadarDetectable";
 import { Events } from "../../../../../shared/scripts/Events";
 import { EventHandler } from "../../EventHandler";
 import { GlobalDataService } from "../../GlobalDataService";
+import { InputHandler } from "../../InputHandler";
 
 export class StopMineAction extends Action {
    
@@ -20,5 +21,9 @@ export class StopMineAction extends Action {
 
     public isEnabled(selection: RadarDetectable | undefined, target: RadarDetectable | undefined): boolean {
         return GlobalDataService.getInstance().getPlayerShip().getData().state.isMining;
+    }
+
+    public getShortCut(): InputHandler.EKey {
+        return InputHandler.EKey.M;
     }
 }

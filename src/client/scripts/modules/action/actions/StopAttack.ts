@@ -4,6 +4,7 @@ import { TargetHandler } from "../../TargetHandler";
 import { Events } from "../../../../../shared/scripts/Events";
 import { EventHandler } from "../../EventHandler";
 import { GlobalDataService } from "../../GlobalDataService";
+import { InputHandler } from "../../InputHandler";
 
 export class StopAttackAction extends Action {
    
@@ -25,5 +26,9 @@ export class StopAttackAction extends Action {
 
     public canStopAttack(): boolean {
         return GlobalDataService.getInstance().getPlayerShip().getData().state.isAttacking;
+    }
+
+    public getShortCut(): InputHandler.EKey {
+        return InputHandler.EKey.A;
     }
 }

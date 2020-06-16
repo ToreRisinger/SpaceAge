@@ -86,10 +86,11 @@ export class GameController {
         InputHandler.update(time, delta);
         EventHandler.update(time, delta);
         //AbilityHandler.update(time, delta);
+        ActionManager.update(time, delta);
         Camera.update(time, delta);
         SelectionHandler.update(time, delta);
         TargetHandler.update(time, delta);
-        GameObjectHandler.update(time, delta);   
+        GameObjectHandler.update(time, delta);
         Background.update(time, delta);
         GraphicsEffects.update(time, delta);
         GUI.update(time, delta);

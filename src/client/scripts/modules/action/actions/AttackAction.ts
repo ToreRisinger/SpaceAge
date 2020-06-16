@@ -4,6 +4,7 @@ import { Events } from "../../../../../shared/scripts/Events";
 import { EventHandler } from "../../EventHandler";
 import { Ship } from "../../../game_objects/Ship";
 import { GlobalDataService } from "../../GlobalDataService";
+import { InputHandler } from "../../InputHandler";
 
 export class AttackAction extends Action {
    
@@ -29,5 +30,9 @@ export class AttackAction extends Action {
     public canAttack(selection: RadarDetectable | undefined, targetObject: RadarDetectable | undefined): boolean {
         let isAttacking = GlobalDataService.getInstance().getPlayerShip().getData().state.isAttacking;
         return targetObject != undefined && targetObject instanceof Ship && !isAttacking;
+    }
+
+    public getShortCut(): InputHandler.EKey {
+        return InputHandler.EKey.A;
     }
 }
