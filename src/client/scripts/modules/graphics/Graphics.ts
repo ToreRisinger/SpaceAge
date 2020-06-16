@@ -2,7 +2,7 @@ import { GameScene, EParticleManagerType } from "../../scenes/GameScene";
 import { Camera } from "../Camera";
 import { ISprite } from "../../../../shared/interfaces/ISprite";
 
-export module Graphics {
+export namespace Graphics {
     
     export class Line {
         private static line : Phaser.Geom.Line = new Phaser.Geom.Line(0, 0, 0, 0);

@@ -19,6 +19,7 @@ import { Ship } from "../game_objects/Ship";
 import { Logger } from "../../../shared/logger/Logger";
 import { ICharacter } from "../../../shared/interfaces/ICharacter";
 import { ISector } from "../../../shared/interfaces/ISector";
+import { ActionManager } from "./action/ActionManager";
 
 export class GameController {
 
@@ -45,7 +46,7 @@ export class GameController {
         GlobalDataService.createInstance(character, playerShip, sector);
 
         GameObjectHandler.init2();
-        AbilityHandler.init();
+        //AbilityHandler.init();
         SelectionHandler.init();
         TargetHandler.init();
         Background.init();
@@ -53,6 +54,7 @@ export class GameController {
         Chat.init(); 
         Camera.init();
         GraphicsEffects.init();
+        ActionManager.init();
         GUI.init();
     }
 
@@ -83,7 +85,7 @@ export class GameController {
     private inSpaceUpdate(time : number, delta : number) {
         InputHandler.update(time, delta);
         EventHandler.update(time, delta);
-        AbilityHandler.update(time, delta);
+        //AbilityHandler.update(time, delta);
         Camera.update(time, delta);
         SelectionHandler.update(time, delta);
         TargetHandler.update(time, delta);

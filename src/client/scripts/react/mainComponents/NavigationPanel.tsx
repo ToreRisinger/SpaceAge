@@ -13,7 +13,6 @@ export interface NavigationPanelState { gameObjects : Array<GameObject>, selecte
 export default class NavigationPanel extends React.Component<{}, NavigationPanelState> {
   
    private timerID : ReturnType<typeof setTimeout> | undefined;
-   private eventHandlerWaitTimer : ReturnType<typeof setTimeout> | undefined;
 
    constructor(props : {}) {
       super(props)
@@ -22,23 +21,19 @@ export default class NavigationPanel extends React.Component<{}, NavigationPanel
          selectedObject : undefined,
          targetObject : undefined
      }
-     this.timerID = undefined;
-     this.tick = this.tick.bind(this);
-     this.eventHandlerWaitTimer = undefined;
-     this.eventHandlerRegistration = this.eventHandlerRegistration.bind(this);
-     this.onNewSelection = this.onNewSelection.bind(this);
-     this.onNewTarget = this.onNewTarget.bind(this);
+      this.timerID = undefined;
+      this.tick = this.tick.bind(this);
+      this.onNewSelection = this.onNewSelection.bind(this);
+      this.onNewTarget = this.onNewTarget.bind(this);
+      EventHandler.on(Events.EEventType.SELECTION_CHANGED_EVENT, this.onNewSelection)
+      EventHandler.on(Events.EEventType.TARGET_CHANGED_EVENT, this.onNewTarget)
    }
 
    componentDidMount() {
       this.timerID = setInterval(
         () => this.tick(),
         1000
-      );
-      this.eventHandlerWaitTimer = setInterval(
-         () => this.eventHandlerRegistration(),
-         1000
-      );
+      );  
    }
   
    componentWillUnmount() {
@@ -51,16 +46,6 @@ export default class NavigationPanel extends React.Component<{}, NavigationPanel
       this.setState({
          gameObjects: GameObjectHandler.getGameObjects()
       });
-   }
-
-   eventHandlerRegistration() {
-      if(EventHandler.isInitialized()) {
-         EventHandler.on(Events.EEventType.SELECTION_CHANGED_EVENT, this.onNewSelection)
-         EventHandler.on(Events.EEventType.TARGET_CHANGED_EVENT, this.onNewTarget)
-         if(this.eventHandlerWaitTimer != undefined) {
-            clearInterval(this.eventHandlerWaitTimer);
-        }
-      }
    }
 
    onNewSelection(event: Events.SELECTION_CHANGED_EVENT_CONFIG) {
@@ -86,7 +71,7 @@ export default class NavigationPanel extends React.Component<{}, NavigationPanel
       }
 
       radarDetectables.sort(function(a,b) { return a.getDistanceToPlayerShip() - b.getDistanceToPlayerShip()});
-
+      
       return (
          <Fragment>
             {this.state.selectedObject instanceof RadarDetectable &&

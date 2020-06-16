@@ -15,6 +15,7 @@ import CharacterSelectionLoadPage from "./mainComponents/login/CharacterSelectio
 import CharacterSelectionPage from "./mainComponents/login/CharacterSelectionPage";
 import LocationPanel from "./mainComponents/LocationPanel";
 import TopButtonPanel from "./topbuttonpanel/TopButtonPanel";
+import ContextMenuPanel from "./actions/ContextMenuPanel";
 
 export interface AppState { gameState : EGameState; }
 
@@ -98,9 +99,9 @@ export default class App extends React.Component<{}, AppState> {
                         <NavigationPanel/>
                         <CargoPanel/>
                         <RulerPanel/>
-                        <AbilityPanel/>
                         <LocationPanel/>
                         <TopButtonPanel/>
+                        <ContextMenuPanel/>
                     </Fragment>
                 ) 
             }

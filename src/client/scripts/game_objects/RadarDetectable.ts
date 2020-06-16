@@ -9,6 +9,7 @@ import { ISprite } from "../../../shared/interfaces/ISprite";
 import { Stats } from "../../../shared/stats/Stats";
 import { ICharacter } from "../../../shared/interfaces/ICharacter";
 import { Graphics } from "../modules/graphics/Graphics";
+import { SelectionHandler } from "../modules/SelectionHandler";
 
 export abstract class RadarDetectable extends GameObject {
 
@@ -110,13 +111,7 @@ export abstract class RadarDetectable extends GameObject {
     }
 
     public select() {
-        let event : Events.SELECTION_CHANGE_REQUEST_EVENT_CONFIG = {
-            eventId : Events.EEventType.SELECTION_CHANGE_REQUEST_EVENT,
-            data : { 
-                object: this
-            }
-        }
-        EventHandler.pushEvent(event);
+        SelectionHandler.changeSelection(this);
     }
 
     public isSelected() : boolean {

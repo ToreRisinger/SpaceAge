@@ -371,7 +371,7 @@ export const SPRITES = {
         animation : undefined,
         sprite : {
             key: "mercery",
-            file: "astronomical_object/mercery.png",
+            file: "astronomical_object/mercury.png",
             width: 2000,
             height: 2000
         },

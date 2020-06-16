@@ -62,9 +62,7 @@ export module Events {
         MOUSE_PRESSED_EVENT,
         BACKGROUND_CLICKED_ONCE_EVENT,
         BACKGROUND_CLICKED_TWICE_EVENT,
-        SELECTION_CHANGE_REQUEST_EVENT,
         SELECTION_CHANGED_EVENT,
-        TARGET_CHANGE_REQUEST_EVENT,
         TARGET_CHANGED_EVENT,
         ZOOM_CHANGED_EVENT,
         SKILL_STATE_UPDATED_EVENT,
@@ -234,19 +232,7 @@ export module Events {
         }
     }
 
-    export interface SELECTION_CHANGE_REQUEST_EVENT_CONFIG extends GameEvent {
-        data : {
-            object : RadarDetectable | undefined;
-        }
-    }
-
     export interface SELECTION_CHANGED_EVENT_CONFIG extends GameEvent {
-        data : {
-            object : RadarDetectable | undefined;
-        }
-    }
-
-    export interface TARGET_CHANGE_REQUEST_EVENT_CONFIG extends GameEvent {
         data : {
             object : RadarDetectable | undefined;
         }

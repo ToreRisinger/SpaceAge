@@ -411,36 +411,38 @@ body {
     margin: auto;
     position: absolute;
     top: 2px;
-    right: 520px;
+    right: 730px;
     width: 200px;
     border: 1px solid rgb(255, 0, 0);
     background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-flow: column;
 }
 
 #selection_panel {
     margin: auto;
     position: absolute;
     top: 2px;
-    right: 310px;
+    right: 520px;
     width: 200px;
     border: 1px solid rgb(40, 40, 40);
     background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-flow: column;
 }
 
 #location_panel {
     margin: auto;
     position: absolute;
     top: 2px;
-    right: 0px;
-    left: 0px;
+    left: 70px;
     width: 200px;
-    height: 70px;
     border: 1px solid rgb(40, 40, 40);
     background-color: rgba(0, 0, 0, 0.6);
 }
 
 #object_info_panel {
-    
+    border-bottom: 1px solid rgb(40, 40, 40);
 }
 
 #location_info_panel {
@@ -633,20 +635,6 @@ body {
     color: rgb(0, 0, 0, 0.0);
 }
 
-#chat_window {
-    margin: auto;
-    position: absolute;
-    bottom: 10px;
-    left: 60px;
-    width: 450px; 
-    height: 250px;
-    border: 1px solid rgb(0, 0, 0, 0.0);
-    background-color: rgba(0, 0, 0, 0.0);
-    display: flex;
-    flex-flow: column;
-    color: rgb(0, 0, 0, 0.0);
-}
-
 #chat_window ::-webkit-scrollbar-thumb {
     background: rgba(0, 0, 0, 0.0);
     border: none;
@@ -738,11 +726,10 @@ body {
 
 #ruler_panel {
     position: absolute;
-    margin: auto;
-    left: 0px;
-    right: 0px;
+    left: 120px;
     top: 74px;
     height: 40px;
+    width: 100px;
 }
 
 #ruler_zoom_text {
@@ -1039,7 +1026,7 @@ input:focus, textarea:focus, select:focus {
     z-index: 10;
     display: flex;
     top: 0;
-    left: 150px;
+    left: 300px;
     margin: auto;
 }
 
@@ -1073,4 +1060,33 @@ input:focus, textarea:focus, select:focus {
 
 .SelectedTopPanelButton {
     text-decoration: underline;
+}
+
+/*
+
+    CONTEXT MENU
+
+*/
+
+#context_menu_panel {
+    background-color: rgb(0, 0, 0, 0.2);
+    font-size: 12px;
+    font-family: consolas;
+    color: rgb(199, 199, 199);
+    position: absolute;
+    top: 2px;
+    right: 310px;
+    width: 200px;
+}
+
+#context_menu {
+    
+}
+
+#context_menu_item {
+    padding: 3px;
+}
+
+#context_menu_item:hover {
+    background-color: rgb(255, 255, 255, 0.2);
 }

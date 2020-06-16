@@ -7,6 +7,7 @@ import { GameObject } from "../../game_objects/GameObject";
 import { RadarDetectable } from "../../game_objects/RadarDetectable";
 import { Asteroid } from "../../game_objects/Asteroid";
 import { GlobalDataService } from "../GlobalDataService";
+import { TargetHandler } from "../TargetHandler";
 
 export class LockTargetAbility extends Ability {
 
@@ -99,12 +100,6 @@ export class LockTargetAbility extends Ability {
     }
 
     private sendEvent(object : RadarDetectable | undefined) {
-        let newEvent : Events.TARGET_CHANGE_REQUEST_EVENT_CONFIG = {
-            eventId : Events.EEventType.TARGET_CHANGE_REQUEST_EVENT,
-            data : {
-                object : object
-            }
-        }
-        EventHandler.pushEvent(newEvent);
+        TargetHandler.changeTarget(object);
     }
 }

@@ -2,7 +2,6 @@ import { EventHandler } from "./EventHandler";
 import { Events } from "../../../shared/scripts/Events";
 import { GlobalDataService } from "./GlobalDataService";
 import { SPRITES } from "../../../shared/scripts/SPRITES";
-import { GameScene } from "../scenes/GameScene";
 import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
 import { RadarDetectable } from "../game_objects/RadarDetectable";
 import { Graphics } from "./graphics/Graphics";
@@ -12,6 +11,7 @@ export module TargetHandler {
     let targetIcon: Graphics.Sprite;
     let targetIconFadeInScale: number;
     let targetIconIsFadingIn: boolean;
+    let targetObject: RadarDetectable | undefined;
 
     export function init() {
         targetIcon = new Graphics.Sprite(SPRITES.TARGET_ICON.sprite, 0, 0);
@@ -19,14 +19,13 @@ export module TargetHandler {
         targetIcon.setVisible(false);
         targetIconIsFadingIn = false;
         targetIconFadeInScale = 0;
+        targetObject = undefined;
         subscribeToEvents();
     }
 
     export function update(time : number, delta : number) {
-        let targetObject = GlobalDataService.getInstance().getTargetObject();
         if(targetObject != undefined && !targetObject.isDetected()) {
-            GlobalDataService.getInstance().setTargetObject(undefined);
-            sendTargetChangedEvent()
+            changeTarget(undefined);
         }
 
         if(targetObject != undefined) {
@@ -48,13 +47,28 @@ export module TargetHandler {
         targetIcon.setVisible(targetObject != undefined);
     }
 
-    function changeTarget(newTarget: RadarDetectable | undefined) {
+    export function getTarget(): RadarDetectable | undefined {
+        return targetObject;
+    }
+
+    export function changeTarget(newTarget: RadarDetectable | undefined) {
+        if(targetObject != undefined && newTarget == undefined) {
+            if(GlobalDataService.getInstance().getPlayerShip().getData().state.isAttacking) {
+                stopAttack();
+            } else if(GlobalDataService.getInstance().getPlayerShip().getData().state.isMining) {
+                stopMine();
+            }
+            
+        }
+
         let playerShip = GlobalDataService.getInstance().getPlayerShip();
         if(playerShip == newTarget) {
-            GlobalDataService.getInstance().setTargetObject(undefined);
+            targetObject = undefined;
         } else {
-            GlobalDataService.getInstance().setTargetObject(newTarget);
-        }
+            targetObject = newTarget;
+        } 
+
+        GlobalDataService.getInstance().setTargetObject(targetObject);
 
         if(newTarget != undefined) {
             targetIconIsFadingIn = true;
@@ -64,12 +78,7 @@ export module TargetHandler {
         sendTargetChangedEvent()
     }
 
-    function onTargetChangeRequest(event : Events.TARGET_CHANGE_REQUEST_EVENT_CONFIG) {
-        changeTarget(event.data.object);
-    }
-
     function sendTargetChangedEvent() {
-        let targetObject = GlobalDataService.getInstance().getTargetObject();
         let newEvent : Events.TARGET_CHANGED_EVENT_CONFIG = {
             eventId : Events.EEventType.TARGET_CHANGED_EVENT,
             data : {
@@ -98,8 +107,23 @@ export module TargetHandler {
     }
 
     function subscribeToEvents() {
-        EventHandler.on(Events.EEventType.TARGET_CHANGE_REQUEST_EVENT, onTargetChangeRequest);
         EventHandler.on(Events.EEventType.PLAYER_DISCONNECTED_EVENT, onPlayerDisconnect);
         EventHandler.on(Events.EEventType.GAME_OBJECT_DESTOYED_EVENT, onGameObjectsDestroyed);
+    }
+
+    function stopAttack() {
+        let newEvent : Events.PLAYER_STOP_ATTACKING_EVENT_CONFIG = {
+            eventId : Events.EEventType.PLAYER_STOP_ATTACKING_EVENT,
+            data : { }
+        }
+        EventHandler.pushEvent(newEvent);
+    }
+
+    function stopMine() {
+        let newEvent : Events.PLAYER_STOP_MINING_EVENT_CONFIG = {
+            eventId : Events.EEventType.PLAYER_STOP_MINING_EVENT,
+            data : { }
+        }
+        EventHandler.pushEvent(newEvent);
     }
 }

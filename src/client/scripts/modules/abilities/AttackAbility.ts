@@ -59,7 +59,7 @@ export class AttackAbility extends Ability {
             case EAbilityState.ACTIVATED : 
                 if(targetObject == undefined) {
                     this.setState(EAbilityState.DISABLED);
-                    this.stopAttack();
+                    //this.stopAttack();
                 }
                 break;
             case EAbilityState.DISABLED :

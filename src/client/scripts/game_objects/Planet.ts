@@ -23,7 +23,7 @@ export class Planet extends RadarDetectable {
 
         let thisPlanet = GlobalDataService.getInstance().getThisPlanet();
         let thisPlanetDistance = thisPlanet.distanceFromSun;
-        this.planetOrbit = new Graphics.Circle(Colors.HEX.WHITE, 0.5, 1, DRAW_LAYERS.FOREGROUND_LAYER_1, true, planetData.distanceFromSun, 1, false);
+        this.planetOrbit = new Graphics.Circle(Colors.HEX.WHITE, 0.2, 1, DRAW_LAYERS.FOREGROUND_LAYER_1, true, planetData.distanceFromSun, 1, false);
         let point = new Phaser.Geom.Point(0, 0);
         if(planetData.name != thisPlanet.name) {
             point = this.planetOrbit.getRandomPoint(Utils.getRandomNumber(0, 100) / 100);
