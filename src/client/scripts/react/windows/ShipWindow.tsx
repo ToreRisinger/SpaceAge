@@ -48,7 +48,7 @@ export default class ShipWindow extends React.Component<ShipWindowProps, ShipWin
         return (
             <Fragment>
                 {this.props.window_open &&
-                    <div id="ship_window" className="UIComponent SidePanelWindow Unselectable">
+                    <div id="ship_window" className="BodyText SidePanelWindow Unselectable">
                         <WindowHeader text="Ship"/>
                         <div id="ship_window_left_section">
                             <pre>Thrust:                      {character ? character.stats[Stats.EStatType.thrust] : "N/A"} N</pre>

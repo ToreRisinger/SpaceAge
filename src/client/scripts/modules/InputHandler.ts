@@ -9,6 +9,7 @@ export module InputHandler {
         ENTER = "ENTER",
         SPACE = "space",
         A = "a",
+        C = "c",
         M = "m",
         S = "s",
         T = "t",
@@ -42,7 +43,12 @@ export module InputHandler {
     let mouseX : number;
     let mouseY : number;
 
+    let keyboard: Phaser.Input.Keyboard.KeyboardPlugin;
+    let chatInputIsActive: boolean;
+
     export function init() {
+        keyboard = GameScene.getInstance().input.keyboard;
+        chatInputIsActive = false;
         let gameScene : GameScene = GameScene.getInstance();
 
         mouseInput = gameScene.input.activePointer;
@@ -53,7 +59,7 @@ export module InputHandler {
         mouseY = mouseInput.y;
 
         Object.values(EKey).forEach(obj => {
-            let key = GameScene.getInstance().input.keyboard.addKey(obj.toString());
+            let key = keyboard.addKey(obj.toString());
             key.on('down', () => onKeyPressedCallback(obj));
             keyMap.set(obj.toString(), key);
         });
@@ -67,6 +73,8 @@ export module InputHandler {
             mouseKeyStateMap.set(value, EKeyState.IDLE);
             tmpMouseKeyStateMap.set(value, EKeyState.IDLE);
         }
+
+        keyboard.disableGlobalCapture();
     }
 
     export function update(time : number, delta : number) {
@@ -76,21 +84,29 @@ export module InputHandler {
             tmpKeyStateMap.set(_enum.toString(), EKeyState.IDLE);
         });
 
-        Object.values(EKey).forEach(_enum => {
+        if(chatInputIsActive) {
+            let key = keyMap.get(EKey.ENTER);
             //@ts-ignore
-            let key = keyMap.get(_enum.toString());
-            //@ts-ignore
-            if(key.isDown && tmpKeyStateMap.get(_enum.toString()) != EKeyState.DOWN) {
+            if(key.isDown && tmpKeyStateMap.get(key.toString()) != EKeyState.DOWN) {
                 //@ts-ignore
-                onKeyPressed(_enum, EKeyState.DOWN);
+                onKeyPressed(EKey.ENTER, EKeyState.DOWN);
             }
-        });
-
+        } else {
+            Object.values(EKey).forEach(_enum => {
+                let key = keyMap.get(_enum.toString());
+                //@ts-ignore
+                if(key.isDown && tmpKeyStateMap.get(_enum.toString()) != EKeyState.DOWN) {
+                    //@ts-ignore
+                    onKeyPressed(_enum, EKeyState.DOWN);
+                }
+            });
+        }
+       
         /*
             MOUSE
         */
-       mouseX = mouseInput.x;
-       mouseY = mouseInput.y;
+        mouseX = mouseInput.x;
+        mouseY = mouseInput.y;
 
         Object.values(EMouseKey).filter(obj => !isNaN(Number(obj))).forEach(_enum => {
             mouseKeyStateMap.set(_enum, tmpMouseKeyStateMap.get(_enum));
@@ -129,6 +145,10 @@ export module InputHandler {
 
     export function getMouseY() : number {
         return mouseY;
+    }
+
+    export function setChatInputIsActive(value: boolean): void {
+        chatInputIsActive = value;
     }
 
     function onKeyPressedCallback(key: EKey) {

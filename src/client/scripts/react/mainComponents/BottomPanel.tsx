@@ -3,7 +3,7 @@ import ShipStatsBottomPanel from "./ShipStatsBottomPanel";
 import { GlobalDataService } from "../../modules/GlobalDataService";
 import { ICharacter } from "../../../../shared/interfaces/ICharacter";
 
-export interface BottomPanelState { character : ICharacter | undefined; }
+export interface BottomPanelState { character : ICharacter; }
 
 export default class BottomPanel extends React.Component<{}, BottomPanelState> {
 
@@ -12,7 +12,7 @@ export default class BottomPanel extends React.Component<{}, BottomPanelState> {
    constructor(props : {}) {
       super(props)
       this.state = {
-         character: undefined
+         character: GlobalDataService.getInstance().getCharacter()
       }
       this.timerID = undefined;
    }
@@ -39,7 +39,7 @@ export default class BottomPanel extends React.Component<{}, BottomPanelState> {
 
    render() {
       return (
-         <div id="bottom_panel" className="UIComponent">
+         <div id="bottom_panel" className="PanelBackground Unselectable HasBorder">
             <ShipStatsBottomPanel character={this.state.character}/>
          </div>
       );

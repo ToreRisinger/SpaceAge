@@ -15,7 +15,7 @@ export default class MapWindow extends React.Component<MapWindowProps, {}> {
         return (
             <Fragment>
                 {this.props.window_open &&
-                    <div id="map_window" className="UIComponent SidePanelWindow">
+                    <div id="map_window" className="BodyText SidePanelWindow">
                         <WindowHeader text="Map"/>
                     </div>
                 }

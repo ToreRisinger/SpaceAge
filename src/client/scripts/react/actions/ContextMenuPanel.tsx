@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { ActionManager } from "../../modules/action/ActionManager";
 import { Action } from "../../modules/action/fw/Action";
 import { RadarDetectable } from "../../game_objects/RadarDetectable";
@@ -39,9 +39,16 @@ export default class ContextMenuPanel extends React.Component<{}, ContextMenuPan
 
     render() {
         return (
-            <div id="context_menu_panel" className="">
-                <ContextMenu actions={this.state.actions}></ContextMenu>
-            </div>
+            <Fragment>
+                {this.state.actions.length > 0 ?
+                    <div id="context_menu_panel" className="Unselectable HasBorder PanelBackground BodyText">
+                        <ContextMenu actions={this.state.actions}></ContextMenu>
+                    </div>
+                    :
+                    ""
+                }
+            </Fragment>
+            
         );
     }
 }

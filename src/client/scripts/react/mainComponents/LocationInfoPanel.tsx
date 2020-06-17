@@ -52,7 +52,7 @@ export default class LocationInfoPanel extends React.Component<{}, LocationInfoP
         fields.push("[y: " + Math.round(this.state.y) + "]");
 
         return (
-            <div id="location_info_panel" className="UIComponent">
+            <div id="location_info_panel">
                <ObjectInfoContainer title={undefined} fields={fields} description={undefined} centerFields={true}/>
             </div>
         );

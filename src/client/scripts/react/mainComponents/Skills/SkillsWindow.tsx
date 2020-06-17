@@ -16,7 +16,7 @@ export default class SkillsWindow extends React.Component<SkillsWindowProps, {}>
         return (
             <Fragment>
                 {this.props.window_open &&
-                    <div id="skills_window" className="UIComponent SidePanelWindow">
+                    <div id="skills_window" className="BodyText SidePanelWindow">
                         <WindowHeader text="Skills"/>
                         <SkillsContainer/>
                     </div>

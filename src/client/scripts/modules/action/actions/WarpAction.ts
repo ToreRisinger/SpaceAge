@@ -25,7 +25,9 @@ export class WarpAction extends Action {
     }
 
     public isEnabled(selection: RadarDetectable | undefined, target: RadarDetectable | undefined): boolean {
-        return selection != undefined && selection instanceof Sector && !GlobalDataService.getInstance().getCharacter().state.isWarping;
+        let sectorId = GlobalDataService.getInstance().getSector().getGameObjectData().id;
+        return selection != undefined && selection instanceof Sector && !GlobalDataService.getInstance().getCharacter().state.isWarping
+        && sectorId != selection.getGameObjectData().id;
     }
 
     public getShortCut(): InputHandler.EKey {

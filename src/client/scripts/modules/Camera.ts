@@ -4,6 +4,7 @@ import { Events } from "../../../shared/scripts/Events";
 import { InputHandler } from "./InputHandler";
 import { GlobalDataService } from "./GlobalDataService";
 import { Ship } from "../game_objects/Ship";
+import { RadarDetectable } from "../game_objects/RadarDetectable";
 
 export module Camera {
 
@@ -33,7 +34,10 @@ export module Camera {
     let initialized: boolean = false;
     let centeredCamera: boolean;
 
+    let objectToCenterOn : RadarDetectable | undefined;
+
     export function init() {
+        centerOn(GlobalDataService.getInstance().getPlayerShip());
         camera = GameScene.getInstance().cameras.cameras[0];
         width = camera.width;
         height = camera.height;
@@ -55,9 +59,11 @@ export module Camera {
             zoom(1 - 2 / (1000 / delta));
         }
 
+        /*
         if(InputHandler.getKeyState(InputHandler.EKey.SPACE) == InputHandler.EKeyState.DOWN) {
             cameraMode = ECameraMode.CENTERED;
         }
+        */
 
         if(InputHandler.getKeyState(InputHandler.EKey.DOWN) == InputHandler.EKeyState.DOWN) {
             cameraMode = ECameraMode.FREE;
@@ -77,6 +83,10 @@ export module Camera {
         if(InputHandler.getKeyState(InputHandler.EKey.RIGHT) == InputHandler.EKeyState.DOWN) {
             cameraMode = ECameraMode.FREE;
             mapX += CAMERA_SPEED * currentZoom;
+        }
+
+        if(cameraMode == ECameraMode.CENTERED && objectToCenterOn == undefined) {
+            cameraMode = ECameraMode.FREE;
         }
         
         setCameraPos();
@@ -112,11 +122,32 @@ export module Camera {
         }
     }
 
+    export function setMaxZoom() {
+        currentZoom = maxZoom;
+        camera.zoom = 1/maxZoom;
+        sendZoomedEvent();
+    }
+
+    export function setMinZoom() {
+        currentZoom = minZoom;
+        camera.zoom = 1/minZoom;
+        sendZoomedEvent();
+    }
+
+    export function centerOn(object: RadarDetectable) {
+        objectToCenterOn = object;
+        cameraMode = ECameraMode.CENTERED;
+    }
+
+    export function getCenteredObject(): RadarDetectable | undefined {
+        return objectToCenterOn;
+    }
+
     function setCameraPos() {
-        if(cameraMode == ECameraMode.CENTERED) {
-            let ship : Ship = GlobalDataService.getInstance().getPlayerShip();
-            mapX = ship.getPos().x - camera.width / 2;
-            mapY = ship.getPos().y - camera.height / 2;
+        if(cameraMode == ECameraMode.CENTERED && objectToCenterOn != undefined) {
+            //let ship : Ship = GlobalDataService.getInstance().getPlayerShip();
+            mapX = objectToCenterOn.getPos().x - camera.width / 2;
+            mapY = objectToCenterOn.getPos().y - camera.height / 2;
         }
 
         if(mapX < 10000000 && mapX > -10000000 && mapY < 10000000 && mapY > -10000000) {
@@ -150,15 +181,19 @@ export module Camera {
         }
 
         if(zoomed) {
-            let event : Events.ZOOM_CHANGED_EVENT_CONFIG = {
-                eventId : Events.EEventType.ZOOM_CHANGED_EVENT,
-                data : {
-                    zoom : currentZoom
-                }
-            }
-            EventHandler.pushEvent(event);
-            updateZoom();
+            sendZoomedEvent();
         }
+    }
+
+    function sendZoomedEvent() {
+        let event : Events.ZOOM_CHANGED_EVENT_CONFIG = {
+            eventId : Events.EEventType.ZOOM_CHANGED_EVENT,
+            data : {
+                zoom : currentZoom
+            }
+        }
+        EventHandler.pushEvent(event);
+        updateZoom();
     }
 
     function updateZoom() {

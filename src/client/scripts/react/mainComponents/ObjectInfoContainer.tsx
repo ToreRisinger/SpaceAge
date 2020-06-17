@@ -14,15 +14,15 @@ export default class ObjectInfoContainer extends React.Component<ObjectInfoConta
             <div id="object_info_container" className="Unselectable">
                 {this.props.title &&
                     <Fragment>
-                        <div id="object_info_container_title">{this.props.title}</div>
+                        <div id="object_info_container_title" className="TitleText">{this.props.title}</div>
                         <hr></hr>
                     </Fragment>
                 }
-                {this.props.fields.map((object, i) => <div id="object_info_container_field" style={{textAlign:styles}} key={i}>{object}</div>)}
+                {this.props.fields.map((object, i) => <div id="object_info_container_field" className="BodyText" style={{textAlign:styles}} key={i}>{object}</div>)}
                 {this.props.description &&
                     <Fragment>
                         <hr></hr>
-                        <div id="object_info_container_description_field">{this.props.description}</div>
+                        <div id="object_info_container_description_field" className="DarkText">{this.props.description}</div>
                     </Fragment>
                 }
             </div>

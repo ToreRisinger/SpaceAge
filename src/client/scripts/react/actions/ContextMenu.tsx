@@ -13,7 +13,7 @@ export default class ContextMenu extends React.Component<ContextMenuProps, {}> {
     render() {
 
         return (
-            <div id="context_menu" className="">
+            <div id="context_menu">
                 {this.props.actions.map((object, i) => <ContextMenuItem action={object} key={i}></ContextMenuItem>)} 
             </div>
         );

@@ -17,19 +17,71 @@ body {
     border: 0;
 }
 
-.UIComponent {
-    background-color: rgba(0, 0, 0, 0.6);
-    color: rgb(199, 199, 199);
-    font-family: consolas;
+/*
+
+    REUSABLE CLASSES
+
+*/
+
+.Panel {
     z-index: 10;
-    font-size: 7px;
+}
+
+.BodyText {
+    font-size: 12px;
+    font-family: consolas;
+    color: rgb(199, 199, 199);
+}
+
+.TitleText {
+    font-size: 15px;
+    font-family: consolas;
+    color: rgb(199, 199, 199);
+    text-align: center;
+}
+
+.DarkText {
+    font-size: 12px;
+    font-family: consolas;
+    color: rgb(95, 95, 95);
+}
+
+.BodyTextOnHover {
+    font-size: 12px;
+    font-family: consolas;
+    color: rgb(0, 0, 0, 0.0);
+}
+
+.BodyTextOnHover:hover {
+    font-size: 12px;
+    font-family: consolas;
+    color: rgb(199, 199, 199);
+}
+
+.BackgroundHoverHighlight:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.PanelBackground {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.PanelBackgroundOnHover {
+    background-color: rgba(0, 0, 0, 0.0);
+}
+
+.PanelBackgroundOnHover:hover {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.HasBorder {
+    border: 1px solid rgb(40, 40, 40);
 }
 
 .HasTooltip:hover .TooltipText {
     visibility: visible;
 }
 
-/* Tooltip text */
 .TooltipText {
     visibility: hidden;
     background-color: rgb(199, 199, 199);
@@ -42,15 +94,18 @@ body {
     font-family: consolas;
 }
 
+/*
+
+    PANELS
+
+*/
+
 #bottom_panel {
     margin: auto;  
     position: absolute;
-    bottom: 0px;
-    width: 300px; 
-    height: 120px;
-    border-top: 1px solid rgb(40, 40, 40);
-    border-right: 1px solid rgb(40, 40, 40);
-    border-left: 1px solid rgb(40, 40, 40);
+    bottom: -1px;
+    width: 250px; 
+    height: 74px;
     left: 0px;
     right: 0px;
     z-index: 10;
@@ -60,10 +115,9 @@ body {
     margin: auto;  
     position: absolute;
     bottom: 0px;
-    left:0px;
+    left: 0px;
     right: 0px;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.0);
     z-index: inherit;
 }
 
@@ -76,12 +130,11 @@ body {
     margin: auto;
     position: absolute;
     padding-top: 3px; 
-    top: 0px;
-    bottom: 0px;
-    left: 0px;
+    top: -1px;
+    bottom: -1px;
+    left: -1px;
     width: 50px; 
     height: 100%;
-    border-right: 1px solid rgb(40, 40, 40);
     z-index: 30;
 }
 
@@ -89,7 +142,6 @@ body {
     position: relative;
     height: 50px;
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.0);
     z-index: inherit;
 }
 
@@ -273,21 +325,15 @@ body {
 #navigation_panel {
     margin: auto;
     position: absolute;
-    top: 0px;
-    right: 0px;
+    top: -1px;
+    right: -1px;
     width: 300px; 
     height: 50%;
-    border-left: 1px solid rgb(40, 40, 40);
 }
 
 #navigation_panel_title {
-    /*background-color: rgba(0, 0, 0, 0.0);
-    color: rgb(199, 199, 199);
-    */
     background-color: rgb(199, 199, 199);
     color: rgb(0, 0, 0);
-    font-family: consolas;
-    font-size: 15px;
     position: absolute;
     top: 0px;
     left: 0px;
@@ -299,10 +345,8 @@ body {
 #navigation_panel_table_header {
     background-color: rgba(0, 0, 0, 0.0);
     color: rgb(199, 199, 199);
-    font-family: consolas;
-    font-size: 15px;
     position: absolute;
-    top: 30px;
+    top: 22px;
     left: 0px;
     right: 0px;
     height: 30px;
@@ -329,7 +373,7 @@ body {
 
 #navigation_container {
     position: absolute;
-    top: 60px;
+    top: 40px;
     left: 0px;
     right: 0px;
     bottom: 0px;
@@ -346,9 +390,6 @@ body {
 }
 
 .navigation_row {
-    color: rgb(199, 199, 199);
-    background-color: rgb(0, 0, 0, 0.0);
-    font-family: consolas;
     font-size: 11px;
     z-index: inherit;
     display: flex;
@@ -357,6 +398,7 @@ body {
     width: 286px;
 }
 
+/*
 .navigation_row_base {
 
 }
@@ -365,6 +407,7 @@ body {
     background-color: rgb(122, 122, 122);
     color: rgb(0, 0, 0);
 }
+*/
 
 .navigation_row_selected {
     background-color: rgb(184, 184, 184);
@@ -410,7 +453,7 @@ body {
 #target_panel {
     margin: auto;
     position: absolute;
-    top: 2px;
+    top: -1px;
     right: 730px;
     width: 200px;
     border: 1px solid rgb(255, 0, 0);
@@ -422,11 +465,9 @@ body {
 #selection_panel {
     margin: auto;
     position: absolute;
-    top: 2px;
+    top: -1px;
     right: 520px;
     width: 200px;
-    border: 1px solid rgb(40, 40, 40);
-    background-color: rgba(0, 0, 0, 0.6);
     display: flex;
     flex-flow: column;
 }
@@ -434,15 +475,13 @@ body {
 #location_panel {
     margin: auto;
     position: absolute;
-    top: 2px;
+    top: -1px;
     left: 70px;
     width: 200px;
-    border: 1px solid rgb(40, 40, 40);
-    background-color: rgba(0, 0, 0, 0.6);
 }
 
 #object_info_panel {
-    border-bottom: 1px solid rgb(40, 40, 40);
+    
 }
 
 #location_info_panel {
@@ -455,8 +494,6 @@ body {
 
 #object_info_container_title {
     text-align: center;
-    font-size: 15px;
-    font-family: consolas;
 }
 
 #object_info_container_field {
@@ -464,9 +501,6 @@ body {
     word-wrap: break-word;
     overflow-wrap: break-word;
     hyphens: auto;
-    
-    font-size: 12px;
-    font-family: consolas;
     margin-bottom: 3px;
 }
 
@@ -476,27 +510,20 @@ body {
     overflow-wrap: break-word;
     hyphens: auto;
     width: 100%;
-    font-size: 12px;
-    font-family: consolas;
-    color:  rgb(95, 95, 95);
 }
 
 #cargo_panel {
     margin: auto;
     position: absolute;
-    bottom: 0px;
-    right: 0px;
+    bottom: -1px;
+    right: -1px;
     width: 300px; 
     height: 50%; 
-    border-left: 1px solid rgb(40, 40, 40);
 }
 
 #cargo_panel_title {
     background-color: rgb(199, 199, 199);
     color: rgb(0, 0, 0);
-    font-family: consolas;
-    font-size: 15px;
-    text-align: center;
     height: 22px;
     margin-bottom: 2px;
 }
@@ -504,9 +531,6 @@ body {
 #cargo_panel_title_cargo_full {
     background-color: rgb(199, 199, 199);
     color: rgb(155, 30, 30);
-    font-family: consolas;
-    font-size: 15px;
-    text-align: center;
     height: 22px;
     margin-bottom: 2px;
 }
@@ -629,10 +653,8 @@ body {
     width: 450px; 
     height: 250px;
     border: 1px solid rgb(0, 0, 0, 0.0);
-    background-color: rgba(0, 0, 0, 0.0);
     display: flex;
     flex-flow: column;
-    color: rgb(0, 0, 0, 0.0);
 }
 
 #chat_window ::-webkit-scrollbar-thumb {
@@ -641,9 +663,7 @@ body {
 }
 
 #chat_window:hover {
-    background-color: rgba(0, 0, 0, 0.6);
     border: 1px solid rgb(40, 40, 40);
-    color: rgb(199, 199, 199);
 }
 
 #chat_window:hover ::-webkit-scrollbar-thumb {
@@ -700,14 +720,6 @@ body {
     overflow: hidden;
 }
 
-#chat_tab_button:hover { 
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-#combat_log_tab_button:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
 .ChatTab {
     color: inherit;
     text-align: center;
@@ -737,9 +749,6 @@ body {
     top: 35px;
     width: 100%;
     height: 20px;
-    color: rgb(199, 199, 199);
-    font-family: consolas;
-    font-size: 15px;
     text-align: center;
 }
 
@@ -1025,7 +1034,7 @@ input:focus, textarea:focus, select:focus {
     position: absolute;
     z-index: 10;
     display: flex;
-    top: 0;
+    top: -1px;
     left: 300px;
     margin: auto;
 }
@@ -1046,16 +1055,8 @@ input:focus, textarea:focus, select:focus {
     width: 35px;
     height: 35px;
     float: left;
-    background-color: rgba(0, 0, 0, 0.4);
     text-align: center;
     line-height: 35px;
-    font-family: consolas;
-    font-size: 12px;
-    color: rgb(199, 199, 199);
-}
-
-.TopPanelButton:hover {
-    background-color: rgba(255, 255, 255, 0.2);
 }
 
 .SelectedTopPanelButton {
@@ -1069,12 +1070,8 @@ input:focus, textarea:focus, select:focus {
 */
 
 #context_menu_panel {
-    background-color: rgb(0, 0, 0, 0.2);
-    font-size: 12px;
-    font-family: consolas;
-    color: rgb(199, 199, 199);
     position: absolute;
-    top: 2px;
+    top: -1px;
     right: 310px;
     width: 200px;
 }
@@ -1085,8 +1082,4 @@ input:focus, textarea:focus, select:focus {
 
 #context_menu_item {
     padding: 3px;
-}
-
-#context_menu_item:hover {
-    background-color: rgb(255, 255, 255, 0.2);
 }

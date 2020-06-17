@@ -23,7 +23,7 @@ export default class ToggleMiningRangeButton extends React.Component<{}, ToggleM
    render() {
       const className = this.state.selected ? "SelectedTopPanelButton" : "";
       return (
-         <div id="toggle_mining_range_button" className={className + " TopPanelButton"} onClick={(e) => this.onClick()}>
+         <div id="toggle_mining_range_button" className={className + " TopPanelButton BackgroundHoverHighlight"} onClick={(e) => this.onClick()}>
             MR
          </div>
       );

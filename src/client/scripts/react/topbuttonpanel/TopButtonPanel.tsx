@@ -11,7 +11,7 @@ export default class TopButtonPanel extends React.Component<{}, {}> {
 
    render() {
          return (
-            <div id="top_button_panel" className="Unselectable">
+            <div id="top_button_panel" className="Unselectable PanelBackground HasBorder BodyText">
                <ToggleRadarRangeButton/>
                <ToggleWeaponRangeButton/>
                <ToggleMiningRangeButton/>

@@ -7,7 +7,7 @@ export module Com {
     export function init() {
 
         //@ts-ignore
-        socket = io();
+        socket = io('http://78.66.108.88:8080')
 
         subscribeToEvents();
 

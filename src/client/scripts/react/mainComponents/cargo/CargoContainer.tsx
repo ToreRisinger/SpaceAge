@@ -19,7 +19,7 @@ export default class CargoContainer extends React.Component<CargoContainerProps,
         }
 
         return (
-            <div className="CargoContainer UIComponent">
+            <div className="CargoContainer">
                 {this.props.items.map((object, i) => <CargoItem item={object} key={i} />)}
                 {emptySlots.map((object, i) => <CargoSlot key={i} />)}
             </div>

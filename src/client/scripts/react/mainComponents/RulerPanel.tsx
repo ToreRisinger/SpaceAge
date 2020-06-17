@@ -46,8 +46,8 @@ export default class RulerPanel extends React.Component<{}, RulerPanelState> {
    render() {
         let zoomString = Utils.formatMeters(this.state.zoom * 100);
         return (
-            <div id="ruler_panel">
-                <div id="ruler_zoom_text">{zoomString}</div>
+            <div id="ruler_panel" className="Unselectable">
+                <div id="ruler_zoom_text" className="BodyText">{zoomString}</div>
                 <img id="ruler_image" src="assets/image/ruler.png"/>
             </div>
         );

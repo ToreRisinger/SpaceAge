@@ -27,23 +27,21 @@ export default class NavigationRow extends React.Component<NavigationRowProps, {
 
     render() {
         let iconPath = this.props.object.getIconPath();
-        let rowClassString = "navigation_row Unselectable ";
+        let rowClassString = "navigation_row BackgroundHoverHighlight ";
         
         if(this.props.object.isTarget()) {
             rowClassString += "navigation_row_target";
         } else if(this.props.object.isSelected()) {
             rowClassString += "navigation_row_selected";
-        } else {
-            rowClassString += "navigation_row_base";
         }
 
         return (
             <div className={rowClassString} onClick={this.onSelectObject} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
-                <img className="navigation_row_icon Unselectable" src={iconPath}/>
-                <div className="navigation_row_name Unselectable">
+                <img className="navigation_row_icon" src={iconPath}/>
+                <div className="navigation_row_name">
                    {this.props.object.getDisplayName()}
                 </div>
-                <div className="navigation_row_distance Unselectable">
+                <div className="navigation_row_distance">
                     {Utils.formatMeters(this.props.object.getDistanceToPlayerShip())}
                 </div>  
             </div>

@@ -29,7 +29,7 @@ export class AttackAction extends Action {
 
     public canAttack(selection: RadarDetectable | undefined, targetObject: RadarDetectable | undefined): boolean {
         let isAttacking = GlobalDataService.getInstance().getPlayerShip().getData().state.isAttacking;
-        return targetObject != undefined && targetObject instanceof Ship && !isAttacking;
+        return targetObject != undefined && targetObject instanceof Ship && !isAttacking && GlobalDataService.getInstance().getPlayerShip().getData().state.hasWeapon;
     }
 
     public getShortCut(): InputHandler.EKey {

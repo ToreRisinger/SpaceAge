@@ -82,12 +82,12 @@ export default class NavigationPanel extends React.Component<{}, NavigationPanel
                <TargetPanel object={this.state.targetObject} />
             }
             
-            <div id="navigation_panel" className="UIComponent">
-               <div id="navigation_panel_title" className="Unselectable">Navigation</div>
-               <div id="navigation_panel_table_header">
-                  <div id="navigation_panel_table_header_icon" className="Unselectable"></div>
-                  <div id="navigation_panel_table_header_name" className="Unselectable">Name</div>
-                  <div id="navigation_panel_table_header_distance" className="Unselectable">Distance</div>
+            <div id="navigation_panel" className="BodyText HasBorder Unselectable PanelBackground">
+               <div id="navigation_panel_title" className="TitleText">Navigation</div>
+               <div id="navigation_panel_table_header" className="BodyText">
+                  <div id="navigation_panel_table_header_icon" className=""></div>
+                  <div id="navigation_panel_table_header_name" className="">Name</div>
+                  <div id="navigation_panel_table_header_distance" className="">Distance</div>
                </div>
                <NavigationContainer itemsToList={radarDetectables}/>
             </div>

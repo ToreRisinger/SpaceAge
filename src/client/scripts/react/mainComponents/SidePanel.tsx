@@ -36,16 +36,16 @@ export default class SidePanel extends React.Component<{}, SidePanelState> {
         };
         return (
             <Fragment>
-                <div id="side_panel" className="UIComponent">
-                    <div id="ship_window_button" className="UIComponent SidePanelElement HasTooltip" style={ship_window_button_style}>
+                <div id="side_panel" className="HasBorder Unselectable PanelBackground">
+                    <div id="ship_window_button" className="SidePanelElement HasTooltip PanelBackgroundOnHover" style={ship_window_button_style}>
                         <img id="ship_window_button_icon" src="assets/image/ship_icon.png" onClick={this.onShipWindowButtonClicked}></img>
                         <span className="TooltipText">Ship</span>
                     </div>
-                    <div id="map_window_button" className="UIComponent SidePanelElement HasTooltip" style={map_window_button_style}>
+                    <div id="map_window_button" className="SidePanelElement HasTooltip PanelBackgroundOnHover" style={map_window_button_style}>
                         <img id="map_window_button_icon" src="assets/image/map_icon.png" onClick={this.onMapWindowButtonClicked}></img>
                         <span className="TooltipText">Map</span>
                     </div>
-                    <div id="skills_window_button" className="UIComponent SidePanelElement HasTooltip" style={skills_window_button_style}>
+                    <div id="skills_window_button" className="SidePanelElement HasTooltip PanelBackgroundOnHover" style={skills_window_button_style}>
                         <img id="skills_window_button_icon" src="assets/image/skills_icon.png" onClick={this.onSkillsWindowButtonClicked}></img>
                         <span className="TooltipText">Skills</span>
                     </div>

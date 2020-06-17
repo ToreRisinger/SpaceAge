@@ -6,6 +6,8 @@ export module Colors {
         export let GREEN: string = "rgb(108, 255, 89)";
         export let YELLOW: string = "rgb(255, 235, 57)";
         export let WHITE: string = "rgb(255, 255, 255)";
+        export let BLUE: string = "rgb(69, 66, 255)";
+        export let LIGHT_BLUE: string = "rgb(112, 109, 253)";
     }
 
     export module HEX {

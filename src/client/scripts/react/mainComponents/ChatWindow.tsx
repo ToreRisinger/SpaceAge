@@ -52,12 +52,12 @@ export default class ChatWindow extends React.Component<{}, ChatState> {
         const chatTabButtonClass = this.state.tabSelection == EChatTabSelection.CHAT ? "SelectedTab" : "";
         const combatTabButtonClass = this.state.tabSelection == EChatTabSelection.COMBAT ? "SelectedTab" : "";
         return (
-            <div id="chat_window" className="UIComponent">
+            <div id="chat_window" className="Panel PanelBackgroundOnHover BodyTextOnHover">
                 <div id="chat_tabs_container" className="Unselectable">
-                    <div id="chat_tab_button" className={chatTabButtonClass + " ChatTab"} onClick={(e) => this.onSelectChatTab()}>
+                    <div id="chat_tab_button" className={chatTabButtonClass + " ChatTab BackgroundHoverHighlight"} onClick={(e) => this.onSelectChatTab()}>
                         Chat
                     </div>
-                    <div id="combat_log_tab_button" className={combatTabButtonClass + " ChatTab"} onClick={(e) => this.onSelectCombatTab()}>
+                    <div id="combat_log_tab_button" className={combatTabButtonClass + " ChatTab BackgroundHoverHighlight"} onClick={(e) => this.onSelectCombatTab()}>
                         Combat
                     </div>
                 </div>

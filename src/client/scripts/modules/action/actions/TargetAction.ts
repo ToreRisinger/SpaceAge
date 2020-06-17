@@ -4,6 +4,7 @@ import { Ship } from "../../../game_objects/Ship";
 import { RadarDetectable } from "../../../game_objects/RadarDetectable";
 import { TargetHandler } from "../../TargetHandler";
 import { InputHandler } from "../../InputHandler";
+import { GlobalDataService } from "../../GlobalDataService";
 
 export class TargetAction extends Action {
     
@@ -16,10 +17,11 @@ export class TargetAction extends Action {
     }
 
     public isEnabled(context: RadarDetectable | undefined, target: RadarDetectable | undefined): boolean {
-        return context != undefined 
+        return (GlobalDataService.getInstance().getPlayerShip().getData().state.hasWeapon || GlobalDataService.getInstance().getPlayerShip().getData().state.hasMiningLaser)
+            && (context != undefined 
             && ((context instanceof Asteroid 
             || context instanceof Ship)
-            && context != TargetHandler.getTarget());
+            && context != TargetHandler.getTarget()));
     }
 
     public getShortCut(): InputHandler.EKey {

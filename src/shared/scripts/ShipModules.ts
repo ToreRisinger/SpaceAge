@@ -140,8 +140,8 @@ export module ShipModules {
                     },
                     {
                         stat: Stats.EStatType.thrust,
-                        max : [11000, 12000, 13000, 14000, 15000],
-                        min : [10000, 11000, 12000, 13000, 14000],
+                        max : [21000, 32000, 43000, 54000, 65000],
+                        min : [20000, 31000, 42000, 53000, 64000],
                         modifier : Stats.EStatModifier.increase_additive
                     },
                     {

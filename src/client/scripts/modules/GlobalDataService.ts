@@ -11,7 +11,7 @@ export class GlobalDataService {
     private static _instance : GlobalDataService;
     /* Player */
     private character : ICharacter;
-    private username : String;
+    private characterName : String;
     private playerShip : Ship;
     private sector : Sector;
     
@@ -30,7 +30,7 @@ export class GlobalDataService {
 
     constructor(character: ICharacter, playerShip : Ship, sector : Sector) {
         this.character = character;
-        this.username = character.name;
+        this.characterName = character.name;
         this.playerShip = playerShip;
         this.sector = sector;
         //@ts-ignore
@@ -53,8 +53,8 @@ export class GlobalDataService {
         this.character = character;
     }
 
-    public getUsername() : String {
-        return this.username;
+    public getCharacterName() : String {
+        return this.characterName;
     }
 
     public getPlayerShip() : Ship {

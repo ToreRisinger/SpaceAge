@@ -26,7 +26,7 @@ export class MineAction extends Action {
 
     public isEnabled(selection: RadarDetectable | undefined, target: RadarDetectable | undefined): boolean {
         let isMining = GlobalDataService.getInstance().getPlayerShip().getData().state.isMining;
-        return target != undefined && target instanceof Asteroid && !isMining;
+        return target != undefined && target instanceof Asteroid && !isMining && GlobalDataService.getInstance().getPlayerShip().getData().state.hasMiningLaser;
     }
 
     public getShortCut(): InputHandler.EKey {

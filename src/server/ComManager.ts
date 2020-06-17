@@ -22,16 +22,18 @@ export class ComManager {
     private clientMap: Map<number, SClient>; 
     private combatLogMessages: Array<{receiver: SClient, message: ICombatLogMessage}>;
 
-    constructor(ioServer: any, sectorHandler: SectorHandler) {
+    constructor(http: any, sectorHandler: SectorHandler) {
         this.clientMap = new Map<number, SClient>();
         this.combatLogMessages = new Array();
         this.sectorHandler = sectorHandler;
         
-        ioServer.listen(8081, function () {
-            Logger.info(`Listening on ${ioServer.address().port}`);
+        
+        http.listen(8080, '0.0.0.0', function () {
+            Logger.info(`Listening on ${http.address().port}`);
         });
+        
   
-        this.io = require('socket.io').listen(ioServer);
+        this.io = require('socket.io').listen(http);
 
         this.setupOnConnection();
     }

@@ -2,7 +2,6 @@ import { Database } from "./database/Database";
 import { SectorHandler } from "./sector/SectorHandler";
 import { ComManager } from "./ComManager";
 import { Logger } from "../shared/logger/Logger";
-import { DamageService } from "./DamageService";
 import { CombatLogManager } from "./CombatLogManager";
 
 const UPDATES_PER_SECOND : number = 25;
@@ -14,13 +13,13 @@ export module Server {
     let sectorHandler : SectorHandler;
     let comManager : ComManager;
 
-    export function start(server : any) {
+    export function start(http : any) {
       Logger.setDebug(debug);
       Logger.info("Server started");
       Database.startDb();
     
       sectorHandler = new SectorHandler();
-      comManager = new ComManager(server, sectorHandler);
+      comManager = new ComManager(http, sectorHandler);
       CombatLogManager.init(comManager);
       setupGameLoops();
     }  

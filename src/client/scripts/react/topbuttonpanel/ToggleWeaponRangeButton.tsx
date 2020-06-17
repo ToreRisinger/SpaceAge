@@ -22,7 +22,7 @@ export default class ToggleWeaponRangeButton extends React.Component<{}, ToggleW
    render() {
       const className = this.state.selected ? "SelectedTopPanelButton" : "";
       return (
-         <div id="toggle_weapon_range_button" className={className + " TopPanelButton"} onClick={(e) => this.onClick()}>
+         <div id="toggle_weapon_range_button" className={className + " TopPanelButton BackgroundHoverHighlight"} onClick={(e) => this.onClick()}>
             WR
          </div>
       );

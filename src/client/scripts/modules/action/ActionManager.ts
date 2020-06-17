@@ -11,6 +11,12 @@ import { StopMineAction } from "./actions/StopMineAction";
 import { StopAction } from "./actions/StopAction";
 import { WarpAction } from "./actions/WarpAction";
 import { InputHandler } from "../InputHandler";
+import { ZoomInAction } from "./actions/ZoomInAction";
+import { ZoomOutAction } from "./actions/ZoomOutAction";
+import { MinZoomAction } from "./actions/MinZoom";
+import { MaxZoomAction } from "./actions/MaxZoom";
+import { CenterOnAction } from "./actions/CenterOnAction";
+import { CenterOnShipAction } from "./actions/CenterOnShipAction";
 
 export module ActionManager {
 
@@ -26,7 +32,13 @@ export module ActionManager {
             new MineAction(), 
             new StopMineAction(),
             new StopAction(),
-            new WarpAction());
+            new WarpAction(),
+            new ZoomInAction(),
+            new ZoomOutAction(),
+            new MinZoomAction(),
+            new MaxZoomAction(),
+            new CenterOnAction(),
+            new CenterOnShipAction());
 
         shortcutMap = new Map();
         actions.forEach(action => {

@@ -248,7 +248,7 @@ export module Items {
         },
         [EMineralItemType.DIAMOND_ORE] : {
             image : "assets/image/items/item_diamond_ore.png",
-            name: "Diamon Ore",
+            name: "Diamond Ore",
             description: "Diamond Ore can be refined into Refined Diamond and used as a building material",
             size: 1,
             cargoSpace : 1,

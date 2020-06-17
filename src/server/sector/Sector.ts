@@ -149,6 +149,9 @@ export class Sector {
           }
       
           let divider = getDivider(goodVelVecComp, badVelVecComp);
+          if(divider < 0.25) {
+            divider = 0.25;
+          }
       
           let midPointVec = math.multiply(shipToDestVec, divider);
           return  midPointVec;

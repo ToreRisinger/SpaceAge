@@ -18,6 +18,7 @@ export module Chat {
 
     export function init() {
         chat_input = document.getElementById("chat_input");
+           
         subscribeToEvents();
     }
 
@@ -28,27 +29,35 @@ export module Chat {
     function checkEnterPressed() {
         if(chat_input == null) {
             chat_input = document.getElementById("chat_input");
+            //@ts-ignore 
+            chat_input.disabled = true;
         }
         
         if(InputHandler.getKeyState(InputHandler.EKey.ENTER) == InputHandler.EKeyState.PRESSED) {
             if(chat_input === document.activeElement) {
                 //@ts-ignore
                 chat_input.blur();
+                //@ts-ignore
+                chat_input.disabled = true;
+                InputHandler.setChatInputIsActive(false);
             } else {
                 //@ts-ignore
+                chat_input.disabled = false;
+                //@ts-ignore
                 chat_input.focus();
+                InputHandler.setChatInputIsActive(true);
             }
 
             //@ts-ignore
             let message : String | null = chat_input.value;
             if(message) {
-                let userName = GlobalDataService.getInstance().getUsername();
+                let characterName = GlobalDataService.getInstance().getCharacterName();
                 
                 let event : Events.CLIENT_SEND_CHAT_MESSAGE_EVENT_CONFIG = {
                     eventId : Events.EEventType.CLIENT_SEND_CHAT_MESSAGE_EVENT,
                     data : {
                         message: message,
-                        sender: userName
+                        sender: characterName
                     }
                 }
 
@@ -56,7 +65,7 @@ export module Chat {
                 //@ts-ignore
                 chat_input.value = null;
 
-                addMessage(userName, message);
+                addMessage(characterName, message);
             }
         }
     }

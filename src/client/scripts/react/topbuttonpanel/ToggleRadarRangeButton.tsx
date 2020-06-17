@@ -24,7 +24,7 @@ export default class ToggleRadarRangeButton extends React.Component<{}, ToggleRa
    render() {
       const className = this.state.selected ? "SelectedTopPanelButton" : "";
       return (
-         <div id="toggle_radar_range_button" className={className + " TopPanelButton"} onClick={(e) => this.onClick()}>
+         <div id="toggle_radar_range_button" className={className + " TopPanelButton BackgroundHoverHighlight"} onClick={(e) => this.onClick()}>
             RR
          </div>
       );
