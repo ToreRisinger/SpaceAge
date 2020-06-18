@@ -1,6 +1,6 @@
 import React from "react";
 import { CharacterListProvider } from "../../../modules/CharacterListProvider";
-import { ICharacter } from "../../../../../shared/interfaces/ICharacter";
+import { ICharacter } from "../../../../../shared/data/gameobject/ICharacter";
 import CharacterSelectionContainer from "./CharacterSelectionContainer";
 
 export default class CharacterSelectionPage extends React.Component<{}, {}> {

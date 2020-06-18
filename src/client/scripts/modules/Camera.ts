@@ -1,6 +1,6 @@
 import { GameScene } from "../scenes/GameScene";
 import { EventHandler } from "./EventHandler";
-import { Events } from "../../../shared/scripts/Events";
+import { Events } from "../../../shared/util/Events";
 import { InputHandler } from "./InputHandler";
 import { GlobalDataService } from "./GlobalDataService";
 import { Ship } from "../game_objects/Ship";

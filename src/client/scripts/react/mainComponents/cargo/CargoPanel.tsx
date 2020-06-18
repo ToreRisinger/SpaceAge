@@ -1,12 +1,13 @@
 import React from "react";
 import CargoContainer from "./CargoContainer";
-import { Items } from "../../../../../shared/scripts/Items";
+import { ItemInfo } from "../../../../../shared/data/item/ItemInfo";
 import { EventHandler } from "../../../modules/EventHandler";
-import { Events } from "../../../../../shared/scripts/Events";
+import { Events } from "../../../../../shared/util/Events";
 import { GlobalDataService } from "../../../modules/GlobalDataService";
-import { Stats } from "../../../../../shared/stats/Stats";
+import { IItem } from "../../../../../shared/data/item/IItem";
+import { EStatType } from "../../../../../shared/data/stats/EStatType";
 
-export interface CargoPanelState { items : Array<Items.IItem>}
+export interface CargoPanelState { items : Array<IItem>}
 
 export default class CargoPanel extends React.Component<{}, CargoPanelState> {
    
@@ -66,12 +67,12 @@ export default class CargoPanel extends React.Component<{}, CargoPanelState> {
       let playerShip = GlobalDataService.getInstance().getPlayerShip();
       let shipCargoHoldSize = 0;
       if(playerShip != undefined) {
-         shipCargoHoldSize = playerShip.getData().stats[Stats.EStatType.cargo_hold];
+         shipCargoHoldSize = playerShip.getStat(EStatType.cargo_hold);
       }
 
       let cargoHoldSize = 0
       for(let i = 0; i < this.state.items.length; i++) {
-         let itemInfo : Items.IItemInfo = Items.getItemInfo(this.state.items[i].itemType);
+         let itemInfo : ItemInfo.IItemInfo = ItemInfo.getItemInfo(this.state.items[i].itemType);
          cargoHoldSize += this.state.items[i].quantity * itemInfo.size;
       }
 

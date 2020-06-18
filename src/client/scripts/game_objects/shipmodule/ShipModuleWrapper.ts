@@ -1,8 +1,8 @@
 import { ShipModule } from "./ShipModule";
 import { Ship } from "../Ship";
-import { Items } from "../../../../shared/scripts/Items";
 import { MiningLaserShipModule } from "./MiningLaserShipModule";
 import { WeaponShipModule } from "./WeaponShipModule";
+import { EModuleItemType } from "../../../../shared/data/item/EModuleItemType";
 
 export class ShipModuleWrapper {
 
@@ -10,13 +10,13 @@ export class ShipModuleWrapper {
 
     constructor(ship: Ship, thisPlayerShip: boolean) {
         this.modules = new Array();
-        ship.getData().modules.forEach(_module => {
-            if(_module.moduleItem.itemType == Items.EModuleItemType.MINING_LASER_MODULE) {
+        ship.getModules().forEach(_module => {
+            if(_module.moduleItem.itemType == EModuleItemType.MINING_LASER_MODULE) {
                 this.modules.push(new MiningLaserShipModule(ship, _module, thisPlayerShip));
-            } else if(_module.moduleItem.itemType == Items.EModuleItemType.LASER_MODULE
-                || _module.moduleItem.itemType == Items.EModuleItemType.TURRET_MODULE
-                || _module.moduleItem.itemType == Items.EModuleItemType.RAIL_GUN_MODULE
-                || _module.moduleItem.itemType == Items.EModuleItemType.MISSLE_MODULE){
+            } else if(_module.moduleItem.itemType == EModuleItemType.LASER_MODULE
+                || _module.moduleItem.itemType == EModuleItemType.TURRET_MODULE
+                || _module.moduleItem.itemType == EModuleItemType.RAIL_GUN_MODULE
+                || _module.moduleItem.itemType == EModuleItemType.MISSLE_MODULE){
                 this.modules.push(new WeaponShipModule(ship, _module, thisPlayerShip));
             } else {
                 this.modules.push(new ShipModule(ship, _module, thisPlayerShip));
@@ -28,12 +28,6 @@ export class ShipModuleWrapper {
         this.modules.forEach(_module => {
             _module.update();
         })
-
-        /*
-        this.modules.forEach(_module => {
-            _module.rotate(this.rotation);
-        })
-        */
     }
 
     public setVisible(value : boolean) : void {

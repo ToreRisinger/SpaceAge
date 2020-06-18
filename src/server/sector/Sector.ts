@@ -1,10 +1,10 @@
 import { PacketFactory } from "../PacketFactory";
-import { Stats } from "../../shared/stats/Stats";
 import { SClient } from "../objects/SClient";
 import { SCharacter } from "../objects/SCharacter";
-import { ICharacter } from "../../shared/interfaces/ICharacter";
+import { ICharacter } from "../../shared/data/gameobject/ICharacter";
 import { DamageService } from "../DamageService";
-import { ESectorType } from "../../shared/interfaces/ISector";
+import { ESectorType } from "../../shared/data/sector/ESectorType";
+import { EStatType } from "../../shared/data/stats/EStatType";
 
 const math = require('mathjs');
 math.length = function vec2Length(vec2 : Array<number>) {
@@ -174,7 +174,7 @@ export class Sector {
           return newVelVec;
         }
         
-        let acceleration = characterData.stats[Stats.EStatType.acceleration];
+        let acceleration = characterData.stats[EStatType.acceleration];
         let destVec = characterData.state.destVec;
         let shipPosVec = [characterData.x, characterData.y];
         let shipToDestVec = math.subtract(destVec, shipPosVec);
@@ -200,7 +200,7 @@ export class Sector {
 
           let newVelVecLength = math.length(newVelVec);
 
-          let shipMaxSpeed = characterData.stats[Stats.EStatType.max_speed];
+          let shipMaxSpeed = characterData.stats[EStatType.max_speed];
           if(newVelVecLength > shipMaxSpeed) {
             characterData.state.velVec = math.multiply(newVelVec, shipMaxSpeed/newVelVecLength)
           } else {
@@ -224,7 +224,7 @@ export class Sector {
             let targetShipPos = [targetCharacter.getData().x, targetCharacter.getData().y];
             let attackingShipToTargetShipVec = math.subtract(attackingShipPos, targetShipPos);
             let attackingShipToTargetShipDistance : number = math.length(attackingShipToTargetShipVec);
-            let attackingShipWeaponRange = attackingCharacter.getData().stats[Stats.EStatType.weapon_range];
+            let attackingShipWeaponRange = attackingCharacter.getData().stats[EStatType.weapon_range];
             if(attackingShipToTargetShipDistance <= attackingShipWeaponRange) {
                 DamageService.attackShip(attackingCharacter, targetCharacter);
             } 

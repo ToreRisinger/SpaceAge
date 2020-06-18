@@ -1,6 +1,6 @@
 import { GameScene, EParticleManagerType } from "../../scenes/GameScene";
 import { Camera } from "../Camera";
-import { ISprite } from "../../../../shared/interfaces/ISprite";
+import { ISprite } from "../../../../shared/data/ISprite";
 
 export namespace Graphics {
     

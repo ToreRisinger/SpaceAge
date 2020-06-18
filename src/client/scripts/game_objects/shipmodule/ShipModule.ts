@@ -1,8 +1,8 @@
 import { Ship } from "../Ship";
-import { ObjectInterfaces } from "../../../../shared/scripts/ObjectInterfaces";
-import { ShipModules } from "../../../../shared/scripts/ShipModules";
+import { ShipModuleInfo } from "../../../../shared/data/shipmodule/ShipModuleInfo";
 import { DRAW_LAYERS } from "../../constants/DRAW_LAYERS";
 import { Graphics } from "../../modules/graphics/Graphics";
+import { IShipModuleInstance } from "../../../../shared/data/IShipModuleInstance";
 
 export class ShipModule {
 
@@ -10,14 +10,14 @@ export class ShipModule {
 
     private sprite : Graphics.Sprite;
     private ship: Ship;
-    private module: ObjectInterfaces.IShipModuleInstance;
+    private module: IShipModuleInstance;
     private thisPlayerShip: boolean;
 
-    constructor(ship: Ship, _module: ObjectInterfaces.IShipModuleInstance, thisPlayerShip: boolean) {
+    constructor(ship: Ship, _module: IShipModuleInstance, thisPlayerShip: boolean) {
         this.thisPlayerShip = thisPlayerShip;
         this.ship = ship;
         this.module = _module;
-        this.sprite = new Graphics.Sprite( ShipModules.getModuleInfo(this.module.moduleItem.itemType).sprite, this.getCalculatedModuleX(), this.getCalculatedModuleY());
+        this.sprite = new Graphics.Sprite( ShipModuleInfo.getModuleInfo(this.module.moduleItem.itemType).sprite, this.getCalculatedModuleX(), this.getCalculatedModuleY());
         this.setupSprite();
     }
 

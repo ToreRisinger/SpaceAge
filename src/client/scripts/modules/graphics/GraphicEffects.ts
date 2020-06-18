@@ -1,12 +1,12 @@
 import { Ship } from "../../game_objects/Ship";
 import { DRAW_LAYERS } from "../../constants/DRAW_LAYERS";
 import { GlobalDataService } from "../GlobalDataService";
-import { Stats } from "../../../../shared/stats/Stats";
-import { Colors } from "../colors/Colors";
+import { Colors } from "../../../../shared/colors/Colors";
 import { EventHandler } from "../EventHandler";
-import { Events } from "../../../../shared/scripts/Events";
+import { Events } from "../../../../shared/util/Events";
 import { Graphics } from "./Graphics";
 import { Camera } from "../Camera";
+import { EStatType } from "../../../../shared/data/stats/EStatType";
 
 
 export module GraphicsEffects {
@@ -58,11 +58,11 @@ export module GraphicsEffects {
         let ship : Ship = GlobalDataService.getInstance().getPlayerShip();
         let x = ship.getPos().x;
         let y = ship.getPos().y;
-        if(ship.getIsMoving() && ship.getData().state.hasDestination) {
+        if(ship.getIsMoving() && ship.hasDestination()) {
             destinationLine.setLineWidth(cameraZoom);
 
-            destinationLine.setPos(x, y, ship.getDestinationPos().x, ship.getDestinationPos().y);
-            destinationCircle.setPos(ship.getDestinationPos().x, ship.getDestinationPos().y);
+            destinationLine.setPos(x, y, ship.getDestinationVec().x, ship.getDestinationVec().y);
+            destinationCircle.setPos(ship.getDestinationVec().x, ship.getDestinationVec().y);
 
             destinationCircleGrapicsScale -= 0.05; 
             if(destinationCircleGrapicsScale < 1) {
@@ -76,19 +76,19 @@ export module GraphicsEffects {
 
         if(showRadarRange) {
             radarRangeCircle.setPos(x, y);
-            radarRangeCircle.setRadius(ship.getData().stats[Stats.EStatType.radar_range]);
+            radarRangeCircle.setRadius(ship.getStat(EStatType.radar_range));
             radarMaxRangeCircle.setPos(x, y);
-            radarMaxRangeCircle.setRadius(ship.getData().stats[Stats.EStatType.radar_range] * 10);
+            radarMaxRangeCircle.setRadius(ship.getStat(EStatType.radar_range) * 10);
         }
 
         if(showMiningRange) {
            miningRangeCircle.setPos(x, y);
-           miningRangeCircle.setRadius(ship.getData().stats[Stats.EStatType.mining_laser_range]);
+           miningRangeCircle.setRadius(ship.getStat(EStatType.mining_laser_range));
         }
         
         if(showWeaponRange) {
            weaponRangeCircle.setPos(x, y);
-           weaponRangeCircle.setRadius(ship.getData().stats[Stats.EStatType.weapon_range]);
+           weaponRangeCircle.setRadius(ship.getStat(EStatType.weapon_range));
         }
 
         destinationLine.update();

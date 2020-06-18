@@ -1,10 +1,10 @@
 import React from "react";
-import { ObjectInterfaces } from "../../../../shared/scripts/ObjectInterfaces";
 import CargoItem from "../mainComponents/cargo/CargoItem";
 import CargoSlot from "../mainComponents/cargo/CargoSlot";
-import { Items } from "../../../../shared/scripts/Items";
+import { IShipModuleInstance } from "../../../../shared/data/IShipModuleInstance";
+import { IItem } from "../../../../shared/data/item/IItem";
 
-export interface ShipDisplayProps { modules : Array<ObjectInterfaces.IShipModuleInstance>}
+export interface ShipDisplayProps { modules : Array<IShipModuleInstance>}
 
 export default class ShipDisplay extends React.Component<ShipDisplayProps, {}> {
 
@@ -17,7 +17,7 @@ export default class ShipDisplay extends React.Component<ShipDisplayProps, {}> {
         let lowestY = 0;
         let highestX = 0;
         let highestY = 0;
-        let coordToModuleMap : Map<String, Items.IItem> = new Map<String, Items.IItem>();
+        let coordToModuleMap : Map<String, IItem> = new Map<String, IItem>();
 
         for(let i = 0; i < this.props.modules.length; i++) {
             let module = this.props.modules[i];

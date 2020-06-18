@@ -1,0 +1,22 @@
+export enum EModuleItemType {
+    //Main modules
+    MAIN_MODULE = 0,
+
+    //Modules
+    SHIELD_MODULE,
+    ARMOR_MODULE,
+    ENGINE_MODULE,
+    RADAR_MODULE,
+    CARGO_HOLD_MODULE,
+    TRACKING_SYSTEM_MODULE,
+    CLOAK_SYSTEM_MODULE,
+    POWER_MODULE,
+    SUPPORT_MODULE,
+
+    //Weapon modules
+    MINING_LASER_MODULE,
+    LASER_MODULE,
+    MISSLE_MODULE,
+    TURRET_MODULE,
+    RAIL_GUN_MODULE,
+}

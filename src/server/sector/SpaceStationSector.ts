@@ -1,11 +1,9 @@
 import { Sector } from "./Sector";
-import { ESectorType } from "../../shared/interfaces/ISector";
-import { ISpaceStation } from "../../shared/interfaces/ISpaceStation";
+import { ISpaceStation } from "../../shared/data/ISpaceStation";
 import { IdHandler } from "../IdHandler";
-import { Utils } from "../../shared/scripts/Utils";
-import { Events } from "../../shared/scripts/Events";
-
-
+import { Utils } from "../../shared/util/Utils";
+import { Events } from "../../shared/util/Events";
+import { ESectorType } from "../../shared/data/sector/ESectorType";
 
 export class SpaceStationSector extends Sector {
 

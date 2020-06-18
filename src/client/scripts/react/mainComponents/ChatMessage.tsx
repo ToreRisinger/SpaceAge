@@ -1,9 +1,10 @@
 import React from "react";
-import { Chat } from "./../../modules/Chat"
-import { Colors } from "../../modules/colors/Colors";
+import { Colors } from "../../../../shared/colors/Colors";
 import { GlobalDataService } from "../../modules/GlobalDataService";
+import { IChatMessage } from "../../../../shared/data/IChatMessage";
 
-export interface ChatMessageProps { chatMessage : Chat.IChatMessage; }
+
+export interface ChatMessageProps { chatMessage : IChatMessage; }
 
 export default class ChatMessage extends React.Component<ChatMessageProps, {}> {
 

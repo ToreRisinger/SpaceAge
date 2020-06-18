@@ -17,7 +17,7 @@ export class CenterOnAction extends Action {
 
     public isEnabled(selection: RadarDetectable | undefined, target: RadarDetectable | undefined): boolean {
         let centeredObject = Camera.getCenteredObject();
-        return selection != undefined && (centeredObject == undefined || centeredObject.getGameObjectData().id != selection.getGameObjectData().id);
+        return selection != undefined && (centeredObject == undefined || centeredObject.getId() != selection.getId());
     }
 
     public getShortCut(): InputHandler.EKey {

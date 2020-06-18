@@ -1,8 +1,9 @@
 import React, { Fragment, MouseEvent } from "react";
-import { Items } from "../../../../../shared/scripts/Items";
+import { ItemInfo } from "../../../../../shared/data/item/ItemInfo";
 import ItemToolTipModuleAttributes from "./ItemToolTipModuleAttributes";
+import { IItem } from "../../../../../shared/data/item/IItem";
 
-export interface CargoItemProps { item : Items.IItem }
+export interface CargoItemProps { item : IItem }
 export interface CargoItemState { mouseX : number, mouseY : number }
 
 export default class CargoItem extends React.Component<CargoItemProps, CargoItemState> {
@@ -26,7 +27,7 @@ export default class CargoItem extends React.Component<CargoItemProps, CargoItem
             left : this.state.mouseX - 320
         }
         
-        let itemInfo : Items.IItemInfo = Items.getItemInfo(this.props.item.itemType);
+        let itemInfo : ItemInfo.IItemInfo = ItemInfo.getItemInfo(this.props.item.itemType);
         return (
             <div className="CargoItem Unselectable" onMouseMove={this.onMouseMove}>
                 <img className="CargoItemImage" src={itemInfo.image}/>

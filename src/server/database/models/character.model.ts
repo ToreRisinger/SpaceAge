@@ -1,5 +1,5 @@
 import mongoose, {Schema, Document, Types} from 'mongoose'
-import { ICharacter } from '../../../shared/interfaces/ICharacter';
+import { ICharacter } from '../../../shared/data/gameobject/ICharacter';
 
 export interface ICharacterDocument extends Document {
     character : ICharacter;

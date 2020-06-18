@@ -1,9 +1,14 @@
-import { ShipModules } from "../shared/scripts/ShipModules";
-import { Items } from "../shared/scripts/Items";
+import { ShipModuleInfo } from "../shared/data/shipmodule/ShipModuleInfo";
+import { ItemInfo } from "../shared/data/item/ItemInfo";
+import { EMineralItemType } from "../shared/data/item/EMineralItemType";
+import { IItem } from "../shared/data/item/IItem";
+import { EModuleItemType } from "../shared/data/item/EModuleItemType";
+import { IModuleStat } from "../shared/data/item/IModuleStat";
+import { IModuleStatGenerationConfig } from "../shared/data/shipmodule/IModuleStatGenerationConfig";
 
 export module ItemFactory {
 
-    export function createMineral(itemType : Items.EMineralItemType, quantity : number) : Items.IItem {
+    export function createMineral(itemType : EMineralItemType, quantity : number) : IItem {
         return {
             itemType : itemType,
             quantity : quantity,
@@ -11,7 +16,7 @@ export module ItemFactory {
         }
     }
     
-    export function createModule(itemType : Items.EModuleItemType, quality : number) : Items.IItem {
+    export function createModule(itemType : EModuleItemType, quality : number) : IItem {
         return {
             itemType : itemType,
             quantity : 1,
@@ -22,16 +27,16 @@ export module ItemFactory {
         };
     }
 
-    function generateModuleProperties(shipModuleType : Items.EModuleItemType, quality : number) : Array<Items.IModuleStat> {
-        let result = new Array<Items.IModuleStat>();
-        let shipModuleInfo : ShipModules.IShipModuleInfo = ShipModules.getModuleInfo(shipModuleType);
+    function generateModuleProperties(shipModuleType : EModuleItemType, quality : number) : Array<IModuleStat> {
+        let result = new Array<IModuleStat>();
+        let shipModuleInfo : ShipModuleInfo.IShipModuleInfo = ShipModuleInfo.getModuleInfo(shipModuleType);
         shipModuleInfo.stats.base.forEach(
             obj => result.push(generateModuleProperty(obj, quality))
         );
         return result;
     }
 
-    function generateModuleProperty(modulePropertyGenerationConfig : ShipModules.ModuleStatGenerationConfig, quality : number) : Items.IModuleStat {
+    function generateModuleProperty(modulePropertyGenerationConfig : IModuleStatGenerationConfig, quality : number) : IModuleStat {
         return { 
             property : modulePropertyGenerationConfig.stat,
             modifier : modulePropertyGenerationConfig.modifier,

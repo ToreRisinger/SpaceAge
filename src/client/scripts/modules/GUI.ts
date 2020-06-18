@@ -1,6 +1,6 @@
 import { GameScene } from "../scenes/GameScene";
-import { Events } from "../../../shared/scripts/Events";
-import { Utils } from "../../../shared/scripts/Utils";
+import { Events } from "../../../shared/util/Events";
+import { Utils } from "../../../shared/util/Utils";
 import { EventHandler } from "./EventHandler";
 import { GlobalDataService } from "./GlobalDataService";
 import { Camera } from "./Camera";

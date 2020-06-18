@@ -1,21 +1,23 @@
 import { Sector } from "./Sector";
-import { AsteroidData } from "../../shared/scripts/AsteroidData";
+import { AsteroidInfo } from "../../shared/data/astroid/AsteroidInfo";
 import { IdHandler } from "../IdHandler";
-import { Utils } from "../../shared/scripts/Utils";
+import { Utils } from "../../shared/util/Utils";
 import { PacketFactory } from "../PacketFactory";
 import { ItemFactory } from "../ItemFactory";
-import { Items } from "../../shared/scripts/Items";
+import { ItemInfo } from "../../shared/data/item/ItemInfo";
 import { CargoUtils } from "../CargoUtils";
-import { Stats } from "../../shared/stats/Stats";
 import { SClient } from "../objects/SClient";
 import { CombatLogManager } from "../CombatLogManager";
-import { ESectorType } from "../../shared/interfaces/ISector";
+import { EMineralItemType } from "../../shared/data/item/EMineralItemType";
+import { IAsteroid } from "../../shared/data/astroid/IAstroid";
+import { ESectorType } from "../../shared/data/sector/ESectorType";
+import { EStatType } from "../../shared/data/stats/EStatType";
 
 const math = require('mathjs');
 
 export class AsteroidBeltSector extends Sector {
 
-    private type : Items.EMineralItemType;
+    private type : EMineralItemType;
     private hardness : number;
     private minSize : number;
     private maxSize : number;
@@ -24,7 +26,7 @@ export class AsteroidBeltSector extends Sector {
 
     private timePassedSinceLastGeneration : number;
 
-    private asteroids : Map<number, AsteroidData.IAsteroid>;
+    private asteroids : Map<number, IAsteroid>;
 
     constructor(
         sector_x : number,
@@ -34,7 +36,7 @@ export class AsteroidBeltSector extends Sector {
         sectorName : string,
         id : number,
         sectorType: ESectorType,
-        type : Items.EMineralItemType, 
+        type : EMineralItemType, 
         hardness : number, 
         minSize : number, 
         maxSize : number, 
@@ -49,7 +51,7 @@ export class AsteroidBeltSector extends Sector {
         this.maxNrOfAsteroids = maxNrOfAsteroids;
         this.timePassedSinceLastGeneration = 0;
 
-        this.asteroids = new Map<number, AsteroidData.IAsteroid>();
+        this.asteroids = new Map<number, IAsteroid>();
     }
 
     public update40ms() {
@@ -77,7 +79,7 @@ export class AsteroidBeltSector extends Sector {
     }
 
     private createAsteroid() {
-        let asteroid : AsteroidData.IAsteroid = {
+        let asteroid : IAsteroid = {
             id : IdHandler.getNewGameObjectId(),
             hardness : this.hardness,
             size : Utils.getRandomNumber(this.minSize, this.maxSize),
@@ -92,15 +94,15 @@ export class AsteroidBeltSector extends Sector {
     private handleMiningShip(client: SClient) {
         let character = client.getData().character;
         let targetAsteroid = this.asteroids.get(character.state.targetId);
-        let cargoSpaceLeft = client.getCharacter().getData().stats[Stats.EStatType.cargo_hold] - CargoUtils.getCargoSize(client);
+        let cargoSpaceLeft = client.getCharacter().getData().stats[EStatType.cargo_hold] - CargoUtils.getCargoSize(client);
         if(targetAsteroid != undefined && cargoSpaceLeft > 0) {
           let miningShipPos = [character.x, character.y];
           let asteroidPos = [targetAsteroid.x, targetAsteroid.y];
           let miningShipToAsteroidVec = math.subtract(miningShipPos, asteroidPos);
           let miningShipToAsteroidDistance : number = math.length(miningShipToAsteroidVec);
-          let miningShipMiningRange = client.getCharacter().getData().stats[Stats.EStatType.mining_laser_range];
+          let miningShipMiningRange = client.getCharacter().getData().stats[EStatType.mining_laser_range];
           if(miningShipToAsteroidDistance <= miningShipMiningRange) {
-            let sizeMined = Math.floor(client.getCharacter().getData().stats[Stats.EStatType.mining_laser_strength] / targetAsteroid.hardness);
+            let sizeMined = Math.floor(client.getCharacter().getData().stats[EStatType.mining_laser_strength] / targetAsteroid.hardness);
             if(sizeMined == 0) {
                 sizeMined = 1;
             }

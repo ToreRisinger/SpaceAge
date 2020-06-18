@@ -1,15 +1,11 @@
 import { EventHandler } from "./EventHandler";
-import { Events } from "../../../shared/scripts/Events";
+import { Events } from "../../../shared/util/Events";
 import { InputHandler } from "./InputHandler";
 import { GlobalDataService } from "./GlobalDataService";
-import { ICombatLogMessage } from "../../../shared/interfaces/CombatLogInterfaces";
+import { ICombatLogMessage } from "../../../shared/data/CombatLogInterfaces";
+import { IChatMessage } from "../../../shared/data/IChatMessage";
 
 export module Chat {
-
-    export interface IChatMessage {
-        message : String,
-        sender : String
-    }
 
     let chatMessages : Array<IChatMessage> = [];
     let combatLog: Array<ICombatLogMessage> = [];

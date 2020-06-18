@@ -1,0 +1,6 @@
+export enum EDamageType {
+    NORMAL_DAMAGE,
+    EXPLOSIVE_DAMAGE,
+    HEAT_DAMAGE,
+    IMPACT_DAMAGE
+}

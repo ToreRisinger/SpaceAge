@@ -1,5 +1,5 @@
 import { EventHandler } from "./EventHandler"
-import { Events } from "../../../shared/scripts/Events"
+import { Events } from "../../../shared/util/Events"
 
 export module Com {
 

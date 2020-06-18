@@ -1,9 +1,6 @@
 import { IClient } from "../interfaces/IClient";
-import { IdHandler } from "../IdHandler";
 import { SCharacter } from "./SCharacter";
-import { Events } from "../../shared/scripts/Events";import { Stats } from "../../shared/stats/Stats";
-import { Skills } from "../../shared/skills/Skills";
-;
+import { Events } from "../../shared/util/Events";
 
 export class SClient {
 

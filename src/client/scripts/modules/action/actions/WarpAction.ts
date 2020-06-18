@@ -1,8 +1,7 @@
 import { Action } from "../fw/Action";
 import { RadarDetectable } from "../../../game_objects/RadarDetectable";
-import { Events } from "../../../../../shared/scripts/Events";
+import { Events } from "../../../../../shared/util/Events";
 import { EventHandler } from "../../EventHandler";
-import { Ship } from "../../../game_objects/Ship";
 import { GlobalDataService } from "../../GlobalDataService";
 import { Sector } from "../../../game_objects/Sector";
 import { InputHandler } from "../../InputHandler";
@@ -18,16 +17,16 @@ export class WarpAction extends Action {
             eventId : Events.EEventType.PLAYER_START_WARP_REQUEST_EVENT,
             data : {
                 //@ts-ignore
-                targetId : selection.getGameObjectData().id
+                targetId : selection.getId()
             }
         }
         EventHandler.pushEvent(newEvent);
     }
 
     public isEnabled(selection: RadarDetectable | undefined, target: RadarDetectable | undefined): boolean {
-        let sectorId = GlobalDataService.getInstance().getSector().getGameObjectData().id;
-        return selection != undefined && selection instanceof Sector && !GlobalDataService.getInstance().getCharacter().state.isWarping
-        && sectorId != selection.getGameObjectData().id;
+        let sectorId = GlobalDataService.getInstance().getSector().getId();
+        return selection != undefined && selection instanceof Sector && !GlobalDataService.getInstance().getPlayerShip().isWarping()
+        && sectorId != selection.getId();
     }
 
     public getShortCut(): InputHandler.EKey {

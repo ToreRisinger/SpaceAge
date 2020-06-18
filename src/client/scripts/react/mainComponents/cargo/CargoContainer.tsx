@@ -1,9 +1,9 @@
 import React from "react";
 import CargoSlot from "./CargoSlot";
-import { Items } from "../../../../../shared/scripts/Items";
 import CargoItem from "./CargoItem";
+import { IItem } from "../../../../../shared/data/item/IItem";
 
-export interface CargoContainerProps { items : Array<Items.IItem>}
+export interface CargoContainerProps { items : Array<IItem>}
 
 export default class CargoContainer extends React.Component<CargoContainerProps, {}> {
 

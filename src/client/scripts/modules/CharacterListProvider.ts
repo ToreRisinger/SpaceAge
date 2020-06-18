@@ -1,4 +1,4 @@
-import { ICharacter } from "../../../shared/interfaces/ICharacter";
+import { ICharacter } from "../../../shared/data/gameobject/ICharacter";
 
 export class CharacterListProvider {
 

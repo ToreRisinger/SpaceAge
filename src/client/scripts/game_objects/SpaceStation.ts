@@ -1,9 +1,8 @@
 import { RadarDetectable } from "./RadarDetectable";
-import { ISpaceStation } from "../../../shared/interfaces/ISpaceStation";
-import { SPRITES } from "../../../shared/scripts/SPRITES";
-import { GameScene } from "../scenes/GameScene";
+import { ISpaceStation } from "../../../shared/data/ISpaceStation";
 import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
 import { Graphics } from "../modules/graphics/Graphics";
+import { SPRITES } from "../../../shared/util/SPRITES";
 
 export class SpaceStation extends RadarDetectable {
     
@@ -43,7 +42,7 @@ export class SpaceStation extends RadarDetectable {
         this.spaceStationSprite.setVisible(value)
     }
 
-    public getDisplayName(): string {
+    public getCharacterName(): string {
         return this.spaceStationData.name;
     }
 

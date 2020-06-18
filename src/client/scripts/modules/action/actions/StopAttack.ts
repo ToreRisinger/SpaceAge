@@ -1,7 +1,6 @@
 import { Action } from "../fw/Action";
 import { RadarDetectable } from "../../../game_objects/RadarDetectable";
-import { TargetHandler } from "../../TargetHandler";
-import { Events } from "../../../../../shared/scripts/Events";
+import { Events } from "../../../../../shared/util/Events";
 import { EventHandler } from "../../EventHandler";
 import { GlobalDataService } from "../../GlobalDataService";
 import { InputHandler } from "../../InputHandler";
@@ -25,7 +24,7 @@ export class StopAttackAction extends Action {
     }
 
     public canStopAttack(): boolean {
-        return GlobalDataService.getInstance().getPlayerShip().getData().state.isAttacking;
+        return GlobalDataService.getInstance().getPlayerShip().isAttacking();
     }
 
     public getShortCut(): InputHandler.EKey {

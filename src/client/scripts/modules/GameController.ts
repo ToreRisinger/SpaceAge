@@ -1,5 +1,4 @@
 import { EventHandler } from "./EventHandler";
-import { AbilityHandler } from "./abilities/AbilityHandler";
 import { SelectionHandler } from "./SelectionHandler";
 import { TargetHandler } from "./TargetHandler";
 import { Background } from "./Background";
@@ -10,16 +9,16 @@ import { Camera } from "./Camera";
 import { GraphicsEffects } from "./graphics/GraphicEffects";
 import { Com } from "./Com";
 import { GUI } from "./GUI";
-import { Events } from "../../../shared/scripts/Events";
-import { EGameState } from "../../../shared/scripts/EGameState";
+import { Events } from "../../../shared/util/Events";
 import { CharacterListProvider } from "./CharacterListProvider";
 import { GlobalDataService } from "./GlobalDataService";
 import { Sector } from "../game_objects/Sector";
 import { Ship } from "../game_objects/Ship";
 import { Logger } from "../../../shared/logger/Logger";
-import { ICharacter } from "../../../shared/interfaces/ICharacter";
-import { ISector } from "../../../shared/interfaces/ISector";
+import { ICharacter } from "../../../shared/data/gameobject/ICharacter";
 import { ActionManager } from "./action/ActionManager";
+import { EGameState } from "../../../shared/util/EGameState";
+import { ISector } from "../../../shared/data/sector/ISector";
 
 export class GameController {
 

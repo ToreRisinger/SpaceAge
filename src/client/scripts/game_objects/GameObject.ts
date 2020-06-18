@@ -1,37 +1,38 @@
-import { ObjectInterfaces } from "../../../shared/scripts/ObjectInterfaces";
+import { IGameObject } from "../../../shared/data/gameobject/IGameObject";
+import { Identifiable } from "./Identifiable";
 
-export class GameObject {
+export class GameObject extends Identifiable {
 
-    private game_object_config : ObjectInterfaces.IGameObject;
+    private gameObjectData : IGameObject;
 
-    constructor(game_object_config : ObjectInterfaces.IGameObject) {
-        game_object_config.x = Math.floor(game_object_config.x);
-        game_object_config.y = Math.floor(game_object_config.y);
-        this.game_object_config = game_object_config;
+    constructor(gameObjectData : IGameObject) {
+        super(gameObjectData);   
+        /*
+        gameObjectData.x = Math.floor(gameObjectData.x);
+        gameObjectData.y = Math.floor(gameObjectData.y);
+        */
+        this.gameObjectData = gameObjectData;
     }
 
     public getPos() {
-        return new Phaser.Math.Vector2(this.game_object_config.x, this.game_object_config.y);
+        return new Phaser.Math.Vector2(this.gameObjectData.x, this.gameObjectData.y);
     }
 
     public setPos(x: number, y: number) {
-        this.game_object_config.x = x;
-        this.game_object_config.y = y;
+        this.gameObjectData.x = x;
+        this.gameObjectData.y = y;
     }
 
     public update() {
         
     }
 
-    public updateDataObjectConfig(game_object_config : ObjectInterfaces.IGameObject) {
-        this.game_object_config = game_object_config;
+    public updateData(gameObjectData : IGameObject) {
+        this.gameObjectData = gameObjectData;
+        super.updateData(gameObjectData);
     }
 
     public destroy() {
         
-    }
-
-    public getGameObjectData() : ObjectInterfaces.IGameObject {
-        return this.game_object_config;
     }
 }

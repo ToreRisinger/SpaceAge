@@ -1,26 +1,26 @@
 import { RadarDetectable } from "./RadarDetectable";
-import { AsteroidData } from "../../../shared/scripts/AsteroidData";
-import { SPRITES } from "../../../shared/scripts/SPRITES";
-import { GameScene } from "../scenes/GameScene";
+import { AsteroidInfo } from "../../../shared/data/astroid/AsteroidInfo";
 import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
-import { Utils } from "../../../shared/scripts/Utils";
+import { Utils } from "../../../shared/util/Utils";
 import { Graphics } from "../modules/graphics/Graphics";
+import { IAsteroid } from "../../../shared/data/astroid/IAstroid";
+import { SPRITES } from "../../../shared/util/SPRITES";
+import { EMineralItemType } from "../../../shared/data/item/EMineralItemType";
 
 export class Asteroid extends RadarDetectable {
 
-    private asteroid_config : AsteroidData.IAsteroid;
+    private asteroid_config : IAsteroid;
     private sprite : Graphics.Sprite;
 
-    constructor(asteroid_config : AsteroidData.IAsteroid) {
+    constructor(asteroid_config : IAsteroid) {
         super(asteroid_config, SPRITES.ASTEROID_ICON.sprite, false, false);
         this.asteroid_config = asteroid_config;
-        this.sprite = new Graphics.Sprite(AsteroidData.getAsteroidInfo(this.asteroid_config.type).sprite, Math.floor(this.asteroid_config.x), Math.floor(this.asteroid_config.y));
+        this.sprite = new Graphics.Sprite(AsteroidInfo.getAsteroidInfo(this.asteroid_config.type).sprite, Math.floor(this.asteroid_config.x), Math.floor(this.asteroid_config.y));
         this.setupSprite();
     }
 
     public update() {
         super.update();
-        //let pos = this.getPos();
         this.sprite.update();
     }
 
@@ -29,21 +29,29 @@ export class Asteroid extends RadarDetectable {
         super.destroy();
     }
 
-    public getAsteroidData() : AsteroidData.IAsteroid {
-        return this.asteroid_config;
-    }
-
-    public updateDataObjectConfig(asteroid_config : AsteroidData.IAsteroid) {
-        super.updateDataObjectConfig(asteroid_config);
+    public updateData(asteroid_config : IAsteroid) {
+        super.updateData(asteroid_config);
         this.asteroid_config = asteroid_config;
     }
 
-    public getDisplayName() : string {
-        return AsteroidData.getAsteroidInfo(this.asteroid_config.type).name;
+    public getCharacterName() : string {
+        return AsteroidInfo.getAsteroidInfo(this.asteroid_config.type).name;
+    }
+
+    public getMineralType(): EMineralItemType {
+        return this.asteroid_config.type;
+    }
+
+    public getHardness(): number {
+        return this.asteroid_config.hardness;
+    }
+
+    public getSize(): number {
+        return this.asteroid_config.size;
     }
 
     public getDisplayInformation() : Array<string> {
-        let asteroidInfo = AsteroidData.getAsteroidInfo(this.asteroid_config.type);
+        let asteroidInfo = AsteroidInfo.getAsteroidInfo(this.asteroid_config.type);
         return new Array<string>(
                 "Hardness: " + this.asteroid_config.hardness, 
                 "Mineral:  " + asteroidInfo.mineral,
@@ -53,7 +61,7 @@ export class Asteroid extends RadarDetectable {
     }
 
     protected getRadarMass() : number {
-       return this.asteroid_config.size * AsteroidData.getAsteroidInfo(this.asteroid_config.type).massPerM2;
+       return this.asteroid_config.size * AsteroidInfo.getAsteroidInfo(this.asteroid_config.type).massPerM2;
     }
 
     protected setVisible(value : boolean) : void {

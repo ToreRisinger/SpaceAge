@@ -1,6 +1,6 @@
 import React from "react";
-import { ICombatLogMessage } from "../../../../shared/interfaces/CombatLogInterfaces";
 import CombatLogMessage from "./CombatLogMessage";
+import { ICombatLogMessage } from "../../../../shared/data/CombatLogInterfaces";
 
 export interface CombatLogContainerProps { combatLogMessages : Array<ICombatLogMessage>; }
 

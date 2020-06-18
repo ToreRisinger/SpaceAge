@@ -1,6 +1,6 @@
 import { Action } from "../fw/Action";
 import { RadarDetectable } from "../../../game_objects/RadarDetectable";
-import { Events } from "../../../../../shared/scripts/Events";
+import { Events } from "../../../../../shared/util/Events";
 import { EventHandler } from "../../EventHandler";
 import { Ship } from "../../../game_objects/Ship";
 import { GlobalDataService } from "../../GlobalDataService";
@@ -17,7 +17,7 @@ export class AttackAction extends Action {
             eventId : Events.EEventType.PLAYER_START_ATTACKING_EVENT,
             data : {
                 //@ts-ignore
-                targetId : selection.getGameObjectData().id
+                targetId : selection.getId()
             }
         }
         EventHandler.pushEvent(newEvent); 
@@ -28,8 +28,8 @@ export class AttackAction extends Action {
     }
 
     public canAttack(selection: RadarDetectable | undefined, targetObject: RadarDetectable | undefined): boolean {
-        let isAttacking = GlobalDataService.getInstance().getPlayerShip().getData().state.isAttacking;
-        return targetObject != undefined && targetObject instanceof Ship && !isAttacking && GlobalDataService.getInstance().getPlayerShip().getData().state.hasWeapon;
+        let isAttacking = GlobalDataService.getInstance().getPlayerShip().isAttacking();
+        return targetObject != undefined && targetObject instanceof Ship && !isAttacking && GlobalDataService.getInstance().getPlayerShip().hasWeapon();
     }
 
     public getShortCut(): InputHandler.EKey {

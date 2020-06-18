@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
-import { ICombatLogMessage, ICombatLogMessageType } from "../../../../shared/interfaces/CombatLogInterfaces";
-import { Colors } from "../../modules/colors/Colors";
+import { Colors } from "../../../../shared/colors/Colors";
+import { ICombatLogMessage, ICombatLogMessageType } from "../../../../shared/data/CombatLogInterfaces";
 
 export interface CombatLogMessageProps { combatLogMessage : ICombatLogMessage; }
 

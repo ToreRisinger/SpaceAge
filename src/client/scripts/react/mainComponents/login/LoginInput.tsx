@@ -1,6 +1,6 @@
 import React from "react";
 import { EventHandler } from "../../../modules/EventHandler";
-import { Events } from "../../../../../shared/scripts/Events";
+import { Events } from "../../../../../shared/util/Events";
 
 export default class LoginInput extends React.Component<{}, {}> {
 

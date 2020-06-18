@@ -1,17 +1,18 @@
 import { EventHandler } from "./EventHandler"
-import { Events } from "../../../shared/scripts/Events"
+import { Events } from "../../../shared/util/Events"
 import { Ship } from "../game_objects/Ship";
 import { GameObject } from "../game_objects/GameObject";
-import { AsteroidData } from "../../../shared/scripts/AsteroidData";
+import { AsteroidInfo } from "../../../shared/data/astroid/AsteroidInfo";
 import { Asteroid } from "../game_objects/Asteroid";
 import { Sector } from "../game_objects/Sector";
 import { GlobalDataService } from "./GlobalDataService";
-import { ICharacter } from "../../../shared/interfaces/ICharacter";
-import { ISector } from "../../../shared/interfaces/ISector";
+import { ICharacter } from "../../../shared/data/gameobject/ICharacter";
 import { SpaceStation } from "../game_objects/SpaceStation";
 import { Planet } from "../game_objects/Planet";
-import { MPlanet } from "./planet/MPlanet";
-import { Utils } from "../../../shared/scripts/Utils";
+import { PlanetInfo } from "../../../shared/data/planet/PlanetInfo";
+import { ISector } from "../../../shared/data/sector/ISector";
+import { IPlanet } from "../../../shared/data/planet/IPlanet";
+import { IAsteroid } from "../../../shared/data/astroid/IAstroid";
 
 export module GameObjectHandler {
 
@@ -34,8 +35,8 @@ export module GameObjectHandler {
     }
 
     export function init2() {
-        MPlanet.getPlanets().forEach(planet => {
-            let newPlanet : MPlanet.IPlanet = planet;
+        PlanetInfo.getPlanets().forEach(planet => {
+            let newPlanet : IPlanet = planet;
             planets.push(new Planet(newPlanet));
         });
     }
@@ -78,7 +79,7 @@ export module GameObjectHandler {
             } else {
                 //@ts-ignore
                 let oldShip : Ship = gameObjects.get(obj.character.id);
-                oldShip.updateDataObjectConfig(obj.character);
+                oldShip.updateData(obj.character);
                 if(obj.character.id == thisShipId) {
                     GlobalDataService.getInstance().setCharacter(obj.character);
                 }
@@ -87,12 +88,12 @@ export module GameObjectHandler {
     }
 
     function onAsteroidsUpdate(event : Events.ASTEROIDS_UPDATE_EVENT_CONFIG) {
-        event.data.asteroids.forEach((asteroid: AsteroidData.IAsteroid) => {
+        event.data.asteroids.forEach((asteroid: IAsteroid) => {
             if(gameObjects.get(asteroid.id) == undefined) {
                 gameObjects.set(asteroid.id, new Asteroid(asteroid));
             } else {
                 //@ts-ignore
-                gameObjects.get(asteroid.id).updateDataObjectConfig(asteroid);
+                gameObjects.get(asteroid.id).updateData(asteroid);
             }
         });
     }
@@ -102,7 +103,7 @@ export module GameObjectHandler {
             gameObjects.set(event.data.spaceStation.id, new SpaceStation(event.data.spaceStation));
         } else {
             //@ts-ignore
-            gameObjects.get(event.data.spaceStation.id).updateDataObjectConfig(event.data.spaceStation);
+            gameObjects.get(event.data.spaceStation.id).updateData(event.data.spaceStation);
         }
     }
 
@@ -129,14 +130,13 @@ export module GameObjectHandler {
         let gameObject = gameObjects.get(event.data.clientSectorId);
         if(gameObject instanceof Sector) {
             GlobalDataService.getInstance().setSector(gameObject)
-            let newSectorX = GlobalDataService.getInstance().getSector().getMapX();
-            let newSectorY = GlobalDataService.getInstance().getSector().getMapY();
+            let newSectorPos = GlobalDataService.getInstance().getSector().getPos();
             let objectsToRemove : Array<GameObject> = new Array();
             gameObjects.forEach((element, key) => {
                 if(element instanceof Sector) {
-                    element.onSectorChanged(newSectorX, newSectorY);
+                    element.onSectorChanged(newSectorPos.x, newSectorPos.y);
                 } else if(element instanceof Ship) {
-                    if(element.getData().id != thisShipId) {
+                    if(element.getId() != thisShipId) {
                         objectsToRemove.push(element);
                     }
                 } else {
@@ -144,10 +144,10 @@ export module GameObjectHandler {
                 }
             });
             for(let i = 0; i < objectsToRemove.length; i++) {
-                destroyGameObject(objectsToRemove[i].getGameObjectData().id);
+                destroyGameObject(objectsToRemove[i].getId());
             }
             planets.forEach(planet => {
-                planet.onSectorChanged(newSectorX, newSectorY);
+                planet.onSectorChanged(newSectorPos.x, newSectorPos.y);
             })
         }  
     }

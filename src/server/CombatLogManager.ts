@@ -1,8 +1,8 @@
 import { ComManager } from "./ComManager";
-import { ICombatLogMessageType, ICombatLogAstroidMiningMessage, ICombatLogDamageDealtMessage, ICombatLogDamageReceivedMessage, ICombatLogMissDealtMessage, ICombatLogMissReceivedMessage } from "../shared/interfaces/CombatLogInterfaces";
 import { SCharacter } from "./objects/SCharacter";
-import { AsteroidData } from "../shared/scripts/AsteroidData";
-import { Items } from "../shared/scripts/Items";
+import { ItemInfo } from "../shared/data/item/ItemInfo";
+import { IAsteroid } from "../shared/data/astroid/IAstroid";
+import { ICombatLogDamageDealtMessage, ICombatLogMessageType, ICombatLogDamageReceivedMessage, ICombatLogMissDealtMessage, ICombatLogMissReceivedMessage, ICombatLogAstroidMiningMessage } from "../shared/data/CombatLogInterfaces";
 
 export module CombatLogManager {
     
@@ -43,10 +43,10 @@ export module CombatLogManager {
         comManager.addCombatLogMessage(target, messageTwo);
     }
 
-    export function addCombatLogAstroidMinedMessage(mining: SCharacter, target: AsteroidData.IAsteroid, amountMined: number) {
+    export function addCombatLogAstroidMinedMessage(mining: SCharacter, target: IAsteroid, amountMined: number) {
         let message : ICombatLogAstroidMiningMessage = {
             type: ICombatLogMessageType.ASTROID_MINED,
-            targetAstroid: Items.getItemInfo(target.type).name,
+            targetAstroid: ItemInfo.getItemInfo(target.type).name,
             amount: amountMined
         }
         comManager.addCombatLogMessage(mining, message);

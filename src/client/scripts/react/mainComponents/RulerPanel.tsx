@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { EventHandler } from "../../modules/EventHandler";
-import { Events } from "../../../../shared/scripts/Events";
-import { Utils } from "../../../../shared/scripts/Utils";
+import { Events } from "../../../../shared/util/Events";
+import { Utils } from "../../../../shared/util/Utils";
 import { GlobalDataService } from "../../modules/GlobalDataService";
 
 export interface RulerPanelState { zoom : number }

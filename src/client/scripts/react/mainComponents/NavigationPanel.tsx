@@ -4,7 +4,7 @@ import { GameObject } from "./../../game_objects/GameObject"
 import { RadarDetectable } from "../../game_objects/RadarDetectable";
 import  NavigationContainer  from "./NavigationContainer"
 import { EventHandler } from "./../../modules/EventHandler";
-import { Events } from "../../../../shared/scripts/Events";
+import { Events } from "../../../../shared/util/Events";
 import TargetPanel from "./TargetPanel";
 import SelectionPanel from "./SelectionPanel";
 

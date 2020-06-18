@@ -1,16 +1,15 @@
 import React, { Fragment }  from "react";
 import WindowHeader from "./WindowHeader";
-import { ObjectInterfaces } from "./../../../../shared/scripts/ObjectInterfaces";
 import ShipDisplay from "./ShipDisplay";
 import { GlobalDataService } from "../../modules/GlobalDataService";
-import { Stats } from "../../../../shared/stats/Stats";
-import { ICharacter } from "../../../../shared/interfaces/ICharacter";
+import { EStatType } from "../../../../shared/data/stats/EStatType";
+import { Ship } from "../../game_objects/Ship";
 
 export interface ShipWindowProps {
     window_open: boolean
 }
 
-export interface ShipWindowState { character : ICharacter | undefined; }
+export interface ShipWindowState { ship : Ship }
 
 export default class ShipWindow extends React.Component<ShipWindowProps, ShipWindowState> {
     
@@ -19,7 +18,7 @@ export default class ShipWindow extends React.Component<ShipWindowProps, ShipWin
     constructor(props : ShipWindowProps) {
         super(props)
         this.state = {
-            character: GlobalDataService.getInstance().getCharacter()
+            ship: GlobalDataService.getInstance().getPlayerShip()
         }
         this.timerID = undefined;
     }
@@ -39,65 +38,60 @@ export default class ShipWindow extends React.Component<ShipWindowProps, ShipWin
     
     tick() {
         this.setState({
-            character: GlobalDataService.getInstance().getCharacter()
+            ship: GlobalDataService.getInstance().getPlayerShip()
         });
     }
 
     render() {
-        let character : ICharacter | undefined = this.state.character;
+        let ship = this.state.ship;
         return (
             <Fragment>
                 {this.props.window_open &&
                     <div id="ship_window" className="BodyText SidePanelWindow Unselectable">
                         <WindowHeader text="Ship"/>
                         <div id="ship_window_left_section">
-                            <pre>Thrust:                      {character ? character.stats[Stats.EStatType.thrust] : "N/A"} N</pre>
-                            <pre>Acceleration:                {character ? Math.round(character.stats[Stats.EStatType.acceleration]) : "N/A"} m/s<sup>2</sup></pre>
-                            <pre>Max speed:                   {character ? character.stats[Stats.EStatType.max_speed] : "N/A"} m/s</pre>
-                            <pre>Mass:                        {character ? character.stats[Stats.EStatType.mass] : "N/A"} kg</pre>
+                            <pre>Thrust:                      {ship.getStat(EStatType.thrust)} N</pre>
+                            <pre>Acceleration:                {Math.round(ship.getStat(EStatType.acceleration))} m/s<sup>2</sup></pre>
+                            <pre>Max speed:                   {ship.getStat(EStatType.max_speed)} m/s</pre>
+                            <pre>Mass:                        {ship.getStat(EStatType.mass)} kg</pre>
                             
                             <hr></hr>
-                            <pre>Power:                       {character ? character.stats[Stats.EStatType.power] : "N/A"}</pre>
+                            <pre>Power:                       {ship.getStat(EStatType.power)}</pre>
                             
                             <hr></hr>
-                            <pre>Shield:                      {character ? character.properties.currentShield + "/" + character.stats[Stats.EStatType.shield] : "N/A"}</pre>
-                            <pre>Armor:                       {character ? character.properties.currentArmor + "/" + character.stats[Stats.EStatType.armor] : "N/A"}</pre>
-                            <pre>Hull:                        {character ? character.properties.currentHull + "/" + character.stats[Stats.EStatType.hull] : "N/A"}</pre>
-                            <pre>Shield generation:           {character ? character.stats[Stats.EStatType.shield_generation] : "N/A"} p/s</pre>
-                            <pre>Armor impact resistance:     {character ? character.stats[Stats.EStatType.armor_impact_resistance] : "N/A"}</pre>
-                            <pre>Armor heat resistance:       {character ? character.stats[Stats.EStatType.armor_heat_resistance] : "N/A"}</pre>
-                            <pre>Armor explosion resistance:  {character ? character.stats[Stats.EStatType.armor_explosion_resistance] : "N/A"}</pre>
+                            <pre>Shield:                      {ship.getCurrentShield() + "/" +ship.getStat(EStatType.shield)}</pre>
+                            <pre>Armor:                       {ship.getCurrentArmor() + "/" +ship.getStat(EStatType.armor)}</pre>
+                            <pre>Hull:                        {ship.getCurrentHull() + "/" +ship.getStat(EStatType.hull)}</pre>
+                            <pre>Shield generation:           {ship.getStat(EStatType.shield_generation)} p/s</pre>
+                            <pre>Armor impact resistance:     {ship.getStat(EStatType.armor_impact_resistance)}</pre>
+                            <pre>Armor heat resistance:       {ship.getStat(EStatType.armor_heat_resistance)}</pre>
+                            <pre>Armor explosion resistance:  {ship.getStat(EStatType.armor_explosion_resistance)}</pre>
                             
                             <hr></hr>
-                            <pre>Radar range:                 {character ? character.stats[Stats.EStatType.radar_range] : "N/A"} m</pre>
-                            <pre>Radar signature reduction:   {character ? character.stats[Stats.EStatType.radar_signature_reduction] : "N/A"}</pre>
+                            <pre>Radar range:                 {ship.getStat(EStatType.radar_range)} m</pre>
+                            <pre>Radar signature reduction:   {ship.getStat(EStatType.radar_signature_reduction)}</pre>
                             
                             <hr></hr>
-                            <pre>Dodge:                       {character ? Math.round(character.stats[Stats.EStatType.dodge] * 100) : "N/A"} %</pre>
-                            <pre>Target dodge reduction:      {character ? character.stats[Stats.EStatType.target_dodge_reduction] : "N/A"}</pre>
+                            <pre>Dodge:                       { Math.round(ship.getStat(EStatType.dodge) * 100)} %</pre>
+                            <pre>Target dodge reduction:      {ship.getStat(EStatType.target_dodge_reduction)}</pre>
 
                             <hr></hr>
-                            <pre>Cargo hold:                  {character ? character.stats[Stats.EStatType.cargo_hold] : "N/A"} m<sup>2</sup></pre>
+                            <pre>Cargo hold:                  {ship.getStat(EStatType.cargo_hold)} m<sup>2</sup></pre>
                             
                             <hr></hr>
-                            <pre>Weapon range:                {character ? character.stats[Stats.EStatType.weapon_range] : "N/A"} m</pre>
-                            <pre>Explosive damage:            {character ? character.stats[Stats.EStatType.explosive_dps] : "N/A"} damage per second</pre>
-                            <pre>Impact damage:               {character ? character.stats[Stats.EStatType.impact_dps] : "N/A"} damage per second</pre>
-                            <pre>Heat damage:                 {character ? character.stats[Stats.EStatType.heat_dps] : "N/A"} damage per second</pre>
-                            <pre>Normal damage:               {character ? character.stats[Stats.EStatType.normal_dps] : "N/A"} damage per second</pre>
+                            <pre>Weapon range:                {ship.getStat(EStatType.weapon_range)} m</pre>
+                            <pre>Explosive damage:            {ship.getStat(EStatType.explosive_dps)} damage per second</pre>
+                            <pre>Impact damage:               {ship.getStat(EStatType.impact_dps)} damage per second</pre>
+                            <pre>Heat damage:                 {ship.getStat(EStatType.heat_dps)} damage per second</pre>
+                            <pre>Normal damage:               {ship.getStat(EStatType.normal_dps)} damage per second</pre>
                             
                             <hr></hr>
-                            <pre>Mining laser strength:       {character ? character.stats[Stats.EStatType.mining_laser_strength] : "N/A"}</pre>
-                            <pre>Mining laser range:          {character ? character.stats[Stats.EStatType.mining_laser_range] : "N/A"} m</pre>    
+                            <pre>Mining laser strength:       {ship.getStat(EStatType.mining_laser_strength)}</pre>
+                            <pre>Mining laser range:          {ship.getStat(EStatType.mining_laser_range)} m</pre>    
                         </div> 
-                        {character ?
-                            <div id="ship_window_right_section">
-                                <ShipDisplay modules={character.modules}/>
-                            </div>  
-                            :
-                            <div id="ship_window_right_section"></div> 
-                        }
-                        
+                        <div id="ship_window_right_section">
+                            <ShipDisplay modules={ship.getModules()}/>
+                        </div>
                     </div>
                 }
             </Fragment>

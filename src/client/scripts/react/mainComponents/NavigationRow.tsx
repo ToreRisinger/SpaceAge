@@ -1,6 +1,6 @@
 import React from "react";
 import { RadarDetectable } from "../../game_objects/RadarDetectable";
-import { Utils } from "../../../../shared/scripts/Utils";
+import { Utils } from "../../../../shared/util/Utils";
 
 export interface NavigationRowProps { object : RadarDetectable}
 
@@ -39,7 +39,7 @@ export default class NavigationRow extends React.Component<NavigationRowProps, {
             <div className={rowClassString} onClick={this.onSelectObject} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
                 <img className="navigation_row_icon" src={iconPath}/>
                 <div className="navigation_row_name">
-                   {this.props.object.getDisplayName()}
+                   {this.props.object.getCharacterName()}
                 </div>
                 <div className="navigation_row_distance">
                     {Utils.formatMeters(this.props.object.getDistanceToPlayerShip())}

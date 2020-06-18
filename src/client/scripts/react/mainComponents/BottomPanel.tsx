@@ -1,9 +1,9 @@
 import React from "react";
 import ShipStatsBottomPanel from "./ShipStatsBottomPanel";
 import { GlobalDataService } from "../../modules/GlobalDataService";
-import { ICharacter } from "../../../../shared/interfaces/ICharacter";
+import { Ship } from "../../game_objects/Ship";
 
-export interface BottomPanelState { character : ICharacter; }
+export interface BottomPanelState { ship : Ship; }
 
 export default class BottomPanel extends React.Component<{}, BottomPanelState> {
 
@@ -12,7 +12,7 @@ export default class BottomPanel extends React.Component<{}, BottomPanelState> {
    constructor(props : {}) {
       super(props)
       this.state = {
-         character: GlobalDataService.getInstance().getCharacter()
+         ship: GlobalDataService.getInstance().getPlayerShip()
       }
       this.timerID = undefined;
    }
@@ -33,14 +33,14 @@ export default class BottomPanel extends React.Component<{}, BottomPanelState> {
     tick() {
       let globalData = GlobalDataService.getInstance();
       this.setState({
-         character: globalData.getCharacter()
+         ship: globalData.getPlayerShip()
       });
     }
 
    render() {
       return (
          <div id="bottom_panel" className="PanelBackground Unselectable HasBorder">
-            <ShipStatsBottomPanel character={this.state.character}/>
+            <ShipStatsBottomPanel ship={this.state.ship}/>
          </div>
       );
    }

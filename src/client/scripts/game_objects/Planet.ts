@@ -1,15 +1,15 @@
-import { MPlanet } from "../modules/planet/MPlanet";
 import { RadarDetectable } from "./RadarDetectable";
-import { SPRITES } from "../../../shared/scripts/SPRITES";
 import { Graphics } from "../modules/graphics/Graphics";
 import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
-import { Utils } from "../../../shared/scripts/Utils";
-import { Colors } from "../modules/colors/Colors";
+import { Utils } from "../../../shared/util/Utils";
+import { Colors } from "../../../shared/colors/Colors";
 import { GlobalDataService } from "../modules/GlobalDataService";
+import { SPRITES } from "../../../shared/util/SPRITES";
+import { IPlanet } from "../../../shared/data/planet/IPlanet";
 
 export class Planet extends RadarDetectable {
 
-    private planetData: MPlanet.IPlanet;
+    private planetData: IPlanet;
     private sprite : Graphics.Sprite;
     private planetOrbit : Graphics.Circle;
     private mapPos: Phaser.Math.Vector2;
@@ -17,7 +17,7 @@ export class Planet extends RadarDetectable {
 
     private displayInformation: Array<string>;
     
-    constructor(planetData: MPlanet.IPlanet) {
+    constructor(planetData: IPlanet) {
         super(planetData, SPRITES.PLANET_ICON.sprite, false, true);
         this.planetData = planetData;
 
@@ -58,10 +58,6 @@ export class Planet extends RadarDetectable {
         
     }
 
-    public getDisplayName(): string {
-        return this.planetData.name;
-    }
-
     public onSectorChanged(newSectorX : number, newSectorY : number) {
         this.setPos(this.mapPos.x - newSectorX, this.mapPos.y - newSectorY);
         this.sprite.setPos(this.mapPos.x - newSectorX, this.mapPos.y - newSectorY);
@@ -70,5 +66,21 @@ export class Planet extends RadarDetectable {
 
     public getDisplayInformation() : Array<string> {
         return this.displayInformation;
+    }
+
+    public getCharacterName(): string {
+        return this.planetData.name;
+    }
+
+    public getDiameter(): number {
+        return this.planetData.diameter;
+    }
+
+    public getMass(): string {
+        return this.planetData.mass;
+    }
+
+    public getDistanceToSun(): number {
+        return this.planetData.distanceFromSun;
     }
 }

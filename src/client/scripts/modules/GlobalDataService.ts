@@ -1,10 +1,9 @@
 import { RadarDetectable } from "../game_objects/RadarDetectable";
-
 import { Ship } from "../game_objects/Ship";
-
 import { Sector } from "../game_objects/Sector";
-import { ICharacter } from "../../../shared/interfaces/ICharacter";
-import { MPlanet } from "./planet/MPlanet";
+import { ICharacter } from "../../../shared/data/gameobject/ICharacter";
+import { PlanetInfo } from "../../../shared/data/planet/PlanetInfo";
+import { IPlanet } from "../../../shared/data/planet/IPlanet";
 
 export class GlobalDataService {
 
@@ -15,7 +14,7 @@ export class GlobalDataService {
     private playerShip : Ship;
     private sector : Sector;
     
-    private planet: MPlanet.IPlanet;
+    private planet: IPlanet;
 
     private selectedObject : RadarDetectable | undefined;
     private targetObject : RadarDetectable | undefined;
@@ -34,7 +33,7 @@ export class GlobalDataService {
         this.playerShip = playerShip;
         this.sector = sector;
         //@ts-ignore
-        this.planet = MPlanet.getPlanets().find(obj => obj.name == "Mars");
+        this.planet = PlanetInfo.getPlanets().find(obj => obj.name == "Mars");
     }
 
     static createInstance(character: ICharacter, playerShip : Ship, sector : Sector) {
@@ -126,7 +125,7 @@ export class GlobalDataService {
         this.cameraHeight = value;
     }
 
-    public getThisPlanet() : MPlanet.IPlanet {
+    public getThisPlanet() : IPlanet {
         return this.planet;
     }
 }

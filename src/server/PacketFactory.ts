@@ -1,9 +1,9 @@
-import { Events } from "../shared/scripts/Events";
-import { ObjectInterfaces } from "../shared/scripts/ObjectInterfaces";
-import { AsteroidData } from "../shared/scripts/AsteroidData";
-import { ICargo } from "../shared/interfaces/ICargo";
+import { Events } from "../shared/util/Events";
+import { AsteroidInfo } from "../shared/data/astroid/AsteroidInfo";
+import { ICargo } from "../shared/data/ICargo";
 import { SClient } from "./objects/SClient";
-import { ICharacter } from "../shared/interfaces/ICharacter";
+import { ICharacter } from "../shared/data/gameobject/ICharacter";
+import { IAsteroid } from "../shared/data/astroid/IAstroid";
 
 
 export module PacketFactory {
@@ -35,8 +35,8 @@ export module PacketFactory {
       return packet;
   }
 
-    export function createAsteroidsUpdatePacket(asteroids : Map<number, AsteroidData.IAsteroid>) {
-      let asteroidArray: Array<AsteroidData.IAsteroid> = Array.from(asteroids.values());
+    export function createAsteroidsUpdatePacket(asteroids : Map<number, IAsteroid>) {
+      let asteroidArray: Array<IAsteroid> = Array.from(asteroids.values());
   
       let packet : Events.ASTEROIDS_UPDATE_EVENT_CONFIG = {
         eventId : Events.EEventType.ASTEROIDS_UPDATE_EVENT,

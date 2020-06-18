@@ -1,13 +1,12 @@
 import * as map_config from "../resources/server-map.json";
 import { Sector } from "./Sector";
 import { AsteroidBeltSector } from "./AstriodBeltSector";
-import { Items } from "../../shared/scripts/Items.js";
 import { IdHandler } from "../IdHandler.js";
 import { PacketFactory } from "../PacketFactory.js";
-import { IPlayer } from "../../shared/interfaces/IPlayer.js";
 import { SClient } from "../objects/SClient.js";
-import { ESectorType } from "../../shared/interfaces/ISector.js";
 import { SpaceStationSector } from "./SpaceStationSector.js";
+import { ESectorType } from "../../shared/data/sector/ESectorType.js";
+import { EMineralItemType } from "../../shared/data/item/EMineralItemType.js";
 
 const math = require('mathjs');
 
@@ -71,10 +70,6 @@ export class SectorHandler {
             sector.removeClient(client);
             this.playersToSectorMap.delete(client.getData().id);
         }
-    }
-
-    public getSectorOfPlayer(player : IPlayer) : Sector | undefined {
-        return this.playersToSectorMap.get(player.playerId);
     }
 
     public onPlayerStartWarping(client: SClient, destinationSector : Sector) {
@@ -194,18 +189,18 @@ export class SectorHandler {
         }
     }
 
-    private getAsteroidType(typeString : string) : Items.EMineralItemType | undefined {
+    private getAsteroidType(typeString : string) : EMineralItemType | undefined {
         switch (typeString) {
             case "gold":
-                return Items.EMineralItemType.GOLD_ORE;
+                return EMineralItemType.GOLD_ORE;
             case "iron":
-                return Items.EMineralItemType.IRON_ORE; 
+                return EMineralItemType.IRON_ORE; 
             case "diamond":
-                return Items.EMineralItemType.DIAMOND_ORE;
+                return EMineralItemType.DIAMOND_ORE;
             case "uranium":
-                return Items.EMineralItemType.URANIUM_ORE;
+                return EMineralItemType.URANIUM_ORE;
             case "titanium":
-                return Items.EMineralItemType.TITANIUM_ORE;   
+                return EMineralItemType.TITANIUM_ORE;   
             default:
                 return undefined;
         }

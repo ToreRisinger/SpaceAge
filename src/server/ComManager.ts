@@ -1,15 +1,15 @@
 import { SectorHandler } from "./sector/SectorHandler";
 import { Database } from "./database/Database";
 import { PacketFactory } from "./PacketFactory";
-import { Events } from "../shared/scripts/Events";
+import { Events } from "../shared/util/Events";
 import { IUserDocument } from "./database/models/user.model";
 import { Logger } from "../shared/logger/Logger";
-import { ICharacter } from "../shared/interfaces/ICharacter";
+import { ICharacter } from "../shared/data/gameobject/ICharacter";
 import { Sector } from "./sector/Sector";
-import { ISector } from "../shared/interfaces/ISector";
 import { SCharacter } from "./objects/SCharacter";
 import { SClient } from "./objects/SClient";
-import { ICombatLogMessage } from "../shared/interfaces/CombatLogInterfaces";
+import { ICombatLogMessage } from "../shared/data/CombatLogInterfaces";
+import { ISector } from "../shared/data/sector/ISector";
 
 export class ComManager {
 

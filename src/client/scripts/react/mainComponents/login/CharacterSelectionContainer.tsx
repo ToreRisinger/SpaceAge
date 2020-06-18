@@ -1,6 +1,6 @@
 import React from "react";
-import { ICharacter } from "../../../../../shared/interfaces/ICharacter";
-import { Events } from "../../../../../shared/scripts/Events";
+import { ICharacter } from "../../../../../shared/data/gameobject/ICharacter";
+import { Events } from "../../../../../shared/util/Events";
 import { EventHandler } from "../../../modules/EventHandler";
 
 export interface CharacterSelectionContainerProps { characterList : Array<ICharacter>; }

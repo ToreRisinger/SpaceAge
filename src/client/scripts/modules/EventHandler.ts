@@ -1,5 +1,4 @@
-import { Events } from "../../../shared/scripts/Events"
-import { GlobalDataService } from "./GlobalDataService";
+import { Events } from "../../../shared/util/Events"
 
 export module EventHandler {
     let eventQueue: Array<Events.GameEvent> = [];

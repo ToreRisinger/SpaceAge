@@ -2,7 +2,7 @@ import { CONSTANTS } from "../constants/CONSTANTS";
 import { GameScene } from "../scenes/GameScene"
 import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
 import { EventHandler } from "./EventHandler";
-import { Events } from "../../../shared/scripts/Events";
+import { Events } from "../../../shared/util/Events";
 import { InputHandler } from "./InputHandler";
 import { GlobalDataService } from "./GlobalDataService";
 import { Camera } from "./Camera";

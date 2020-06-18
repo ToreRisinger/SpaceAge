@@ -1,15 +1,13 @@
-import { ObjectInterfaces } from "../../../shared/scripts/ObjectInterfaces";
-import { Events } from "../../../shared/scripts/Events";
-import { EventHandler } from "../modules/EventHandler";
-import { SPRITES } from "../../../shared/scripts/SPRITES";
 import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
 import { GameObject } from "./GameObject";
 import { GlobalDataService } from "../modules/GlobalDataService";
-import { ISprite } from "../../../shared/interfaces/ISprite";
-import { Stats } from "../../../shared/stats/Stats";
-import { ICharacter } from "../../../shared/interfaces/ICharacter";
+import { ISprite } from "../../../shared/data/ISprite";
+import { ICharacter } from "../../../shared/data/gameobject/ICharacter";
 import { Graphics } from "../modules/graphics/Graphics";
 import { SelectionHandler } from "../modules/SelectionHandler";
+import { IGameObject } from "../../../shared/data/gameobject/IGameObject";
+import { EStatType } from "../../../shared/data/stats/EStatType";
+import { SPRITES } from "../../../shared/util/SPRITES";
 
 export abstract class RadarDetectable extends GameObject {
 
@@ -27,8 +25,8 @@ export abstract class RadarDetectable extends GameObject {
     private firstUpdate : boolean = true;
     private alwaysVisible : boolean;
 
-    constructor(game_object_config : ObjectInterfaces.IGameObject, iconSprite : ISprite, thisPlayerShip : boolean, alwaysVisible : boolean) {
-        super(game_object_config);
+    constructor(gameObjectData : IGameObject, iconSprite : ISprite, thisPlayerShip : boolean, alwaysVisible : boolean) {
+        super(gameObjectData);
         this.thisPlayerShip = thisPlayerShip;
         this.alwaysVisible = alwaysVisible;
         this.detected = this.thisPlayerShip || this.alwaysVisible;
@@ -56,7 +54,7 @@ export abstract class RadarDetectable extends GameObject {
 
     protected abstract getRadarMass() : number;
     protected abstract setVisible(value : boolean) : void;
-    public abstract getDisplayName() : string;
+    public abstract getCharacterName() : string;
 
     public update() {
         super.update();
@@ -139,7 +137,7 @@ export abstract class RadarDetectable extends GameObject {
     private calculateDetectedByRadar(distance : number, radarMass : number) {
         if(!(this.thisPlayerShip || this.alwaysVisible)) {
             let character : ICharacter =  GlobalDataService.getInstance().getCharacter();
-            let radarRange : number = character.stats[Stats.EStatType.radar_range];
+            let radarRange : number = character.stats[EStatType.radar_range];
 
             this.detected = false;
             if(distance <= radarRange) {

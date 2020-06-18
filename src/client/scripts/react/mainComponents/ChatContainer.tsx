@@ -1,8 +1,8 @@
 import React from "react";
-import { Chat } from "./../../modules/Chat"
 import ChatMessage from "./ChatMessage";
+import { IChatMessage } from "../../../../shared/data/IChatMessage";
 
-export interface ChatProps { chatMessages : Array<Chat.IChatMessage>; }
+export interface ChatProps { chatMessages : Array<IChatMessage>; }
 
 export default class ChatContainer extends React.Component<ChatProps, {}> {
 

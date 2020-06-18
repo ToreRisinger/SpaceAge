@@ -11,11 +11,12 @@ export default class LocationInfoPanel extends React.Component<{}, LocationInfoP
     constructor(props : {}) {
       super(props)
       let globalData = GlobalDataService.getInstance();
+      let pos = globalData.getPlayerShip().getPos();
       this.state = {
           location: globalData.getCharacter().location,
-          sectorName: globalData.getSector().getDisplayName(),
-          x: globalData.getPlayerShip().getGameObjectData().x,
-          y: globalData.getPlayerShip().getGameObjectData().y
+          sectorName: globalData.getSector().getCharacterName(),
+          x: pos.x,
+          y: pos.y
       }
       this.timerID = undefined;
       this.tick = this.tick.bind(this);
@@ -36,11 +37,12 @@ export default class LocationInfoPanel extends React.Component<{}, LocationInfoP
     
      tick() {
         let globalData = GlobalDataService.getInstance();
+        let pos = globalData.getPlayerShip().getPos();
         this.setState({
             location: globalData.getCharacter().location,
-            sectorName: globalData.getSector().getDisplayName(),
-            x: globalData.getPlayerShip().getGameObjectData().x,
-            y: globalData.getPlayerShip().getGameObjectData().y
+            sectorName: globalData.getSector().getCharacterName(),
+            x: pos.x,
+            y: pos.y
         });
      }
 

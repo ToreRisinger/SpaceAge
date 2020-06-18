@@ -1,10 +1,10 @@
 import { EventHandler } from "./EventHandler";
-import { Events } from "../../../shared/scripts/Events";
+import { Events } from "../../../shared/util/Events";
 import { GlobalDataService } from "./GlobalDataService";
-import { SPRITES } from "../../../shared/scripts/SPRITES";
 import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
 import { RadarDetectable } from "../game_objects/RadarDetectable";
 import { Graphics } from "./graphics/Graphics";
+import { SPRITES } from "../../../shared/util/SPRITES";
 
 export module TargetHandler {
     
@@ -29,7 +29,8 @@ export module TargetHandler {
         }
 
         if(targetObject != undefined) {
-            targetIcon.setPos(targetObject.getGameObjectData().x, targetObject.getGameObjectData().y)
+            let targetPos = targetObject.getPos();
+            targetIcon.setPos(targetPos.x, targetPos.y)
             let cameraZoom = GlobalDataService.getInstance().getCameraZoom();
             if(targetIconIsFadingIn) {
                 targetIcon.setDisplaySize(SPRITES.TARGET_ICON.sprite.width * targetIconFadeInScale * cameraZoom, 
@@ -52,13 +53,10 @@ export module TargetHandler {
     }
 
     export function changeTarget(newTarget: RadarDetectable | undefined) {
-        if(targetObject != undefined && newTarget == undefined) {
-            if(GlobalDataService.getInstance().getPlayerShip().getData().state.isAttacking) {
-                stopAttack();
-            } else if(GlobalDataService.getInstance().getPlayerShip().getData().state.isMining) {
-                stopMine();
-            }
-            
+        if(GlobalDataService.getInstance().getPlayerShip().isAttacking()) {
+            stopAttack();
+        } else if(GlobalDataService.getInstance().getPlayerShip().isMining()) {
+            stopMine();
         }
 
         let playerShip = GlobalDataService.getInstance().getPlayerShip();
@@ -90,7 +88,7 @@ export module TargetHandler {
 
     function onPlayerDisconnect(event : Events.PLAYER_DISCONNECTED_EVENT_CONFIG) {
         let targetObject = GlobalDataService.getInstance().getTargetObject();
-        if(targetObject != undefined && targetObject.getGameObjectData().id == event.data.shipId) {
+        if(targetObject != undefined && targetObject.getId() == event.data.shipId) {
             changeTarget(undefined);
         }
     }
@@ -99,7 +97,7 @@ export module TargetHandler {
         let targetObject = GlobalDataService.getInstance().getTargetObject();
         if(targetObject != undefined) {
             //@ts-ignore
-            let found = event.data.gameObjectIds.find(gameObjectId => gameObjectId == targetObject.getGameObjectData().id);
+            let found = event.data.gameObjectIds.find(gameObjectId => gameObjectId == targetObject.getId());
             if(found) {
                 changeTarget(undefined);
             }

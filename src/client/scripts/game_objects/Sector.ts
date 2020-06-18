@@ -1,6 +1,6 @@
 import { RadarDetectable } from "./RadarDetectable";
-import { SPRITES } from "../../../shared/scripts/SPRITES";
-import { ISector } from "../../../shared/interfaces/ISector";
+import { ISector } from "../../../shared/data/sector/ISector";
+import { SPRITES } from "../../../shared/util/SPRITES";
 
 export class Sector extends RadarDetectable {
     
@@ -21,12 +21,8 @@ export class Sector extends RadarDetectable {
         super.update();
     }
 
-    public getMapX() {
-        return this.map_x;
-    }
-
-    public getMapY() {
-        return this.map_y;
+    public getMapPos() {
+        return new Phaser.Math.Vector2(this.map_x, this.map_y);
     }
 
     protected getRadarMass(): number {
@@ -34,7 +30,7 @@ export class Sector extends RadarDetectable {
     }
     protected setVisible(value: boolean): void { }
 
-    public getDisplayName(): string {
+    public getCharacterName(): string {
         return this.config.name;
     }
 

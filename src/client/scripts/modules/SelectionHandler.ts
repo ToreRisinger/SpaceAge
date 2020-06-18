@@ -1,11 +1,11 @@
 import { EventHandler } from "./EventHandler";
-import { Events } from "../../../shared/scripts/Events";
+import { Events } from "../../../shared/util/Events";
 import { InputHandler } from "./InputHandler";
 import { GlobalDataService } from "./GlobalDataService";
-import { SPRITES } from "../../../shared/scripts/SPRITES";
 import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
 import { RadarDetectable } from "../game_objects/RadarDetectable";
 import { Graphics } from "./graphics/Graphics";
+import { SPRITES } from "../../../shared/util/SPRITES";
 
 export module SelectionHandler {
 
@@ -43,7 +43,8 @@ export module SelectionHandler {
             } else {
                 selectionIcon.setDisplaySize(SPRITES.SELECTION_ICON.sprite.width * cameraZoom, SPRITES.SELECTION_ICON.sprite.height * cameraZoom);
             }
-            selectionIcon.setPos(selectedObject.getGameObjectData().x, selectedObject.getGameObjectData().y);
+            let selectedObjectPos = selectedObject.getPos();
+            selectionIcon.setPos(selectedObjectPos.x, selectedObjectPos.y);
             selectionIcon.update();
         }
 
@@ -83,7 +84,7 @@ export module SelectionHandler {
 
     function onPlayerDisconnect(event : Events.PLAYER_DISCONNECTED_EVENT_CONFIG) {
         let selectedObject = GlobalDataService.getInstance().getSelectedObject();
-        if(selectedObject != undefined && selectedObject.getGameObjectData().id == event.data.shipId) {
+        if(selectedObject != undefined && selectedObject.getId() == event.data.shipId) {
             changeSelection(undefined);
         }
     }
@@ -92,7 +93,7 @@ export module SelectionHandler {
         let selectedObject = GlobalDataService.getInstance().getSelectedObject();
         if(selectedObject != undefined) {
             //@ts-ignore
-            let found = event.data.gameObjectIds.find(gameObjectId => gameObjectId == selectedObject.getGameObjectData().id);
+            let found = event.data.gameObjectIds.find(gameObjectId => gameObjectId == selectedObject.getId());
             if(found) {
                 changeSelection(undefined);
             }

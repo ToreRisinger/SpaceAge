@@ -1,13 +1,14 @@
 import React from "react";
-import { Chat } from "../../modules/Chat"
 import ChatContainer from "./ChatContainer";
 import ChatInput from "./ChatInput";
 import { EventHandler } from "../../modules/EventHandler";
-import { Events } from "../../../../shared/scripts/Events";
-import { ICombatLogMessage } from "../../../../shared/interfaces/CombatLogInterfaces";
+import { Events } from "../../../../shared/util/Events";
 import CombatLogContainer from "./CombatLogContainer";
+import { ICombatLogMessage } from "../../../../shared/data/CombatLogInterfaces";
+import { IChatMessage } from "../../../../shared/data/IChatMessage";
+import { Chat } from "../../modules/Chat";
 
-export interface ChatState { chatMessages : Array<Chat.IChatMessage>, combatLogMessages: Array<ICombatLogMessage>, tabSelection: EChatTabSelection}
+export interface ChatState { chatMessages : Array<IChatMessage>, combatLogMessages: Array<ICombatLogMessage>, tabSelection: EChatTabSelection}
 
 enum EChatTabSelection {
     CHAT,

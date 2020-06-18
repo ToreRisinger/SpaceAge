@@ -1,11 +1,14 @@
 import React, { Fragment } from "react";
-import { Skills } from "../../../../../shared/skills/Skills";
-import { Stats } from "../../../../../shared/stats/Stats";
+import { SkillInfo } from "../../../../../shared/data/skills/SkillInfo";
 import { EventHandler } from "../../../modules/EventHandler";
-import { Events } from "../../../../../shared/scripts/Events";
+import { Events } from "../../../../../shared/util/Events";
+import { ISkill } from "../../../../../shared/data/skills/ISkill";
+import { EStatModifier } from "../../../../../shared/data/stats/EStatModifier";
+import { EStatType } from "../../../../../shared/data/stats/EStatType";
+import { StatInfo } from "../../../../../shared/data/stats/StatInfo";
 
 export interface SkillContainerProps {
-    skill: Skills.ISkill,
+    skill: ISkill,
     currentlyTraining: boolean,
     skillIndex: number;
 }
@@ -41,15 +44,15 @@ export default class SkillContainer extends React.Component<SkillContainerProps,
 
     render() {
         const skill = this.props.skill;
-        const skillInfo = Skills.getSkillInfo(this.props.skill.skillType);
+        const skillInfo = SkillInfo.getSkillInfo(this.props.skill.skillType);
         const skillName = skillInfo.name;
         const maxLevel = skillInfo.maxLevel;
         const currentLevel = skill.level;
         let nextLevel = currentLevel + 1 > maxLevel ? maxLevel : currentLevel + 1;
         const currentProgress = skill.progress;
         const maxProgress = skillInfo.startLearningTime * (Math.pow(skillInfo.learningTimeIncrease, currentLevel - 1));
-        let modifier: Stats.EStatModifier = skillInfo.stats.modifier;
-        let statType: Stats.EStatType = skillInfo.stats.stat;
+        let modifier: EStatModifier = skillInfo.stats.modifier;
+        let statType: EStatType = skillInfo.stats.stat;
         let progressPercentage = currentProgress > maxProgress ? 100 : (currentProgress / maxProgress) * 100;
         const hasNextLevel = currentLevel < nextLevel;
         const className = "Unselectable " + (this.props.currentlyTraining ? "SkillContainerInTraining": "");
@@ -63,7 +66,7 @@ export default class SkillContainer extends React.Component<SkillContainerProps,
                     {"Level: " + currentLevel + "/" + maxLevel}
                 </div>
                 <div id="skill_current_effect" className="SkillField">
-                    {Stats.statTypeToString(statType) + ": "}
+                    {StatInfo.statTypeToString(statType) + ": "}
                     {this.getEffect(skillInfo, currentLevel, modifier)}
                 </div>  
                 {hasNextLevel ?
@@ -106,11 +109,11 @@ export default class SkillContainer extends React.Component<SkillContainerProps,
         );
     }
 
-    getEffect(skillInfo: Skills.ISkillInfo, level: number, modifier: Stats.EStatModifier) {
+    getEffect(skillInfo: SkillInfo.ISkillInfo, level: number, modifier: EStatModifier) {
         return (
-            <span style={{color: Stats.statModifierColor(modifier)}}>
-                            {Stats.statModifierToString(modifier) + skillInfo.stats.values[level - 1] 
-                                + (modifier == Stats.EStatModifier.increase_percentage || modifier == Stats.EStatModifier.decrease_percentage ? "%" : "")}
+            <span style={{color: StatInfo.statModifierColor(modifier)}}>
+                            {StatInfo.statModifierToString(modifier) + skillInfo.stats.values[level - 1] 
+                                + (modifier == EStatModifier.increase_percentage || modifier == EStatModifier.decrease_percentage ? "%" : "")}
             </span>
         )
     }

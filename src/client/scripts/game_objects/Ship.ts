@@ -1,15 +1,15 @@
 import { RadarDetectable } from "./RadarDetectable";
-import { SPRITES } from "../../../shared/scripts/SPRITES";
-import { ICargo } from "../../../shared/interfaces/ICargo";
-import { Stats } from "../../../shared/stats/Stats";
-import { ICharacter } from "../../../shared/interfaces/ICharacter";
+import { ICargo } from "../../../shared/data/ICargo";
+import { ICharacter } from "../../../shared/data/gameobject/ICharacter";
 import { ShipModuleWrapper } from "./shipmodule/ShipModuleWrapper";
 import { GameObject } from "./GameObject";
 import { GameObjectHandler } from "../modules/GameObjectHandler";
 import { GameScene, EParticleManagerType} from "../scenes/GameScene";
-import { Utils } from "../../../shared/scripts/Utils";
-import { ObjectInterfaces } from "../../../shared/scripts/ObjectInterfaces";
+import { Utils } from "../../../shared/util/Utils";
 import { Graphics } from "../modules/graphics/Graphics";
+import { SPRITES } from "../../../shared/util/SPRITES";
+import { EStatType } from "../../../shared/data/stats/EStatType";
+import { IShipModuleInstance } from "../../../shared/data/IShipModuleInstance";
 
 export class Ship extends RadarDetectable {
     
@@ -81,6 +81,34 @@ export class Ship extends RadarDetectable {
         this.damageParticleTimer = Ship.DAMAGE_EFFECT_TIME;
     }
 
+    public getIsMoving() {
+        return this.characterData.state.isMoving;
+    }
+
+    public getDestinationVec() {
+        return new Phaser.Math.Vector2(Math.floor(this.characterData.state.destVec[0]), Math.floor(this.characterData.state.destVec[1]));
+    }
+
+    public getVelVec() {
+        return new Phaser.Math.Vector2(Math.floor(this.characterData.state.velVec[0]), Math.floor(this.characterData.state.velVec[1]));
+    }
+
+    public getMetersPerSecond() {
+        return this.characterData.state.meters_per_second;
+    }
+
+    public getCurrentShield() {
+        return this.characterData.properties.currentShield;
+    }
+
+    public getCurrentArmor() {
+        return this.characterData.properties.currentArmor;
+    }
+
+    public getCurrentHull() {
+        return this.characterData.properties.currentHull;
+    }
+    
     public setCargo(cargo : ICargo) {
         this.shipCargo = cargo;
     }
@@ -89,9 +117,45 @@ export class Ship extends RadarDetectable {
         return this.shipCargo;
     }
 
-    public updateDataObjectConfig(characterData : ICharacter) {
-        super.updateDataObjectConfig(characterData);
+    public getModules() {
+        return this.characterData.modules;
+    }
+
+    public getStat(statType: EStatType) {
+        return this.characterData.stats[statType];
+    }
+
+    public updateData(characterData : ICharacter) {
+        super.updateData(characterData);
         this.characterData = characterData;
+    }
+
+    public isAttacking(): boolean {
+        return this.characterData.state.isAttacking;
+    }
+
+    public isMining(): boolean {
+        return this.characterData.state.isMining;
+    }
+
+    public isWarping(): boolean {
+        return this.characterData.state.isWarping;
+    }
+
+    public hasDestination(): boolean {
+        return this.characterData.state.hasDestination;
+    }
+
+    public hasMiningLaser(): boolean {
+        return this.characterData.state.hasMiningLaser;
+    }
+
+    public hasWeapon(): boolean {
+        return this.characterData.state.hasWeapon;
+    }
+
+    public getTargetId(): number {
+        return this.characterData.state.targetId;
     }
 
     public update() {
@@ -102,11 +166,11 @@ export class Ship extends RadarDetectable {
 
     public getDisplayInformation() : Array<string> {
         return new Array<string>(
-            "Speed: " + Math.round(this.getData().state.meters_per_second), 
-            "Shield: " + this.getData().properties.currentShield,
-            "Armor: " + this.getData().properties.currentArmor,
-            "Hull: " + this.getData().properties.currentHull,
-            "Mass: " + this.getData().stats[Stats.EStatType.mass] + " kg",
+            "Speed: " + Math.round(this.getMetersPerSecond()), 
+            "Shield: " + this.getCurrentShield(),
+            "Armor: " + this.getCurrentArmor(),
+            "Hull: " + this.getCurrentHull(),
+            "Mass: " + this.getStat(EStatType.mass) + " kg",
         );
     }
 
@@ -121,23 +185,25 @@ export class Ship extends RadarDetectable {
                 && this.targetInRange(targetObject, this.characterData)
                 && targetObject instanceof Ship) {
 
-                if(targetObject.getData().properties.currentShield > 0) {
+                if(targetObject.getCurrentShield() > 0) {
                     this.shieldDamageParticleEmitter.start();
                     if(this.damageParticleTimer <= 0) {
-                        let targetModuleLength = targetObject.getData().modules.length;
-                        let moduleToShowDamageOn : ObjectInterfaces.IShipModuleInstance = targetObject.getData().modules[Utils.getRandomNumber(0, targetModuleLength - 1)];
-                        let x = targetObject.getGameObjectData().x + Utils.getRandomNumber(-100, 100) + moduleToShowDamageOn.x * 38;
-                        let y = targetObject.getGameObjectData().y + Utils.getRandomNumber(-100, 100) + moduleToShowDamageOn.y * 38;
+                        let targetModuleLength = targetObject.getModules().length;
+                        let moduleToShowDamageOn : IShipModuleInstance = targetObject.getModules()[Utils.getRandomNumber(0, targetModuleLength - 1)];
+                        let pos = targetObject.getPos();
+                        let x = pos.x + Utils.getRandomNumber(-100, 100) + moduleToShowDamageOn.x * 38;
+                        let y = pos.y + Utils.getRandomNumber(-100, 100) + moduleToShowDamageOn.y * 38;
                         this.shieldDamageParticleEmitter.setPos(x, y);
                         this.damageParticleTimer = Ship.DAMAGE_EFFECT_TIME;
                     }
                 } else {
                     this.armorDamageParticleEmitter.start();
                     if(this.damageParticleTimer <= 0) {
-                        let targetModuleLenght = targetObject.getData().modules.length;
-                        let moduleToShowDamageOn : ObjectInterfaces.IShipModuleInstance = targetObject.getData().modules[Utils.getRandomNumber(0, targetModuleLenght - 1)];
-                        let x = targetObject.getGameObjectData().x + moduleToShowDamageOn.x * 38;
-                        let y = targetObject.getGameObjectData().y + moduleToShowDamageOn.y * 38;
+                        let targetModuleLenght = targetObject.getModules().length;
+                        let moduleToShowDamageOn : IShipModuleInstance = targetObject.getModules()[Utils.getRandomNumber(0, targetModuleLenght - 1)];
+                        let pos = targetObject.getPos();
+                        let x = pos.x + moduleToShowDamageOn.x * 38;
+                        let y = pos.y + moduleToShowDamageOn.y * 38;
                         this.armorDamageParticleEmitter.setPos(x, y);
                         this.damageParticleTimer = Ship.DAMAGE_EFFECT_TIME;
                     }
@@ -147,8 +213,8 @@ export class Ship extends RadarDetectable {
             }
         }
 
-        if(this.getData().state.isMoving) {
-            let velVec : Phaser.Math.Vector2 = new Phaser.Math.Vector2(this.getData().state.velVec[0], this.getData().state.velVec[1]);
+        if(this.getIsMoving()) {
+            let velVec : Phaser.Math.Vector2 = this.getVelVec();
             let pos : Phaser.Math.Vector2 = this.getPos();
             let oppositeVelVec = velVec.multiply(new Phaser.Math.Vector2(-1, -1)).add(pos);
 
@@ -163,29 +229,17 @@ export class Ship extends RadarDetectable {
         this.shieldDamageParticleEmitter.update();
     }
 
-    public getIsMoving() {
-        return this.characterData.state.isMoving;
-    }
-
-    public getDestinationPos() {
-        return new Phaser.Math.Vector2(Math.floor(this.characterData.state.destVec[0]), Math.floor(this.characterData.state.destVec[1]));
-    }
-
     public destroy() {
         this.shipModuleWrapper.destroy();
         super.destroy();
     }
 
-    public getData() : ICharacter {
-        return this.characterData;
-    }
-
-    public getDisplayName() : string {
+    public getCharacterName() : string {
         return this.characterName;
     }
 
     protected getRadarMass() : number {
-        return this.characterData.stats[Stats.EStatType.mass] * ( 1 - this.characterData.stats[Stats.EStatType.radar_signature_reduction] / 100)
+        return this.characterData.stats[EStatType.mass] * ( 1 - this.characterData.stats[EStatType.radar_signature_reduction] / 100)
     }
 
     protected setVisible(value : boolean) : void {
@@ -193,8 +247,8 @@ export class Ship extends RadarDetectable {
     }
 
     private targetInRange(target : GameObject, shipData : ICharacter): boolean {
-        let range = shipData.stats[Stats.EStatType.weapon_range];
-        let targetPos = new Phaser.Math.Vector2(target.getGameObjectData().x, target.getGameObjectData().y);
+        let range = shipData.stats[EStatType.weapon_range];
+        let targetPos = target.getPos();
         let shipPos = new Phaser.Math.Vector2(shipData.x, shipData.y);
         return targetPos.subtract(shipPos).length() <= range;
     }

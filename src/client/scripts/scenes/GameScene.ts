@@ -1,8 +1,8 @@
 import { CONSTANTS } from "../constants/CONSTANTS";
 import { Camera } from "../modules/Camera";
-import { SPRITES } from "../../../shared/scripts/SPRITES";
 import { GameController } from "../modules/GameController";
 import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
+import { SPRITES } from "../../../shared/util/SPRITES";
 
 export enum EParticleManagerType {
     SMALL_BULLET,

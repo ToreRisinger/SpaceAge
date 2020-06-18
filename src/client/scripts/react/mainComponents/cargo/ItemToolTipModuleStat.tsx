@@ -1,8 +1,8 @@
 import React from "react";
-import { Items } from "../../../../../shared/scripts/Items";
-import { Stats } from "../../../../../shared/stats/Stats";
+import { IModuleStat } from "../../../../../shared/data/item/IModuleStat";
+import { StatInfo } from "../../../../../shared/data/stats/StatInfo";
 
-export interface ItemToolTipModuleStatProps { stat : Items.IModuleStat}
+export interface ItemToolTipModuleStatProps { stat : IModuleStat}
 
 export default class ItemToolTipModuleStat extends React.Component<ItemToolTipModuleStatProps, {}> {
 
@@ -11,11 +11,11 @@ export default class ItemToolTipModuleStat extends React.Component<ItemToolTipMo
    }
 
    render() {
-        let unitType: string = " " + Stats.statTypeUnitToString(this.props.stat.property);
+        let unitType: string = " " + StatInfo.statTypeUnitToString(this.props.stat.property);
         return (
             <div className="ItemToolTipElement">
-                {Stats.statTypeToString(this.props.stat.property) + ": "}
-                <span style={{color: Stats.statModifierColor(this.props.stat.modifier)}}>{Stats.statModifierToString(this.props.stat.modifier) + this.props.stat.value}</span>
+                {StatInfo.statTypeToString(this.props.stat.property) + ": "}
+                <span style={{color: StatInfo.statModifierColor(this.props.stat.modifier)}}>{StatInfo.statModifierToString(this.props.stat.modifier) + this.props.stat.value}</span>
                 <span dangerouslySetInnerHTML={{__html: unitType}}></span>
             </div>   
         );
