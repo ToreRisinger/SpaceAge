@@ -8,7 +8,7 @@ export default class ChatInput extends React.Component<{}, {}> {
 
     render() {
         return (
-            <input type="text" id="chat_input"></input>
+            <input type="text" id="chat_input" autoComplete="off"></input>
         );
     }
 }

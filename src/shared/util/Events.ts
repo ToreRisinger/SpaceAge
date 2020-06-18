@@ -63,6 +63,9 @@ export module Events {
         ZOOM_CHANGED_EVENT,
         SKILL_STATE_UPDATED_EVENT,
 
+        //Commands
+        COMMAND_EVENT,
+
         /*
             SERVER EVENTS
         */
@@ -238,15 +241,15 @@ export module Events {
 
     export interface CLIENT_SEND_CHAT_MESSAGE_EVENT_CONFIG extends GameEvent {
         data : {
-            sender : String;
-            message : String;
+            sender : string;
+            message : string;
         }
     }
 
     export interface CLIENT_RECEIVE_CHAT_MESSAGE_EVENT_CONFIG extends GameEvent {
         data : {
-            sender : String;
-            message : String;
+            sender : string;
+            message : string;
         }
     }
 
@@ -282,6 +285,12 @@ export module Events {
     export interface CLIENT_RECEIVE_COMBAT_LOG_EVENT_CONFIG extends GameEvent {
         data: {
             message: ICombatLogMessage 
+        }
+    }
+
+    export interface COMMAND_EVENT_CONFIG extends GameEvent {
+        data: {
+            command: string
         }
     }
 }

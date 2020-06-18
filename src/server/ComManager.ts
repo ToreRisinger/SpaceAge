@@ -299,7 +299,7 @@ export class ComManager {
         this.broadcastChatMessage(client, event.data.message, event.data.sender);
     }
   
-    private broadcastChatMessage(client : SClient, message : String, sender : String) {
+    private broadcastChatMessage(client : SClient, message : string, sender : string) {
         let packet : Events.CLIENT_RECEIVE_CHAT_MESSAGE_EVENT_CONFIG = {
           eventId : Events.EEventType.CLIENT_RECEIVE_CHAT_MESSAGE_EVENT,
           data : {
@@ -310,7 +310,7 @@ export class ComManager {
         client.getData().socket.broadcast.emit("ServerEvent", packet);  
     }
   
-    private sendServerMessage(client : SClient, message : String) {
+    private sendServerMessage(client : SClient, message : string) {
         let packet : Events.CLIENT_RECEIVE_CHAT_MESSAGE_EVENT_CONFIG = {
           eventId : Events.EEventType.CLIENT_RECEIVE_CHAT_MESSAGE_EVENT,
           data : {

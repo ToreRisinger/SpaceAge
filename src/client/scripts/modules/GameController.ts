@@ -19,6 +19,7 @@ import { ICharacter } from "../../../shared/data/gameobject/ICharacter";
 import { ActionManager } from "./action/ActionManager";
 import { EGameState } from "../../../shared/util/EGameState";
 import { ISector } from "../../../shared/data/sector/ISector";
+import { CommandManager } from "./command/CommandManager";
 
 export class GameController {
 
@@ -45,12 +46,12 @@ export class GameController {
         GlobalDataService.createInstance(character, playerShip, sector);
 
         GameObjectHandler.init2();
-        //AbilityHandler.init();
         SelectionHandler.init();
         TargetHandler.init();
         Background.init();
         InputHandler.init();
         Chat.init(); 
+        CommandManager.init();
         Camera.init();
         GraphicsEffects.init();
         ActionManager.init();

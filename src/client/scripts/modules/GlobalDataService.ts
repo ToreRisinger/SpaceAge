@@ -10,7 +10,7 @@ export class GlobalDataService {
     private static _instance : GlobalDataService;
     /* Player */
     private character : ICharacter;
-    private characterName : String;
+    private characterName : string;
     private playerShip : Ship;
     private sector : Sector;
     
@@ -52,7 +52,7 @@ export class GlobalDataService {
         this.character = character;
     }
 
-    public getCharacterName() : String {
+    public getCharacterName() : string {
         return this.characterName;
     }
 

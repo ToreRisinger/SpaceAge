@@ -22,7 +22,7 @@ export module Com {
         });
     }
 
-    function getLatency() {
+    export function getLatency() {
         return latency;
     }
 

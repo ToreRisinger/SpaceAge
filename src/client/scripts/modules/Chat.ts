@@ -22,6 +22,14 @@ export module Chat {
         checkEnterPressed()
     }
 
+    export function getChatMessages() : Array<IChatMessage> {
+        return chatMessages;
+    }
+
+    export function getCombatLogMessages() : Array<ICombatLogMessage> {
+        return combatLog;
+    }
+
     function checkEnterPressed() {
         if(chat_input == null) {
             chat_input = document.getElementById("chat_input");
@@ -45,43 +53,40 @@ export module Chat {
             }
 
             //@ts-ignore
-            let message : String | null = chat_input.value;
-            if(message) {
-                let characterName = GlobalDataService.getInstance().getCharacterName();
-                
-                let event : Events.CLIENT_SEND_CHAT_MESSAGE_EVENT_CONFIG = {
-                    eventId : Events.EEventType.CLIENT_SEND_CHAT_MESSAGE_EVENT,
-                    data : {
-                        message: message,
-                        sender: characterName
-                    }
+            let message : string | null = chat_input.value;
+            //@ts-ignore
+            chat_input.value = null;
+
+            if(message) {    
+                if(message.length > 1 && message.startsWith("/")) {
+                    handleCommand(message.substring(1, message.length));
+                } else {
+                    sendChatMessage(message);
                 }
-
-                EventHandler.pushEvent(event);
-                //@ts-ignore
-                chat_input.value = null;
-
-                addMessage(characterName, message);
             }
         }
     }
 
-    export function getChatMessages() : Array<IChatMessage> {
-        return chatMessages;
+    function sendChatMessage(message: string) {
+        let characterName = GlobalDataService.getInstance().getCharacterName();
+        let event : Events.CLIENT_SEND_CHAT_MESSAGE_EVENT_CONFIG = {
+            eventId : Events.EEventType.CLIENT_SEND_CHAT_MESSAGE_EVENT,
+            data : {
+                message: message,
+                sender: characterName
+            }
+        }
+        EventHandler.pushEvent(event);
+        addMessage(characterName, message);
     }
 
-    export function getCombatLogMessages() : Array<ICombatLogMessage> {
-        return combatLog;
-    }
-
-    function addMessage(sender : String, message : String) {
+    export function addMessage(sender : string | undefined, message : string) {
         chatMessages.unshift({message: message, sender: sender});
         let event : Events.NEW_CHAT_MESSAGES_RECEIVED_CONFIG = {
             eventId : Events.EEventType.NEW_CHAT_MESSAGES_RECEIVED,
             data: {}
         }
         EventHandler.pushEvent(event);
-
     }
 
     function addCombatLog(message: ICombatLogMessage) {
@@ -105,5 +110,15 @@ export module Chat {
     function subscribeToEvents() {
         EventHandler.on(Events.EEventType.CLIENT_RECEIVE_CHAT_MESSAGE_EVENT, onClientChatMessageReceived);
         EventHandler.on(Events.EEventType.CLIENT_RECEIVE_COMBAT_LOG_EVENT, onClientCombatLogMessageReceived);
+    }
+
+    function handleCommand(command: string) {
+        let event : Events.COMMAND_EVENT_CONFIG = {
+            eventId : Events.EEventType.COMMAND_EVENT,
+            data: {
+                command: command
+            }
+        }
+        EventHandler.pushEvent(event);
     }
 }
