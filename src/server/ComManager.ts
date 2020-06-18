@@ -32,8 +32,10 @@ export class ComManager {
             Logger.info(`Listening on ${http.address().port}`);
         });
         
-  
-        this.io = require('socket.io').listen(http);
+        this.io = require('socket.io').listen(http, {'pingInterval': 2000, 'pingTimeout': 5000})//(http, )
+        //this.io.pingInterval = 2000;
+        //this.io.pingTimeout = 5000;
+        //this.io.;
 
         this.setupOnConnection();
     }
@@ -72,6 +74,10 @@ export class ComManager {
         socket.on('disconnect', () => {
             this.onClientDisconnect();
         });
+        socket.on('ping', (pingNumber: number) => {
+            console.log("ping in server");
+            socket.emit('pingAck', pingNumber);
+        })
     }
 
     private onClientLoginReq(socket: any, event: Events.GameEvent) {

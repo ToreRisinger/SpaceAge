@@ -14,10 +14,6 @@ import { ICombatLogMessage } from "../data/CombatLogInterfaces";
 export module Events {
 
     export enum EEventType {
-        /*
-            CLIENT EVENTS
-        */
-        INITAL_GAME_LOAD_EVENT,
 
         //Player events
         PLAYER_CONNECTED_EVENT,
@@ -52,7 +48,6 @@ export module Events {
         TRAIN_SKILL_STOP,
 
         //GameState changes events
-        SPACE_SCENE_GAME_STATE_EVENT, //TODO remove
         GAME_STATE_CHANGE,
         CLIENT_LOGIN_REQ,
         SERVER_LOGIN_ACK,
@@ -67,7 +62,6 @@ export module Events {
         TARGET_CHANGED_EVENT,
         ZOOM_CHANGED_EVENT,
         SKILL_STATE_UPDATED_EVENT,
-        
 
         /*
             SERVER EVENTS
@@ -290,6 +284,5 @@ export module Events {
             message: ICombatLogMessage 
         }
     }
-
 }
 
