@@ -3,7 +3,7 @@ import { EventHandler } from "./EventHandler";
 import { Events } from "../../../shared/util/Events";
 import { InputHandler } from "./InputHandler";
 import { GlobalDataService } from "./GlobalDataService";
-import { Ship } from "../game_objects/Ship";
+import { CCharacter } from "../game_objects/CCharacter";
 import { RadarDetectable } from "../game_objects/RadarDetectable";
 
 export module Camera {

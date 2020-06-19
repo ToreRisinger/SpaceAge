@@ -1,13 +1,13 @@
 import { ShipModule } from "./ShipModule";
-import { Ship } from "../Ship";
+import { CCharacter } from "../CCharacter";
 import { GameObject } from "../GameObject";
-import { ICharacter } from "../../../../shared/data/gameobject/ICharacter";
-import { GameScene, EParticleManagerType } from "../../scenes/GameScene";
+import { EParticleManagerType } from "../../scenes/GameScene";
 import { GameObjectHandler } from "../../modules/GameObjectHandler";
 import { Utils } from "../../../../shared/util/Utils";
 import { Graphics } from "../../modules/graphics/Graphics";
 import { IShipModuleInstance } from "../../../../shared/data/IShipModuleInstance";
 import { EStatType } from "../../../../shared/data/stats/EStatType";
+import { CShip } from "../CShip";
 
 export class WeaponShipModule extends ShipModule {
 
@@ -16,7 +16,7 @@ export class WeaponShipModule extends ShipModule {
     private weaponParticleRandomizerTimer: number;
     private weaponParticleRandomizerDirection: boolean;
 
-    constructor(ship: Ship, _module: IShipModuleInstance, thisPlayerShip: boolean) {
+    constructor(ship: CShip, _module: IShipModuleInstance, thisPlayerShip: boolean) {
         super(ship, _module, thisPlayerShip);
         //@ts-ignore
         this.bulletEmitter = new Graphics.ParticleEmitter({
@@ -45,7 +45,7 @@ export class WeaponShipModule extends ShipModule {
 
     private updateBulletParticles() {
         this.bulletEmitter.stop();
-        let ship : Ship = this.getShip();
+        let ship : CShip = this.getShip();
         let targetObject: GameObject | undefined = GameObjectHandler.getGameObjectsMap().get(ship.getTargetId());
         if(ship.isAttacking() && targetObject != undefined && this.targetInRange(targetObject, ship)) {
             if(this.weaponParticleRandomizerTimer <= 0) {
@@ -65,7 +65,7 @@ export class WeaponShipModule extends ShipModule {
         }
     }
 
-    private targetInRange(target : GameObject, ship : Ship): boolean {
+    private targetInRange(target : GameObject, ship : CShip): boolean {
         let range = ship.getStat(EStatType.weapon_range);
         let targetPos = target.getPos();
         let shipPos = ship.getPos();

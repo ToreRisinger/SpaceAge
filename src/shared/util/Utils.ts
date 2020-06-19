@@ -33,6 +33,10 @@ export module Utils {
         return Math.floor(Math.random() * (max - min) + min);
     }
 
+    export function chance(percentage: number) {
+        return getRandomNumber(1, 100) <= percentage;
+    }
+
     export function vec2Length(vec2 : Array<number>) {
         return Math.sqrt((vec2[0] * vec2[0]) + (vec2[1] * vec2[1]));
     };

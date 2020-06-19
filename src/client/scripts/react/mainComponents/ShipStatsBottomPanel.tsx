@@ -1,9 +1,9 @@
 import React from "react";
 import ObjectInfoContainer from "./ObjectInfoContainer";
-import { Ship } from "../../game_objects/Ship";
+import { CCharacter } from "../../game_objects/CCharacter";
 import { EStatType } from "../../../../shared/data/stats/EStatType";
 
-export interface ShipStatsBottomPanelProps { ship : Ship; }
+export interface ShipStatsBottomPanelProps { ship : CCharacter; }
 
 export default class ShipStatsBottomPanel extends React.Component<ShipStatsBottomPanelProps, {}> {
 

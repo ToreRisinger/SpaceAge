@@ -10,6 +10,7 @@ import { SCharacter } from "./objects/SCharacter";
 import { SClient } from "./objects/SClient";
 import { ICombatLogMessage } from "../shared/data/CombatLogInterfaces";
 import { ISector } from "../shared/data/sector/ISector";
+import { SShip } from "./objects/SShip";
 
 export class ComManager {
 
@@ -289,7 +290,7 @@ export class ComManager {
     private onPlayerStartWarpEvent(client : SClient, event : Events.PLAYER_START_WARP_REQUEST_EVENT_CONFIG) {
         //TODO, add check if they should be able to warp
         let sector = this.sectorHandler.getSectors().find(sector => sector.getId() == event.data.targetId);
-        if(sector != undefined && ! client.getCharacter().getData().state.isWarping) {
+        if(sector != undefined && ! client.getCharacter().getData().warpState.isWarping) {
             client.getCharacter().startWarp(sector);
             this.sectorHandler.onPlayerStartWarping(client, sector);
         }
@@ -331,7 +332,7 @@ export class ComManager {
         this.disconnectClient(socket);
     }
 
-    public addCombatLogMessage(receiver: SCharacter, message: ICombatLogMessage) {
+    public addCombatLogMessage(receiver: SShip, message: ICombatLogMessage) {
         let receiverClient = this.clientMap.get(receiver.getData().id);
         if(receiverClient != undefined) {
             this.combatLogMessages.push({receiver: receiverClient, message: message});

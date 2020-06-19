@@ -110,7 +110,7 @@ export class SectorHandler {
                     toRemove.push(value.client);
                     this.playersToSectorMap.set(value.client.getData().id, sectorToEnter);
                     this.sendSectorChangedEvent(value.client, sectorToEnter.getId());
-                    value.client.getData().character.state.isWarping = false;
+                    value.client.getData().character.warpState.isWarping = false;
                     value.client.getData().character.state.isMoving = false;
                     value.client.getData().character.state.hasDestination = false;
                     value.client.getData().character.state.meters_per_second = 0;

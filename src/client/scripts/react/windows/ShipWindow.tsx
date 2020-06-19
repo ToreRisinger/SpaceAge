@@ -3,13 +3,13 @@ import WindowHeader from "./WindowHeader";
 import ShipDisplay from "./ShipDisplay";
 import { GlobalDataService } from "../../modules/GlobalDataService";
 import { EStatType } from "../../../../shared/data/stats/EStatType";
-import { Ship } from "../../game_objects/Ship";
+import { CCharacter } from "../../game_objects/CCharacter";
 
 export interface ShipWindowProps {
     window_open: boolean
 }
 
-export interface ShipWindowState { ship : Ship }
+export interface ShipWindowState { ship : CCharacter }
 
 export default class ShipWindow extends React.Component<ShipWindowProps, ShipWindowState> {
     

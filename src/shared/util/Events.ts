@@ -9,6 +9,8 @@ import { ISector } from "../data/sector/ISector";
 import { IAsteroid } from "../data/astroid/IAstroid";
 import { ISkill } from "../data/skills/ISkill";
 import { ICombatLogMessage } from "../data/CombatLogInterfaces";
+import { IShip } from "../data/gameobject/IShip";
+import { INpc } from "../data/npc/INpc";
 
 
 export module Events {
@@ -156,7 +158,8 @@ export module Events {
 
     export interface SHIPS_UPDATE_EVENT_CONFIG extends GameEvent {
         data: {
-            characters: Array<{character: ICharacter}>
+            characters: Array<{character: ICharacter}>,
+            npcs: Array<{npc: INpc}>
         }
     }
 

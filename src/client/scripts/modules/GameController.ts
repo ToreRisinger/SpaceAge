@@ -13,7 +13,7 @@ import { Events } from "../../../shared/util/Events";
 import { CharacterListProvider } from "./CharacterListProvider";
 import { GlobalDataService } from "./GlobalDataService";
 import { Sector } from "../game_objects/Sector";
-import { Ship } from "../game_objects/Ship";
+import { CCharacter } from "../game_objects/CCharacter";
 import { Logger } from "../../../shared/logger/Logger";
 import { ICharacter } from "../../../shared/data/gameobject/ICharacter";
 import { ActionManager } from "./action/ActionManager";
@@ -42,7 +42,7 @@ export class GameController {
         //@ts-ignore
         let sector : Sector = GameObjectHandler.getGameObjectsMap().get(clientSectorId);
         //@ts-ignore
-        let playerShip : Ship = GameObjectHandler.getPlayerShip();
+        let playerShip : CCharacter = GameObjectHandler.getPlayerShip();
         GlobalDataService.createInstance(character, playerShip, sector);
 
         GameObjectHandler.init2();

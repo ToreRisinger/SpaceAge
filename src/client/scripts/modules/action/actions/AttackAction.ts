@@ -2,9 +2,10 @@ import { Action } from "../fw/Action";
 import { RadarDetectable } from "../../../game_objects/RadarDetectable";
 import { Events } from "../../../../../shared/util/Events";
 import { EventHandler } from "../../EventHandler";
-import { Ship } from "../../../game_objects/Ship";
+import { CCharacter } from "../../../game_objects/CCharacter";
 import { GlobalDataService } from "../../GlobalDataService";
 import { InputHandler } from "../../InputHandler";
+import { CShip } from "../../../game_objects/CShip";
 
 export class AttackAction extends Action {
    
@@ -29,7 +30,7 @@ export class AttackAction extends Action {
 
     public canAttack(selection: RadarDetectable | undefined, targetObject: RadarDetectable | undefined): boolean {
         let isAttacking = GlobalDataService.getInstance().getPlayerShip().isAttacking();
-        return targetObject != undefined && targetObject instanceof Ship && !isAttacking && GlobalDataService.getInstance().getPlayerShip().hasWeapon();
+        return targetObject != undefined && targetObject instanceof CShip && !isAttacking && GlobalDataService.getInstance().getPlayerShip().hasWeapon();
     }
 
     public getShortCut(): InputHandler.EKey {

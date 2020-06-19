@@ -1,6 +1,5 @@
 import { ICharacter } from "../../shared/data/gameobject/ICharacter";
 import { IUserDocument } from "../database/models/user.model";
-import { ItemInfo } from "../../shared/data/item/ItemInfo";
 import { ItemFactory } from "../ItemFactory";
 import { ICargo } from "../../shared/data/ICargo";
 import { Events } from "../../shared/util/Events";
@@ -14,8 +13,9 @@ import { EMineralItemType } from "../../shared/data/item/EMineralItemType";
 import { EStatType } from "../../shared/data/stats/EStatType";
 import { ISkill } from "../../shared/data/skills/ISkill";
 import { StatInfo } from "../../shared/data/stats/StatInfo";
+import { SShip } from "./SShip";
 
-export class SCharacter {
+export class SCharacter extends SShip {
   
     private character: ICharacter;
     private lastSkillProgressUpdateTime: number = -1;
@@ -69,7 +69,6 @@ export class SCharacter {
         skills.push({level: 1, skillType: EStatType.mining_laser_strength, progress: 0});
         skills.push({level: 1, skillType: EStatType.mining_laser_range, progress: 0});
 
-        //let ship: SShip = SShip.createNewShip();
         let character : ICharacter = {
             cargo: cargo,
             name: user.username + " (Character1)",
@@ -84,12 +83,14 @@ export class SCharacter {
               isMining : false,
               hasWeapon : false,
               hasMiningLaser : false,
-              isWarping : false,
-              warpDestination : [0, 0],
-              warpSource : [0, 0],
               targetId : -1,
               destVec : [0, 0],
               velVec : [0, 0]
+            },
+            warpState: {
+              isWarping : false,
+              warpDestination : [0, 0],
+              warpSource : [0, 0],
             },
             sectorCoords: {
               x: 0, 
@@ -157,9 +158,10 @@ export class SCharacter {
     }
 
     private constructor(character: ICharacter) {
+        super(character, true);
         this.character = character;
         this.lastSkillProgressUpdateTime = performance.now();
-        this.updateStats();
+        this.updateCharacterStats();
     }
 
     public getData() : ICharacter {
@@ -167,11 +169,26 @@ export class SCharacter {
     }
 
     public update40ms(): void {
+      super.update40ms();
       this.updateSkillProgress();
     }
 
     public update1000ms(): void {
-      this.updateShieldGeneration();
+      super.update1000ms();
+    }
+
+    public resetState() {
+      super.resetState();
+      this.character.warpState.warpDestination = [0, 0];
+      this.character.warpState.warpSource = [0, 0];
+      this.character.warpState.isWarping = false;
+    }
+
+    public startWarp(sector: Sector) {
+        this.character.warpState.isWarping = true;
+        this.character.warpState.warpDestination = [sector.getX(), sector.getY()];
+        this.character.warpState.warpSource = [this.character.x, this.character.y];
+        this.character.state.hasDestination = false;   
     }
 
     public startTrainSkill(event: Events.TRAIN_SKILL_START_CONFIG) {
@@ -188,63 +205,6 @@ export class SCharacter {
 
     public stopTrainSkill() {
         this.character.skills.currentlyTrainingIndex = -1;
-    }
-
-    public resetState() {
-      this.character.state.isMoving = false;
-      this.character.state.isWarping = false;
-      this.character.state.meters_per_second = 0;
-      this.character.state.targetId = -1;
-      this.character.state.warpDestination = [0, 0];
-      this.character.state.warpSource = [0, 0];
-      this.character.state.destVec = [0, 0];
-      this.character.state.velVec = [0, 0];
-      this.character.state.isWarping = false;
-      this.character.state.isMining = false;
-    }
-
-    public stopAttack() {
-        this.character.state.isAttacking = false;
-    }
-
-    public startAttack(targetId : number) {
-        if(targetId != undefined && targetId > 0) {
-            this.character.state.isAttacking = true;
-            this.character.state.targetId = targetId;
-        }
-    }
-
-    public stopMining() {
-        this.character.state.isMining = false;
-    }
-
-    public startMining(targetId : number) {
-        if(targetId != undefined && targetId > 0) {
-            this.character.state.isMining = true;
-            this.character.state.targetId = targetId;
-        }
-    }
-
-    public newDestination(x: number, y: number) {
-        let xLength = this.character.x - x;
-        let yLength = this.character.y - y;
-        let length = Math.sqrt(xLength * xLength + yLength * yLength);
-        if(length != 0) {
-            this.character.state.isMoving = true;
-            this.character.state.destVec = [x, y];
-            this.character.state.hasDestination = true;
-        } 
-    }
-
-    public stopMove() {
-        this.character.state.hasDestination = false;
-    }
-
-    public startWarp(sector: Sector) {
-        this.character.state.isWarping = true;
-        this.character.state.warpDestination = [sector.getX(), sector.getY()];
-        this.character.state.warpSource = [this.character.x, this.character.y];
-        this.character.state.hasDestination = false;   
     }
 
     private updateSkillProgress() : void {
@@ -287,29 +247,11 @@ export class SCharacter {
         this.stopTrainSkill();
     }
 
-    private updateStats(): void {
+    private updateCharacterStats(): void {
       this.resetStats();
       this.applyShipModuleStats();
       this.applySkillStats();
       this.calculateStats();
-    }
-
-    private applyShipModuleStats(): void {
-      this.character.modules.forEach(
-        //@ts-ignore
-        module => module.moduleItem.module.stats.forEach(
-          moduleProp => this.character.stats[moduleProp.property] = this.character.stats[moduleProp.property] + moduleProp.value
-        )
-      );
-
-      this.character.stats[EStatType.max_speed] = 1000;
-      this.character.stats[EStatType.acceleration] = this.character.stats[EStatType.thrust] / this.character.stats[EStatType.mass]; 
-      this.character.stats[EStatType.weapon_range] = 2000; //TODO average of all weapon modules
-    
-
-      this.character.properties.currentArmor = this.character.stats[EStatType.armor];
-      this.character.properties.currentShield = this.character.stats[EStatType.shield];
-      this.character.properties.currentHull = this.character.stats[EStatType.hull];
     }
 
     private resetStats() {
@@ -325,15 +267,5 @@ export class SCharacter {
           let baseStat: number = this.character.stats[skillInfo.stats.stat];
           this.character.stats[skillInfo.stats.stat] = Math.floor(baseStat + StatInfo.getAddedValue(baseStat, skillInfo.stats.modifier, skillInfo.stats.values[skill.level - 1]));
       });
-    }
-
-    private calculateStats() {
-      this.character.stats[EStatType.dodge] = StatInfo.getRatingToPercentage(this.character.stats[EStatType.acceleration], this.character.stats[EStatType.mass]);
-    }
-
-    private updateShieldGeneration() {
-      if(this.character.properties.currentShield < this.character.stats[EStatType.shield]) {
-          this.character.properties.currentShield += this.character.stats[EStatType.shield_generation];
-      }
-    }
+    }   
 }

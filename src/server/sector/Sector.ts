@@ -5,6 +5,11 @@ import { ICharacter } from "../../shared/data/gameobject/ICharacter";
 import { DamageService } from "../DamageService";
 import { ESectorType } from "../../shared/data/sector/ESectorType";
 import { EStatType } from "../../shared/data/stats/EStatType";
+import { SNpc } from "../objects/npc/SNpc";
+import { Utils } from "../../shared/util/Utils";
+import { SShip } from "../objects/SShip";
+import { IShip } from "../../shared/data/gameobject/IShip";
+import { NpcSpawner } from "../spawner/NpcSpawner";
 
 const math = require('mathjs');
 math.length = function vec2Length(vec2 : Array<number>) {
@@ -15,13 +20,14 @@ let UPDATES_PER_SECOND : number = 25;
 
 export class Sector {
 
-    protected clients :  Map<number, SClient>;
-    protected x : number;
-    protected y : number;
-    protected sector_x : number;
-    protected sector_y : number;
-    protected sectorName : string;
-    protected id : number;
+    protected clients: Map<number, SClient>;
+    protected npcs: Map<number, SNpc>;
+    protected x: number;
+    protected y: number;
+    protected sector_x: number;
+    protected sector_y: number;
+    protected sectorName: string;
+    protected id: number;
     protected sectorType: ESectorType;
 
     constructor(
@@ -41,6 +47,7 @@ export class Sector {
         this.sectorType = sectorType;
 
         this.clients = new Map<number, SClient>();
+        this.npcs = new Map<number, SNpc>();
     }
 
     public getSectorX() {
@@ -71,13 +78,24 @@ export class Sector {
       return this.sectorType;
     }
 
+    public addNpc(npc: SNpc): void {
+      this.npcs.set(npc.getData().id, npc);
+    }
+
     public update40ms() {
       this.clients.forEach((client: SClient, key: number) => {
         let character: SCharacter = client.getCharacter();
-        if(character.getData().state.isWarping) {
+        if(character.getData().warpState.isWarping) {
           this.updateWarpingShipPosition(character);
         } else if(character.getData().state.isMoving || character.getData().state.hasDestination) {
           this.updateShipPosition(character);
+        }
+      });
+
+      this.npcs.forEach(npc => {
+        npc.update40ms();
+        if(npc.getData().state.isMoving || npc.getData().state.hasDestination) {
+          this.updateShipPosition(npc);
         }
       });
         
@@ -85,11 +103,23 @@ export class Sector {
     }
 
     public update1000ms() {
+
         this.clients.forEach((client: SClient, key: number) => {
           if(client.getCharacter().getData().state.isAttacking) {
             this.handleAttackingShip(client.getCharacter());
           }
         });
+
+        this.npcs.forEach((npc: SShip, key: number) => {
+          npc.update1000ms();
+          if(npc.getData().state.isAttacking) {
+            this.handleAttackingShip(npc);
+          }
+        });
+
+        if(Utils.chance(10)) {
+          this.npcs.set
+        }
 
         /*
         TODO check if any ship died
@@ -115,11 +145,11 @@ export class Sector {
 
     private updateWarpingShipPosition(character : SCharacter) {
       let characterData: ICharacter = character.getData();
-      let totalLength = math.length(math.subtract(characterData.state.warpDestination,[this.x + characterData.state.warpSource[0], this.y + characterData.state.warpSource[1]] ));
+      let totalLength = math.length(math.subtract(characterData.warpState.warpDestination,[this.x + characterData.warpState.warpSource[0], this.y + characterData.warpState.warpSource[1]] ));
       let distanceTraveled = math.length(
-                                math.subtract([this.x + characterData.state.warpSource[0], this.y + characterData.state.warpSource[1]], 
+                                math.subtract([this.x + characterData.warpState.warpSource[0], this.y + characterData.warpState.warpSource[1]], 
                                   [this.x + characterData.x, this.y + characterData.y]));;
-      let shipToDest = math.subtract(characterData.state.warpDestination, [this.x + characterData.x, this.y + characterData.y]);
+      let shipToDest = math.subtract(characterData.warpState.warpDestination, [this.x + characterData.x, this.y + characterData.y]);
       
       let speed = 1000000;
       let ratio = distanceTraveled / totalLength;
@@ -131,8 +161,8 @@ export class Sector {
       characterData.state.meters_per_second = math.length(velVec) / UPDATES_PER_SECOND
     }
 
-    private updateShipPosition(character : SCharacter) {
-      let characterData: ICharacter = character.getData();
+    private updateShipPosition(ship : SShip) {
+      let shipData: IShip = ship.getData();
         function getMidPointVec(shipToDestVec :  Array<number>, goodVelVecComp : Array<number>, badVelVecComp : Array<number>) {
           function getDivider(goodVelVecComp : Array<number>, badVelVecComp : Array<number>) {
             if(math.length(badVelVecComp) != 0) {
@@ -174,65 +204,65 @@ export class Sector {
           return newVelVec;
         }
         
-        let acceleration = characterData.stats[EStatType.acceleration];
-        let destVec = characterData.state.destVec;
-        let shipPosVec = [characterData.x, characterData.y];
+        let acceleration = shipData.stats[EStatType.acceleration];
+        let destVec = shipData.state.destVec;
+        let shipPosVec = [shipData.x, shipData.y];
         let shipToDestVec = math.subtract(destVec, shipPosVec);
         let normalizedShipToDestVec = math.multiply(shipToDestVec, 1/math.length(shipToDestVec));
-        let goodVelVecComp = math.multiply(normalizedShipToDestVec, math.multiply(characterData.state.velVec, normalizedShipToDestVec));
-        let badVelVecComp = math.subtract(characterData.state.velVec, goodVelVecComp);
+        let goodVelVecComp = math.multiply(normalizedShipToDestVec, math.multiply(shipData.state.velVec, normalizedShipToDestVec));
+        let badVelVecComp = math.subtract(shipData.state.velVec, goodVelVecComp);
         
-        if(characterData.state.hasDestination) {
-          if(math.length(shipToDestVec) <= acceleration / UPDATES_PER_SECOND && math.length(characterData.state.velVec) - acceleration / UPDATES_PER_SECOND <= 0) {
-            characterData.state.isMoving = false;
-            characterData.x = characterData.state.destVec[0];
-            characterData.y = characterData.state.destVec[1];
-            characterData.state.hasDestination = false;
+        if(shipData.state.hasDestination) {
+          if(math.length(shipToDestVec) <= acceleration / UPDATES_PER_SECOND && math.length(shipData.state.velVec) - acceleration / UPDATES_PER_SECOND <= 0) {
+            shipData.state.isMoving = false;
+            shipData.x = shipData.state.destVec[0];
+            shipData.y = shipData.state.destVec[1];
+            shipData.state.hasDestination = false;
           }
-        } else if(math.length(characterData.state.velVec) - acceleration / UPDATES_PER_SECOND <= 0) {
-          characterData.state.isMoving = false;
+        } else if(math.length(shipData.state.velVec) - acceleration / UPDATES_PER_SECOND <= 0) {
+          shipData.state.isMoving = false;
         }
           
-        if(characterData.state.isMoving) { 
-          let newVelVec = characterData.state.hasDestination
-            ? calculateNewVelocityVector(shipToDestVec, characterData.state.velVec, goodVelVecComp, badVelVecComp, acceleration)
-            : math.subtract(characterData.state.velVec, math.multiply(characterData.state.velVec, (acceleration/UPDATES_PER_SECOND)/math.length(characterData.state.velVec)));
+        if(shipData.state.isMoving) { 
+          let newVelVec = shipData.state.hasDestination
+            ? calculateNewVelocityVector(shipToDestVec, shipData.state.velVec, goodVelVecComp, badVelVecComp, acceleration)
+            : math.subtract(shipData.state.velVec, math.multiply(shipData.state.velVec, (acceleration/UPDATES_PER_SECOND)/math.length(shipData.state.velVec)));
 
           let newVelVecLength = math.length(newVelVec);
 
-          let shipMaxSpeed = characterData.stats[EStatType.max_speed];
+          let shipMaxSpeed = shipData.stats[EStatType.max_speed];
           if(newVelVecLength > shipMaxSpeed) {
-            characterData.state.velVec = math.multiply(newVelVec, shipMaxSpeed/newVelVecLength)
+            shipData.state.velVec = math.multiply(newVelVec, shipMaxSpeed/newVelVecLength)
           } else {
-            characterData.state.velVec = newVelVec;
+            shipData.state.velVec = newVelVec;
           }
 
-          characterData.x = characterData.x + characterData.state.velVec[0] / UPDATES_PER_SECOND;
-          characterData.y = characterData.y + characterData.state.velVec[1] / UPDATES_PER_SECOND;
-          characterData.state.meters_per_second = math.length(characterData.state.velVec);
+          shipData.x = shipData.x + shipData.state.velVec[0] / UPDATES_PER_SECOND;
+          shipData.y = shipData.y + shipData.state.velVec[1] / UPDATES_PER_SECOND;
+          shipData.state.meters_per_second = math.length(shipData.state.velVec);
         } else {
-          characterData.state.meters_per_second = 0;
-          characterData.state.velVec = [0, 0];
+          shipData.state.meters_per_second = 0;
+          shipData.state.velVec = [0, 0];
         }
     }
 
-    private handleAttackingShip(attackingCharacter : SCharacter) {
-        let targetClient = this.clients.get(attackingCharacter.getData().state.targetId);
+    private handleAttackingShip(attackingShip : SShip) {
+        let targetClient = this.clients.get(attackingShip.getData().state.targetId);
         if(targetClient != undefined) {
             let targetCharacter : SCharacter = targetClient.getCharacter();
-            let attackingShipPos = [attackingCharacter.getData().x, attackingCharacter.getData().y];
+            let attackingShipPos = [attackingShip.getData().x, attackingShip.getData().y];
             let targetShipPos = [targetCharacter.getData().x, targetCharacter.getData().y];
             let attackingShipToTargetShipVec = math.subtract(attackingShipPos, targetShipPos);
             let attackingShipToTargetShipDistance : number = math.length(attackingShipToTargetShipVec);
-            let attackingShipWeaponRange = attackingCharacter.getData().stats[EStatType.weapon_range];
+            let attackingShipWeaponRange = attackingShip.getData().stats[EStatType.weapon_range];
             if(attackingShipToTargetShipDistance <= attackingShipWeaponRange) {
-                DamageService.attackShip(attackingCharacter, targetCharacter);
+                DamageService.attackShip(attackingShip, targetCharacter);
             } 
         }
     }
   
     private sendShipUpdates() {
-        let packet : any = PacketFactory.createShipsUpdatePacket(this.clients);
+        let packet : any = PacketFactory.createShipsUpdatePacket(this.clients, this.npcs);
         this.clients.forEach((client: SClient, key: number) => {
           client.getData().socket.emit("ServerEvent", packet);
         });

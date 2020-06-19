@@ -4,7 +4,6 @@ import { IdHandler } from "../IdHandler";
 import { Utils } from "../../shared/util/Utils";
 import { PacketFactory } from "../PacketFactory";
 import { ItemFactory } from "../ItemFactory";
-import { ItemInfo } from "../../shared/data/item/ItemInfo";
 import { CargoUtils } from "../CargoUtils";
 import { SClient } from "../objects/SClient";
 import { CombatLogManager } from "../CombatLogManager";
@@ -12,21 +11,22 @@ import { EMineralItemType } from "../../shared/data/item/EMineralItemType";
 import { IAsteroid } from "../../shared/data/astroid/IAstroid";
 import { ESectorType } from "../../shared/data/sector/ESectorType";
 import { EStatType } from "../../shared/data/stats/EStatType";
+import { NpcSpawner } from "../spawner/NpcSpawner";
+import { ENpcType } from "../../shared/data/npc/ENpcType";
 
 const math = require('mathjs');
 
 export class AsteroidBeltSector extends Sector {
 
-    private type : EMineralItemType;
-    private hardness : number;
-    private minSize : number;
-    private maxSize : number;
-    private generationRate : number;
-    private maxNrOfAsteroids : number;
-
-    private timePassedSinceLastGeneration : number;
-
-    private asteroids : Map<number, IAsteroid>;
+    private type: EMineralItemType;
+    private hardness: number;
+    private minSize: number;
+    private maxSize: number;
+    private generationRate: number;
+    private maxNrOfAsteroids: number;
+    private timePassedSinceLastGeneration: number;
+    private asteroids: Map<number, IAsteroid>;
+    private npcSpawner: NpcSpawner;
 
     constructor(
         sector_x : number,
@@ -51,15 +51,18 @@ export class AsteroidBeltSector extends Sector {
         this.maxNrOfAsteroids = maxNrOfAsteroids;
         this.timePassedSinceLastGeneration = 0;
 
+        this.npcSpawner = new NpcSpawner(ENpcType.SMUGGLER, this);
         this.asteroids = new Map<number, IAsteroid>();
     }
 
     public update40ms() {
         super.update40ms();
+        this.npcSpawner.update40ms();
     }
 
     public update1000ms() {
         super.update1000ms();
+        this.npcSpawner.update1000ms();
         this.timePassedSinceLastGeneration++;
         if(this.timePassedSinceLastGeneration >= this.generationRate && this.asteroids.size < this.maxNrOfAsteroids) {
             this.timePassedSinceLastGeneration = 0;

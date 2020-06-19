@@ -1,4 +1,4 @@
-import { Ship } from "../../game_objects/Ship";
+import { CCharacter } from "../../game_objects/CCharacter";
 import { DRAW_LAYERS } from "../../constants/DRAW_LAYERS";
 import { GlobalDataService } from "../GlobalDataService";
 import { Colors } from "../../../../shared/colors/Colors";
@@ -55,7 +55,7 @@ export module GraphicsEffects {
         radarMaxRangeCircle.setVisible(showRadarRange);
         weaponRangeCircle.setVisible(showWeaponRange);
 
-        let ship : Ship = GlobalDataService.getInstance().getPlayerShip();
+        let ship : CCharacter = GlobalDataService.getInstance().getPlayerShip();
         let x = ship.getPos().x;
         let y = ship.getPos().y;
         if(ship.getIsMoving() && ship.hasDestination()) {

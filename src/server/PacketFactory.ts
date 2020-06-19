@@ -1,23 +1,30 @@
 import { Events } from "../shared/util/Events";
-import { AsteroidInfo } from "../shared/data/astroid/AsteroidInfo";
 import { ICargo } from "../shared/data/ICargo";
 import { SClient } from "./objects/SClient";
 import { ICharacter } from "../shared/data/gameobject/ICharacter";
 import { IAsteroid } from "../shared/data/astroid/IAstroid";
+import { INpc } from "../shared/data/npc/INpc";
+import { SNpc } from "./objects/npc/SNpc";
 
 
 export module PacketFactory {
 
-    export function createShipsUpdatePacket(clients : Map<number, SClient>) {
-        let array: Array<{character: ICharacter}> = [];
+    export function createShipsUpdatePacket(clients : Map<number, SClient>, npcs: Map<number, SNpc>) {
+        let characterArray: Array<{character: ICharacter}> = [];
         clients.forEach((client: SClient, key: number) => {
-          array.push({character: client.getCharacter().getData()});
+          characterArray.push({character: client.getCharacter().getData()});
+        });
+
+        let npcArray: Array<{npc: INpc}> = [];
+        npcs.forEach((npc: SNpc, key: number) => {
+          npcArray.push({npc: npc.getData()});
         });
     
         let packet : Events.SHIPS_UPDATE_EVENT_CONFIG = {
           eventId : Events.EEventType.SHIPS_UPDATE_EVENT,
           data : {
-            characters : array
+            characters : characterArray,
+            npcs: npcArray
           }
         }
         

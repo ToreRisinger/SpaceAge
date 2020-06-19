@@ -1,5 +1,5 @@
 import React, {Fragment} from "react";
-import { Ship } from "../game_objects/Ship";
+import { CCharacter } from "../game_objects/CCharacter";
 import BottomPanel from "./mainComponents/BottomPanel";
 import SideMenu from "./mainComponents/SidePanel";
 import NavigationPanel from "./mainComponents/NavigationPanel";
@@ -22,7 +22,7 @@ export default class App extends React.Component<{}, AppState> {
     
     private eventHandlerWaitTimer : ReturnType<typeof setTimeout> | undefined;
     
-    constructor(props : Ship) {
+    constructor(props : CCharacter) {
         super(props);
         this.state = {
             gameState : EGameState.LOGIN

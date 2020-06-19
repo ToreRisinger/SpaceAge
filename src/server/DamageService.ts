@@ -4,10 +4,11 @@ import { CombatLogManager } from "./CombatLogManager";
 import { EStatType } from "../shared/data/stats/EStatType";
 import { StatInfo } from "../shared/data/stats/StatInfo";
 import { EDamageType } from "../shared/data/stats/EDamageType";
+import { SShip } from "./objects/SShip";
 
 export module DamageService {
 
-    export function attackShip(attacking: SCharacter, target: SCharacter) {
+    export function attackShip(attacking: SShip, target: SShip) {
         let dodgeChance = target.getData().stats[EStatType.dodge];
         let dodgeReduction = 1 - StatInfo.getRatingToPercentage(attacking.getData().stats[EStatType.target_dodge_reduction], attacking.getData().stats[EStatType.mass]);
         let calculatedDodgeChance = dodgeChance * dodgeReduction;
@@ -23,7 +24,7 @@ export module DamageService {
         CombatLogManager.addCombatLogDamageMessage(attacking, target, totalDamage);
     }
 
-    function dealDamageToShip(attacking: SCharacter, target: SCharacter, damage : number, damageType : EDamageType): number {
+    function dealDamageToShip(attacking: SShip, target: SShip, damage : number, damageType : EDamageType): number {
         let damageLeft = damage;
         let shieldBeforeDamage = target.getData().properties.currentShield;
         let armorBeforeDamage = target.getData().properties.currentArmor;
@@ -65,7 +66,7 @@ export module DamageService {
                 + (hullBeforeDamage - target.getData().properties.currentHull)
     }
 
-    function getDamageTypeResist(character: SCharacter, damageType : EDamageType) : number {
+    function getDamageTypeResist(character: SShip, damageType : EDamageType) : number {
         let resist : number = 0;
         let mass = character.getData().stats[EStatType.mass]
         switch(damageType) {

@@ -1,9 +1,9 @@
 import React from "react";
 import { GlobalDataService } from "../../modules/GlobalDataService";
-import { Ship } from "../../game_objects/Ship";
+import { CCharacter } from "../../game_objects/CCharacter";
 import LocationInfoPanel from "./LocationInfoPanel";
 
-export interface LocationPanelState { ship: Ship }
+export interface LocationPanelState { ship: CCharacter }
 
 export default class LocationPanel extends React.Component<{}, LocationPanelState> {
 

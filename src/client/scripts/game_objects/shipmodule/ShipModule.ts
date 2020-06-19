@@ -1,19 +1,20 @@
-import { Ship } from "../Ship";
+import { CCharacter } from "../CCharacter";
 import { ShipModuleInfo } from "../../../../shared/data/shipmodule/ShipModuleInfo";
 import { DRAW_LAYERS } from "../../constants/DRAW_LAYERS";
 import { Graphics } from "../../modules/graphics/Graphics";
 import { IShipModuleInstance } from "../../../../shared/data/IShipModuleInstance";
+import { CShip } from "../CShip";
 
 export class ShipModule {
 
     private static MODULE_SPRITE_SIZE = 38;
 
     private sprite : Graphics.Sprite;
-    private ship: Ship;
+    private ship: CShip;
     private module: IShipModuleInstance;
     private thisPlayerShip: boolean;
 
-    constructor(ship: Ship, _module: IShipModuleInstance, thisPlayerShip: boolean) {
+    constructor(ship: CShip, _module: IShipModuleInstance, thisPlayerShip: boolean) {
         this.thisPlayerShip = thisPlayerShip;
         this.ship = ship;
         this.module = _module;
@@ -65,7 +66,7 @@ export class ShipModule {
         }
     }
 
-    protected getShip(): Ship {
+    protected getShip(): CShip {
         return this.ship;
     }
 

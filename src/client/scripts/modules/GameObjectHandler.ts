@@ -1,6 +1,6 @@
 import { EventHandler } from "./EventHandler"
 import { Events } from "../../../shared/util/Events"
-import { Ship } from "../game_objects/Ship";
+import { CCharacter } from "../game_objects/CCharacter";
 import { GameObject } from "../game_objects/GameObject";
 import { AsteroidInfo } from "../../../shared/data/astroid/AsteroidInfo";
 import { Asteroid } from "../game_objects/Asteroid";
@@ -13,6 +13,7 @@ import { PlanetInfo } from "../../../shared/data/planet/PlanetInfo";
 import { ISector } from "../../../shared/data/sector/ISector";
 import { IPlanet } from "../../../shared/data/planet/IPlanet";
 import { IAsteroid } from "../../../shared/data/astroid/IAstroid";
+import { CNpc } from "../game_objects/CNpc";
 
 export module GameObjectHandler {
 
@@ -21,7 +22,7 @@ export module GameObjectHandler {
     let planets = new Array<Planet>();
 
     export function init(character: ICharacter, sectors : Array<ISector>) {
-        let newShip : Ship = new Ship(character, true, character.name);
+        let newShip : CCharacter = new CCharacter(character, true);
         newShip.setCargo(character.cargo);
       
         thisShipId = character.id;
@@ -74,15 +75,26 @@ export module GameObjectHandler {
     function onShipsUpdate(event : Events.SHIPS_UPDATE_EVENT_CONFIG) {
         event.data.characters.forEach(obj => {
             if(gameObjects.get(obj.character.id) == undefined) {
-                let newShip : Ship = new Ship(obj.character, false, obj.character.name);
+                let newShip : CCharacter = new CCharacter(obj.character, false);
                 gameObjects.set(obj.character.id, newShip);
             } else {
                 //@ts-ignore
-                let oldShip : Ship = gameObjects.get(obj.character.id);
+                let oldShip : CCharacter = gameObjects.get(obj.character.id);
                 oldShip.updateData(obj.character);
                 if(obj.character.id == thisShipId) {
                     GlobalDataService.getInstance().setCharacter(obj.character);
                 }
+            }
+        });
+
+        event.data.npcs.forEach(obj => {
+            if(gameObjects.get(obj.npc.id) == undefined) {
+                let newNpc : CNpc = new CNpc(obj.npc);
+                gameObjects.set(obj.npc.id, newNpc);
+            } else {
+                //@ts-ignore
+                let oldNpc : CNpc = gameObjects.get(obj.npc.id);
+                oldNpc.updateData(obj.npc);
             }
         });
     }
@@ -135,7 +147,7 @@ export module GameObjectHandler {
             gameObjects.forEach((element, key) => {
                 if(element instanceof Sector) {
                     element.onSectorChanged(newSectorPos.x, newSectorPos.y);
-                } else if(element instanceof Ship) {
+                } else if(element instanceof CCharacter) {
                     if(element.getId() != thisShipId) {
                         objectsToRemove.push(element);
                     }

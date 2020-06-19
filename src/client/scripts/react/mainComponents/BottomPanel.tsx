@@ -1,9 +1,9 @@
 import React from "react";
 import ShipStatsBottomPanel from "./ShipStatsBottomPanel";
 import { GlobalDataService } from "../../modules/GlobalDataService";
-import { Ship } from "../../game_objects/Ship";
+import { CCharacter } from "../../game_objects/CCharacter";
 
-export interface BottomPanelState { ship : Ship; }
+export interface BottomPanelState { ship : CCharacter; }
 
 export default class BottomPanel extends React.Component<{}, BottomPanelState> {
 

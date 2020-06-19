@@ -1,14 +1,14 @@
 import { ShipModule } from "./ShipModule";
-import { Ship } from "../Ship";
 import { MiningLaserShipModule } from "./MiningLaserShipModule";
 import { WeaponShipModule } from "./WeaponShipModule";
 import { EModuleItemType } from "../../../../shared/data/item/EModuleItemType";
+import { CShip } from "../CShip";
 
 export class ShipModuleWrapper {
 
     private modules: Array<ShipModule>;
 
-    constructor(ship: Ship, thisPlayerShip: boolean) {
+    constructor(ship: CShip, thisPlayerShip: boolean) {
         this.modules = new Array();
         ship.getModules().forEach(_module => {
             if(_module.moduleItem.itemType == EModuleItemType.MINING_LASER_MODULE) {

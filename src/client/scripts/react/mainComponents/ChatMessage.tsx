@@ -13,17 +13,21 @@ export default class ChatMessage extends React.Component<ChatMessageProps, {}> {
     }
 
     render() {
-        const colorStyle = {
+        const senderColorStyle = {
             color: this.props.chatMessage.sender == GlobalDataService.getInstance().getCharacterName() ? Colors.RGB.GREEN : Colors.RGB.LIGHT_BLUE
+        }
+
+        const nonSenderColorStyle = {
+            color: Colors.RGB.RED
         }
         
         return (
             <div className="chat_message">
                     {this.props.chatMessage.sender == undefined ?
-                        this.props.chatMessage.message
+                        <b style={nonSenderColorStyle}>{this.props.chatMessage.message}</b>
                     :
                         <Fragment>
-                            <b style={colorStyle}>[{this.props.chatMessage.sender}]</b>: {this.props.chatMessage.message}
+                            <b style={senderColorStyle}>[{this.props.chatMessage.sender}]</b>: {this.props.chatMessage.message}
                         </Fragment>
                     }
             </div>
