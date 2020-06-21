@@ -10,6 +10,9 @@ export class SNpc extends SShip {
     constructor(npcData: INpc) {
         super(npcData, false);
         this.npcData = npcData;
+        this.getData().x = 10000;
+        this.getData().y = 10000;
+        this.newDestination(Utils.getRandomNumber(-2000, 2000), Utils.getRandomNumber(-2000, 2000))
     }
 
     public update40ms(sector: SSector) {
@@ -22,8 +25,8 @@ export class SNpc extends SShip {
     }
 
     private updateAIAction() {
-        if(Utils.chance(50)) {
-            this.newDestination(this.getData().x + Utils.getRandomNumber(-200, 200), this.getData().y + Utils.getRandomNumber(-200, 200))
+        if(Utils.chance(5)) {
+            this.newDestination(this.getData().x + Utils.getRandomNumber(-2000, 2000), this.getData().y + Utils.getRandomNumber(-2000, 2000))
         }
     }
 

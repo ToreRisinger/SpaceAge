@@ -1,5 +1,5 @@
 export enum ENpcType {
-    SMUGGLER,
-    TRADER,
-    PIRATE 
+    SMUGGLER = "Smuggler",
+    TRADER = "Trader",
+    PIRATE = "Pirate" 
 }

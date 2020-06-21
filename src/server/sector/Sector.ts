@@ -11,7 +11,6 @@ math.length = function vec2Length(vec2 : Array<number>) {
   return Math.sqrt((vec2[0] * vec2[0]) + (vec2[1] * vec2[1]));
 };
 
-
 export class SSector {
 
     protected clients: Map<number, SClient>;
@@ -100,6 +99,8 @@ export class SSector {
         npc.update1000ms(this);
       });
 
+      this.handleDestroyedNpcs();
+
       this.spawners.forEach(spawner=> {
         spawner.update1000ms();
       });
@@ -153,4 +154,27 @@ export class SSector {
     public getAsteroids() {
       return this.asteroids;
     }
+
+    private handleDestroyedNpcs() {
+      let destroyedNpcIds: Array<number> = new Array();
+      this.npcs.forEach(npc => {
+        let properties = npc.getData().properties;
+        if(properties.currentHull == 0) {
+          destroyedNpcIds.push(npc.getData().id);
+        }
+      });
+
+      destroyedNpcIds.forEach(npcId => {
+        this.npcs.delete(npcId);
+      })
+
+      this.sendDestroyedNpcs(destroyedNpcIds);
+    }
+
+    private sendDestroyedNpcs(idList : number[]) {
+      let packet : any = PacketFactory.createDestroyedGameObjectsPacket(idList);
+      this.clients.forEach((client: SClient, key: number) => {
+          client.getData().socket.emit("ServerEvent", packet);
+      });
+  }
 }

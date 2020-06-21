@@ -162,6 +162,6 @@ export module StatInfo {
     }
 
     export function getRatingToPercentage(value: number, mass: number) : number {
-        return Math.log10((value/(mass*0.1)) + 1);
+        return Math.log10((value/(mass*10)) + 1);
     }
 }

@@ -1,23 +1,17 @@
 import { SSector } from "./Sector";
-import { IdHandler } from "../IdHandler";
-import { Utils } from "../../shared/util/Utils";
 import { PacketFactory } from "../PacketFactory";
 import { CargoUtils } from "../CargoUtils";
 import { SClient } from "../objects/SClient";
 import { EMineralItemType } from "../../shared/data/item/EMineralItemType";
-import { IAsteroid } from "../../shared/data/astroid/IAstroid";
 import { ESectorType } from "../../shared/data/sector/ESectorType";
 import { NpcSpawner } from "../spawner/NpcSpawner";
 import { ENpcType } from "../../shared/data/npc/ENpcType";
 import { SCharacter } from "../objects/SCharacter";
 import { AsteroidSpawner } from "../spawner/AsteroidSpawner";
 
-const math = require('mathjs');
 
 export class AsteroidBeltSector extends SSector {
 
-
-    
     private npcSpawner: NpcSpawner;
     private asteroidSpawner: AsteroidSpawner;
 
@@ -39,7 +33,7 @@ export class AsteroidBeltSector extends SSector {
 
         this.npcSpawner = new NpcSpawner(ENpcType.SMUGGLER, this);
         this.asteroidSpawner = new AsteroidSpawner(this, type, hardness, minSize, maxSize, generationRate, maxNrOfAsteroids);
-        
+
         this.addSpawner(this.npcSpawner);
         this.addSpawner(this.asteroidSpawner);
     }
