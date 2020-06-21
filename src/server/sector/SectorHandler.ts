@@ -1,5 +1,5 @@
 import * as map_config from "../resources/server-map.json";
-import { Sector } from "./Sector";
+import { SSector } from "./Sector";
 import { AsteroidBeltSector } from "./AstriodBeltSector";
 import { IdHandler } from "../IdHandler.js";
 import { PacketFactory } from "../PacketFactory.js";
@@ -12,21 +12,21 @@ const math = require('mathjs');
 
 export class SectorHandler {
 
-    private sectors : Map<string, Sector>;
+    private sectors : Map<string, SSector>;
     private SECTOR_COORD_TO_MAP_COORD : number = 10000000;
-    private playersToSectorMap :  Map<number, Sector>;
+    private playersToSectorMap :  Map<number, SSector>;
     private location: string = "unknown";
 
     private warpingPlayers : Map<number, {
         client : SClient, 
         playerStartPos : Array<number>, 
-        destinationSector : Sector, 
-        sourceSector : Sector}>;
+        destinationSector : SSector, 
+        sourceSector : SSector}>;
 
     constructor() {
         this.sectors = new Map();
         this.warpingPlayers = new Map();
-        this.playersToSectorMap = new Map<number, Sector>();
+        this.playersToSectorMap = new Map<number, SSector>();
         this.createSectors();
     }
 
@@ -34,23 +34,20 @@ export class SectorHandler {
         return this.location;
     }
 
-    public getSectors() : Array<Sector> {
+    public getSectors() : Array<SSector> {
         return Array.from(this.sectors.values());
     }
 
     public update40ms() {
-
         this.handleWarpingPlayers();
-        
-
-        this.sectors.forEach((value, key) => {
-            value.update40ms();
+        this.sectors.forEach((sector, key) => {
+            sector.update40ms();
         });
     }
 
     public update1000ms() {
-        this.sectors.forEach((value, key) => {
-            value.update1000ms();
+        this.sectors.forEach((sector, key) => {
+            sector.update1000ms();
         });
     }
 
@@ -72,7 +69,7 @@ export class SectorHandler {
         }
     }
 
-    public onPlayerStartWarping(client: SClient, destinationSector : Sector) {
+    public onPlayerStartWarping(client: SClient, destinationSector : SSector) {
         let sourceSector = this.playersToSectorMap.get(client.getData().id);
         if(sourceSector != undefined) {
             this.warpingPlayers.set(client.getData().id, 
@@ -206,8 +203,8 @@ export class SectorHandler {
         }
     }
 
-    public getSector(x : number, y : number) : Sector | undefined {
-        let sector : Sector | undefined = undefined;
+    public getSector(x : number, y : number) : SSector | undefined {
+        let sector : SSector | undefined = undefined;
         this.sectors.forEach((value, key) => {
             if(value.getSectorX() == x && value.getSectorY() == y) {
                 sector = value;
@@ -217,7 +214,7 @@ export class SectorHandler {
         return sector;
     }
 
-    private addSector(x : number, y : number, sector : Sector) {
+    private addSector(x : number, y : number, sector : SSector) {
         this.sectors.set("" + x + y, sector);
     }
 

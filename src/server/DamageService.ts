@@ -1,4 +1,3 @@
-import { SCharacter } from "./objects/SCharacter";
 import { Utils } from "../shared/util/Utils";
 import { CombatLogManager } from "./CombatLogManager";
 import { EStatType } from "../shared/data/stats/EStatType";

@@ -1,6 +1,7 @@
 import { INpc } from "../../../shared/data/npc/INpc";
 import { SShip } from "../SShip";
 import { Utils } from "../../../shared/util/Utils";
+import { SSector } from "../../sector/Sector";
 
 export class SNpc extends SShip {
 
@@ -11,11 +12,12 @@ export class SNpc extends SShip {
         this.npcData = npcData;
     }
 
-    public update40ms() {
-
+    public update40ms(sector: SSector) {
+        super.update40ms(sector);
     }
 
-    public update1000ms() {
+    public update1000ms(sector: SSector) {
+        super.update1000ms(sector);
         this.updateAIAction();
     }
 

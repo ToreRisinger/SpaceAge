@@ -6,7 +6,7 @@ import { Events } from "../../shared/util/Events";
 import { SkillInfo } from "../../shared/data/skills/SkillInfo";
 import { performance } from 'perf_hooks'
 import { IdHandler } from "../IdHandler"
-import { Sector } from "../sector/Sector";
+import { SSector } from "../sector/Sector";
 import { IItem } from "../../shared/data/item/IItem";
 import { EModuleItemType } from "../../shared/data/item/EModuleItemType";
 import { EMineralItemType } from "../../shared/data/item/EMineralItemType";
@@ -14,6 +14,11 @@ import { EStatType } from "../../shared/data/stats/EStatType";
 import { ISkill } from "../../shared/data/skills/ISkill";
 import { StatInfo } from "../../shared/data/stats/StatInfo";
 import { SShip } from "./SShip";
+import { SERVER_CONSTANTS } from "../constants/serverconstants";
+import { CargoUtils } from "../CargoUtils";
+import { CombatLogManager } from "../CombatLogManager";
+
+const math = require('mathjs');
 
 export class SCharacter extends SShip {
   
@@ -168,13 +173,15 @@ export class SCharacter extends SShip {
         return this.character;
     }
 
-    public update40ms(): void {
-      super.update40ms();
+    public update40ms(sector: SSector): void {
+      super.update40ms(sector);
+      this.updateWarpingShipPosition();
       this.updateSkillProgress();
     }
 
-    public update1000ms(): void {
-      super.update1000ms();
+    public update1000ms(sector: SSector): void {
+      super.update1000ms(sector);
+      this.handleMiningShip(sector);
     }
 
     public resetState() {
@@ -184,7 +191,7 @@ export class SCharacter extends SShip {
       this.character.warpState.isWarping = false;
     }
 
-    public startWarp(sector: Sector) {
+    public startWarp(sector: SSector) {
         this.character.warpState.isWarping = true;
         this.character.warpState.warpDestination = [sector.getX(), sector.getY()];
         this.character.warpState.warpSource = [this.character.x, this.character.y];
@@ -268,4 +275,66 @@ export class SCharacter extends SShip {
           this.character.stats[skillInfo.stats.stat] = Math.floor(baseStat + StatInfo.getAddedValue(baseStat, skillInfo.stats.modifier, skillInfo.stats.values[skill.level - 1]));
       });
     }   
+
+    private updateWarpingShipPosition() {
+      let characterData: ICharacter = this.getData();
+      if(!characterData.warpState.isWarping) {
+        return;
+      }
+
+      let x = this.getData().x;
+      let y = this.getData().y;
+      
+      let totalLength = math.length(math.subtract(characterData.warpState.warpDestination,[x + characterData.warpState.warpSource[0], y + characterData.warpState.warpSource[1]]));
+      let distanceTraveled = math.length(
+                                math.subtract([x + characterData.warpState.warpSource[0], y + characterData.warpState.warpSource[1]], 
+                                  [x + characterData.x, y + characterData.y]));;
+      let shipToDest = math.subtract(characterData.warpState.warpDestination, [x + characterData.x, y + characterData.y]);
+      
+      let speed = 1000000;
+      let ratio = distanceTraveled / totalLength;
+      let acceleration = 1 + ratio * speed;
+      let velVec = math.multiply(math.multiply(shipToDest, 1/math.length(shipToDest)), acceleration);
+
+      characterData.x = characterData.x + velVec[0];
+      characterData.y = characterData.y + velVec[1];
+      characterData.state.meters_per_second = math.length(velVec) / SERVER_CONSTANTS.UPDATES_PER_SECOND
+    }
+
+    private handleMiningShip(sector: SSector) {
+      if(!this.character.state.isMining) {
+        return;
+      }
+
+      let character = this.character
+      let targetAsteroid = sector.getAsteroids().get(character.state.targetId);
+      let cargoSpaceLeft = character.stats[EStatType.cargo_hold] - CargoUtils.getCargoSize(this);
+      if(targetAsteroid != undefined && cargoSpaceLeft > 0) {
+        let miningShipPos = [character.x, character.y];
+        let asteroidPos = [targetAsteroid.x, targetAsteroid.y];
+        let miningShipToAsteroidVec = math.subtract(miningShipPos, asteroidPos);
+        let miningShipToAsteroidDistance : number = math.length(miningShipToAsteroidVec);
+        let miningShipMiningRange = character.stats[EStatType.mining_laser_range];
+        if(miningShipToAsteroidDistance <= miningShipMiningRange) {
+          let sizeMined = Math.floor(character.stats[EStatType.mining_laser_strength] / targetAsteroid.hardness);
+          if(sizeMined == 0) {
+              sizeMined = 1;
+          }
+
+          if(sizeMined > cargoSpaceLeft) {
+              sizeMined = cargoSpaceLeft;
+          }
+
+          if(targetAsteroid.size >= sizeMined) {
+              CargoUtils.addItemToPlayerCargo(ItemFactory.createMineral(targetAsteroid.type, sizeMined), this);
+              targetAsteroid.size = targetAsteroid.size - sizeMined;
+          } else {
+              CargoUtils.addItemToPlayerCargo(ItemFactory.createMineral(targetAsteroid.type, targetAsteroid.size), this);
+              targetAsteroid.size = 0;
+          }
+
+          CombatLogManager.addCombatLogAstroidMinedMessage(this, targetAsteroid, sizeMined);
+        } 
+      }
+  }
 }

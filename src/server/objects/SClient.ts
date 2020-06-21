@@ -1,6 +1,7 @@
 import { IClient } from "../interfaces/IClient";
 import { SCharacter } from "./SCharacter";
 import { Events } from "../../shared/util/Events";
+import { SSector } from "../sector/Sector";
 
 export class SClient {
 
@@ -16,12 +17,12 @@ export class SClient {
         }
     }
 
-    public update40ms() {
-        this.character.update40ms();
+    public update40ms(sector: SSector) {
+        this.character.update40ms(sector);
     }
 
-    public update1000ms() {
-        this.character.update1000ms();
+    public update1000ms(sector: SSector) {
+        this.character.update1000ms(sector);
     }
 
     public getData() : IClient {

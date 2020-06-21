@@ -1,24 +1,25 @@
 import { ItemInfo } from "../shared/data/item/ItemInfo";
 import { SClient } from "./objects/SClient";
 import { IItem } from "../shared/data/item/IItem";
+import { SCharacter } from "./objects/SCharacter";
 
 export module CargoUtils {
 
-    let clientsWithUpdatedCargo : Map<number, SClient> = new Map();
+    let clientsWithUpdatedCargo : Map<number, SCharacter> = new Map();
 
-    export function addItemToPlayerCargo(item : IItem, client: SClient) {
+    export function addItemToPlayerCargo(item : IItem, character: SCharacter) {
         if(ItemInfo.getItemInfo(item.itemType).canStack) {
-            let foundItem = client.getData().character.cargo.items.find(existingItem => existingItem.itemType == item.itemType);
+            let foundItem = character.getData().cargo.items.find(existingItem => existingItem.itemType == item.itemType);
             if(foundItem != undefined) {
                 foundItem.quantity += item.quantity;
             }
         } else {
-            client.getData().character.cargo.items.push(item);
+            character.getData().cargo.items.push(item);
         }
-        clientsWithUpdatedCargo.set(client.getData().id, client);
+        clientsWithUpdatedCargo.set(character.getData().id, character);
     }
 
-    export function getClientsWithChangedCargo() : Map<number, SClient> {
+    export function getClientsWithChangedCargo() : Map<number, SCharacter> {
         return clientsWithUpdatedCargo;
     }
 
@@ -26,11 +27,11 @@ export module CargoUtils {
         clientsWithUpdatedCargo.clear();
     }
 
-    export function getCargoSize(client: SClient) : number {
+    export function getCargoSize(character: SCharacter) : number {
         let cargoHoldSize = 0
-        for(let i = 0; i < client.getData().character.cargo.items.length; i++) {
-           let itemInfo : ItemInfo.IItemInfo = ItemInfo.getItemInfo(client.getData().character.cargo.items[i].itemType);
-           cargoHoldSize += client.getData().character.cargo.items[i].quantity * itemInfo.size;
+        for(let i = 0; i < character.getData().cargo.items.length; i++) {
+           let itemInfo : ItemInfo.IItemInfo = ItemInfo.getItemInfo(character.getData().cargo.items[i].itemType);
+           cargoHoldSize += character.getData().cargo.items[i].quantity * itemInfo.size;
         }
         return cargoHoldSize;
     }

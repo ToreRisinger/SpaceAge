@@ -2,7 +2,7 @@ import { RadarDetectable } from "./RadarDetectable";
 import { ISector } from "../../../shared/data/sector/ISector";
 import { SPRITES } from "../../../shared/util/SPRITES";
 
-export class Sector extends RadarDetectable {
+export class CSector extends RadarDetectable {
     
     private config : ISector;
     private map_x : number;

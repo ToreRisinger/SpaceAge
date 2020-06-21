@@ -5,7 +5,7 @@ import { Events } from "../shared/util/Events";
 import { IUserDocument } from "./database/models/user.model";
 import { Logger } from "../shared/logger/Logger";
 import { ICharacter } from "../shared/data/gameobject/ICharacter";
-import { Sector } from "./sector/Sector";
+import { SSector } from "./sector/Sector";
 import { SCharacter } from "./objects/SCharacter";
 import { SClient } from "./objects/SClient";
 import { ICombatLogMessage } from "../shared/data/CombatLogInterfaces";
@@ -154,7 +154,7 @@ export class ComManager {
             }
             
             let sectorArray : Array<ISector> = new Array();
-            let sectors : Array<Sector> = this.sectorHandler.getSectors();
+            let sectors : Array<SSector> = this.sectorHandler.getSectors();
             for(let i = 0; i < sectors.length; i++) {
                 sectorArray.push({
                     id : sectors[i].getId(),
@@ -165,7 +165,7 @@ export class ComManager {
                 });
             }
 
-            let sector : Sector | undefined = this.sectorHandler.getSector(0, 0);
+            let sector : SSector | undefined = this.sectorHandler.getSector(0, 0);
             if(sector == undefined) {
                 this.connectionError("Could not find sector", socket);
                 return;

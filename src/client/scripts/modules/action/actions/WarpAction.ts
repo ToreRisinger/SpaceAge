@@ -3,7 +3,7 @@ import { RadarDetectable } from "../../../game_objects/RadarDetectable";
 import { Events } from "../../../../../shared/util/Events";
 import { EventHandler } from "../../EventHandler";
 import { GlobalDataService } from "../../GlobalDataService";
-import { Sector } from "../../../game_objects/Sector";
+import { CSector } from "../../../game_objects/Sector";
 import { InputHandler } from "../../InputHandler";
 
 export class WarpAction extends Action {
@@ -25,7 +25,7 @@ export class WarpAction extends Action {
 
     public isEnabled(selection: RadarDetectable | undefined, target: RadarDetectable | undefined): boolean {
         let sectorId = GlobalDataService.getInstance().getSector().getId();
-        return selection != undefined && selection instanceof Sector && !GlobalDataService.getInstance().getPlayerShip().isWarping()
+        return selection != undefined && selection instanceof CSector && !GlobalDataService.getInstance().getPlayerShip().isWarping()
         && sectorId != selection.getId();
     }
 

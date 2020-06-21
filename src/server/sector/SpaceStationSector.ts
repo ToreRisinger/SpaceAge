@@ -1,11 +1,11 @@
-import { Sector } from "./Sector";
+import { SSector } from "./Sector";
 import { ISpaceStation } from "../../shared/data/ISpaceStation";
 import { IdHandler } from "../IdHandler";
 import { Utils } from "../../shared/util/Utils";
 import { Events } from "../../shared/util/Events";
 import { ESectorType } from "../../shared/data/sector/ESectorType";
 
-export class SpaceStationSector extends Sector {
+export class SpaceStationSector extends SSector {
 
     private spaceStation : ISpaceStation;
 

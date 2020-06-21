@@ -1,6 +1,11 @@
 import { IShip } from "../../shared/data/gameobject/IShip";
 import { EStatType } from "../../shared/data/stats/EStatType";
 import { StatInfo } from "../../shared/data/stats/StatInfo";
+import { DamageService } from "../DamageService";
+import { SSector } from "../sector/Sector";
+import { SERVER_CONSTANTS } from "../constants/serverconstants";
+
+const math = require('mathjs');
 
 export class SShip {
 
@@ -13,12 +18,13 @@ export class SShip {
         this.updateStats();
     }
 
-    public update40ms(): void {
-        
+    public update40ms(sector: SSector): void {
+        this.updateShipPosition();
     }
   
-    public update1000ms(): void {
+    public update1000ms(sector: SSector): void {
         this.updateShieldGeneration();
+        this.handleAttackingShip(sector);
     }
 
     public getData() : IShip {
@@ -106,5 +112,112 @@ export class SShip {
     private updateStats(): void {
         this.applyShipModuleStats();
         this.calculateStats();
+    }
+
+    private updateShipPosition() {
+        if(!this.getData().state.isMoving && !this.getData().state.hasDestination) {
+            return;
+        }
+
+        let shipData: IShip = this.getData();
+        function getMidPointVec(shipToDestVec :  Array<number>, goodVelVecComp : Array<number>, badVelVecComp : Array<number>) {
+            function getDivider(goodVelVecComp : Array<number>, badVelVecComp : Array<number>) {
+                if(math.length(badVelVecComp) != 0) {
+                let lengthOfBadVelVecComp = math.length(badVelVecComp);
+                let lengthOfBadVelVecCompSquared1 = lengthOfBadVelVecComp * lengthOfBadVelVecComp;
+                //let lengthOfBadVelVecCompSquared2 = lengthOfBadVelVecCompSquared1 * lengthOfBadVelVecCompSquared1;
+                //let lengthOfBadVelVecCompSquared3 = lengthOfBadVelVecCompSquared2 * lengthOfBadVelVecCompSquared2;
+                //let lengthOfBadVelVecCompSquared4 = lengthOfBadVelVecCompSquared3 * lengthOfBadVelVecCompSquared3;
+                let divider = lengthOfBadVelVecCompSquared1;
+                return math.length(goodVelVecComp) / (math.length(goodVelVecComp) + divider);
+                } else {
+                return 1;
+                }
+            }
+        
+            let divider = getDivider(goodVelVecComp, badVelVecComp);
+            if(divider < 0.25) {
+                divider = 0.25;
+            }
+        
+            let midPointVec = math.multiply(shipToDestVec, divider);
+            return  midPointVec;
+        }
+
+        function calculateNewVelocityVector(shipToDestVec : Array<number>, shipVelVec : Array<number>, goodVelVecComp : Array<number>, badVelVecComp : Array<number>, shipAcceleration : number) {
+            let newVelVec = [0, 0];
+            let midPoint = getMidPointVec(shipToDestVec, goodVelVecComp, badVelVecComp);
+            let nrOfUpdatesUntilReachDestination = math.multiply(math.length(shipToDestVec), 1/math.length(goodVelVecComp));
+            let nrOfStepsNeededToDecelerate = math.multiply(math.length(goodVelVecComp), 1/shipAcceleration)
+            if(nrOfUpdatesUntilReachDestination <= nrOfStepsNeededToDecelerate) {
+                midPoint = [0.5, 0.5];
+            }
+        
+            let velVecToMidPoint = math.subtract(midPoint, shipVelVec);
+            let normalizedVelVecToMidPoint = math.multiply(velVecToMidPoint, 1/math.length(velVecToMidPoint));
+            let directionVecAdjustmentVec = math.multiply(normalizedVelVecToMidPoint, shipAcceleration  / SERVER_CONSTANTS.UPDATES_PER_SECOND);
+            newVelVec = math.add(shipVelVec, directionVecAdjustmentVec);
+        
+            return newVelVec;
+        }
+                
+        let acceleration = shipData.stats[EStatType.acceleration];
+        let destVec = shipData.state.destVec;
+        let shipPosVec = [shipData.x, shipData.y];
+        let shipToDestVec = math.subtract(destVec, shipPosVec);
+        let normalizedShipToDestVec = math.multiply(shipToDestVec, 1/math.length(shipToDestVec));
+        let goodVelVecComp = math.multiply(normalizedShipToDestVec, math.multiply(shipData.state.velVec, normalizedShipToDestVec));
+        let badVelVecComp = math.subtract(shipData.state.velVec, goodVelVecComp);
+        
+        if(shipData.state.hasDestination) {
+            if(math.length(shipToDestVec) <= acceleration / SERVER_CONSTANTS.UPDATES_PER_SECOND && math.length(shipData.state.velVec) - acceleration / SERVER_CONSTANTS.UPDATES_PER_SECOND <= 0) {
+                shipData.state.isMoving = false;
+                shipData.x = shipData.state.destVec[0];
+                shipData.y = shipData.state.destVec[1];
+                shipData.state.hasDestination = false;
+            }
+        } else if(math.length(shipData.state.velVec) - acceleration / SERVER_CONSTANTS.UPDATES_PER_SECOND <= 0) {
+            shipData.state.isMoving = false;
+        }
+        
+        if(shipData.state.isMoving) { 
+            let newVelVec = shipData.state.hasDestination
+                ? calculateNewVelocityVector(shipToDestVec, shipData.state.velVec, goodVelVecComp, badVelVecComp, acceleration)
+                : math.subtract(shipData.state.velVec, math.multiply(shipData.state.velVec, (acceleration/SERVER_CONSTANTS.UPDATES_PER_SECOND)/math.length(shipData.state.velVec)));
+
+            let newVelVecLength = math.length(newVelVec);
+
+            let shipMaxSpeed = shipData.stats[EStatType.max_speed];
+            if(newVelVecLength > shipMaxSpeed) {
+                shipData.state.velVec = math.multiply(newVelVec, shipMaxSpeed/newVelVecLength)
+            } else {
+                shipData.state.velVec = newVelVec;
+            }
+
+            shipData.x = shipData.x + shipData.state.velVec[0] / SERVER_CONSTANTS.UPDATES_PER_SECOND;
+            shipData.y = shipData.y + shipData.state.velVec[1] / SERVER_CONSTANTS.UPDATES_PER_SECOND;
+            shipData.state.meters_per_second = math.length(shipData.state.velVec);
+        } else {
+            shipData.state.meters_per_second = 0;
+            shipData.state.velVec = [0, 0];
+        }
+    }
+
+    private handleAttackingShip(sector: SSector) {
+        if(!this.getData().state.isAttacking) {
+            return;
+        }
+
+        let targetShip = sector.getShip(this.getData().state.targetId);
+        if(targetShip != undefined) {
+            let attackingShipPos = [this.getData().x, this.getData().y];
+            let targetShipPos = [targetShip.getData().x, targetShip.getData().y];
+            let attackingShipToTargetShipVec = math.subtract(attackingShipPos, targetShipPos);
+            let attackingShipToTargetShipDistance : number = math.length(attackingShipToTargetShipVec);
+            let attackingShipWeaponRange = targetShip.getData().stats[EStatType.weapon_range];
+            if(attackingShipToTargetShipDistance <= attackingShipWeaponRange) {
+                DamageService.attackShip(this, targetShip);
+            }
+        }
     }
 }

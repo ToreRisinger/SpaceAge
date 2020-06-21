@@ -1,4 +1,4 @@
-import { Sector } from "../sector/Sector";
+import { SSector } from "../sector/Sector";
 import { Spawner } from "./Spawner";
 import { ENpcType } from "../../shared/data/npc/ENpcType";
 import { Utils } from "../../shared/util/Utils";
@@ -13,7 +13,7 @@ export class NpcSpawner extends Spawner {
 
     private npcType: ENpcType;
 
-    constructor(npcType: ENpcType, parentSector: Sector) {
+    constructor(npcType: ENpcType, parentSector: SSector) {
         super(parentSector);
         this.npcType = npcType;
     }

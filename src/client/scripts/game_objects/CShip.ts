@@ -166,7 +166,7 @@ export class CShip extends RadarDetectable {
             let targetObject: GameObject | undefined = GameObjectHandler.getGameObjectsMap().get(this.shipData.state.targetId);
             if(targetObject != undefined 
                 && this.targetInRange(targetObject, this)
-                && targetObject instanceof CCharacter) {
+                && targetObject instanceof CShip) {
 
                 if(targetObject.getCurrentShield() > 0) {
                     this.shieldDamageParticleEmitter.start();

@@ -1,6 +1,6 @@
 import { RadarDetectable } from "../game_objects/RadarDetectable";
 import { CCharacter } from "../game_objects/CCharacter";
-import { Sector } from "../game_objects/Sector";
+import { CSector } from "../game_objects/Sector";
 import { ICharacter } from "../../../shared/data/gameobject/ICharacter";
 import { PlanetInfo } from "../../../shared/data/planet/PlanetInfo";
 import { IPlanet } from "../../../shared/data/planet/IPlanet";
@@ -12,7 +12,7 @@ export class GlobalDataService {
     private character : ICharacter;
     private characterName : string;
     private playerShip : CCharacter;
-    private sector : Sector;
+    private sector : CSector;
     
     private planet: IPlanet;
 
@@ -27,7 +27,7 @@ export class GlobalDataService {
     private cameraHeight : number = 0;
 
 
-    constructor(character: ICharacter, playerShip : CCharacter, sector : Sector) {
+    constructor(character: ICharacter, playerShip : CCharacter, sector : CSector) {
         this.character = character;
         this.characterName = character.name;
         this.playerShip = playerShip;
@@ -36,7 +36,7 @@ export class GlobalDataService {
         this.planet = PlanetInfo.getPlanets().find(obj => obj.name == "Mars");
     }
 
-    static createInstance(character: ICharacter, playerShip : CCharacter, sector : Sector) {
+    static createInstance(character: ICharacter, playerShip : CCharacter, sector : CSector) {
         GlobalDataService._instance = new GlobalDataService(character, playerShip, sector);
     }
 
@@ -60,11 +60,11 @@ export class GlobalDataService {
         return this.playerShip;
     }
 
-    public getSector() : Sector {
+    public getSector() : CSector {
         return this.sector;
     }
 
-    public setSector(sector : Sector) : void {
+    public setSector(sector : CSector) : void {
         this.sector = sector;
     }
 

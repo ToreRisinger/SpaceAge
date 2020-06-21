@@ -1,10 +1,10 @@
-import { Sector } from "../sector/Sector";
+import { SSector } from "../sector/Sector";
 
 export abstract class Spawner {
 
-    private parentSector: Sector;
+    private parentSector: SSector;
 
-    constructor(parentSector: Sector) {
+    constructor(parentSector: SSector) {
         this.parentSector = parentSector;
     }
 

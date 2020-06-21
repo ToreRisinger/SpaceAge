@@ -4,7 +4,7 @@ import { CCharacter } from "../game_objects/CCharacter";
 import { GameObject } from "../game_objects/GameObject";
 import { AsteroidInfo } from "../../../shared/data/astroid/AsteroidInfo";
 import { Asteroid } from "../game_objects/Asteroid";
-import { Sector } from "../game_objects/Sector";
+import { CSector } from "../game_objects/Sector";
 import { GlobalDataService } from "./GlobalDataService";
 import { ICharacter } from "../../../shared/data/gameobject/ICharacter";
 import { SpaceStation } from "../game_objects/SpaceStation";
@@ -29,7 +29,7 @@ export module GameObjectHandler {
         gameObjects.set(thisShipId, newShip);
 
         sectors.forEach((value: ISector, index: number, array: ISector[]) => {
-            gameObjects.set(value.id, new Sector(value));
+            gameObjects.set(value.id, new CSector(value));
         });
 
         subscribeToEvents();
@@ -140,12 +140,12 @@ export module GameObjectHandler {
 
     function onSectorChanged(event : Events.CHANGE_SECTOR_EVENT_CONFIG) {
         let gameObject = gameObjects.get(event.data.clientSectorId);
-        if(gameObject instanceof Sector) {
+        if(gameObject instanceof CSector) {
             GlobalDataService.getInstance().setSector(gameObject)
             let newSectorPos = GlobalDataService.getInstance().getSector().getPos();
             let objectsToRemove : Array<GameObject> = new Array();
             gameObjects.forEach((element, key) => {
-                if(element instanceof Sector) {
+                if(element instanceof CSector) {
                     element.onSectorChanged(newSectorPos.x, newSectorPos.y);
                 } else if(element instanceof CCharacter) {
                     if(element.getId() != thisShipId) {
