@@ -15,6 +15,7 @@ import LocationPanel from "./mainComponents/LocationPanel";
 import TopButtonPanel from "./topbuttonpanel/TopButtonPanel";
 import ContextMenuPanel from "./actions/ContextMenuPanel";
 import { EGameState } from "../../../shared/util/EGameState";
+import SpaceCargoWindow from "./mainComponents/cargo/SpaceCargoWindow";
 
 export interface AppState { gameState : EGameState; }
 
@@ -101,6 +102,7 @@ export default class App extends React.Component<{}, AppState> {
                         <LocationPanel/>
                         <TopButtonPanel/>
                         <ContextMenuPanel/>
+                        <SpaceCargoWindow/>
                     </Fragment>
                 ) 
             }

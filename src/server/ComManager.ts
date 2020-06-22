@@ -33,10 +33,7 @@ export class ComManager {
             Logger.info(`Listening on ${http.address().port}`);
         });
         
-        this.io = require('socket.io').listen(http, {'pingInterval': 2000, 'pingTimeout': 5000})//(http, )
-        //this.io.pingInterval = 2000;
-        //this.io.pingTimeout = 5000;
-        //this.io.;
+        this.io = require('socket.io').listen(http, {'pingInterval': 2000, 'pingTimeout': 5000});
 
         this.setupOnConnection();
     }
@@ -249,17 +246,50 @@ export class ComManager {
           }
           case Events.EEventType.TRAIN_SKILL_START : {
             client.startTrainSkill(event);
-            //Server.getSkillManager().startTrainSkill(client, event);
             break;
           }
           case Events.EEventType.TRAIN_SKILL_STOP : {
             client.stopTrainSkill();
-            //Server.getSkillManager().stopTrainSkill(client);
             break;
+          }
+          case Events.EEventType.OPEN_CARGO_REQUEST: {
+            this.onRequestOpenCargo(client, event);
+            break;
+          }
+          case Events.EEventType.CLOSE_CARGO: {
+            this.onCloseCargo(client, event);
           }
           default: {
             break;
           }
+        }
+    }
+
+    private onRequestOpenCargo(client: SClient, event: Events.OPEN_CARGO_REQUEST_CONFIG) {
+        let sector = this.sectorHandler.getSectorForPlayer(client);
+        if(sector != undefined && sector.openCargoRequest(client, event.data.id)) {
+            let packet : Events.OPEN_CARGO_ACK_CONFIG = {
+                eventId : Events.EEventType.OPEN_CARGO_ACK,
+                data : {
+                  id: event.data.id
+                }
+              }
+              client.getData().socket.emit("ServerEvent", packet);
+        } else {
+            let packet : Events.OPEN_CARGO_FAIL_CONFIG = {
+                eventId : Events.EEventType.OPEN_CARGO_FAIL,
+                data : {
+                  id: event.data.id
+                }
+              }
+              client.getData().socket.emit("ServerEvent", packet);
+        }
+    }
+
+    private onCloseCargo(client: SClient, event: Events.OPEN_CARGO_REQUEST_CONFIG) {
+        let sector = this.sectorHandler.getSectorForPlayer(client);
+        if(sector != undefined) {
+           sector.closeCargo(client);
         }
     }
   

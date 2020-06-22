@@ -14,6 +14,7 @@ import { ISector } from "../../../shared/data/sector/ISector";
 import { IPlanet } from "../../../shared/data/planet/IPlanet";
 import { IAsteroid } from "../../../shared/data/astroid/IAstroid";
 import { CNpc } from "../game_objects/CNpc";
+import { CShipwreck } from "../game_objects/CShipwreck";
 
 export module GameObjectHandler {
 
@@ -173,12 +174,25 @@ export module GameObjectHandler {
         EventHandler.pushEvent(eventToSend); 
     }  
 
+    function onShipWreckUpdate(event: Events.SHIP_WRECK_UPDATE_EVENT_CONFIG) {
+        event.data.shipWrecks.forEach(shipWreck => {
+            if(gameObjects.get(shipWreck.id) == undefined) {
+                gameObjects.set(shipWreck.id, new CShipwreck(shipWreck));
+            } else {
+                //@ts-ignore
+                gameObjects.get(shipWreck.id).updateData(shipWreck);
+            }
+        });
+        
+    }
+
     function subscribeToEvents() {
         EventHandler.on(Events.EEventType.PLAYER_CONNECTED_EVENT, onPlayerConnect);
         EventHandler.on(Events.EEventType.PLAYER_DISCONNECTED_EVENT, onPlayerDisconnect);
         EventHandler.on(Events.EEventType.SHIPS_UPDATE_EVENT, onShipsUpdate);
         EventHandler.on(Events.EEventType.ASTEROIDS_UPDATE_EVENT, onAsteroidsUpdate);
         EventHandler.on(Events.EEventType.SPACE_STATION_UPDATE_EVENT, onSpaceStationUpdate);
+        EventHandler.on(Events.EEventType.SHIP_WRECK_UPDATE_EVENT, onShipWreckUpdate);
         EventHandler.on(Events.EEventType.CARGO_UPDATE_EVENT, onCargoUpdate);
         EventHandler.on(Events.EEventType.GAME_OBJECT_DESTOYED_EVENT, onGameObjectsDestroyed);
         EventHandler.on(Events.EEventType.CHANGE_SECTOR_EVENT, onSectorChanged); 

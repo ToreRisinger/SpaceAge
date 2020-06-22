@@ -1,13 +1,12 @@
 import { ShipModule } from "./ShipModule";
-import { CCharacter } from "../CCharacter";
 import { GameObject } from "../GameObject";
-import { EParticleManagerType } from "../../scenes/GameScene";
 import { GameObjectHandler } from "../../modules/GameObjectHandler";
 import { Utils } from "../../../../shared/util/Utils";
 import { Graphics } from "../../modules/graphics/Graphics";
 import { IShipModuleInstance } from "../../../../shared/data/IShipModuleInstance";
 import { EStatType } from "../../../../shared/data/stats/EStatType";
 import { CShip } from "../CShip";
+import { DRAW_LAYERS } from "../../constants/DRAW_LAYERS";
 
 export class WeaponShipModule extends ShipModule {
 
@@ -29,7 +28,7 @@ export class WeaponShipModule extends ShipModule {
             scale: { start: 2, end: 0.5},
             quantity: 1,
             frequency: 50
-        }, EParticleManagerType.SMALL_BULLET);
+        }, Graphics.EParticleManagerType.SMALL_BULLET, DRAW_LAYERS.GRAPHICS_LAYER);
         this.weaponParticleRandomizer = 0;
         this.weaponParticleRandomizerTimer = 0;
         this.weaponParticleRandomizerDirection = true;
@@ -70,5 +69,15 @@ export class WeaponShipModule extends ShipModule {
         let targetPos = target.getPos();
         let shipPos = ship.getPos();
         return targetPos.subtract(shipPos).length() <= range;
+    }
+
+    public setVisible(value: boolean): void {
+        this.bulletEmitter.setVisible(value);
+        super.setVisible(value);
+    }
+
+    public destroy() {
+        this.bulletEmitter.destroy();
+        super.destroy();
     }
 }

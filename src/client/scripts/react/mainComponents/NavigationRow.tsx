@@ -39,7 +39,7 @@ export default class NavigationRow extends React.Component<NavigationRowProps, {
             <div className={rowClassString} onClick={this.onSelectObject} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
                 <img className="navigation_row_icon" src={iconPath}/>
                 <div className="navigation_row_name">
-                   {this.props.object.getCharacterName()}
+                   {this.props.object.getName()}
                 </div>
                 <div className="navigation_row_distance">
                     {Utils.formatMeters(this.props.object.getDistanceToPlayerShip())}

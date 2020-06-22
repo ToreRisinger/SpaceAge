@@ -32,7 +32,7 @@ export class AsteroidBeltSector extends SSector {
         super(sector_x, sector_y, x, y, sectorName, id, sectorType);
 
         this.npcSpawner = new NpcSpawner(ENpcType.SMUGGLER, this);
-        this.asteroidSpawner = new AsteroidSpawner(this, type, hardness, minSize, maxSize, generationRate, maxNrOfAsteroids);
+        this.asteroidSpawner = new AsteroidSpawner(this, 0, 0, type, hardness, minSize, maxSize, generationRate, maxNrOfAsteroids);
 
         this.addSpawner(this.npcSpawner);
         this.addSpawner(this.asteroidSpawner);

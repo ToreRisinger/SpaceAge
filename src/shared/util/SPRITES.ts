@@ -32,8 +32,8 @@ export const SPRITES = {
         sprite : {
             key : "GOLD_ASTEROID",
             file : "asteroids/gold_asteroid.png",
-            width: 50,
-            height: 50
+            width: 248,
+            height: 232
         }
     },
     IRON_ASTEROID : {
@@ -41,8 +41,8 @@ export const SPRITES = {
         sprite : {
             key : "IRON_ASTEROID",
             file : "asteroids/iron_asteroid.png",
-            width: 50,
-            height: 50
+            width: 217,
+            height: 243
         }
     },
     TITANIUM_ASTEROID : {
@@ -50,8 +50,8 @@ export const SPRITES = {
         sprite : {
             key : "TITANIUM_ASTEROID",
             file : "asteroids/titanium_asteroid.png",
-            width: 50,
-            height: 50
+            width: 405,
+            height: 409
         }
     },
     URANIUM_ASTEROID : {
@@ -59,8 +59,8 @@ export const SPRITES = {
         sprite : {
             key : "URANIUM_ASTEROID",
             file : "asteroids/uranium_asteroid.png",
-            width: 50,
-            height: 50
+            width: 288,
+            height: 292
         }
     },
     DIAMOND_ASTEROID : {
@@ -68,8 +68,8 @@ export const SPRITES = {
         sprite : {
             key : "DIAMOND_ASTEROID",
             file : "asteroids/diamond_asteroid.png",
-            width: 50,
-            height: 50
+            width: 580,
+            height: 602
         }
     },
 
@@ -314,6 +314,40 @@ export const SPRITES = {
             file: "icons/planet_icon.png",
             width: 38,
             height: 38
+        }
+    },
+    NPC_ICON: {
+        animation : undefined,
+        sprite : {
+            key: "npc_icon",
+            file: "icons/npc_icon.png",
+            width: 38,
+            height: 38
+        }
+    },
+    SHIPWRECK_ICON: {
+        animation: undefined,
+        sprite: {
+            key: "shipwreck_icon",
+            file: "icons/shipwreck_icon.png",
+            width: 38,
+            height: 38
+        }
+    },
+
+
+    /*
+
+        SHIPWRECK
+
+    */
+    SHIPWRECK: {
+        animation: undefined,
+        sprite: {
+            key: "shipwreck",
+            file: "shipwreck/shipwreck.png",
+            width: 100,
+            height: 100
         }
     },
 

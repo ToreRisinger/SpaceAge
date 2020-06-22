@@ -19,7 +19,7 @@ export default class ObjectInfoPanel extends React.Component<ObjectInfoPanelProp
 
          return (
             <div id="object_info_panel">
-               {this.props.object != undefined ? <ObjectInfoContainer title={this.props.object.getCharacterName()} fields={fields} description={description} centerFields={false}/> : ""}
+               {this.props.object != undefined ? <ObjectInfoContainer title={this.props.object.getName()} fields={fields} description={description} centerFields={false}/> : ""}
             </div>
          );
    }

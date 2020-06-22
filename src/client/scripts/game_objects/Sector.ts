@@ -30,7 +30,7 @@ export class CSector extends RadarDetectable {
     }
     protected setVisible(value: boolean): void { }
 
-    public getCharacterName(): string {
+    public getName(): string {
         return this.config.name;
     }
 

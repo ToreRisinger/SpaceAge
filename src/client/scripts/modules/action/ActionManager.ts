@@ -17,6 +17,7 @@ import { MinZoomAction } from "./actions/MinZoom";
 import { MaxZoomAction } from "./actions/MaxZoom";
 import { CenterOnAction } from "./actions/CenterOnAction";
 import { CenterOnShipAction } from "./actions/CenterOnShipAction";
+import { OpenAction } from "./actions/OpenAction";
 
 export module ActionManager {
 
@@ -38,7 +39,8 @@ export module ActionManager {
             new MinZoomAction(),
             new MaxZoomAction(),
             new CenterOnAction(),
-            new CenterOnShipAction());
+            new CenterOnShipAction(),
+            new OpenAction());
 
         shortcutMap = new Map();
         actions.forEach(action => {

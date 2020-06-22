@@ -5,6 +5,8 @@ import { ICharacter } from "../shared/data/gameobject/ICharacter";
 import { IAsteroid } from "../shared/data/astroid/IAstroid";
 import { INpc } from "../shared/data/npc/INpc";
 import { SNpc } from "./objects/npc/SNpc";
+import { IShipwreck } from "../shared/data/gameobject/IShipwreck";
+import { IPlayerCargoPair } from "./sector/Sector";
 
 
 export module PacketFactory {
@@ -29,6 +31,17 @@ export module PacketFactory {
         }
         
         return packet;
+    }
+
+    export function createShipWreckPacket(clients : Map<number, SClient>, shipWrecks: Map<number, IPlayerCargoPair>) {
+      let list: Array<IShipwreck> = Array.from(shipWrecks.values()).map(obj => obj.cargo);
+      let packet: Events.SHIP_WRECK_UPDATE_EVENT_CONFIG = {
+        eventId: Events.EEventType.SHIP_WRECK_UPDATE_EVENT,
+        data: {
+          shipWrecks: list
+        }
+      }
+      return packet;
     }
 
     export function createSkillStatePacket(client: SClient) {

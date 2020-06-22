@@ -11,11 +11,16 @@ export class Asteroid extends RadarDetectable {
 
     private asteroid_config : IAsteroid;
     private sprite : Graphics.Sprite;
+    private spriteWidth: number;
+    private spriteHeight: number;
 
     constructor(asteroid_config : IAsteroid) {
         super(asteroid_config, SPRITES.ASTEROID_ICON.sprite, false, false);
         this.asteroid_config = asteroid_config;
-        this.sprite = new Graphics.Sprite(AsteroidInfo.getAsteroidInfo(this.asteroid_config.type).sprite, Math.floor(this.asteroid_config.x), Math.floor(this.asteroid_config.y));
+        let spriteInfo = AsteroidInfo.getAsteroidInfo(this.asteroid_config.type).sprite;
+        this.spriteWidth = spriteInfo.width;
+        this.spriteHeight = spriteInfo.height;
+        this.sprite = new Graphics.Sprite(spriteInfo, Math.floor(this.asteroid_config.x), Math.floor(this.asteroid_config.y));
         this.setupSprite();
     }
 
@@ -34,7 +39,7 @@ export class Asteroid extends RadarDetectable {
         this.asteroid_config = asteroid_config;
     }
 
-    public getCharacterName() : string {
+    public getName() : string {
         return AsteroidInfo.getAsteroidInfo(this.asteroid_config.type).name;
     }
 
@@ -81,8 +86,9 @@ export class Asteroid extends RadarDetectable {
             this.select();
         });
 
-        let spriteSize = Utils.getRandomNumber(10, 50);
+        let spriteSize = 200 / 4 + ((3 * 200)/ 4) * (this.asteroid_config.size / 1000);
         this.sprite.setDisplaySize(spriteSize, spriteSize);
+        this.sprite.setRotation(Utils.getRandomNumber(0, 6.28));
     }
 }
 

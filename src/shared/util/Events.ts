@@ -1,16 +1,14 @@
 import { RadarDetectable } from "../../client/scripts/game_objects/RadarDetectable";
-import { AsteroidInfo } from "../data/astroid/AsteroidInfo";
 import { EGameState } from "./EGameState";
 import { ICharacter } from "../data/gameobject/ICharacter";
 import { ICargo } from "../data/ICargo";
-import { SkillInfo } from "../data/skills/SkillInfo";
 import { ISpaceStation } from "../data/ISpaceStation";
 import { ISector } from "../data/sector/ISector";
 import { IAsteroid } from "../data/astroid/IAstroid";
 import { ISkill } from "../data/skills/ISkill";
 import { ICombatLogMessage } from "../data/CombatLogInterfaces";
-import { IShip } from "../data/gameobject/IShip";
 import { INpc } from "../data/npc/INpc";
+import { IShipwreck } from "../data/gameobject/IShipwreck";
 
 
 export module Events {
@@ -21,6 +19,7 @@ export module Events {
         PLAYER_CONNECTED_EVENT,
         PLAYER_DISCONNECTED_EVENT,
         SHIPS_UPDATE_EVENT,
+        SHIP_WRECK_UPDATE_EVENT,
         ASTEROIDS_UPDATE_EVENT,
         CARGO_UPDATE_EVENT,
         SPACE_STATION_UPDATE_EVENT,
@@ -48,6 +47,9 @@ export module Events {
         SECTOR_CHANGED_EVENT,
         TRAIN_SKILL_START,
         TRAIN_SKILL_STOP,
+        OPEN_CARGO_REQUEST,
+        OPEN_CARGO_ACK,
+        OPEN_CARGO_FAIL,
 
         //GameState changes events
         GAME_STATE_CHANGE,
@@ -55,7 +57,8 @@ export module Events {
         SERVER_LOGIN_ACK,
         CLIENT_JOIN_REQ,
         SERVER_JOIN_ACK,
-
+        CLOSE_CARGO,
+        
         //Input
         MOUSE_PRESSED_EVENT,
         BACKGROUND_CLICKED_ONCE_EVENT,
@@ -160,6 +163,12 @@ export module Events {
         data: {
             characters: Array<{character: ICharacter}>,
             npcs: Array<{npc: INpc}>
+        }
+    }
+
+    export interface SHIP_WRECK_UPDATE_EVENT_CONFIG extends GameEvent {
+        data: {
+            shipWrecks: Array<IShipwreck>,
         }
     }
 
@@ -295,6 +304,28 @@ export module Events {
         data: {
             command: string
         }
+    }
+
+    export interface OPEN_CARGO_ACK_CONFIG extends GameEvent {
+        data: {
+            id: number
+        }
+    }
+
+    export interface OPEN_CARGO_FAIL_CONFIG extends GameEvent {
+        data: {
+            id: number
+        }
+    }
+
+    export interface OPEN_CARGO_REQUEST_CONFIG extends GameEvent {
+        data: {
+            id: number
+        }
+    }
+
+    export interface CLOSE_CARGO_CONFIG extends GameEvent {
+        data: { }
     }
 }
 

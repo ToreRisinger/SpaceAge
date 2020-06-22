@@ -82,6 +82,10 @@ export class SectorHandler {
         }
     }
 
+    public getSectorForPlayer(client: SClient): SSector | undefined {
+        return this.playersToSectorMap.get(client.getData().id);
+    }
+
     private handleWarpingPlayers() {
         let toRemove : Array<SClient> = new Array();
 

@@ -54,7 +54,7 @@ export abstract class RadarDetectable extends GameObject {
 
     protected abstract getRadarMass() : number;
     protected abstract setVisible(value : boolean) : void;
-    public abstract getCharacterName() : string;
+    public abstract getName() : string;
 
     public update() {
         super.update();

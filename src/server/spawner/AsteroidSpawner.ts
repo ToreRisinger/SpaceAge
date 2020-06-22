@@ -14,14 +14,28 @@ export class AsteroidSpawner extends Spawner {
     private generationRate: number;
     private maxNrOfAsteroids: number;
     private timePassedSinceLastGeneration: number;
+    private x: number;
+    private y: number;
 
-    constructor(sector: SSector, 
-        type : EMineralItemType, 
-        hardness : number, 
-        minSize : number, 
-        maxSize : number, 
-        generationRate : number,
-        maxNrOfAsteroids : number) {
+    private startPos: {
+        x: number,
+        y: number
+    }
+
+    private endPos: {
+        x: number,
+        y: number
+    }
+
+    constructor(sector: SSector,
+        x: number,
+        y: number,
+        type: EMineralItemType, 
+        hardness: number, 
+        minSize: number, 
+        maxSize: number, 
+        generationRate: number,
+        maxNrOfAsteroids: number) {
         super(sector);
         this.type = type;
         this.hardness = hardness;
@@ -30,6 +44,18 @@ export class AsteroidSpawner extends Spawner {
         this.generationRate = generationRate;
         this.maxNrOfAsteroids = maxNrOfAsteroids;
         this.timePassedSinceLastGeneration = 0;
+        this.x = x;
+        this.y = y;
+
+        this.startPos = {
+            x: 3000,
+            y: -5000,
+        }
+
+        this.endPos = {
+            x: 3000,
+            y: 5000
+        }
     }
 
     update1000ms(): void {
@@ -52,8 +78,8 @@ export class AsteroidSpawner extends Spawner {
             hardness : this.hardness,
             size : Utils.getRandomNumber(this.minSize, this.maxSize),
             type : this.type,
-            x : Utils.getRandomNumber(0, 1000),
-            y : Utils.getRandomNumber(0, 1000)
+            x : 3000 + Utils.getRandomNumber(-500, 500),
+            y : Utils.getRandomNumber(this.startPos.y, this.endPos.y)
         }
 
         this.getParentSector().getAsteroids().set(asteroid.id, asteroid);

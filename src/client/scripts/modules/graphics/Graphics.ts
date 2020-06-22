@@ -1,6 +1,8 @@
-import { GameScene, EParticleManagerType } from "../../scenes/GameScene";
+import { GameScene } from "../../scenes/GameScene";
 import { Camera } from "../Camera";
-import { ISprite } from "../../../../shared/data/ISprite";
+import { ISprite, ISpriteAnimation } from "../../../../shared/data/ISprite";
+import { SPRITES } from "../../../../shared/util/SPRITES";
+import { DRAW_LAYERS } from "../../constants/DRAW_LAYERS";
 
 export namespace Graphics {
     
@@ -138,12 +140,16 @@ export namespace Graphics {
     export class ParticleEmitter {
 
         private emitter: Phaser.GameObjects.Particles.ParticleEmitter;
+        private particleManager: Phaser.GameObjects.Particles.ParticleEmitterManager;
         private x: number;
         private y: number;
 
-        constructor(config: ParticleEmitterConfig, particleType: EParticleManagerType) {
+        constructor(config: ParticleEmitterConfig, particleType: EParticleManagerType, drawLayer: number) {
+            let particleInfo = getParticleInfo(particleType);
+            this.particleManager = GameScene.getInstance().add.particles(particleInfo.sprite.sprite.key);
+            this.particleManager.setDepth(drawLayer);
             //@ts-ignore
-            this.emitter = GameScene.getInstance().getParticleManager(particleType).createEmitter(config);
+            this.emitter = this.particleManager.createEmitter(config);
             this.x = 0;
             this.y = 0;
         }
@@ -172,6 +178,14 @@ export namespace Graphics {
 
         public follow(sprite: Sprite) {
             this.emitter.startFollow(sprite.getSprite());
+        }
+
+        public destroy() {
+            this.particleManager.destroy();
+        }
+
+        public setVisible(value: boolean): void {
+            this.particleManager.setVisible(value);
         }
     }
 
@@ -229,11 +243,6 @@ export namespace Graphics {
         public setPos(x: number, y: number): void {
             this.x = x;
             this.y = y;
-            /*
-            let cameraOffset = Camera.getCameraOffset();
-            this.sprite.x = x + cameraOffset.x;
-            this.sprite.y = y + cameraOffset.y;
-            */
         }
     
         public setVisible(visible: boolean): void {
@@ -248,6 +257,37 @@ export namespace Graphics {
             let circle = new Phaser.Geom.Circle(point.x, point.y, distance);
             Phaser.Actions.PlaceOnCircle(Array.of(this.sprite), circle, angle);
         }
-        
     }
+
+    export enum EParticleManagerType {
+        SMALL_BULLET,
+        SHIELD_DAMAGE,
+        ARMOR_DAMAGE,
+        THRUST
+    }
+
+    export interface IParticleInfo {
+        sprite: ISpriteAnimation
+    }
+
+    const particleInfoMap : { [key: number]: IParticleInfo } = {
+        
+        [EParticleManagerType.SMALL_BULLET] : {
+            sprite: SPRITES.SMALL_BULLET
+        },
+        [EParticleManagerType.SHIELD_DAMAGE] : {
+            sprite: SPRITES.SHIELD_DAMAGE_PARTICLE
+        },
+        [EParticleManagerType.ARMOR_DAMAGE] : {
+            sprite: SPRITES.ARMOR_DAMAGE_PARTICLE
+        },
+        [EParticleManagerType.THRUST] : {
+            sprite: SPRITES.THRUST_PARTICLE
+        }
+    }
+
+    export function getParticleInfo(type: EParticleManagerType) : IParticleInfo {
+        return particleInfoMap[type];
+    }
+
 }

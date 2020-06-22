@@ -1,16 +1,14 @@
 import { RadarDetectable } from "./RadarDetectable";
 import { Graphics } from "../modules/graphics/Graphics";
-import { ICharacter } from "../../../shared/data/gameobject/ICharacter";
 import { ShipModuleWrapper } from "./shipmodule/ShipModuleWrapper";
-import { SPRITES } from "../../../shared/util/SPRITES";
-import { EParticleManagerType } from "../scenes/GameScene";
-import { CCharacter } from "./CCharacter";
 import { EStatType } from "../../../shared/data/stats/EStatType";
 import { GameObject } from "./GameObject";
 import { GameObjectHandler } from "../modules/GameObjectHandler";
 import { IShipModuleInstance } from "../../../shared/data/IShipModuleInstance";
 import { IShip } from "../../../shared/data/gameobject/IShip";
 import { Utils } from "../../../shared/util/Utils";
+import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
+import { ISprite } from "../../../shared/data/ISprite";
 
 export class CShip extends RadarDetectable {
     
@@ -23,8 +21,8 @@ export class CShip extends RadarDetectable {
     private shipData : IShip;
     private shipModuleWrapper : ShipModuleWrapper;
 
-    constructor(shipData : IShip, thisPlayerShip : boolean) {
-        super(shipData, SPRITES.SHIP_ICON.sprite, thisPlayerShip, false);
+    constructor(shipData : IShip, icon: ISprite, thisPlayerShip : boolean) {
+        super(shipData, icon, thisPlayerShip, false);
         this.shipData = shipData;
 
         this.shipModuleWrapper = new ShipModuleWrapper(this, thisPlayerShip);
@@ -43,7 +41,7 @@ export class CShip extends RadarDetectable {
             scale: { start: 5, end: 5},
             quantity: 1,
             frequency: 10
-        }, EParticleManagerType.SHIELD_DAMAGE);
+        }, Graphics.EParticleManagerType.SHIELD_DAMAGE, DRAW_LAYERS.GRAPHICS_LAYER);
         
         //@ts-ignore
         this.armorDamageParticleEmitter = new Graphics.ParticleEmitter({
@@ -55,7 +53,7 @@ export class CShip extends RadarDetectable {
             scale: { start: 1, end: 1},
             quantity: 2,
             frequency: 10
-        }, EParticleManagerType.ARMOR_DAMAGE);
+        }, Graphics.EParticleManagerType.ARMOR_DAMAGE, DRAW_LAYERS.GRAPHICS_LAYER);
 
         //@ts-ignore
         this.thrustParticleEmitter = new Graphics.ParticleEmitter({
@@ -68,7 +66,7 @@ export class CShip extends RadarDetectable {
             scale: { start: 3, end: 0.1},
             quantity: 1,
             frequency: 1
-        }, EParticleManagerType.THRUST);
+        }, Graphics.EParticleManagerType.THRUST, DRAW_LAYERS.BACKGROUND_EFFECT_LAYER);
         
         this.thrustParticleEmitter.stop();
         this.armorDamageParticleEmitter.stop();
@@ -214,10 +212,13 @@ export class CShip extends RadarDetectable {
 
     public destroy() {
         this.shipModuleWrapper.destroy();
+        this.thrustParticleEmitter.destroy();
+        this.armorDamageParticleEmitter.destroy();
+        this.shieldDamageParticleEmitter.destroy();
         super.destroy();
     }
 
-    public getCharacterName() : string {
+    public getName() : string {
         return this.shipData.name;
     }
 
@@ -227,6 +228,9 @@ export class CShip extends RadarDetectable {
 
     protected setVisible(value : boolean) : void {
         this.shipModuleWrapper.setVisible(value);
+        this.thrustParticleEmitter.setVisible(value);
+        this.shieldDamageParticleEmitter.setVisible(value);
+        this.armorDamageParticleEmitter.setVisible(value);
     }
 
     private targetInRange(target : GameObject, ship : CShip): boolean {

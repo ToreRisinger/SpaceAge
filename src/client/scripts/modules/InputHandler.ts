@@ -11,6 +11,7 @@ export module InputHandler {
         A = "a",
         C = "c",
         M = "m",
+        O = "o",
         S = "s",
         T = "t",
         W = "w",

@@ -42,7 +42,7 @@ export class SpaceStation extends RadarDetectable {
         this.spaceStationSprite.setVisible(value)
     }
 
-    public getCharacterName(): string {
+    public getName(): string {
         return this.spaceStationData.name;
     }
 

@@ -2,7 +2,6 @@ import { Action } from "../fw/Action";
 import { RadarDetectable } from "../../../game_objects/RadarDetectable";
 import { Events } from "../../../../../shared/util/Events";
 import { EventHandler } from "../../EventHandler";
-import { CCharacter } from "../../../game_objects/CCharacter";
 import { GlobalDataService } from "../../GlobalDataService";
 import { InputHandler } from "../../InputHandler";
 import { CShip } from "../../../game_objects/CShip";
@@ -18,7 +17,7 @@ export class AttackAction extends Action {
             eventId : Events.EEventType.PLAYER_START_ATTACKING_EVENT,
             data : {
                 //@ts-ignore
-                targetId : selection.getId()
+                targetId : target.getId()
             }
         }
         EventHandler.pushEvent(newEvent); 

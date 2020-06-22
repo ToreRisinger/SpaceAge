@@ -1,29 +1,18 @@
 import { CONSTANTS } from "../constants/CONSTANTS";
 import { Camera } from "../modules/Camera";
 import { GameController } from "../modules/GameController";
-import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
 import { SPRITES } from "../../../shared/util/SPRITES";
-
-export enum EParticleManagerType {
-    SMALL_BULLET,
-    SHIELD_DAMAGE,
-    ARMOR_DAMAGE,
-    THRUST
-}
 
 export class GameScene extends Phaser.Scene {
     
     private static _instance : GameScene;
     private gameController : GameController = new GameController();
 
-    private particleManagerMap: Map<EParticleManagerType, Phaser.GameObjects.Particles.ParticleEmitterManager>;
-
     constructor() {
         super({
             key: CONSTANTS.SCENES.GAME
         })
         GameScene._instance = this;
-        this.particleManagerMap = new Map();
     }
 
     static getInstance() : GameScene {
@@ -42,7 +31,6 @@ export class GameScene extends Phaser.Scene {
 
     create() {
         this.createAnimations();
-        this.createParticleManagers();
         this.gameController = new GameController();
         this.gameController.init();
         this.scale.on('resize', this.resize, this);
@@ -117,27 +105,5 @@ export class GameScene extends Phaser.Scene {
 
     getSceneHeight() : number {
         return this.sys.game.canvas.height;
-    }
-
-    createParticleManagers() {
-        let particleManager = GameScene.getInstance().add.particles(SPRITES.SMALL_BULLET.sprite.key);
-        particleManager.setDepth(DRAW_LAYERS.GRAPHICS_LAYER);
-        this.particleManagerMap.set(EParticleManagerType.SMALL_BULLET, particleManager);
-        
-        particleManager = GameScene.getInstance().add.particles(SPRITES.SHIELD_DAMAGE_PARTICLE.sprite.key);
-        particleManager.setDepth(DRAW_LAYERS.GRAPHICS_LAYER);
-        this.particleManagerMap.set(EParticleManagerType.SHIELD_DAMAGE, particleManager);   
-        
-        particleManager = GameScene.getInstance().add.particles(SPRITES.ARMOR_DAMAGE_PARTICLE.sprite.key);
-        particleManager.setDepth(DRAW_LAYERS.GRAPHICS_LAYER);
-        this.particleManagerMap.set(EParticleManagerType.ARMOR_DAMAGE, particleManager);   
-
-        particleManager = GameScene.getInstance().add.particles(SPRITES.THRUST_PARTICLE.sprite.key);
-        particleManager.setDepth(DRAW_LAYERS.BACKGROUND_EFFECT_LAYER);
-        this.particleManagerMap.set(EParticleManagerType.THRUST, particleManager);  
-    }
-
-    getParticleManager(type: EParticleManagerType) {
-        return this.particleManagerMap.get(type);
     }
 }

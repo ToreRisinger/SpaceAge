@@ -18,10 +18,10 @@
             "name": "Mars belt II",
             "asteroid-type": "iron",
             "asteroid-hardness": 1,
-            "asteroid-generation-rate": 5,
+            "asteroid-generation-rate": 1,
             "asteroid-min-size": 100,
             "asteroid-max-size": 1000,
-            "max-number-of-asteroids": 20
+            "max-number-of-asteroids": 30
         },
         {
             "x": 0,
@@ -33,7 +33,7 @@
             "asteroid-generation-rate": 5,
             "asteroid-min-size": 100,
             "asteroid-max-size": 1000,
-            "max-number-of-asteroids": 20
+            "max-number-of-asteroids": 30
         },
         {
             "x": -4,
@@ -45,7 +45,7 @@
             "asteroid-generation-rate": 5,
             "asteroid-min-size": 100,
             "asteroid-max-size": 1000,
-            "max-number-of-asteroids": 20
+            "max-number-of-asteroids": 30
         },
         {
             "x": -3,
@@ -57,7 +57,7 @@
             "asteroid-generation-rate": 5,
             "asteroid-min-size": 100,
             "asteroid-max-size": 1000,
-            "max-number-of-asteroids": 20
+            "max-number-of-asteroids": 30
         },
         {
             "x": -1,
@@ -69,7 +69,7 @@
             "asteroid-generation-rate": 5,
             "asteroid-min-size": 100,
             "asteroid-max-size": 1000,
-            "max-number-of-asteroids": 20
+            "max-number-of-asteroids": 30
         },
         {
             "x": -3,
@@ -81,7 +81,7 @@
             "asteroid-generation-rate": 5,
             "asteroid-min-size": 100,
             "asteroid-max-size": 1000,
-            "max-number-of-asteroids": 20
+            "max-number-of-asteroids": 30
         }
         
     ]

@@ -68,7 +68,7 @@ export class Planet extends RadarDetectable {
         return this.displayInformation;
     }
 
-    public getCharacterName(): string {
+    public getName(): string {
         return this.planetData.name;
     }
 

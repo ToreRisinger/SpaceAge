@@ -14,7 +14,7 @@ export default class LocationInfoPanel extends React.Component<{}, LocationInfoP
       let pos = globalData.getPlayerShip().getPos();
       this.state = {
           location: globalData.getCharacter().location,
-          sectorName: globalData.getSector().getCharacterName(),
+          sectorName: globalData.getSector().getName(),
           x: pos.x,
           y: pos.y
       }
@@ -40,7 +40,7 @@ export default class LocationInfoPanel extends React.Component<{}, LocationInfoP
         let pos = globalData.getPlayerShip().getPos();
         this.setState({
             location: globalData.getCharacter().location,
-            sectorName: globalData.getSector().getCharacterName(),
+            sectorName: globalData.getSector().getName(),
             x: pos.x,
             y: pos.y
         });

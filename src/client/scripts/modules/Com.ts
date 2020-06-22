@@ -43,6 +43,8 @@ export module Com {
         EventHandler.on(Events.EEventType.PLAYER_SET_NEW_DESTINATION_EVENT, sendEventToServer);
         EventHandler.on(Events.EEventType.CLIENT_SEND_CHAT_MESSAGE_EVENT, sendEventToServer);
         EventHandler.on(Events.EEventType.PLAYER_START_WARP_REQUEST_EVENT, sendEventToServer);
+
+        EventHandler.on(Events.EEventType.OPEN_CARGO_REQUEST, sendEventToServer);
     }
 
     function sendEventToServer(event : Events.GameEvent) {

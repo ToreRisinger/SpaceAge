@@ -5,17 +5,28 @@ import { SNpc } from "../objects/npc/SNpc";
 import { SShip } from "../objects/SShip";
 import { IAsteroid } from "../../shared/data/astroid/IAstroid";
 import { Spawner } from "../spawner/Spawner";
+import { IShipwreck } from "../../shared/data/gameobject/IShipwreck";
+import { IdHandler } from "../IdHandler";
+import { EMineralItemType } from "../../shared/data/item/EMineralItemType";
 
 const math = require('mathjs');
 math.length = function vec2Length(vec2 : Array<number>) {
   return Math.sqrt((vec2[0] * vec2[0]) + (vec2[1] * vec2[1]));
 };
 
+export interface IPlayerCargoPair {
+  cargo: IShipwreck,
+  playerId: number | undefined
+}
+
 export class SSector {
 
     protected clients: Map<number, SClient>;
     protected npcs: Map<number, SNpc>;
     private asteroids: Map<number, IAsteroid>;
+    private shipWrecks: Map<number, IPlayerCargoPair>;
+    private playerToShipWreckMap: Map<number, number>;
+
     private spawners: Array<Spawner>;
     
     protected x: number;
@@ -45,6 +56,8 @@ export class SSector {
         this.clients = new Map<number, SClient>();
         this.npcs = new Map<number, SNpc>();
         this.asteroids = new Map<number, IAsteroid>();
+        this.shipWrecks = new Map<number, IPlayerCargoPair>();
+        this.playerToShipWreckMap = new Map<number, number>();
         this.spawners = new Array();
     }
 
@@ -104,6 +117,8 @@ export class SSector {
       this.spawners.forEach(spawner=> {
         spawner.update1000ms();
       });
+
+      this.sendShipWrecks();
     }
 
     public addClient(client : SClient) {
@@ -112,6 +127,7 @@ export class SSector {
 
     public removeClient(client : SClient) {
       this.clients.delete(client.getData().id);
+      this.playerToShipWreckMap.delete(client.getData().id);
       this.sendClientDisconnected(client.getCharacter().getData().id);
     }
 
@@ -123,6 +139,10 @@ export class SSector {
       this.spawners.push(spawner);
     }
 
+    public addShipWreck(shipWreck: IShipwreck): void {
+      this.shipWrecks.set(shipWreck.id, {cargo: shipWreck, playerId: undefined});
+    }
+
     private sendClientDisconnected(disconnectedShipId : number) {
       let packet : any = PacketFactory.createPlayerDisconnectedPacket(disconnectedShipId);
       this.clients.forEach((client: SClient, key: number) => {
@@ -132,6 +152,13 @@ export class SSector {
   
     private sendShipUpdates() {
       let packet : any = PacketFactory.createShipsUpdatePacket(this.clients, this.npcs);
+      this.clients.forEach((client: SClient, key: number) => {
+        client.getData().socket.emit("ServerEvent", packet);
+      });
+    }
+
+    private sendShipWrecks() {
+      let packet : any = PacketFactory.createShipWreckPacket(this.clients, this.shipWrecks);
       this.clients.forEach((client: SClient, key: number) => {
         client.getData().socket.emit("ServerEvent", packet);
       });
@@ -155,12 +182,60 @@ export class SSector {
       return this.asteroids;
     }
 
+    public getNpcs() {
+      return this.npcs;
+    }
+
+    public getShipWrecks() {
+      return this.shipWrecks;
+    }
+
+    public closeCargo(client: SClient): void {
+      let cargoId = this.playerToShipWreckMap.get(client.getData().id);
+      if(cargoId != undefined) {
+        let cargo = this.shipWrecks.get(cargoId);
+        if(cargo != undefined) {
+          cargo.playerId = undefined;
+        }
+      }
+      
+      this.playerToShipWreckMap.delete(client.getData().id);
+    }
+
+    //Make this thread safe?
+    public openCargoRequest(client: SClient, cargoId: number): boolean {
+      let cargo = this.shipWrecks.get(cargoId);
+      let clientId = client.getData().id;
+      if(cargo != undefined && (cargo.playerId == undefined || cargo.playerId == clientId)) {
+        let xDiff = client.getData().character.x - cargo.cargo.x;
+        let yDiff = client.getData().character.y - cargo.cargo.y;
+        let length = Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
+        if(length <= 1000) {
+          cargo.playerId = clientId;
+          this.playerToShipWreckMap.set(clientId, cargoId);
+          return true;
+        }
+      }
+
+      return false;
+    }
+
     private handleDestroyedNpcs() {
       let destroyedNpcIds: Array<number> = new Array();
       this.npcs.forEach(npc => {
         let properties = npc.getData().properties;
         if(properties.currentHull == 0) {
           destroyedNpcIds.push(npc.getData().id);
+          this.addShipWreck({
+            id: IdHandler.getNewGameObjectId(),
+            x: npc.getData().x,
+            y: npc.getData().y,
+            cargo: {
+              items: [
+                {itemType: EMineralItemType.GOLD_ORE, quantity: 1, module: undefined}
+              ]
+            }
+          })
         }
       });
 
