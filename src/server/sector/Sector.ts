@@ -127,7 +127,7 @@ export class SSector {
 
     public removeClient(client : SClient) {
       this.clients.delete(client.getData().id);
-      this.playerToShipWreckMap.delete(client.getData().id);
+      this.closeCargo(client);
       this.sendClientDisconnected(client.getCharacter().getData().id);
     }
 

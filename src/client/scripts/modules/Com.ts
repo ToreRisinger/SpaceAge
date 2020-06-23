@@ -45,6 +45,7 @@ export module Com {
         EventHandler.on(Events.EEventType.PLAYER_START_WARP_REQUEST_EVENT, sendEventToServer);
 
         EventHandler.on(Events.EEventType.OPEN_CARGO_REQUEST, sendEventToServer);
+        EventHandler.on(Events.EEventType.CLOSE_CARGO, sendEventToServer);
     }
 
     function sendEventToServer(event : Events.GameEvent) {

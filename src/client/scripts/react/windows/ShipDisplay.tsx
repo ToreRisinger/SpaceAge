@@ -12,6 +12,10 @@ export default class ShipDisplay extends React.Component<ShipDisplayProps, {}> {
       super(props)
     }
 
+    onClick(index: number) {
+
+    }
+
     render() {
         let lowestX = 0;
         let lowestY = 0;
@@ -56,7 +60,7 @@ export default class ShipDisplay extends React.Component<ShipDisplayProps, {}> {
                 id++;
                 let module = coordToModuleMap.get(x + "," + y);
                 if(module != undefined) {
-                    items.push(<CargoItem item={module} key={id} />);
+                    items.push(<CargoItem item={module} key={id} hoverHighLight={false} selected={false} index={0} onClick={this.onClick}/>);
                 } else {
                     items.push(<CargoSlot key={id} />);
                 }

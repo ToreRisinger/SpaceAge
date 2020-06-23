@@ -2,7 +2,7 @@ import { Action } from "../fw/Action";
 import { RadarDetectable } from "../../../game_objects/RadarDetectable";
 import { InputHandler } from "../../InputHandler";
 import { CShipwreck } from "../../../game_objects/CShipwreck";
-import SpaceCargoWindow from "../../../react/mainComponents/cargo/SpaceCargoWindow";
+import LootWindow from "../../../react/mainComponents/cargo/LootWindow";
 import { GlobalDataService } from "../../GlobalDataService";
 import { Events } from "../../../../../shared/util/Events";
 import { EventHandler } from "../../EventHandler";
@@ -14,7 +14,7 @@ export class OpenAction extends Action {
     }
 
     public run(selection: RadarDetectable | undefined, target: RadarDetectable | undefined): void {
-        let cargoWindow = SpaceCargoWindow.getInstance();
+        let cargoWindow = LootWindow.getInstance();
         if(!cargoWindow.isOpen()) {
             let event: Events.OPEN_CARGO_REQUEST_CONFIG = {
                 eventId: Events.EEventType.OPEN_CARGO_REQUEST,

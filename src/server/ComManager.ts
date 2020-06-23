@@ -258,6 +258,7 @@ export class ComManager {
           }
           case Events.EEventType.CLOSE_CARGO: {
             this.onCloseCargo(client, event);
+            break;
           }
           default: {
             break;
@@ -286,7 +287,7 @@ export class ComManager {
         }
     }
 
-    private onCloseCargo(client: SClient, event: Events.OPEN_CARGO_REQUEST_CONFIG) {
+    private onCloseCargo(client: SClient, event: Events.CLOSE_CARGO_CONFIG) {
         let sector = this.sectorHandler.getSectorForPlayer(client);
         if(sector != undefined) {
            sector.closeCargo(client);

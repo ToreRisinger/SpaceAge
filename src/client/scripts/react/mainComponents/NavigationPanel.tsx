@@ -82,7 +82,7 @@ export default class NavigationPanel extends React.Component<{}, NavigationPanel
                <TargetPanel object={this.state.targetObject} />
             }
             
-            <div id="navigation_panel" className="BodyText HasBorder Unselectable PanelBackground">
+            <div id="navigation_panel">
                <div id="navigation_panel_title" className="TitleText">Navigation</div>
                <div id="navigation_panel_table_header" className="BodyText">
                   <div id="navigation_panel_table_header_icon" className=""></div>

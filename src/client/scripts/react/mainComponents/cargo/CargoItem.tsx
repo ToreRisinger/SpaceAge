@@ -3,7 +3,7 @@ import { ItemInfo } from "../../../../../shared/data/item/ItemInfo";
 import ItemToolTipModuleAttributes from "./ItemToolTipModuleAttributes";
 import { IItem } from "../../../../../shared/data/item/IItem";
 
-export interface CargoItemProps { item : IItem }
+export interface CargoItemProps { item : IItem, hoverHighLight: boolean, selected: boolean, index: number, onClick: (index: number) => void }
 export interface CargoItemState { mouseX : number, mouseY : number }
 
 export default class CargoItem extends React.Component<CargoItemProps, CargoItemState> {
@@ -14,6 +14,7 @@ export default class CargoItem extends React.Component<CargoItemProps, CargoItem
         mouseX : 0,
         mouseY : 0
       }
+      this.onClick = this.onClick.bind(this);
       this.onMouseMove = this.onMouseMove.bind(this);
     }
 
@@ -21,15 +22,21 @@ export default class CargoItem extends React.Component<CargoItemProps, CargoItem
         this.setState({mouseX: event.pageX - event.nativeEvent.offsetX, mouseY: event.pageY - event.nativeEvent.offsetY});
     }
 
+    onClick() {
+        this.props.onClick(this.props.index);
+    }
+
     render() {
         const styles = {
             top : this.state.mouseY - 50,
             left : this.state.mouseX - 320
         }
-        
+
+        let cargoItemClass = "CargoItem Unselectable" + (this.props.hoverHighLight ? " BackgroundHoverHighlight" : "") + (this.props.selected ? " Selected" : "");
+
         let itemInfo : ItemInfo.IItemInfo = ItemInfo.getItemInfo(this.props.item.itemType);
         return (
-            <div className="CargoItem Unselectable" onMouseMove={this.onMouseMove}>
+            <div className={cargoItemClass} onMouseMove={this.onMouseMove} onClick={this.onClick}>
                 <img className="CargoItemImage" src={itemInfo.image}/>
 
                 {itemInfo.canStack &&
