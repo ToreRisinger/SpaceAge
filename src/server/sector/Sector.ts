@@ -121,6 +121,8 @@ export class SSector {
         spawner.update1000ms();
       });
 
+      this.handleEmptyShipwrecks();
+      
       this.sendShipWrecks();
     }
 
@@ -219,7 +221,7 @@ export class SSector {
       return false;
     }
 
-    public takeItems(client: SClient, indexes: Array<number>, cargoId: number): IShipwreck | undefined {
+    public takeItems(client: SClient, indexes: Array<number>, cargoId: number) {
       let playerCargoPair = this.shipWrecks.get(cargoId);
       if(playerCargoPair != undefined) {
         if(this.canInteractWithCargo(client, playerCargoPair)) {
@@ -234,9 +236,7 @@ export class SSector {
           }
           playerCargoPair.cargo.cargo.items = itemsRemaining;
         }
-        return playerCargoPair.cargo;
       }
-      return undefined;
     }
 
     private canInteractWithCargo(client: SClient, playerCargoPair: IPlayerCargoPair): boolean {
@@ -286,10 +286,29 @@ export class SSector {
         this.npcs.delete(npcId);
       })
 
-      this.sendDestroyedNpcs(destroyedNpcIds);
+      this.sendDestroyedGameObjects(destroyedNpcIds);
     }
 
-    private sendDestroyedNpcs(idList : number[]) {
+    private handleEmptyShipwrecks() {
+      let idsToRemove: Array<number> = new Array();
+      this.shipWrecks.forEach(shipwreck => {
+        if(shipwreck.cargo.cargo.items.length == 0) {
+          idsToRemove.push(shipwreck.cargo.id);
+          let shipwreckToDelete = this.shipWrecks.get(shipwreck.cargo.id);
+          if(shipwreckToDelete != undefined) {
+            let playerLink = shipwreckToDelete.playerId;
+            if(playerLink != undefined) {
+              this.playerToShipWreckMap.delete(playerLink);
+            }
+          }
+          this.shipWrecks.delete(shipwreck.cargo.id);
+        }
+      });
+
+      this.sendDestroyedGameObjects(idsToRemove);
+    }
+
+    private sendDestroyedGameObjects(idList : number[]) {
       let packet : any = PacketFactory.createDestroyedGameObjectsPacket(idList);
       this.clients.forEach((client: SClient, key: number) => {
           client.getData().socket.emit("ServerEvent", packet);

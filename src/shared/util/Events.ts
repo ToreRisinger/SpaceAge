@@ -51,7 +51,6 @@ export module Events {
         OPEN_CARGO_ACK,
         OPEN_CARGO_FAIL,
         TAKE_ITEM_REQUEST,
-        TAKE_ITEM_ACK,
 
         //GameState changes events
         GAME_STATE_CHANGE,
@@ -333,13 +332,6 @@ export module Events {
     export interface TAKE_ITEM_REQUEST_CONFIG extends GameEvent {
         data: {
             indexes: Array<number>
-            cargoId: number
-        }
-    }
-
-    export interface TAKE_ITEM_ACK_CONFIG extends GameEvent {
-        data: {
-            cargo : ICargo,
             cargoId: number
         }
     }

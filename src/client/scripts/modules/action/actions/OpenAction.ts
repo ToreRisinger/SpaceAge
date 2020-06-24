@@ -26,14 +26,6 @@ export class OpenAction extends Action {
             EventHandler.pushEvent(event);
         } else {
             cargoWindow.closeWindow();
-            let event: Events.CLOSE_CARGO_CONFIG = {
-                eventId: Events.EEventType.CLOSE_CARGO,
-                data: {
-                    //@ts-ignore
-                    id: selection.getId()
-                }
-            }
-            EventHandler.pushEvent(event);
         } 
     }
 

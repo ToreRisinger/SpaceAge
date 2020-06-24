@@ -275,17 +275,7 @@ export class ComManager {
     private onTakeItemsRequest(client: SClient, event: Events.TAKE_ITEM_REQUEST_CONFIG) {
         let sector = this.sectorHandler.getSectorForPlayer(client);
         if(sector != undefined) {
-            let cargo: IShipwreck | undefined = sector.takeItems(client, event.data.indexes, event.data.cargoId);
-            if(cargo != undefined) {
-                let packet : Events.TAKE_ITEM_ACK_CONFIG = {
-                    eventId : Events.EEventType.TAKE_ITEM_ACK,
-                    data : {
-                      cargo : cargo.cargo,
-                      cargoId: cargo.id
-                    }
-                  }
-                  client.getData().socket.emit("ServerEvent", packet);
-            }
+            sector.takeItems(client, event.data.indexes, event.data.cargoId);
         }
     }
 

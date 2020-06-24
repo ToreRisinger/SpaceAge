@@ -27,23 +27,19 @@ export default class LootWindow extends React.Component<{}, CargoPanelState> {
         this.isOpen = this.isOpen.bind(this);
         this.onClick = this.onClick.bind(this);
         this.onTakeItems = this.onTakeItems.bind(this);
-        this.onTakeItemsSuccess = this.onTakeItemsSuccess.bind(this);
         EventHandler.on(Events.EEventType.OPEN_CARGO_ACK, this.onOpen);
-        EventHandler.on(Events.EEventType.TAKE_ITEM_ACK, this.onTakeItemsSuccess);
     }
 
     public static getInstance(): LootWindow {
         return LootWindow.instance;
     }
 
-    public onTakeItemsSuccess(event: Events.TAKE_ITEM_ACK_CONFIG) {
-        if(this.state.shipwreck != undefined && event.data.cargoId == this.state.shipwreck.getId()) {
-            this.state.shipwreck.setCargo(event.data.cargo);
-            this.setState({shipwreck: this.state.shipwreck});
-        }
-    }
-
     public closeWindow() {
+        let event: Events.CLOSE_CARGO_CONFIG = {
+            eventId: Events.EEventType.CLOSE_CARGO,
+            data: { }
+        }
+        EventHandler.pushEvent(event);
         this.open = false;
         this.setState({shipwreck: undefined});
     }
@@ -71,6 +67,7 @@ export default class LootWindow extends React.Component<{}, CargoPanelState> {
             }
             EventHandler.pushEvent(event);
         }
+        this.closeWindow();
     }
 
     onClick(index: number) {
