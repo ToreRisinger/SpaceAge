@@ -1,7 +1,6 @@
 import { Action } from "./fw/Action";
 import { TargetAction } from "./actions/TargetAction";
 import { AttackAction } from "./actions/AttackAction";
-import { RadarDetectable } from "../../game_objects/RadarDetectable";
 import { RemoveTargetAction } from "./actions/RemoveTargetAction";
 import { StopAttackAction } from "./actions/StopAttack";
 import { SelectionHandler } from "../SelectionHandler";
@@ -18,6 +17,7 @@ import { MaxZoomAction } from "./actions/MaxZoom";
 import { CenterOnAction } from "./actions/CenterOnAction";
 import { CenterOnShipAction } from "./actions/CenterOnShipAction";
 import { OpenAction } from "./actions/OpenAction";
+import { CloseAction } from "./actions/CloseAction";
 
 export module ActionManager {
 
@@ -40,7 +40,8 @@ export module ActionManager {
             new MaxZoomAction(),
             new CenterOnAction(),
             new CenterOnShipAction(),
-            new OpenAction());
+            new OpenAction(),
+            new CloseAction());
 
         shortcutMap = new Map();
         actions.forEach(action => {

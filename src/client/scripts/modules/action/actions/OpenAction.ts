@@ -14,23 +14,18 @@ export class OpenAction extends Action {
     }
 
     public run(selection: RadarDetectable | undefined, target: RadarDetectable | undefined): void {
-        let cargoWindow = LootWindow.getInstance();
-        if(!cargoWindow.isOpen()) {
-            let event: Events.OPEN_CARGO_REQUEST_CONFIG = {
-                eventId: Events.EEventType.OPEN_CARGO_REQUEST,
-                data: {
-                    //@ts-ignore
-                    id: selection.getId()
-                }
+        let event: Events.OPEN_CARGO_REQUEST_CONFIG = {
+            eventId: Events.EEventType.OPEN_CARGO_REQUEST,
+            data: {
+                //@ts-ignore
+                id: selection.getId()
             }
-            EventHandler.pushEvent(event);
-        } else {
-            cargoWindow.closeWindow();
-        } 
+        }
+        EventHandler.pushEvent(event);
     }
 
     public isEnabled(selection: RadarDetectable | undefined, target: RadarDetectable | undefined): boolean {
-        if(selection != undefined && selection instanceof CShipwreck) {
+        if(selection != undefined && selection instanceof CShipwreck && !LootWindow.getInstance().isOpen() ) {
             let thisShipPos = GlobalDataService.getInstance().getPlayerShip().getPos();
             return thisShipPos.subtract(selection.getPos()).length() <= 1000;
         } else {
