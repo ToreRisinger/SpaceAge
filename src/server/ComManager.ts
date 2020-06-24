@@ -11,6 +11,9 @@ import { SClient } from "./objects/SClient";
 import { ICombatLogMessage } from "../shared/data/CombatLogInterfaces";
 import { ISector } from "../shared/data/sector/ISector";
 import { SShip } from "./objects/SShip";
+import { ICargo } from "../shared/data/ICargo";
+import { IShipState } from "../shared/data/gameobject/IShipState";
+import { IShipwreck } from "../shared/data/gameobject/IShipwreck";
 
 export class ComManager {
 
@@ -260,9 +263,29 @@ export class ComManager {
             this.onCloseCargo(client, event);
             break;
           }
+          case Events.EEventType.TAKE_ITEM_REQUEST: {
+            this.onTakeItemsRequest(client, event);
+          }
           default: {
             break;
           }
+        }
+    }
+
+    private onTakeItemsRequest(client: SClient, event: Events.TAKE_ITEM_REQUEST_CONFIG) {
+        let sector = this.sectorHandler.getSectorForPlayer(client);
+        if(sector != undefined) {
+            let cargo: IShipwreck | undefined = sector.takeItems(client, event.data.indexes, event.data.cargoId);
+            if(cargo != undefined) {
+                let packet : Events.TAKE_ITEM_ACK_CONFIG = {
+                    eventId : Events.EEventType.TAKE_ITEM_ACK,
+                    data : {
+                      cargo : cargo.cargo,
+                      cargoId: cargo.id
+                    }
+                  }
+                  client.getData().socket.emit("ServerEvent", packet);
+            }
         }
     }
 

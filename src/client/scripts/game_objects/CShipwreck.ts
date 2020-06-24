@@ -47,6 +47,10 @@ export class CShipwreck extends RadarDetectable {
         return this.data.cargo;
     }
 
+    public setCargo(cargo: ICargo): void {
+        this.data.cargo = cargo;
+    }
+
     public destroy(): void {
         this.sprite.destroy();
     }

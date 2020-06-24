@@ -3,36 +3,24 @@ import CargoSlot from "./CargoSlot";
 import CargoItem from "./CargoItem";
 import { IItem } from "../../../../../shared/data/item/IItem";
 
-export interface LootContainerProps { items : Array<IItem>, newWindow: boolean }
+export interface LootContainerProps { items : Array<IItem>, onClick: (index: number) => void, selectedItems: Set<number> }
 
 export default class LootContainer extends React.Component<LootContainerProps, {}> {
 
-    private selectedItems: Set<number>;
+
     private shouldClear: boolean;
 
     constructor(props : LootContainerProps) {
         super(props)
-        this.selectedItems = new Set();
-        this.onClick = this.onClick.bind(this);
         this.shouldClear = false;
+        this.onClick = this.onClick.bind(this);
     }
 
     onClick(index: number) {
-        if(this.selectedItems.has(index)) {
-            this.selectedItems.delete(index);
-        } else {
-            this.selectedItems.add(index);
-        }
-        this.shouldClear = false;
-        this.forceUpdate();
+        this.props.onClick(index);
     }
 
     render() {
-        if(this.shouldClear) {
-            this.selectedItems.clear();
-        }
-        this.shouldClear = true;
-
         let extraSlots = 40 + (4 - this.props.items.length % 4);
         let emptySlots = new Array<number>();
         for(let i = 0; i < extraSlots; i++) {
@@ -41,7 +29,7 @@ export default class LootContainer extends React.Component<LootContainerProps, {
 
         return (
             <div className="CargoContainer">
-                {this.props.items.map((object, i) => <CargoItem item={object} key={i} hoverHighLight={true} index={i} selected={this.selectedItems.has(i)} onClick={this.onClick}/>)}
+                {this.props.items.map((object, i) => <CargoItem item={object} key={i} hoverHighLight={true} index={i} selected={this.props.selectedItems.has(i)} onClick={this.onClick}/>)}
                 {emptySlots.map((object, i) => <CargoSlot key={i} />)}
             </div>
         );

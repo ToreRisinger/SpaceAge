@@ -8,6 +8,9 @@ import { Spawner } from "../spawner/Spawner";
 import { IShipwreck } from "../../shared/data/gameobject/IShipwreck";
 import { IdHandler } from "../IdHandler";
 import { EMineralItemType } from "../../shared/data/item/EMineralItemType";
+import { CargoUtils } from "../CargoUtils";
+import { IItem } from "../../shared/data/item/IItem";
+import { ICargo } from "../../shared/data/ICargo";
 
 const math = require('mathjs');
 math.length = function vec2Length(vec2 : Array<number>) {
@@ -204,20 +207,56 @@ export class SSector {
 
     //Make this thread safe?
     public openCargoRequest(client: SClient, cargoId: number): boolean {
-      let cargo = this.shipWrecks.get(cargoId);
+      let playerCargoPair = this.shipWrecks.get(cargoId);
+      if(playerCargoPair != undefined) {
+        if(this.canInteractWithCargo(client, playerCargoPair)) {
+          this.lockCargo(client, playerCargoPair);
+          return true;
+        }
+      }
+      
+
+      return false;
+    }
+
+    public takeItems(client: SClient, indexes: Array<number>, cargoId: number): IShipwreck | undefined {
+      let playerCargoPair = this.shipWrecks.get(cargoId);
+      if(playerCargoPair != undefined) {
+        if(this.canInteractWithCargo(client, playerCargoPair)) {
+          let indexesSet = new Set(indexes);
+          let itemsRemaining = new Array<IItem>();
+          for(let i = 0; i < playerCargoPair.cargo.cargo.items.length; i++) {
+            if(indexesSet.has(i)) {
+              CargoUtils.addItemToPlayerCargo(playerCargoPair.cargo.cargo.items[i], client.getCharacter());
+            } else {
+              itemsRemaining.push(playerCargoPair.cargo.cargo.items[i]);
+            }
+          }
+          playerCargoPair.cargo.cargo.items = itemsRemaining;
+        }
+        return playerCargoPair.cargo;
+      }
+      return undefined;
+    }
+
+    private canInteractWithCargo(client: SClient, playerCargoPair: IPlayerCargoPair): boolean {
       let clientId = client.getData().id;
-      if(cargo != undefined && (cargo.playerId == undefined || cargo.playerId == clientId)) {
-        let xDiff = client.getData().character.x - cargo.cargo.x;
-        let yDiff = client.getData().character.y - cargo.cargo.y;
+      if(playerCargoPair.playerId == undefined || playerCargoPair.playerId == clientId) {
+        let xDiff = client.getData().character.x - playerCargoPair.cargo.x;
+        let yDiff = client.getData().character.y - playerCargoPair.cargo.y;
         let length = Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
         if(length <= 1000) {
-          cargo.playerId = clientId;
-          this.playerToShipWreckMap.set(clientId, cargoId);
           return true;
         }
       }
 
       return false;
+    }
+
+    private lockCargo(client: SClient, playerCargoPair: IPlayerCargoPair) {
+      let clientId = client.getData().id;
+      playerCargoPair.playerId = clientId;
+      this.playerToShipWreckMap.set(clientId, playerCargoPair.cargo.id);
     }
 
     private handleDestroyedNpcs() {
@@ -232,7 +271,11 @@ export class SSector {
             y: npc.getData().y,
             cargo: {
               items: [
-                {itemType: EMineralItemType.GOLD_ORE, quantity: 1, module: undefined}
+                {itemType: EMineralItemType.GOLD_ORE, quantity: 1, module: undefined},
+                {itemType: EMineralItemType.DIAMOND_ORE, quantity: 1, module: undefined},
+                {itemType: EMineralItemType.IRON_ORE, quantity: 1, module: undefined},
+                {itemType: EMineralItemType.TITANIUM_ORE, quantity: 1, module: undefined},
+                {itemType: EMineralItemType.URANIUM_ORE, quantity: 1, module: undefined}
               ]
             }
           })

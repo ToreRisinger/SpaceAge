@@ -98,6 +98,17 @@ body {
     font-family: consolas;
 }
 
+.Button {
+    border: 2px solid rgb(122, 122, 122);
+    background-color: rgb(63, 63, 63);
+    text-align: center;
+    margin-top: 5px;
+}
+
+.Button:hover {
+    background-color: rgb(97, 97, 97);
+}
+
 /*
 
     PANELS
@@ -541,7 +552,7 @@ body {
 
 */
 
-.SpaceCargoWindow {
+.LootWindow {
     position: absolute;
     margin: auto;
     top: 0;
@@ -549,6 +560,11 @@ body {
     left: 0;
     right: 0;
     width: 300px;
+    height: 323px;
+    padding: 3px;
+}
+
+.LootWindowContainerWrapper {
     height: 300px;
 }
 

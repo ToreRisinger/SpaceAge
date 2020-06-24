@@ -7,7 +7,13 @@ export module CargoUtils {
 
     let clientsWithUpdatedCargo : Map<number, SCharacter> = new Map();
 
-    export function addItemToPlayerCargo(item : IItem, character: SCharacter) {
+    export function addItemToPlayerCargo(item : IItem, character: SCharacter): boolean {
+        let itemInfo : ItemInfo.IItemInfo = ItemInfo.getItemInfo(item.itemType);
+        let totalSize = itemInfo.size * item.quantity;
+        if(totalSize > getCargoSize(character)) {
+            return false;
+        }
+
         if(ItemInfo.getItemInfo(item.itemType).canStack) {
             let foundItem = character.getData().cargo.items.find(existingItem => existingItem.itemType == item.itemType);
             if(foundItem != undefined) {
@@ -15,8 +21,10 @@ export module CargoUtils {
             }
         } else {
             character.getData().cargo.items.push(item);
+            return true;
         }
         clientsWithUpdatedCargo.set(character.getData().id, character);
+        return true;
     }
 
     export function getClientsWithChangedCargo() : Map<number, SCharacter> {

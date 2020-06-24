@@ -2,7 +2,6 @@ import { EventHandler } from "./EventHandler"
 import { Events } from "../../../shared/util/Events"
 import { CCharacter } from "../game_objects/CCharacter";
 import { GameObject } from "../game_objects/GameObject";
-import { AsteroidInfo } from "../../../shared/data/astroid/AsteroidInfo";
 import { Asteroid } from "../game_objects/Asteroid";
 import { CSector } from "../game_objects/Sector";
 import { GlobalDataService } from "./GlobalDataService";
@@ -196,8 +195,7 @@ export module GameObjectHandler {
         EventHandler.on(Events.EEventType.CARGO_UPDATE_EVENT, onCargoUpdate);
         EventHandler.on(Events.EEventType.GAME_OBJECT_DESTOYED_EVENT, onGameObjectsDestroyed);
         EventHandler.on(Events.EEventType.CHANGE_SECTOR_EVENT, onSectorChanged); 
-        EventHandler.on(Events.EEventType.SKILL_STATE_EVENT, onSkillStateChanged);
-          
+        EventHandler.on(Events.EEventType.SKILL_STATE_EVENT, onSkillStateChanged);   
     }
 
     function destroyGameObject(objectId : number) {

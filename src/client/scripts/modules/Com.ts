@@ -46,6 +46,8 @@ export module Com {
 
         EventHandler.on(Events.EEventType.OPEN_CARGO_REQUEST, sendEventToServer);
         EventHandler.on(Events.EEventType.CLOSE_CARGO, sendEventToServer);
+
+        EventHandler.on(Events.EEventType.TAKE_ITEM_REQUEST, sendEventToServer);
     }
 
     function sendEventToServer(event : Events.GameEvent) {
