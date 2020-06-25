@@ -147,10 +147,6 @@ export class CShip extends RadarDetectable {
 
     public getDisplayInformation() : Array<string> {
         return new Array<string>(
-            "Speed: " + Math.round(this.getMetersPerSecond()), 
-            "Shield: " + this.getCurrentShield(),
-            "Armor: " + this.getCurrentArmor(),
-            "Hull: " + this.getCurrentHull(),
             "Mass: " + this.getStat(EStatType.mass) + " kg",
         );
     }

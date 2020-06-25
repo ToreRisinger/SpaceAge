@@ -83,7 +83,6 @@ export default class NavigationPanel extends React.Component<{}, NavigationPanel
             }
             
             <div id="navigation_panel">
-               <div id="navigation_panel_title" className="TitleText">Navigation</div>
                <div id="navigation_panel_table_header" className="BodyText">
                   <div id="navigation_panel_table_header_icon" className=""></div>
                   <div id="navigation_panel_table_header_name" className="">Name</div>
@@ -95,3 +94,5 @@ export default class NavigationPanel extends React.Component<{}, NavigationPanel
       );
    }
 }
+
+//<div id="navigation_panel_title" className="TitleText">Navigation</div>

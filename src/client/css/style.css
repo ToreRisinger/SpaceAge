@@ -86,6 +86,10 @@ body {
     visibility: visible;
 }
 
+.RedText {
+    color: rgb(155, 30, 30);
+}
+
 .TooltipText {
     visibility: hidden;
     background-color: rgb(199, 199, 199);
@@ -111,34 +115,53 @@ body {
 
 /*
 
-    PANELS
+    SHIP STATS
 
 */
 
-#bottom_panel {
-    margin: auto;  
-    position: absolute;
-    bottom: -1px;
-    width: 250px; 
-    height: 74px;
-    left: 0px;
-    right: 0px;
-    z-index: 10;
-}
-
-.BottomPanelElement {
-    margin: auto;  
+.ShipStatPanel {
+    margin: auto;
     position: absolute;
     bottom: 0px;
     left: 0px;
     right: 0px;
-    height: 100%;
+    width: 200px;
     z-index: inherit;
 }
 
-#ship_stats_bottom_panel {
-    width: 100%; 
-    text-align: center;
+.StatDisplay {
+    height: 16px;
+    position: relative;
+    line-height: 16px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+    border: 1px solid rgb(170, 170, 170);
+}
+
+.StatDisplayImage {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    bottom: 0px;
+    margin: auto;
+    padding-left: 10px;
+}
+
+.StatDisplayBar {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    padding-left: 35px;
+}
+
+.StatDisplayBarBackground {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    height: 100%;
 }
 
 /*
@@ -146,6 +169,7 @@ body {
     RIGHT PANEL
 
 */
+
 .RightPanel {
     margin: auto;
     position: absolute;
@@ -365,22 +389,11 @@ body {
     height: 50%;
 }
 
-#navigation_panel_title {
-    background-color: rgb(199, 199, 199);
-    color: rgb(0, 0, 0);
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    text-align: center;
-    height: 20px;
-}
-
 #navigation_panel_table_header {
     background-color: rgba(0, 0, 0, 0.0);
     color: rgb(199, 199, 199);
     position: absolute;
-    top: 22px;
+    top: 3px;
     left: 0px;
     right: 0px;
     height: 30px;
@@ -407,7 +420,7 @@ body {
 
 #navigation_container {
     position: absolute;
-    top: 40px;
+    top: 20px;
     left: 0px;
     right: 0px;
     bottom: 0px;
@@ -551,7 +564,6 @@ body {
     CARGO
 
 */
-
 .LootWindow {
     position: absolute;
     margin: auto;
@@ -564,8 +576,17 @@ body {
     padding: 3px;
 }
 
+.LootWindowButtonWrapper {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+}
+
 .LootWindowContainerWrapper {
     height: 300px;
+    width: 100%;
+    position: absolute;
 }
 
 #cargo_panel {
@@ -573,35 +594,38 @@ body {
     position: absolute;
     bottom: 0px;
     width: 300px; 
-    height: 50%; 
+    height: 50%;
 }
 
-#cargo_panel_title {
-    background-color: rgb(199, 199, 199);
-    color: rgb(0, 0, 0);
+.CargoInfoContainer {
+    position: absolute;
+    bottom: 0px;
     height: 22px;
-    margin-bottom: 2px;
+    line-height: 22px;
+    border-left: 0px;
+    border-right: 0px;
+    border-bottom: 0px;
+    padding-left: 5px;
+    width: 100%;
+    text-align: right;
 }
 
-#cargo_panel_title_cargo_full {
-    background-color: rgb(199, 199, 199);
-    color: rgb(155, 30, 30);
-    height: 22px;
-    margin-bottom: 2px;
+.CargoContainerWrapper {
+    position: absolute;
+    top: 0px;
+    bottom: 22px;
 }
 
 .CargoContainer {
     display: grid;
-    /*position: absolute; this does not work with tooltips */
     z-index: inherit;
     grid-template-columns: 70px 70px 70px 70px;
     grid-template-rows: 70px 70px 70px 70px;
-    grid-gap: 2px 2px;
+    grid-gap: 2px 4px;
     overflow-y: scroll;
-    overflow-x: hidden;
-    background-color: rgba(0, 0, 0, 0);
-    width: 100%;
-    height: 100%;
+    top: 0px;
+    position: absolute;
+    bottom: 0px;
 }
 
 .CargoContainer::-webkit-scrollbar-thumb {

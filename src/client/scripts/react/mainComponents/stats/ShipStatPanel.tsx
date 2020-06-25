@@ -1,11 +1,11 @@
 import React from "react";
-import ShipStatsBottomPanel from "./ShipStatsBottomPanel";
-import { GlobalDataService } from "../../modules/GlobalDataService";
-import { CCharacter } from "../../game_objects/CCharacter";
+import { GlobalDataService } from "../../../modules/GlobalDataService";
+import { CShip } from "../../../game_objects/CShip";
+import ShipStatContainer from "./ShipStatContainer";
 
-export interface BottomPanelState { ship : CCharacter; }
+export interface ShipStatPanelState { ship : CShip; }
 
-export default class BottomPanel extends React.Component<{}, BottomPanelState> {
+export default class ShipStatPanel extends React.Component<{}, ShipStatPanelState> {
 
    private timerID : ReturnType<typeof setTimeout> | undefined;
 
@@ -39,9 +39,9 @@ export default class BottomPanel extends React.Component<{}, BottomPanelState> {
 
    render() {
       return (
-         <div id="bottom_panel" className="PanelBackground Unselectable HasBorder">
-            <ShipStatsBottomPanel ship={this.state.ship}/>
-         </div>
-      );
+          <div className="ShipStatPanel">
+            <ShipStatContainer ship={this.state.ship}></ShipStatContainer>
+          </div>
+      );   
    }
 }

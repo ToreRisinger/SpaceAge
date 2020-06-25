@@ -1,6 +1,6 @@
 import React, {Fragment} from "react";
 import { CCharacter } from "../game_objects/CCharacter";
-import BottomPanel from "./mainComponents/BottomPanel";
+import ShipStatPanel from "./mainComponents/stats/ShipStatPanel";
 import SideMenu from "./mainComponents/SidePanel";
 import NavigationPanel from "./mainComponents/NavigationPanel";
 import Chat from "./mainComponents/ChatWindow";
@@ -94,7 +94,7 @@ export default class App extends React.Component<{}, AppState> {
             case EGameState.IN_SPACE: {
                 return (
                     <Fragment>
-                        <BottomPanel/>
+                        <ShipStatPanel/>
                         <SideMenu/>
                         <Chat/>
                         <RightPanel/>

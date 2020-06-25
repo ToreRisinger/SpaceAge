@@ -92,8 +92,10 @@ export default class LootWindow extends React.Component<{}, CargoPanelState> {
                         <div className="LootWindowContainerWrapper">
                             <LootContainer items={this.state.shipwreck.getCargo().items} onClick={this.onClick} selectedItems={this.selectedItems}/>
                         </div>
-                        <div className="Button" onClick={this.onTakeItems}>
-                            Take      
+                        <div className="LootWindowButtonWrapper">
+                            <div className="Button" onClick={this.onTakeItems}>
+                                Take      
+                            </div>
                         </div>
                     </div> 
                     : ""

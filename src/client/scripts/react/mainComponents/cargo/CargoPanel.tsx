@@ -76,12 +76,16 @@ export default class CargoPanel extends React.Component<{}, CargoPanelState> {
          cargoHoldSize += this.state.items[i].quantity * itemInfo.size;
       }
 
-      let cargo_panel_title_id = cargoHoldSize >= shipCargoHoldSize ? "cargo_panel_title_cargo_full" : "cargo_panel_title";
+      let cargoPanelFullClass = cargoHoldSize >= shipCargoHoldSize ? " RedText" : "";
       
       return (
          <div id="cargo_panel">
-            <div id={cargo_panel_title_id} className="TitleText">Cargo Hold ({cargoHoldSize} m<sup>2</sup>/{shipCargoHoldSize} m<sup>2</sup>)</div>
-            <CargoContainer items={this.state.items}/>
+            <div className="CargoContainerWrapper">
+               <CargoContainer items={this.state.items}/>
+            </div>
+            
+            <div className={"CargoInfoContainer BodyText HasBorder" + cargoPanelFullClass}>{cargoHoldSize} m<sup>2</sup>/{shipCargoHoldSize} m<sup>2</sup></div>
+            
          </div>
       );
    }
