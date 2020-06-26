@@ -16,6 +16,10 @@ export class CCharacter extends CShip {
             items : []
         }
     }
+
+    public getMoney(): number {
+        return this.characterData.money;
+    }
     
     public setCargo(cargo : ICargo) {
         this.shipCargo = cargo;

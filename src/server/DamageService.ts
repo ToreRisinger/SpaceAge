@@ -56,6 +56,7 @@ export module DamageService {
         //Damage to hull
         if(hull - damageLeft < 0) {
             target.getData().properties.currentHull = 0;
+            target.setDestroyed(attacking.getData().id);
         } else {
             target.getData().properties.currentHull -= damageLeft;
         }

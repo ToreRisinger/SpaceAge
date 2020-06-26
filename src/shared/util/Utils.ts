@@ -11,7 +11,7 @@ export module Utils {
         let ret : string = "";
         if(meters < 1000) {
             ret = Math.round(meters) + " m";
-        } else if(meters > 1000){
+        } else if(meters >= 1000){
             let km = Math.round(meters / 1000);
             if(km > 1000000) {
                 let millionKm = Math.round(km / 1000000);
@@ -30,7 +30,7 @@ export module Utils {
     }
 
     export function getRandomNumber(min : number, max : number) {
-        return Math.floor(Math.random() * (max - min) + min);
+        return Math.round(Math.random() * (max - min) + min);
     }
 
     export function chance(percentage: number) {

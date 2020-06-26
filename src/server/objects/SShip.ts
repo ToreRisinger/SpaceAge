@@ -4,6 +4,7 @@ import { StatInfo } from "../../shared/data/stats/StatInfo";
 import { DamageService } from "../DamageService";
 import { SSector } from "../sector/Sector";
 import { SERVER_CONSTANTS } from "../constants/serverconstants";
+import { threadId } from "worker_threads";
 
 const math = require('mathjs');
 
@@ -11,10 +12,14 @@ export class SShip {
 
     private shipData: IShip;
     private _isPlayer: boolean;
+    private _isDestroyed: boolean;
+    private destroyedById: number | undefined;
 
     constructor(shipData: IShip, _isPlayer: boolean) {
         this.shipData = shipData;
         this._isPlayer = _isPlayer;
+        this._isDestroyed = false;
+        this.destroyedById = undefined;
         this.updateStats();
     }
 
@@ -79,6 +84,19 @@ export class SShip {
 
     public stopMove() {
         this.shipData.state.hasDestination = false;
+    }
+
+    public isDestroyed(): boolean {
+        return this._isDestroyed;
+    }
+
+    public setDestroyed(destroyedById: number): void {
+        this._isDestroyed = true;
+        this.destroyedById = destroyedById;
+    }
+
+    public getDestroyedById(): number | undefined {
+        return this.destroyedById;
     }
 
     protected applyShipModuleStats(): void {

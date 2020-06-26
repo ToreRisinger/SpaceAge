@@ -1,9 +1,11 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { GlobalDataService } from "../../../modules/GlobalDataService";
 import { CShip } from "../../../game_objects/CShip";
 import ShipStatContainer from "./ShipStatContainer";
+import MoneyContainer from "../cargo/MoneyContainer";
+import { CCharacter } from "../../../game_objects/CCharacter";
 
-export interface ShipStatPanelState { ship : CShip; }
+export interface ShipStatPanelState { character : CCharacter; }
 
 export default class ShipStatPanel extends React.Component<{}, ShipStatPanelState> {
 
@@ -12,7 +14,7 @@ export default class ShipStatPanel extends React.Component<{}, ShipStatPanelStat
    constructor(props : {}) {
       super(props)
       this.state = {
-         ship: GlobalDataService.getInstance().getPlayerShip()
+         character: GlobalDataService.getInstance().getPlayerShip()
       }
       this.timerID = undefined;
    }
@@ -33,15 +35,19 @@ export default class ShipStatPanel extends React.Component<{}, ShipStatPanelStat
     tick() {
       let globalData = GlobalDataService.getInstance();
       this.setState({
-         ship: globalData.getPlayerShip()
+         character: globalData.getPlayerShip()
       });
     }
 
    render() {
       return (
-          <div className="ShipStatPanel">
-            <ShipStatContainer ship={this.state.ship}></ShipStatContainer>
-          </div>
+         <Fragment>
+            <MoneyContainer character={this.state.character}/>
+            <div className="ShipStatPanel">
+               <ShipStatContainer ship={this.state.character}></ShipStatContainer>
+            </div>
+         </Fragment>
+        
       );   
    }
 }

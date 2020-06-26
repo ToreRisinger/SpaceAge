@@ -8,6 +8,7 @@ import { EStatType } from "../../shared/data/stats/EStatType";
 import { ItemFactory } from "../ItemFactory";
 import { EModuleItemType } from "../../shared/data/item/EModuleItemType";
 import { SNpc } from "../objects/npc/SNpc";
+import { NpcInfo } from "../../shared/data/npc/NpcInfo";
 
 export class NpcSpawner extends Spawner {
 
@@ -29,7 +30,7 @@ export class NpcSpawner extends Spawner {
                 let newNpc: INpc = {
                     type: this.npcType,
                     id : IdHandler.getNewGameObjectId(),
-                    name : this.npcType,
+                    name : NpcInfo.getNpcInfo(this.npcType,).name,
                     x : 0,
                     y : 0,
                     state : {

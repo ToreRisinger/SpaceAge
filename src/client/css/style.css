@@ -714,13 +714,43 @@ body {
 }
 
 .CargoItemImage {
-    /*position: relative;*/
     width: 68px;
     height: 68px;
 }
 
-/*    
-    Root container for the chat
+.MoneyContainer {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    height: 22px;
+    border-left: 0px;
+    border-right: 0px;
+    border-bottom: 0px;
+    width: 300px;
+    z-index: 1;
+}
+
+.MoneyTextContainer {
+    top: 0px;
+    bottom: 0px;
+    position: absolute;
+    width: 100%;
+    margin-left: 20px;
+    line-height: 22px;
+}
+
+.MoneyImage {
+    position: absolute;
+    left: 3px;
+    top: 0px;
+    bottom: 0px;
+    margin: auto;
+}
+
+/*
+
+    CHAT
+
 */
 #chat_window {
     margin: auto;

@@ -31,13 +31,11 @@ export module Server {
     }
 
     function update40ms() {
-      //comManager.getClients().forEach(client => client.update40ms());
       sectorHandler.update40ms();
       comManager.update40ms();
     }
 
     function update1000ms() {
-      //comManager.getClients().forEach(client => client.update1000ms());
       sectorHandler.update1000ms();
       comManager.update1000ms();
     }

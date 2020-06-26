@@ -137,7 +137,8 @@ export class SCharacter extends SShip {
               {moduleItem: ItemFactory.createModule(EModuleItemType.MINING_LASER_MODULE, 1), x: 11, y : 10},
               {moduleItem: ItemFactory.createModule(EModuleItemType.ARMOR_MODULE, 1), x: 12, y : 11},
               {moduleItem: ItemFactory.createModule(EModuleItemType.ARMOR_MODULE, 1), x: 13, y : 12}
-          ]
+          ],
+          money: 0
         }
 
         for(let i = 0; i < character.modules.length; i++) {

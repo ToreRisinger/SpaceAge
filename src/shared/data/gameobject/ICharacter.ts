@@ -9,5 +9,6 @@ export interface ICharacter extends IShip {
     location: string,
     sectorCoords: IPosition,
     skills: ICharacterSkills,
-    warpState: IWarpState
+    warpState: IWarpState,
+    money: number
 }

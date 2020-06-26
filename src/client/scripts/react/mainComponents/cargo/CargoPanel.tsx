@@ -83,9 +83,7 @@ export default class CargoPanel extends React.Component<{}, CargoPanelState> {
             <div className="CargoContainerWrapper">
                <CargoContainer items={this.state.items}/>
             </div>
-            
             <div className={"CargoInfoContainer BodyText HasBorder" + cargoPanelFullClass}>{cargoHoldSize} m<sup>2</sup>/{shipCargoHoldSize} m<sup>2</sup></div>
-            
          </div>
       );
    }

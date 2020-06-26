@@ -10,7 +10,8 @@ import { IdHandler } from "../IdHandler";
 import { EMineralItemType } from "../../shared/data/item/EMineralItemType";
 import { CargoUtils } from "../CargoUtils";
 import { IItem } from "../../shared/data/item/IItem";
-import { ICargo } from "../../shared/data/ICargo";
+import { NpcInfo } from "../../shared/data/npc/NpcInfo";
+import { Utils } from "../../shared/util/Utils";
 
 const math = require('mathjs');
 math.length = function vec2Length(vec2 : Array<number>) {
@@ -262,21 +263,36 @@ export class SSector {
     private handleDestroyedNpcs() {
       let destroyedNpcIds: Array<number> = new Array();
       this.npcs.forEach(npc => {
-        let properties = npc.getData().properties;
-        if(properties.currentHull == 0) {
+        if(npc.isDestroyed()) {
+          let npcInfo: NpcInfo.INpcInfo = NpcInfo.getNpcInfo(npc.getData().type);
+          let destroyedById: number | undefined = npc.getDestroyedById();
+          if(destroyedById != undefined) {
+            let destroyedBy: SClient | undefined = this.clients.get(destroyedById);
+            if(destroyedBy != undefined) {
+              destroyedBy.getData().character.money += Utils.getRandomNumber(npcInfo.bounty.bountyMin, npcInfo.bounty.bountyMax);
+            }
+          }
+          
+          let items: Array<IItem> = new Array();
+          let nrOfLoot = Utils.getRandomNumber(npcInfo.loot.numberOfLootMin, npcInfo.loot.numberOfLootMax);
+          for(let i = 0; i < nrOfLoot; i++) {
+            let random = Utils.getRandomNumber(0, npcInfo.loot.possibleLootList.length - 1);
+            let loot = npcInfo.loot.possibleLootList[Utils.getRandomNumber(0, npcInfo.loot.possibleLootList.length - 1)];
+            let item: IItem = {
+              itemType : loot.itemType,
+              module: undefined,
+              quantity: Utils.getRandomNumber(loot.quantityMin, loot.quantityMax)
+            }
+            items.push(item);
+          }
+
           destroyedNpcIds.push(npc.getData().id);
           this.addShipWreck({
             id: IdHandler.getNewGameObjectId(),
             x: npc.getData().x,
             y: npc.getData().y,
             cargo: {
-              items: [
-                {itemType: EMineralItemType.GOLD_ORE, quantity: 1, module: undefined},
-                {itemType: EMineralItemType.DIAMOND_ORE, quantity: 1, module: undefined},
-                {itemType: EMineralItemType.IRON_ORE, quantity: 1, module: undefined},
-                {itemType: EMineralItemType.TITANIUM_ORE, quantity: 1, module: undefined},
-                {itemType: EMineralItemType.URANIUM_ORE, quantity: 1, module: undefined}
-              ]
+              items: items
             }
           })
         }
