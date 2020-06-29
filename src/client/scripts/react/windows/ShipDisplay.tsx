@@ -1,7 +1,7 @@
 import React from "react";
 import CargoItem from "../mainComponents/cargo/CargoItem";
 import CargoSlot from "../mainComponents/cargo/CargoSlot";
-import { IShipModuleInstance } from "../../../../shared/data/IShipModuleInstance";
+import { IShipModuleInstance } from "../../../../shared/data/shipmodule/IShipModuleInstance";
 import { IItem } from "../../../../shared/data/item/IItem";
 
 export interface ShipDisplayProps { modules : Array<IShipModuleInstance>}

@@ -1,5 +1,5 @@
 import { IProperties } from "../IProperties";
-import { IShipModuleInstance } from "../IShipModuleInstance";
+import { IShipModuleInstance } from "../shipmodule/IShipModuleInstance";
 import { IGameObject } from "./IGameObject";
 import { IShipState } from "./IShipState";
 

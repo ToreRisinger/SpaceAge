@@ -11,14 +11,9 @@ import { SClient } from "./objects/SClient";
 import { ICombatLogMessage } from "../shared/data/CombatLogInterfaces";
 import { ISector } from "../shared/data/sector/ISector";
 import { SShip } from "./objects/SShip";
-import { ICargo } from "../shared/data/ICargo";
-import { IShipState } from "../shared/data/gameobject/IShipState";
-import { IShipwreck } from "../shared/data/gameobject/IShipwreck";
+import { ConnectionConfiguration as ConnectionConfiguration } from "../shared/constants/connectionConfiguration";
 
 export class ComManager {
-
-    //TODO move all sending to players here from Sector.
-    //Sector should only handle game logic
 
     private io: any;
     private sectorHandler: SectorHandler;
@@ -32,11 +27,11 @@ export class ComManager {
         this.sectorHandler = sectorHandler;
         
         
-        http.listen(8080, '0.0.0.0', function () {
+        http.listen(ConnectionConfiguration.serverPort, '0.0.0.0', function () {
             Logger.info(`Listening on ${http.address().port}`);
         });
         
-        this.io = require('socket.io').listen(http, {'pingInterval': 2000, 'pingTimeout': 5000});
+        this.io = require('socket.io').listen(http, {'pingInterval': ConnectionConfiguration.pingIntervall, 'pingTimeout': ConnectionConfiguration.pingTimeout});
 
         this.setupOnConnection();
     }
@@ -63,73 +58,182 @@ export class ComManager {
 
     private setupOnConnection() {
         this.io.on('connection', (socket: any) => {
-            this.onConnection(socket);
+            this.handleConnection(socket);
         });
     }
 
-    private onConnection(socket: any) {
-        Logger.info("User connected '" + socket.conn.remoteAddress + "'");
+    private handleConnection(socket: any) {
+        Logger.info(socket.conn.remoteAddress + "' connected.");
         socket.on('ClientEvent', (event : Events.GameEvent) => {
-            this.onClientLoginReq(socket, event);
+            this.handleClientLoginAndRegister(socket, event);
         });
         socket.on('disconnect', () => {
-            this.onClientDisconnect();
+            this.handleDisconnect();
         });
-        socket.on('ping', (pingNumber: number) => {
-            console.log("ping in server");
-            socket.emit('pingAck', pingNumber);
-        })
     }
 
-    private onClientLoginReq(socket: any, event: Events.GameEvent) {
+    private handleClientLoginAndRegister(socket: any, event: Events.GameEvent) {
         if(event.eventId == Events.EEventType.CLIENT_LOGIN_REQ) {
-            Database.getUser(event.data.username, (err: any, users: Array<IUserDocument>) => {
-                if(users.length > 0) {
-                    this.onClientLogin(socket, users[0]);
-                } else {
-                    Database.newUser(event.data.username, (err: any, user: IUserDocument) => {
-                        if(err) {
-                            this.connectionError(err, socket);
-                            return;
-                        }
-                        if(user) {
-                            Database.writeNewCharacter(user, this.sectorHandler.getLocation(), (err: string | undefined) => {
-                                if(err != undefined) {
-                                    this.connectionError(err, socket);
-                                    return;
-                                }
-                                this.onClientLogin(socket, user);
-                            });
-                        } else {
-                            this.connectionError(err, socket);
-                            return;
-                        }
-                    });
-                    
+            Database.getUser(event.data.username, event.data.password, (error: Database.EDataBaseError, user: IUserDocument | undefined) => {
+                switch(error) {
+                    case Database.EDataBaseError.NO_ERROR:
+                        //@ts-ignore
+                        Logger.info("User '" + user.username + "' logged in");
+                        this.onLoginSuccess(socket);
+                        socket.on('ClientEvent', (event : Events.GameEvent) => {
+                            //@ts-ignore
+                            this.handleClientCharacterSelection(socket, user, event);
+                        });
+                        break;
+                    case Database.EDataBaseError.DOES_NOT_EXIST:
+                        this.onLoginFail(socket, "Username does not exist.");
+                        break;
+                    case Database.EDataBaseError.WRONG_PASSWORD:
+                        this.onLoginFail(socket, "Wrong combination of username and password.");
+                        break;
+                    case Database.EDataBaseError.UNKNOWN_ERROR:
+                        this.onLoginFail(socket, "Unknown Error.")
+                        break;
+                    default:
+                        break;
                 }
             });
+        } else if(event.eventId == Events.EEventType.CLIENT_REGISTER_REQ) {
+            if(event.data.username.length == 0) {
+                this.onRegisterFail(socket, "Username has to have more atleast on character.")
+            } else if(event.data.password.length == 0) {
+                this.onRegisterFail(socket, "Password has to have more atleast on character.")
+            } else {
+                Database.newUser(event.data.username, event.data.password, (error: Database.EDataBaseError, user: IUserDocument | undefined) => {
+                    switch(error) {
+                        case Database.EDataBaseError.NO_ERROR:
+                            //@ts-ignore
+                            Logger.info("User '" + user.username + "' logged in");
+                            this.onLoginSuccess(socket);
+                            socket.on('ClientEvent', (event : Events.GameEvent) => {
+                                //@ts-ignore
+                                this.handleClientCharacterSelection(socket, user, event);
+                            });
+                            break;
+                        case Database.EDataBaseError.USERNAME_ALREADY_EXISTS:
+                            this.onRegisterFail(socket, "Username already in use.")
+                            break; 
+                        case Database.EDataBaseError.UNKNOWN_ERROR:
+                            this.onRegisterFail(socket, "Unknown Error.")
+                            break;
+                        default:
+                            break;
+                    }
+                });
+            }
         }
     }
 
-    private onClientLogin(socket: any, user: IUserDocument) {
-        Logger.info("User '" + user.username + "' logged in");
-        Database.getCharacters(user, (err: string | undefined, characters: Array<SCharacter>) => {
-            if(err) {
-                this.connectionError(err, socket);
-                return;
-            }
-            socket.on('ClientEvent', (event : Events.GameEvent) => {
-                this.onClientJoinReq(socket, user, event, characters);
+    private handleClientCharacterSelection(socket: any, user: IUserDocument, event: Events.GameEvent) {
+        if(event.eventId == Events.EEventType.CLIENT_CHARACTER_LIST_REQ) {
+            Database.getCharacters(user, (error: Database.EDataBaseError, characters: Array<SCharacter>) => {
+                switch(error) {
+                    case Database.EDataBaseError.NO_ERROR:
+                        this.sendCharacters(socket, characters);
+                        break;
+                    default:
+                        this.onCharacterListReqFailed(socket, "Failed to load characters.");
+                        return;
+                }
             });
-            this.sendCharacters(socket, characters);
-        })
+        } else if(event.eventId == Events.EEventType.CLIENT_NEW_CHARACTER_REQ) {
+            Database.writeNewCharacter(user, event.data.characterName, this.sectorHandler.getLocation(), (error: Database.EDataBaseError) => {
+                switch(error) {
+                    case Database.EDataBaseError.NO_ERROR:
+                        Database.getCharacters(user, (error: Database.EDataBaseError, characters: Array<SCharacter>) => {
+                            switch(error) {
+                                case Database.EDataBaseError.NO_ERROR:
+                                    this.sendCharacters(socket, characters);
+                                    break;
+                                default:
+                                    this.onCharacterListReqFailed(socket, "Failed to load characters.");
+                                    return;
+                            }
+                        });
+                    default:
+                        this.onNewCharacterFailed(socket, "Failed to create characters.");
+                        return;
+                }
+            });
+            
+        } else if(event.eventId == Events.EEventType.CLIENT_JOIN_REQ) {
+            Logger.info("User '" + user.username + "' joined with character '" + event.data.character.name + "'");
+
+            Database.getCharacters(user, (error: Database.EDataBaseError, characters: Array<SCharacter>) => {
+                switch(error) {
+                    case Database.EDataBaseError.NO_ERROR:
+                        let character : SCharacter | undefined = undefined;
+                        for(let i = 0; i < characters.length; i++) {
+                            if(characters[i].getData().name == event.data.character.name) {
+                                character = characters[i];
+                            }
+                        }
+                
+                        if(character == undefined) {
+                            Logger.debug("Could not find character: '" + event.data.character.name + "'");
+                            this.onJoinFailed(socket, "Failed to join.");
+                            return;
+                        }
+                        
+                        let sectorArray : Array<ISector> = new Array();
+                        let sectors : Array<SSector> = this.sectorHandler.getSectors();
+                        for(let i = 0; i < sectors.length; i++) {
+                            sectorArray.push({
+                                id : sectors[i].getId(),
+                                x : sectors[i].getX(),
+                                y : sectors[i].getY(),
+                                name : sectors[i].getName(),
+                                sectorType: sectors[i].getSectorType()
+                            });
+                        }
+                
+                        let sector : SSector | undefined = this.sectorHandler.getSector(0, 0);
+                        if(sector == undefined) {
+                            this.connectionError("Could not find sector", socket);
+                            return;
+                        }
+                
+                        let client : SClient = new SClient(socket, character);
+                
+                        let packet : Events.SERVER_JOIN_ACK = {
+                            eventId : Events.EEventType.SERVER_JOIN_ACK,
+                            data : {
+                                character: character.getData(),
+                                clientSectorId : sector.getId(),
+                                sectors : sectorArray
+                            }
+                        }
+                
+                        this.clientMap.set(client.getData().id, client);
+                        this.sectorHandler.addClientToSector(client, 0, 0);
+                
+                        socket.on('ClientEvent', (event : Events.GameEvent) => {
+                            this.onClientEvent(client, event);
+                        });
+                        socket.on('disconnect', () => {
+                            this.onDisconnect(client, user);
+                        });
+                        socket.emit("ServerEvent", packet); 
+                        this.sendServerMessage(client, "Welcome to SpaceAge!");
+                        break;
+                    default:
+                        this.onJoinFailed(socket, "Failed to join.");
+                        return;
+                }
+            }) 
+        }  
     }
 
     private sendCharacters(socket: any, characters: Array<SCharacter>) {
         let chars : Array<ICharacter> = [];
         characters.forEach(c => { chars.push(c.getData()) });
-        let packet : Events.SERVER_LOGIN_ACK = {
-            eventId : Events.EEventType.SERVER_LOGIN_ACK,
+        let packet : Events.SERVER_CHARACTER_LIST_ACK = {
+            eventId : Events.EEventType.SERVER_CHARACTER_LIST_ACK,
             data : {
               characters : chars
             }
@@ -137,71 +241,12 @@ export class ComManager {
         socket.emit("ServerEvent", packet);  
     }
 
-    private onClientJoinReq(socket: any, user: IUserDocument, event: Events.GameEvent, characters: Array<SCharacter>) {
-        if(event.eventId == Events.EEventType.CLIENT_JOIN_REQ) {
-            Logger.info("User '" + user.username + "' joined with character '" + event.data.character.name + "'");
-
-            let character : SCharacter | undefined = undefined;
-            for(let i = 0; i < characters.length; i++) {
-                if(characters[i].getData().name == event.data.character.name) {
-                    character = characters[i];
-                }
-            }
-
-            if(character == undefined) {
-                this.connectionError("Could not find character: '" + event.data.character.name + "'", socket);
-                return;
-            }
-            
-            let sectorArray : Array<ISector> = new Array();
-            let sectors : Array<SSector> = this.sectorHandler.getSectors();
-            for(let i = 0; i < sectors.length; i++) {
-                sectorArray.push({
-                    id : sectors[i].getId(),
-                    x : sectors[i].getX(),
-                    y : sectors[i].getY(),
-                    name : sectors[i].getName(),
-                    sectorType: sectors[i].getSectorType()
-                });
-            }
-
-            let sector : SSector | undefined = this.sectorHandler.getSector(0, 0);
-            if(sector == undefined) {
-                this.connectionError("Could not find sector", socket);
-                return;
-            }
-
-            let client : SClient = new SClient(socket, character);
-
-            let packet : Events.SERVER_JOIN_ACK = {
-                eventId : Events.EEventType.SERVER_JOIN_ACK,
-                data : {
-                    character: character.getData(),
-                    clientSectorId : sector.getId(),
-                    sectors : sectorArray
-                }
-            }
-
-            this.clientMap.set(client.getData().id, client);
-            this.sectorHandler.addClientToSector(client, 0, 0);
-
-            socket.on('ClientEvent', (event : Events.GameEvent) => {
-                this.onClientEvent(client, event);
-            });
-            socket.on('disconnect', () => {
-                this.onDisconnect(client, user);
-            });
-            socket.emit("ServerEvent", packet); 
-            this.sendServerMessage(client, "Welcome to SpaceAge!");
-        }  
-    }
-
-    private onClientDisconnect() {
+    private handleDisconnect() {
         Logger.info("User disconnected");
     }
   
     private onDisconnect(client: SClient, user: IUserDocument) {
-        Logger.info("User disconnected with character '" + client.getData().character.name + "' of user '" + user.username + "'.");
+        Logger.info("User '" + user.username + "' disconnected with character '" + client.getData().character.name + ".");
         this.sectorHandler.removePlayerFromSector(client);
         Database.writeCharacter(client.getCharacter(), user, (err: string) => {
             if(err) {
@@ -394,5 +439,65 @@ export class ComManager {
             obj.receiver.getData().socket.emit("ServerEvent", packet); 
         });
         this.combatLogMessages = new Array();
+    }
+
+    private onLoginFail(socket: any, message: string) {
+        let packet: Events.SERVER_LOGIN_FAIL = {
+            eventId: Events.EEventType.SERVER_LOGIN_FAIL,
+            data: {
+              message: message
+            }
+          }
+        socket.emit("ServerEvent", packet);  
+    }
+
+    private onLoginSuccess(socket: any) {
+        let packet: Events.SERVER_LOGIN_ACK = {
+            eventId: Events.EEventType.SERVER_LOGIN_ACK,
+            data: {
+
+            }
+        }
+        socket.emit("ServerEvent", packet);  
+    }
+
+    private onRegisterFail(socket: any, message: string) {
+        let packet: Events.SERVER_REGISTER_FAIL = {
+            eventId: Events.EEventType.SERVER_REGISTER_FAIL,
+            data: {
+                message: message
+            }
+        }
+        socket.emit("ServerEvent", packet);
+    }
+
+    private onJoinFailed(socket: any, message: string) {
+        let packet: Events.SERVER_JOIN_FAIL = {
+            eventId: Events.EEventType.SERVER_JOIN_FAIL,
+            data: {
+                message: message
+            }
+        }
+        socket.emit("ServerEvent", packet);
+    }
+
+    private onCharacterListReqFailed(socket: any, message: string) {
+        let packet: Events.SERVER_CHARACTER_LIST_FAIL = {
+            eventId: Events.EEventType.SERVER_CHARACTER_LIST_FAIL,
+            data: {
+                message: message
+            }
+        }
+        socket.emit("ServerEvent", packet);
+    }
+
+    private onNewCharacterFailed(socket: any, message: string) {
+        let packet: Events.SERVER_NEW_CHARACTER_FAIL = {
+            eventId: Events.EEventType.SERVER_NEW_CHARACTER_FAIL,
+            data: {
+                message: message
+            }
+        }
+        socket.emit("ServerEvent", packet);
     }
 }

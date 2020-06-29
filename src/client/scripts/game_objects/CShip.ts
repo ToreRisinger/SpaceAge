@@ -4,7 +4,7 @@ import { ShipModuleWrapper } from "./shipmodule/ShipModuleWrapper";
 import { EStatType } from "../../../shared/data/stats/EStatType";
 import { GameObject } from "./GameObject";
 import { GameObjectHandler } from "../modules/GameObjectHandler";
-import { IShipModuleInstance } from "../../../shared/data/IShipModuleInstance";
+import { IShipModuleInstance } from "../../../shared/data/shipmodule/IShipModuleInstance";
 import { IShip } from "../../../shared/data/gameobject/IShip";
 import { Utils } from "../../../shared/util/Utils";
 import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";

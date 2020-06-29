@@ -4,4 +4,4 @@ export enum EMineralItemType {
     IRON_ORE,
     GOLD_ORE,
     DIAMOND_ORE
- }
+}

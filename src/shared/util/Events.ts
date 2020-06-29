@@ -56,8 +56,17 @@ export module Events {
         GAME_STATE_CHANGE,
         CLIENT_LOGIN_REQ,
         SERVER_LOGIN_ACK,
+        SERVER_LOGIN_FAIL,
         CLIENT_JOIN_REQ,
         SERVER_JOIN_ACK,
+        SERVER_JOIN_FAIL,
+        CLIENT_CHARACTER_LIST_REQ,
+        SERVER_CHARACTER_LIST_ACK,
+        SERVER_CHARACTER_LIST_FAIL,
+        CLIENT_NEW_CHARACTER_REQ,
+        SERVER_NEW_CHARACTER_FAIL,
+        CLIENT_REGISTER_REQ,
+        SERVER_REGISTER_FAIL,
         CLOSE_CARGO,
         
         //Input
@@ -96,8 +105,24 @@ export module Events {
     }
 
     export interface SERVER_LOGIN_ACK extends GameEvent {
+        data: {}
+    }
+
+    export interface SERVER_LOGIN_FAIL extends GameEvent {
         data: {
-            characters: Array<ICharacter>
+            message: string
+        }
+    }
+
+    export interface CLIENT_REGISTER_REQ extends GameEvent {
+        data: {
+
+        }
+    }
+
+    export interface SERVER_REGISTER_FAIL extends GameEvent {
+        data: {
+            message: string
         }
     }
 
@@ -333,6 +358,40 @@ export module Events {
         data: {
             indexes: Array<number>
             cargoId: number
+        }
+    }
+
+    export interface SERVER_JOIN_FAIL extends GameEvent {
+        data: {
+            message: string
+        }
+    }
+
+    export interface CLIENT_CHARACTER_LIST_REQ extends GameEvent {
+        data: { }
+    }
+
+    export interface SERVER_CHARACTER_LIST_ACK extends GameEvent {
+        data: {
+            characters: Array<ICharacter>
+        }
+    }
+
+    export interface SERVER_CHARACTER_LIST_FAIL extends GameEvent {
+        data: {
+            message: string
+        }
+    }
+
+    export interface CLIENT_NEW_CHARACTER_REQ extends GameEvent {
+        data: {
+            characterName: string
+        }
+    }
+
+    export interface SERVER_NEW_CHARACTER_FAIL extends GameEvent {
+        data: {
+            message: string
         }
     }
 }

@@ -26,7 +26,7 @@ export class SCharacter extends SShip {
     private lastSkillProgressUpdateTime: number = -1;
     private progressTime: number = 0;
 
-    public static createNewCharacter(user: IUserDocument, location: string) : SCharacter {
+    public static createNewCharacter(user: IUserDocument, characterName: string, location: string) : SCharacter {
         let items : Array<IItem> = new Array();
         items.push(ItemFactory.createMineral(EMineralItemType.DIAMOND_ORE, 1));
         items.push(ItemFactory.createMineral(EMineralItemType.GOLD_ORE, 20));
@@ -76,7 +76,7 @@ export class SCharacter extends SShip {
 
         let character : ICharacter = {
             cargo: cargo,
-            name: user.username + " (Character1)",
+            name: user.username + " " + characterName,
             id: IdHandler.getNewGameObjectId(),
             x : 0,
             y : 0,

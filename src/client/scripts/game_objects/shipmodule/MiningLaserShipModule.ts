@@ -5,7 +5,7 @@ import { DRAW_LAYERS } from "../../constants/DRAW_LAYERS";
 import { GameObjectHandler } from "../../modules/GameObjectHandler";
 import { GameObject } from "../GameObject";
 import { Graphics } from "../../modules/graphics/Graphics";
-import { IShipModuleInstance } from "../../../../shared/data/IShipModuleInstance";
+import { IShipModuleInstance } from "../../../../shared/data/shipmodule/IShipModuleInstance";
 import { EStatType } from "../../../../shared/data/stats/EStatType";
 import { CShip } from "../CShip";
 

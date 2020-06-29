@@ -20,4 +20,3 @@ export default class TargetPanel extends React.Component<TargetPanelProps, {}> {
          );
    }
 }
-//<ContextMenu context={this.props.object}></ContextMenu>

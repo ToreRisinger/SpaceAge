@@ -90,6 +90,10 @@ body {
     color: rgb(155, 30, 30);
 }
 
+.SelectedText {
+    text-decoration: underline;
+}
+
 .TooltipText {
     visibility: hidden;
     background-color: rgb(199, 199, 199);
@@ -903,28 +907,50 @@ body {
 /*
 *   LOGIN
 *
-*
-*
 */
-#login_page {
+
+.HomePage {
     position: absolute;
-    background-color: rgb(0, 0, 0);
+    background-color: rgb(37, 37, 37);
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
 }
 
-#login_input_form_container {
+.HomePageButtonsContainer {
+    position: absolute;
+    height: 40px;
+    width: 200px;
+    top: 0px;
+    right: 0px;
+    display: flex;
+}
+
+.HomePageButton {
+    line-height: 40px;
+    height: 100%;
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+
+.InputFormContainer {
     width: 300px;
     height: 300px;
-    background-color: rgb(0, 0, 0);
     margin: auto;
     position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
+}
+
+.LoginRegisterErrorMessageContainer {
+    height: 50px;
+    line-height: 20px;
+    width: 100%;
+    color: rgb(255, 86, 86);
 }
 
 #username_input_label {
@@ -961,78 +987,152 @@ body {
     font-size: 12px;
 }
 
-#login_submit_button {
-  background-color: rgb(68, 70, 240);
-  opacity: 0.8;
-  color: white;
-  padding: 14px 20px;
-  margin: 8px 0;
-  border: none;
-  cursor: pointer;
-  width: 100%;
+.LoginRegisterButton {
+    background-color: rgb(105, 105, 105);
+    opacity: 0.8;
+    padding: 14px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+    text-align: center;
 }
 
-#login_submit_button:hover {
+.LoginRegisterLoadingText {
+    padding: 14px 20px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.LoginRegisterButton:hover {
     opacity: 1.0;
 }
 
-#character_selection_load_page {
+.LoadingPage {
     position: absolute;
-    background-color: rgb(252, 0, 0);
+    background-color: rgb(37, 37, 37);
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+
+.LoadingPageTextContainer {
+    position: absolute;
+    font-size: 100px;
+}
+
+.CharacterSelectionPage {
+    position: absolute;
+    background-color: rgb(37, 37, 37);
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
 }
 
-#character_selection_page {
+.CharacterListContainer {
     position: absolute;
-    background-color: rgb(0, 0, 0);
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    right: 20px;
+    top: 10%;
+    height: 80%;
+    width: 300px;
 }
 
-#character_selection_container {
+.CharacterList {
+    position: absolute;
+    top: 0px;
+    width: 100%;
+    height: 90%;
+    display: flex;
+    flex-flow: column;
+    overflow-y: scroll;
+    background-color: rgb(59, 59, 59);
+}
+
+.CharacterContainer {
+    background-color: rgb(87, 87, 87);
+    opacity: 0.8;
+    
+    margin: 5px;
+    display: flex;
+    flex-flow: column;
+    padding: 3px;
+    cursor: pointer;
+}
+
+.CharacterContainer:hover {
+    opacity: 1.0;
+}
+
+.CharacterContainerNotSelected {
+    border: 1px solid rgb(122, 122, 122);
+}
+
+.CharacterContainerSelected {
+    border: 1px solid rgb(255, 200, 48);
+}
+
+
+.CreateNewCharacterButton {
+    background-color: rgb(105, 105, 105);
+    opacity: 0.8;
+    padding: 14px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+    text-align: center;
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+}
+
+.CreateNewCharacterButton:hover {
+    opacity: 1;
+}
+
+.CharacterSelectionContainer {
     position: absolute;
     margin: auto;
-    width: 340px;
+    left: 0px;
+    right: 0px;
+    top: 10%;
     height: 80%;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    width: 300px;
 }
 
-#character_list_container {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    background-color: rgb(0, 0, 0);
-}
-
-#character_container {
-    background-color: rgb(250, 250, 250);
-    border: 1px solid rgb(122, 122, 122);
-    width: 335px;
-    height: 100px;
-    text-align: center;
-    line-height: 100px;
-    margin: 5px;
-}
-
-#join_server_button {
-    background-color: rgb(68, 70, 240);
-    opacity: 0.8;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    cursor: pointer;
-    width: 100%;
+.CharacterSelection {
     position: absolute;
-    bottom: 0;
+    height: 90%;
+    width: 100%;
+    top: 0px;
+    background-color: rgb(87, 87, 87);
+    border: 1px solid rgb(122, 122, 122);
+    display: flex;
+    flex-flow: column;
+}
+
+.CharacterSelection span {
+    padding-left: 3px;
+}
+
+.JoinGameButton {
+    background-color: rgb(105, 105, 105);
+    opacity: 0.8;
+    padding: 14px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+    text-align: center;
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+}
+
+.JoinGameButton:hover {
+    opacity: 1.0;
 }
 
 #join_server_button_disabled {

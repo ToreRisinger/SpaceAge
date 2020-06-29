@@ -2,7 +2,7 @@ import { CCharacter } from "../CCharacter";
 import { ShipModuleInfo } from "../../../../shared/data/shipmodule/ShipModuleInfo";
 import { DRAW_LAYERS } from "../../constants/DRAW_LAYERS";
 import { Graphics } from "../../modules/graphics/Graphics";
-import { IShipModuleInstance } from "../../../../shared/data/IShipModuleInstance";
+import { IShipModuleInstance } from "../../../../shared/data/shipmodule/IShipModuleInstance";
 import { CShip } from "../CShip";
 
 export class ShipModule {

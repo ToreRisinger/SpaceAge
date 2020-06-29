@@ -1,4 +1,5 @@
 export enum EGameState {
+    LOADING,
     LOGIN,
     LOGGING_IN_LOADING,
     CHARACTER_SELECTION,

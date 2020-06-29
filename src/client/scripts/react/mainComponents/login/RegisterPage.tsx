@@ -2,9 +2,9 @@ import React from "react";
 import { EventHandler } from "../../../modules/EventHandler";
 import { Events } from "../../../../../shared/util/Events";
 
-export interface LoginPageState { errorMessage: string, isLoading: boolean }
+export interface RegisterPageState { errorMessage: string, isLoading: boolean }
 
-export default class LoginPage extends React.Component<{}, LoginPageState> {
+export default class RegisterPage extends React.Component<{}, RegisterPageState> {
 
     private password: string = "";
     private username: string = "";
@@ -12,10 +12,10 @@ export default class LoginPage extends React.Component<{}, LoginPageState> {
     constructor(props : {}) {
         super(props)
         this.onClickLogin = this.onClickLogin.bind(this);
-        this.onLoginFail = this.onLoginFail.bind(this);
+        this.onRegisterFail = this.onRegisterFail.bind(this);
         this.updatePasswordInputValue = this.updatePasswordInputValue.bind(this);
         this.updateUsernameInputValue = this.updateUsernameInputValue.bind(this);
-        EventHandler.on(Events.EEventType.SERVER_LOGIN_FAIL, this.onLoginFail);
+        EventHandler.on(Events.EEventType.SERVER_REGISTER_FAIL, this.onRegisterFail);
         
         this.state = {
             errorMessage: "",
@@ -38,16 +38,14 @@ export default class LoginPage extends React.Component<{}, LoginPageState> {
             isLoading: true
         })
        
-        let event : Events.CLIENT_LOGIN_REQ = {
-            eventId : Events.EEventType.CLIENT_LOGIN_REQ,
+        let event : Events.CLIENT_REGISTER_REQ = {
+            eventId : Events.EEventType.CLIENT_REGISTER_REQ,
             data : {
                 password : this.password,
                 username : this.username
             }
         }
         EventHandler.pushEvent(event);
-       
-        
     }
 
     updatePasswordInputValue(event: React.ChangeEvent<HTMLInputElement>) {
@@ -58,7 +56,7 @@ export default class LoginPage extends React.Component<{}, LoginPageState> {
         this.username = event.currentTarget.value;
     }
 
-    onLoginFail(event: Events.SERVER_LOGIN_FAIL) {
+    onRegisterFail(event: Events.SERVER_REGISTER_FAIL) {
         this.setState({
             errorMessage: event.data.message,
             isLoading: false
@@ -67,7 +65,7 @@ export default class LoginPage extends React.Component<{}, LoginPageState> {
 
     render() {
         return (
-            <div className="LoginPage Unselectable">
+            <div className="RegisterPageState Unselectable">
                 <div className="InputFormContainer">
                     <div className="LoginRegisterErrorMessageContainer BodyText">
                         {this.state.errorMessage}
@@ -77,7 +75,7 @@ export default class LoginPage extends React.Component<{}, LoginPageState> {
                     <label htmlFor="password_input" id="password_input_label">Password:</label>
                     <input autoComplete="off" type="password" placeholder="Enter Password" id="password_input" name="password_input" onChange={this.updatePasswordInputValue}></input>
                     {!this.state.isLoading ?
-                        <div className="LoginRegisterButton BodyText" onClick={this.onClickLogin}>Login</div>
+                        <div className="LoginRegisterButton BodyText" onClick={this.onClickLogin}>Register</div>
                         :
                         <div className="LoginRegisterLoadingText BodyText" onClick={this.onClickLogin}>Loading...</div>
                     }

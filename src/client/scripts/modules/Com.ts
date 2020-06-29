@@ -1,5 +1,6 @@
 import { EventHandler } from "./EventHandler"
 import { Events } from "../../../shared/util/Events"
+import { ConnectionConfiguration } from "../../../shared/constants/connectionConfiguration";
 
 export module Com {
 
@@ -9,7 +10,7 @@ export module Com {
     export function init() {
 
         //@ts-ignore
-        socket = io('http://78.66.108.88:8080')
+        socket = io('http://' + ConnectionConfiguration.serverIp + ":" + ConnectionConfiguration.serverPort)
         
         subscribeToEvents();
 
@@ -29,8 +30,10 @@ export module Com {
     function subscribeToEvents() {
         EventHandler.on(Events.EEventType.CLIENT_JOIN_REQ, sendEventToServer);
         EventHandler.on(Events.EEventType.CLIENT_LOGIN_REQ, sendEventToServer);
-        EventHandler.on(Events.EEventType.SERVER_LOGIN_ACK, sendEventToServer);
-        EventHandler.on(Events.EEventType.SERVER_JOIN_ACK, sendEventToServer);
+        EventHandler.on(Events.EEventType.CLIENT_REGISTER_REQ, sendEventToServer);
+        EventHandler.on(Events.EEventType. CLIENT_CHARACTER_LIST_REQ, sendEventToServer);
+        EventHandler.on(Events.EEventType. CLIENT_NEW_CHARACTER_REQ, sendEventToServer);
+        
 
         EventHandler.on(Events.EEventType.TRAIN_SKILL_START, sendEventToServer);
         EventHandler.on(Events.EEventType.TRAIN_SKILL_STOP, sendEventToServer);
@@ -48,6 +51,7 @@ export module Com {
         EventHandler.on(Events.EEventType.CLOSE_CARGO, sendEventToServer);
 
         EventHandler.on(Events.EEventType.TAKE_ITEM_REQUEST, sendEventToServer);
+    
     }
 
     function sendEventToServer(event : Events.GameEvent) {

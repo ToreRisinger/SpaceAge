@@ -10,7 +10,6 @@ import { GraphicsEffects } from "./graphics/GraphicEffects";
 import { Com } from "./Com";
 import { GUI } from "./GUI";
 import { Events } from "../../../shared/util/Events";
-import { CharacterListProvider } from "./CharacterListProvider";
 import { GlobalDataService } from "./GlobalDataService";
 import { CSector } from "../game_objects/Sector";
 import { CCharacter } from "../game_objects/CCharacter";
@@ -25,16 +24,27 @@ export class GameController {
 
     private gameState : EGameState;
     private updateFunction : (time : number, delta : number) => void = this.loginStateUpdate;
+    private static instance : GameController | undefined = undefined;
 
     constructor() {
-        this.gameState = EGameState.LOGIN
+        this.gameState = EGameState.LOADING
         this.changeGameState = this.changeGameState.bind(this);
+        GameController.instance = this;
+    }
+
+    public static getInstance(): GameController | undefined {
+        return GameController.instance;
+    }
+
+    public getState(): EGameState {
+        return this.gameState;
     }
 
     public init() {
         EventHandler.init();
         Com.init();
-        this.subscribeToEvents()
+        this.subscribeToEvents();
+        this.changeGameState(EGameState.LOGIN);
     }
 
     public inSpaceStateInit(character: ICharacter, sectors : Array<ISector>, clientSectorId: number) {
@@ -85,7 +95,6 @@ export class GameController {
     private inSpaceUpdate(time : number, delta : number) {
         InputHandler.update(time, delta);
         EventHandler.update(time, delta);
-        //AbilityHandler.update(time, delta);
         ActionManager.update(time, delta);
         Camera.update(time, delta);
         SelectionHandler.update(time, delta);
@@ -137,12 +146,12 @@ export class GameController {
         EventHandler.pushEvent(event);
     }
 
+    //TODO remove
     private onClientLoginReq(event : Events.CLIENT_LOGIN_REQ) {
         this.changeGameState(EGameState.LOGGING_IN_LOADING);
     }
 
     private onServerLoginAck(event : Events.SERVER_LOGIN_ACK) {
-        CharacterListProvider.createInstance(event.data.characters);
         this.changeGameState(EGameState.CHARACTER_SELECTION);
     }
 
@@ -158,7 +167,7 @@ export class GameController {
     private subscribeToEvents() {
         EventHandler.on(Events.EEventType.GAME_STATE_CHANGE, (event : Events.GAME_STATE_CHANGED) => {this.onGameStateChange(event)});
 
-        EventHandler.on(Events.EEventType.CLIENT_LOGIN_REQ, (event : Events.CLIENT_LOGIN_REQ) => {this.onClientLoginReq(event)});
+        //EventHandler.on(Events.EEventType.CLIENT_LOGIN_REQ, (event : Events.CLIENT_LOGIN_REQ) => {this.onClientLoginReq(event)});
         EventHandler.on(Events.EEventType.SERVER_LOGIN_ACK, (event : Events.SERVER_LOGIN_ACK) => {this.onServerLoginAck(event)});
         EventHandler.on(Events.EEventType.CLIENT_JOIN_REQ, (event : Events.CLIENT_JOIN_REQ) => {this.onClientJoinReq(event)});
         EventHandler.on(Events.EEventType.SERVER_JOIN_ACK, (event : Events.SERVER_JOIN_ACK) => {this.onServerJoinAck(event)}); 
