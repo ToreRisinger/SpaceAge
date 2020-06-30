@@ -153,7 +153,9 @@ export module InputHandler {
     }
 
     function onKeyPressedCallback(key: EKey) {
-        onKeyPressed(key, EKeyState.PRESSED);
+        if(!chatInputIsActive || key == EKey.ENTER) {
+            onKeyPressed(key, EKeyState.PRESSED);
+        }
     }
 
     function onKeyPressed(key : EKey, state : EKeyState) {
