@@ -7,6 +7,7 @@ export module EventHandler {
 
 
     export function init() {
+        //@ts-ignore
         Object.values(Events.EEventType).forEach(enumValue => subscriberMap[enumValue] = []);
         initialized = true;
     }
