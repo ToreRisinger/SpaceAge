@@ -4,7 +4,6 @@ import { StatInfo } from "../../shared/data/stats/StatInfo";
 import { DamageService } from "../DamageService";
 import { SSector } from "../sector/Sector";
 import { SERVER_CONSTANTS } from "../constants/serverconstants";
-import { threadId } from "worker_threads";
 
 const math = require('mathjs');
 
@@ -79,7 +78,7 @@ export class SShip {
             this.shipData.state.isMoving = true;
             this.shipData.state.destVec = [x, y];
             this.shipData.state.hasDestination = true;
-        } 
+        }
     }
 
     public stopMove() {
@@ -211,7 +210,6 @@ export class SShip {
             } else {
                 shipData.state.velVec = newVelVec;
             }
-
             shipData.x = shipData.x + shipData.state.velVec[0] / SERVER_CONSTANTS.UPDATES_PER_SECOND;
             shipData.y = shipData.y + shipData.state.velVec[1] / SERVER_CONSTANTS.UPDATES_PER_SECOND;
             shipData.state.meters_per_second = math.length(shipData.state.velVec);

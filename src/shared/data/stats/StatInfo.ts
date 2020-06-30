@@ -26,12 +26,8 @@ export module StatInfo {
                 return "Radar range";
             case EStatType.shield_generation :
                 return "Shield generation";
-            case EStatType.armor_impact_resistance :
-                return "Armor impact resistance";
-            case EStatType.armor_heat_resistance :
-                return "Armor heat resistance";
-            case EStatType.armor_explosion_resistance :
-                return "Armor explosion resistance";
+            case EStatType.weapon_damage :
+                return "Weapon damage";
             case EStatType.target_dodge_reduction :
                 return "Target dodge reduction";
             case EStatType.cargo_hold :
@@ -42,20 +38,38 @@ export module StatInfo {
                 return "Radar signature reduction";
             case EStatType.weapon_range :
                 return "Weapon range";
-            case EStatType.explosive_dps :
-                return "Explosive damage";
-            case EStatType.impact_dps :
-                return "Impact damage";
-            case EStatType.heat_dps :
-                return "Heat damage";
-            case EStatType.normal_dps :
-                return "Normal damage";
             case EStatType.mining_laser_strength :
                 return "Mining laser strength";
             case EStatType.mining_laser_range :
                 return "Mining laser range";
             case EStatType.max_nr_of_modules : 
                 return "Maximum number of modules";
+            case EStatType.main_module_quality : 
+                return "Maximum quality level";
+            case EStatType.thrust_module_quality : 
+                return "Maximum quality level";
+            case EStatType.cargo_hold_module_quality : 
+                return "Maximum quality level";
+            case EStatType.power_module_quality : 
+                return "Maximum quality level";
+            case EStatType.armor_module_quality : 
+                return "Maximum quality level";
+            case EStatType.shield_module_quality : 
+                return "Maximum quality level";
+            case EStatType.shield_generation_module_quality : 
+                return "Maximum quality level";
+            case EStatType.radar_range_module_quality : 
+                return "Maximum quality level";
+            case EStatType.weapon_range_module_quality : 
+                return "Maximum quality level";
+            case EStatType.mining_laser_module_quality : 
+                return "Maximum quality level";
+            case EStatType.turret_module_quality : 
+                return "Maximum quality level";
+            case EStatType.target_dodge_reduction_quality : 
+                return "Maximum quality level";
+            case EStatType.radar_signature_reduction_module_quality : 
+                return "Maximum quality level";
             default :
                 return "";
         }
@@ -81,12 +95,6 @@ export module StatInfo {
                 return " m ";
             case EStatType.shield_generation :
                 return " points per second";
-            case EStatType.armor_impact_resistance :
-                return " ";
-            case EStatType.armor_heat_resistance :
-                return " ";
-            case EStatType.armor_explosion_resistance :
-                return " ";
             case EStatType.target_dodge_reduction :
                 return " ";
             case EStatType.cargo_hold :
@@ -97,13 +105,7 @@ export module StatInfo {
                 return " ";
             case EStatType.weapon_range :
                 return " m ";
-            case EStatType.explosive_dps :
-                return " damage per second ";
-            case EStatType.impact_dps :
-                return " damage per second ";
-            case EStatType.heat_dps :
-                return " damage per second ";
-            case EStatType.normal_dps :
+            case EStatType.weapon_damage :
                 return " damage per second ";
             case EStatType.mining_laser_strength :
                 return " ";

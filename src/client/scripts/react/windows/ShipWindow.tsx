@@ -63,9 +63,6 @@ export default class ShipWindow extends React.Component<ShipWindowProps, ShipWin
                             <pre>Armor:                       {ship.getCurrentArmor() + "/" +ship.getStat(EStatType.armor)}</pre>
                             <pre>Hull:                        {ship.getCurrentHull() + "/" +ship.getStat(EStatType.hull)}</pre>
                             <pre>Shield generation:           {ship.getStat(EStatType.shield_generation)} p/s</pre>
-                            <pre>Armor impact resistance:     {ship.getStat(EStatType.armor_impact_resistance)}</pre>
-                            <pre>Armor heat resistance:       {ship.getStat(EStatType.armor_heat_resistance)}</pre>
-                            <pre>Armor explosion resistance:  {ship.getStat(EStatType.armor_explosion_resistance)}</pre>
                             
                             <hr></hr>
                             <pre>Radar range:                 {ship.getStat(EStatType.radar_range)} m</pre>
@@ -80,11 +77,8 @@ export default class ShipWindow extends React.Component<ShipWindowProps, ShipWin
                             
                             <hr></hr>
                             <pre>Weapon range:                {ship.getStat(EStatType.weapon_range)} m</pre>
-                            <pre>Explosive damage:            {ship.getStat(EStatType.explosive_dps)} damage per second</pre>
-                            <pre>Impact damage:               {ship.getStat(EStatType.impact_dps)} damage per second</pre>
-                            <pre>Heat damage:                 {ship.getStat(EStatType.heat_dps)} damage per second</pre>
-                            <pre>Normal damage:               {ship.getStat(EStatType.normal_dps)} damage per second</pre>
-                            
+                            <pre>Weapon damage:               {ship.getStat(EStatType.weapon_damage)} damage per second</pre>
+        
                             <hr></hr>
                             <pre>Mining laser strength:       {ship.getStat(EStatType.mining_laser_strength)}</pre>
                             <pre>Mining laser range:          {ship.getStat(EStatType.mining_laser_range)} m</pre>    

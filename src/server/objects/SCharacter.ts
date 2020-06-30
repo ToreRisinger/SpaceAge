@@ -36,9 +36,9 @@ export class SCharacter extends SShip {
         
         items.push(ItemFactory.createModule(EModuleItemType.SHIELD_MODULE, 1));
         items.push(ItemFactory.createModule(EModuleItemType.ARMOR_MODULE, 2));
-        items.push(ItemFactory.createModule(EModuleItemType.CLOAK_SYSTEM_MODULE, 3));
-        items.push(ItemFactory.createModule(EModuleItemType.RAIL_GUN_MODULE, 4));
-        items.push(ItemFactory.createModule(EModuleItemType.TRACKING_SYSTEM_MODULE, 5));
+        items.push(ItemFactory.createModule(EModuleItemType.MAIN_MODULE, 3));
+        items.push(ItemFactory.createModule(EModuleItemType.SHIELD_GENERATION_MODULE, 4));
+        items.push(ItemFactory.createModule(EModuleItemType.POWER_MODULE, 5));
         
   
         let cargo : ICargo = {
@@ -49,30 +49,38 @@ export class SCharacter extends SShip {
         Object.values(EStatType).forEach(a => stats.push(0));
 
         let skills : Array<ISkill> = new Array();
-        skills.push({level: 1, skillType: EStatType.max_nr_of_modules, progress: 0});
-        skills.push({level: 1, skillType: EStatType.acceleration, progress: 0});
-        skills.push({level: 1, skillType: EStatType.max_speed, progress: 0});
-        skills.push({level: 1, skillType: EStatType.thrust, progress: 0});
-        skills.push({level: 1, skillType: EStatType.power, progress: 0});
-        skills.push({level: 1, skillType: EStatType.hull, progress: 0});
-        skills.push({level: 1, skillType: EStatType.armor, progress: 0});
-        skills.push({level: 1, skillType: EStatType.shield, progress: 0});
-        skills.push({level: 1, skillType: EStatType.radar_range, progress: 0});
-        skills.push({level: 1, skillType: EStatType.shield_generation, progress: 0});
-        skills.push({level: 1, skillType: EStatType.armor_impact_resistance, progress: 0});
-        skills.push({level: 1, skillType: EStatType.armor_heat_resistance, progress: 0});
-        skills.push({level: 1, skillType: EStatType.armor_explosion_resistance, progress: 0});
-        skills.push({level: 1, skillType: EStatType.target_dodge_reduction, progress: 0});
-        skills.push({level: 1, skillType: EStatType.cargo_hold, progress: 0});
-        skills.push({level: 1, skillType: EStatType.dodge, progress: 0});
-        skills.push({level: 1, skillType: EStatType.radar_signature_reduction, progress: 0});
-        skills.push({level: 1, skillType: EStatType.weapon_range, progress: 0});
-        skills.push({level: 1, skillType: EStatType.explosive_dps, progress: 0});
-        skills.push({level: 1, skillType: EStatType.impact_dps, progress: 0});
-        skills.push({level: 1, skillType: EStatType.heat_dps, progress: 0});
-        skills.push({level: 1, skillType: EStatType.normal_dps, progress: 0});
-        skills.push({level: 1, skillType: EStatType.mining_laser_strength, progress: 0});
-        skills.push({level: 1, skillType: EStatType.mining_laser_range, progress: 0});
+        skills.push({level: 0, skillType: EStatType.max_nr_of_modules, progress: 0});
+        skills.push({level: 0, skillType: EStatType.acceleration, progress: 0});
+        skills.push({level: 0, skillType: EStatType.max_speed, progress: 0});
+        skills.push({level: 0, skillType: EStatType.thrust, progress: 0});
+        skills.push({level: 0, skillType: EStatType.power, progress: 0});
+        skills.push({level: 0, skillType: EStatType.hull, progress: 0});
+        skills.push({level: 0, skillType: EStatType.armor, progress: 0});
+        skills.push({level: 0, skillType: EStatType.shield, progress: 0});
+        skills.push({level: 0, skillType: EStatType.radar_range, progress: 0});
+        skills.push({level: 0, skillType: EStatType.shield_generation, progress: 0});
+        skills.push({level: 0, skillType: EStatType.target_dodge_reduction, progress: 0});
+        skills.push({level: 0, skillType: EStatType.cargo_hold, progress: 0});
+        skills.push({level: 0, skillType: EStatType.dodge, progress: 0});
+        skills.push({level: 0, skillType: EStatType.radar_signature_reduction, progress: 0});
+        skills.push({level: 0, skillType: EStatType.weapon_range, progress: 0});
+        skills.push({level: 0, skillType: EStatType.weapon_damage, progress: 0});
+        skills.push({level: 0, skillType: EStatType.mining_laser_strength, progress: 0});
+        skills.push({level: 0, skillType: EStatType.mining_laser_range, progress: 0});
+
+        skills.push({level: 1, skillType: EStatType.main_module_quality, progress: 0});
+        skills.push({level: 1, skillType: EStatType.thrust_module_quality, progress: 0});
+        skills.push({level: 1, skillType: EStatType.power_module_quality, progress: 0});
+        skills.push({level: 1, skillType: EStatType.cargo_hold_module_quality, progress: 0});
+        skills.push({level: 1, skillType: EStatType.armor_module_quality, progress: 0});
+        skills.push({level: 1, skillType: EStatType.shield_module_quality, progress: 0});
+        skills.push({level: 1, skillType: EStatType.shield_generation_module_quality, progress: 0});
+        skills.push({level: 1, skillType: EStatType.radar_range_module_quality, progress: 0});
+        skills.push({level: 1, skillType: EStatType.weapon_range_module_quality, progress: 0});
+        skills.push({level: 1, skillType: EStatType.mining_laser_module_quality, progress: 0});
+        skills.push({level: 1, skillType: EStatType.turret_module_quality, progress: 0});
+        skills.push({level: 1, skillType: EStatType.target_dodge_reduction_quality, progress: 0});
+        skills.push({level: 1, skillType: EStatType.radar_signature_reduction_module_quality, progress: 0});
 
         let character : ICharacter = {
             cargo: cargo,
@@ -115,15 +123,15 @@ export class SCharacter extends SShip {
             modules : [
               {moduleItem: ItemFactory.createModule(EModuleItemType.POWER_MODULE, 1), x: -1, y : -1},
               {moduleItem: ItemFactory.createModule(EModuleItemType.SHIELD_MODULE, 1), x: 0, y : -1},
-              {moduleItem: ItemFactory.createModule(EModuleItemType.LASER_MODULE, 1), x: 1, y : -1},
-              {moduleItem: ItemFactory.createModule(EModuleItemType.ENGINE_MODULE, 1), x: -1, y : 0},
+              {moduleItem: ItemFactory.createModule(EModuleItemType.TURRET_MODULE, 1), x: 1, y : -1},
+              {moduleItem: ItemFactory.createModule(EModuleItemType.THRUST_MODULE, 1), x: -1, y : 0},
               {moduleItem: ItemFactory.createModule(EModuleItemType.MAIN_MODULE, 1), x: 0, y : 0},
               {moduleItem: ItemFactory.createModule(EModuleItemType.CARGO_HOLD_MODULE, 1), x: 1, y : 0},
               {moduleItem: ItemFactory.createModule(EModuleItemType.MINING_LASER_MODULE, 1), x: -1, y : 1},
-              {moduleItem: ItemFactory.createModule(EModuleItemType.RADAR_MODULE, 1), x: 0, y : 1},
-              {moduleItem: ItemFactory.createModule(EModuleItemType.TRACKING_SYSTEM_MODULE, 1), x: 1, y : 1},
+              {moduleItem: ItemFactory.createModule(EModuleItemType.RADAR_RANGE_MODULE, 1), x: 0, y : 1},
+              {moduleItem: ItemFactory.createModule(EModuleItemType.TARGET_DODGE_REDUCTION_MODULE, 1), x: 1, y : 1},
               {moduleItem: ItemFactory.createModule(EModuleItemType.MINING_LASER_MODULE, 1), x: 1, y : 2},
-              {moduleItem: ItemFactory.createModule(EModuleItemType.LASER_MODULE, 1), x: 1, y : 3},
+              {moduleItem: ItemFactory.createModule(EModuleItemType.TURRET_MODULE, 1), x: 1, y : 3},
               {moduleItem: ItemFactory.createModule(EModuleItemType.TURRET_MODULE, 1), x: 1, y : 4},
               {moduleItem: ItemFactory.createModule(EModuleItemType.ARMOR_MODULE, 1), x: 2, y : 1},
               {moduleItem: ItemFactory.createModule(EModuleItemType.ARMOR_MODULE, 1), x: 3, y : 2},
@@ -147,10 +155,7 @@ export class SCharacter extends SShip {
             character.state.hasMiningLaser = true;
           }
     
-          if(mod.itemType == EModuleItemType.TURRET_MODULE ||
-              mod.itemType == EModuleItemType.LASER_MODULE ||
-              mod.itemType == EModuleItemType.RAIL_GUN_MODULE ||
-              mod.itemType == EModuleItemType.MINING_LASER_MODULE) {
+          if(mod.itemType == EModuleItemType.TURRET_MODULE || mod.itemType == EModuleItemType.MINING_LASER_MODULE) {
                 character.state.hasWeapon = true;
               }
         }
@@ -273,7 +278,7 @@ export class SCharacter extends SShip {
       skillList.forEach(skill => {
           let skillInfo: SkillInfo.ISkillInfo = SkillInfo.getSkillInfo(skill.skillType);
           let baseStat: number = this.character.stats[skillInfo.stats.stat];
-          this.character.stats[skillInfo.stats.stat] = Math.floor(baseStat + StatInfo.getAddedValue(baseStat, skillInfo.stats.modifier, skillInfo.stats.values[skill.level - 1]));
+          this.character.stats[skillInfo.stats.stat] = Math.floor(baseStat + StatInfo.getAddedValue(baseStat, skillInfo.stats.modifier, skillInfo.stats.values[skill.level]));
       });
     }   
 

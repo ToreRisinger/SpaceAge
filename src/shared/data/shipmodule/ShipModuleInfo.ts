@@ -67,7 +67,7 @@ export module ShipModuleInfo {
         },
 
         /* MODULES */
-        [EModuleItemType.CLOAK_SYSTEM_MODULE] : {
+        [EModuleItemType.RADAR_SIGNATURE_REDUCTION_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
             stats : {
                 base: [
@@ -119,7 +119,7 @@ export module ShipModuleInfo {
                 possibleExtraStats : []
             }
         },
-        [EModuleItemType.ENGINE_MODULE] : {
+        [EModuleItemType.THRUST_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
             stats : {
                 base: [
@@ -171,7 +171,7 @@ export module ShipModuleInfo {
                 possibleExtraStats : []
             }
         },
-        [EModuleItemType.RADAR_MODULE] : {
+        [EModuleItemType.RADAR_RANGE_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
             stats : {
                 base: [
@@ -193,6 +193,58 @@ export module ShipModuleInfo {
                         min : [10, 20, 30, 40, 50],
                         modifier : EStatModifier.increase_additive
                     }
+                ],
+                possibleExtraStats : []
+            }
+        },
+        [EModuleItemType.WEAPON_RANGE_MODULE] : {
+            sprite : SPRITES.SHIP_MODULE.sprite,
+            stats : {
+                base: [
+                    {
+                        stat: EStatType.hull,
+                        max : [20, 30, 40, 50, 60],
+                        min : [10, 20, 30, 40, 50],
+                        modifier : EStatModifier.increase_additive
+                    },
+                    {
+                        stat: EStatType.mass,
+                        max : [20, 30, 40, 50, 60],
+                        min : [10, 20, 30, 40, 50],
+                        modifier : EStatModifier.increase_additive
+                    },
+                    {
+                        stat: EStatType.weapon_range,
+                        max : [2000, 3000, 4000, 5000, 6000],
+                        min : [1000, 2000, 3000, 4000, 5000],
+                        modifier : EStatModifier.increase_additive
+                    },
+                ],
+                possibleExtraStats : []
+            }
+        },
+        [EModuleItemType.MINING_RANGE_MODULE] : {
+            sprite : SPRITES.SHIP_MODULE.sprite,
+            stats : {
+                base: [
+                    {
+                        stat: EStatType.hull,
+                        max : [20, 30, 40, 50, 60],
+                        min : [10, 20, 30, 40, 50],
+                        modifier : EStatModifier.increase_additive
+                    },
+                    {
+                        stat: EStatType.mass,
+                        max : [20, 30, 40, 50, 60],
+                        min : [10, 20, 30, 40, 50],
+                        modifier : EStatModifier.increase_additive
+                    },
+                    {
+                        stat: EStatType.mining_laser_range,
+                        max : [2000, 3000, 4000, 5000, 6000],
+                        min : [1000, 2000, 3000, 4000, 5000],
+                        modifier : EStatModifier.increase_additive
+                    },
                 ],
                 possibleExtraStats : []
             }
@@ -229,6 +281,32 @@ export module ShipModuleInfo {
                 possibleExtraStats : []
             }
         },
+        [EModuleItemType.SHIELD_GENERATION_MODULE] : {
+            sprite : SPRITES.SHIP_MODULE.sprite,
+            stats : {
+                base: [
+                    {
+                        stat: EStatType.hull,
+                        max : [20, 30, 40, 50, 60],
+                        min : [10, 20, 30, 40, 50],
+                        modifier : EStatModifier.increase_additive
+                    },
+                    {
+                        stat: EStatType.shield_generation,
+                        max : [5, 10, 15, 20, 25],
+                        min : [10, 15, 20, 25, 30],
+                        modifier : EStatModifier.increase_additive
+                    },
+                    {
+                        stat: EStatType.mass,
+                        max : [20, 30, 40, 50, 60],
+                        min : [10, 20, 30, 40, 50],
+                        modifier : EStatModifier.increase_additive
+                    }
+                ],
+                possibleExtraStats : []
+            }
+        },
         [EModuleItemType.ARMOR_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
             stats : {
@@ -243,24 +321,6 @@ export module ShipModuleInfo {
                         stat: EStatType.armor,
                         max : [200, 300, 400, 500, 600],
                         min : [100, 200, 300, 400, 500],
-                        modifier : EStatModifier.increase_additive
-                    },
-                    {
-                        stat: EStatType.armor_impact_resistance,
-                        max : [2, 3, 4, 5, 6],
-                        min : [1, 2, 3, 4, 5],
-                        modifier : EStatModifier.increase_additive
-                    },
-                    {
-                        stat: EStatType.armor_heat_resistance,
-                        max : [2, 3, 4, 5, 6],
-                        min : [1, 2, 3, 4, 5],
-                        modifier : EStatModifier.increase_additive
-                    },
-                    {
-                        stat: EStatType.armor_explosion_resistance,
-                        max : [2, 3, 4, 5, 6],
-                        min : [1, 2, 3, 4, 5],
                         modifier : EStatModifier.increase_additive
                     },
                     {
@@ -293,7 +353,7 @@ export module ShipModuleInfo {
                 possibleExtraStats : []
             }
         },
-        [EModuleItemType.TRACKING_SYSTEM_MODULE] : {
+        [EModuleItemType.TARGET_DODGE_REDUCTION_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
             stats : {
                 base: [
@@ -319,34 +379,7 @@ export module ShipModuleInfo {
                 possibleExtraStats : []
             }
         },
-
         /* WEAPON MODULES */
-        [EModuleItemType.LASER_MODULE] : {
-            sprite : SPRITES.SHIP_MODULE.sprite,
-            stats : {
-                base: [
-                    {
-                        stat: EStatType.hull,
-                        max : [20, 30, 40, 50, 60],
-                        min : [10, 20, 30, 40, 50],
-                        modifier : EStatModifier.increase_additive
-                    },
-                    {
-                        stat: EStatType.mass,
-                        max : [20, 30, 40, 50, 60],
-                        min : [10, 20, 30, 40, 50],
-                        modifier : EStatModifier.increase_additive
-                    },
-                    {
-                        stat: EStatType.heat_dps,
-                        max : [20, 30, 40, 50, 60],
-                        min : [10, 20, 30, 40, 50],
-                        modifier : EStatModifier.increase_additive
-                    },
-                ],
-                possibleExtraStats : []
-            }
-        },
         [EModuleItemType.MINING_LASER_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
             stats : {
@@ -379,32 +412,6 @@ export module ShipModuleInfo {
                 possibleExtraStats : []
             }
         },
-        [EModuleItemType.MISSLE_MODULE] : {
-            sprite : SPRITES.SHIP_MODULE.sprite,
-            stats : {
-                base: [
-                    {
-                        stat: EStatType.hull,
-                        max : [20, 30, 40, 50, 60],
-                        min : [10, 20, 30, 40, 50],
-                        modifier : EStatModifier.increase_additive
-                    },
-                    {
-                        stat: EStatType.mass,
-                        max : [20, 30, 40, 50, 60],
-                        min : [10, 20, 30, 40, 50],
-                        modifier : EStatModifier.increase_additive
-                    },
-                    {
-                        stat: EStatType.explosive_dps,
-                        max : [20, 30, 40, 50, 60],
-                        min : [10, 20, 30, 40, 50],
-                        modifier : EStatModifier.increase_additive
-                    },
-                ],
-                possibleExtraStats : []
-            }
-        },
         [EModuleItemType.TURRET_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
             stats : {
@@ -422,33 +429,7 @@ export module ShipModuleInfo {
                         modifier : EStatModifier.increase_additive
                     },
                     {
-                        stat: EStatType.normal_dps,
-                        max : [20, 30, 40, 50, 60],
-                        min : [10, 20, 30, 40, 50],
-                        modifier : EStatModifier.increase_additive
-                    },
-                ],
-                possibleExtraStats : []
-            }
-        },
-        [EModuleItemType.RAIL_GUN_MODULE] : {
-            sprite : SPRITES.SHIP_MODULE.sprite,
-            stats : {
-                base: [
-                    {
-                        stat: EStatType.hull,
-                        max : [20, 30, 40, 50, 60],
-                        min : [10, 20, 30, 40, 50],
-                        modifier : EStatModifier.increase_additive
-                    },
-                    {
-                        stat: EStatType.mass,
-                        max : [20, 30, 40, 50, 60],
-                        min : [10, 20, 30, 40, 50],
-                        modifier : EStatModifier.increase_additive
-                    },
-                    {
-                        stat: EStatType.impact_dps,
+                        stat: EStatType.weapon_damage,
                         max : [20, 30, 40, 50, 60],
                         min : [10, 20, 30, 40, 50],
                         modifier : EStatModifier.increase_additive

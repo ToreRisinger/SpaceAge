@@ -40,6 +40,15 @@ export module ItemInfo {
             canStack: false,
             sprite : SPRITES.SHIP_MODULE.sprite
         },
+        [EModuleItemType.SHIELD_GENERATION_MODULE] : {
+            image : "assets/sprite/modules/ship_module.png",
+            name: "Shield Generation Module",
+            description: "Description",
+            size: 20,
+            cargoSpace : 1,
+            canStack: false,
+            sprite : SPRITES.SHIP_MODULE.sprite
+        },
         [EModuleItemType.ARMOR_MODULE] : {
             image : "assets/sprite/modules/ship_module.png",
             name: "Armor Module",
@@ -49,18 +58,18 @@ export module ItemInfo {
             canStack: false,
             sprite : SPRITES.SHIP_MODULE.sprite
         },
-        [EModuleItemType.ENGINE_MODULE] : {
+        [EModuleItemType.THRUST_MODULE] : {
             image : "assets/sprite/modules/ship_module.png",
-            name: "Engine Module",
+            name: "Thrust Module",
             description: "Description",
             size: 20,
             cargoSpace : 1,
             canStack: false,
             sprite : SPRITES.SHIP_MODULE.sprite
         },
-        [EModuleItemType.RADAR_MODULE] : {
+        [EModuleItemType.RADAR_RANGE_MODULE] : {
             image : "assets/sprite/modules/ship_module.png",
-            name: "Radar Module",
+            name: "Radar Range Module",
             description: "Description",
             size: 20,
             cargoSpace : 1,
@@ -76,18 +85,18 @@ export module ItemInfo {
             canStack: false,
             sprite : SPRITES.SHIP_MODULE.sprite
         },
-        [EModuleItemType.TRACKING_SYSTEM_MODULE] : {
+        [EModuleItemType.TARGET_DODGE_REDUCTION_MODULE] : {
             image : "assets/sprite/modules/ship_module.png",
-            name: "Tracking System Module",
+            name: "Target Dodge Reduction Module",
             description: "Description",
             size: 20,
             cargoSpace : 1,
             canStack: false,
             sprite : SPRITES.SHIP_MODULE.sprite
         },
-        [EModuleItemType.CLOAK_SYSTEM_MODULE] : {
+        [EModuleItemType.RADAR_SIGNATURE_REDUCTION_MODULE] : {
             image : "assets/sprite/modules/ship_module.png",
-            name: "Cloak System Module",
+            name: "Radar Signature Reduction Module",
             description: "Description",
             size: 20,
             cargoSpace : 1,
@@ -121,36 +130,9 @@ export module ItemInfo {
             canStack: false,
             sprite : SPRITES.SHIP_MODULE.sprite
         },
-        [EModuleItemType.LASER_MODULE] : {
-            image : "assets/sprite/modules/ship_module.png",
-            name: "Laser Module",
-            description: "Description",
-            size: 20,
-            cargoSpace : 1,
-            canStack: false,
-            sprite : SPRITES.SHIP_MODULE.sprite
-        },
-        [EModuleItemType.MISSLE_MODULE] : {
-            image : "assets/sprite/modules/ship_module.png",
-            name: "Missile Module",
-            description: "Description",
-            size: 20,
-            cargoSpace : 1,
-            canStack: false,
-            sprite : SPRITES.SHIP_MODULE.sprite
-        },
         [EModuleItemType.TURRET_MODULE] : {
             image : "assets/sprite/modules/ship_module.png",
-            name: "Turret Module",
-            description: "Description",
-            size: 20,
-            cargoSpace : 1,
-            canStack: false,
-            sprite : SPRITES.SHIP_MODULE.sprite
-        },
-        [EModuleItemType.RAIL_GUN_MODULE] : {
-            image : "assets/sprite/modules/ship_module.png",
-            name: "Rail Gun Module",
+            name: "Laser Module",
             description: "Description",
             size: 20,
             cargoSpace : 1,

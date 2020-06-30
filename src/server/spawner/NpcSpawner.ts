@@ -53,9 +53,9 @@ export class NpcSpawner extends Spawner {
                     },
                     modules : [
                         {moduleItem: ItemFactory.createModule(EModuleItemType.MAIN_MODULE, 1), x: 0, y : 0},
-                        {moduleItem: ItemFactory.createModule(EModuleItemType.LASER_MODULE, 1), x: 1, y : 0},
-                        {moduleItem: ItemFactory.createModule(EModuleItemType.RADAR_MODULE, 1), x: 0, y : 1},
-                        {moduleItem: ItemFactory.createModule(EModuleItemType.ENGINE_MODULE, 1), x: 1, y : 1}
+                        {moduleItem: ItemFactory.createModule(EModuleItemType.TURRET_MODULE, 1), x: 1, y : 0},
+                        {moduleItem: ItemFactory.createModule(EModuleItemType.RADAR_RANGE_MODULE, 1), x: 0, y : 1},
+                        {moduleItem: ItemFactory.createModule(EModuleItemType.THRUST_MODULE, 1), x: 1, y : 1}
                     ]
                 }
     

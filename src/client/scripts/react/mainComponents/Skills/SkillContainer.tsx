@@ -50,7 +50,7 @@ export default class SkillContainer extends React.Component<SkillContainerProps,
         const currentLevel = skill.level;
         let nextLevel = currentLevel + 1 > maxLevel ? maxLevel : currentLevel + 1;
         const currentProgress = skill.progress;
-        const maxProgress = skillInfo.startLearningTime * (Math.pow(skillInfo.learningTimeIncrease, currentLevel - 1));
+        const maxProgress = skillInfo.startLearningTime * (Math.pow(skillInfo.learningTimeIncrease, currentLevel));
         let modifier: EStatModifier = skillInfo.stats.modifier;
         let statType: EStatType = skillInfo.stats.stat;
         let progressPercentage = currentProgress > maxProgress ? 100 : (currentProgress / maxProgress) * 100;
@@ -112,7 +112,7 @@ export default class SkillContainer extends React.Component<SkillContainerProps,
     getEffect(skillInfo: SkillInfo.ISkillInfo, level: number, modifier: EStatModifier) {
         return (
             <span style={{color: StatInfo.statModifierColor(modifier)}}>
-                            {StatInfo.statModifierToString(modifier) + skillInfo.stats.values[level - 1] 
+                            {StatInfo.statModifierToString(modifier) + skillInfo.stats.values[level] 
                                 + (modifier == EStatModifier.increase_percentage || modifier == EStatModifier.decrease_percentage ? "%" : "")}
             </span>
         )

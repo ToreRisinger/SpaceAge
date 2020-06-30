@@ -16,7 +16,7 @@ export module SkillInfo {
 
     const skillTypeToSkillInfoMap : { [key: number]: ISkillInfo } = {
         [EStatType.mining_laser_range] : {
-            name: "Astroid Detection",
+            name: "Mining Laser Range",
             description: "Increases ship " + StatInfo.statTypeToString(EStatType.mining_laser_range) + ".",
             maxLevel: 5,
             startLearningTime: 14321321,
@@ -24,11 +24,11 @@ export module SkillInfo {
             stats: {
                 modifier: EStatModifier.decrease_percentage,
                 stat: EStatType.mining_laser_range,
-                values: [0.5, 1, 1.5, 2, 2.5]
+                values: [0, 0.5, 1, 1.5, 2, 2.5]
             }
         },
         [EStatType.mining_laser_strength] : {
-            name: "Miner",
+            name: "Mining Laser Strength",
             description: "Increases ship " + StatInfo.statTypeToString(EStatType.mining_laser_strength) + ".",
             maxLevel: 5,
             startLearningTime: 61342160,
@@ -36,59 +36,23 @@ export module SkillInfo {
             stats: {
                 modifier: EStatModifier.increase_percentage,
                 stat: EStatType.mining_laser_strength,
-                values: [0.5, 1, 1.5, 2, 2.5]
+                values: [0, 0.5, 1, 1.5, 2, 2.5]
             }
         },
-        [EStatType.normal_dps] : {
-            name: "Weaponry",
-            description: "Increases ship " + StatInfo.statTypeToString(EStatType.normal_dps) + ".",
+        [EStatType.weapon_damage] : {
+            name: "Weapon Damage",
+            description: "Increases ship " + StatInfo.statTypeToString(EStatType.weapon_damage) + ".",
             maxLevel: 5,
             startLearningTime: 12345,
             learningTimeIncrease: 2.0,
             stats: {
                 modifier: EStatModifier.increase_percentage,
-                stat: EStatType.normal_dps,
-                values: [0.5, 1, 1.5, 2, 2.5]
-            }
-        },
-        [EStatType.heat_dps] : {
-            name: "Ammunition Design",
-            description: "Increases ship " + StatInfo.statTypeToString(EStatType.heat_dps) + ".",
-            maxLevel: 5,
-            startLearningTime: 9876,
-            learningTimeIncrease: 2.0,
-            stats: {
-                modifier: EStatModifier.increase_percentage,
-                stat: EStatType.heat_dps,
-                values: [0.5, 1, 1.5, 2, 2.5]
-            }
-        },
-        [EStatType.impact_dps] : {
-            name: "Ammunition Expert",
-            description: "Increases ship " + StatInfo.statTypeToString(EStatType.impact_dps) + ".",
-            maxLevel: 5,
-            startLearningTime: 60,
-            learningTimeIncrease: 2.0,
-            stats: {
-                modifier: EStatModifier.increase_percentage,
-                stat: EStatType.impact_dps,
-                values: [0.5, 1, 1.5, 2, 2.5]
-            }
-        },
-        [EStatType.explosive_dps] : {
-            name: "Demolition",
-            description: "Increases ship " + StatInfo.statTypeToString(EStatType.explosive_dps) + ".",
-            maxLevel: 5,
-            startLearningTime: 60,
-            learningTimeIncrease: 2.0,
-            stats: {
-                modifier: EStatModifier.increase_percentage,
-                stat: EStatType.explosive_dps,
-                values: [0.5, 1, 1.5, 2, 2.5]
+                stat: EStatType.weapon_damage,
+                values: [0, 0.5, 1, 1.5, 2, 2.5]
             }
         },
         [EStatType.weapon_range] : {
-            name: "Target Detection",
+            name: "Weapon Range",
             description: "Increases ship " + StatInfo.statTypeToString(EStatType.weapon_range) + ".",
             maxLevel: 5,
             startLearningTime: 60,
@@ -96,11 +60,11 @@ export module SkillInfo {
             stats: {
                 modifier: EStatModifier.increase_percentage,
                 stat: EStatType.weapon_range,
-                values: [0.5, 1, 1.5, 2, 2.5]
+                values: [0, 0.5, 1, 1.5, 2, 2.5]
             }
         },
         [EStatType.radar_signature_reduction] : {
-            name: "Radar Distruption",
+            name: "Radar Signature Reduction",
             description: "Increases ship " + StatInfo.statTypeToString(EStatType.radar_signature_reduction) + ".",
             maxLevel: 5,
             startLearningTime: 60,
@@ -108,11 +72,11 @@ export module SkillInfo {
             stats: {
                 modifier: EStatModifier.increase_percentage,
                 stat: EStatType.radar_signature_reduction,
-                values: [0.5, 1, 1.5, 2, 2.5]
+                values: [0, 0.5, 1, 1.5, 2, 2.5]
             }
         },
         [EStatType.dodge] : {
-            name: "Evade",
+            name: "Dodge",
             description: "Increases ship " + StatInfo.statTypeToString(EStatType.dodge) + ".",
             maxLevel: 5,
             startLearningTime: 60,
@@ -120,11 +84,11 @@ export module SkillInfo {
             stats: {
                 modifier: EStatModifier.increase_percentage,
                 stat: EStatType.dodge,
-                values: [0.5, 1, 1.5, 2, 2.5]
+                values: [0, 0.5, 1, 1.5, 2, 2.5]
             }
         },
         [EStatType.cargo_hold] : {
-            name: "Horder",
+            name: "Cargo Hold",
             description: "Increases ship " + StatInfo.statTypeToString(EStatType.cargo_hold) + ".",
             maxLevel: 5,
             startLearningTime: 60,
@@ -132,11 +96,11 @@ export module SkillInfo {
             stats: {
                 modifier: EStatModifier.increase_percentage,
                 stat: EStatType.cargo_hold,
-                values: [0.5, 1, 1.5, 2, 2.5]
+                values: [0, 0.5, 1, 1.5, 2, 2.5]
             }
         },
         [EStatType.target_dodge_reduction] : {
-            name: "Scout",
+            name: "Target Dodge Reduction",
             description: "Increases ship " + StatInfo.statTypeToString(EStatType.target_dodge_reduction) + ".",
             maxLevel: 5,
             startLearningTime: 60,
@@ -144,47 +108,11 @@ export module SkillInfo {
             stats: {
                 modifier: EStatModifier.increase_percentage,
                 stat: EStatType.target_dodge_reduction,
-                values: [0.5, 1, 1.5, 2, 2.5]
-            }
-        },
-        [EStatType.armor_explosion_resistance] : {
-            name: "Armor Plating",
-            description: "Increases ship " + StatInfo.statTypeToString(EStatType.armor_explosion_resistance) + ".",
-            maxLevel: 5,
-            startLearningTime: 60,
-            learningTimeIncrease: 2.0,
-            stats: {
-                modifier: EStatModifier.increase_percentage,
-                stat: EStatType.armor_explosion_resistance,
-                values: [0.5, 1, 1.5, 2, 2.5]
-            }
-        },
-        [EStatType.armor_heat_resistance] : {
-            name: "Armor Bending",
-            description: "Increases ship " + StatInfo.statTypeToString(EStatType.armor_heat_resistance) + ".",
-            maxLevel: 5,
-            startLearningTime: 60,
-            learningTimeIncrease: 2.0,
-            stats: {
-                modifier: EStatModifier.increase_percentage,
-                stat: EStatType.armor_heat_resistance,
-                values: [0.5, 1, 1.5, 2, 2.5]
-            }
-        },
-        [EStatType.armor_impact_resistance] : {
-            name: "Armor hardening",
-            description: "Increases ship " + StatInfo.statTypeToString(EStatType.armor_impact_resistance) + ".",
-            maxLevel: 5,
-            startLearningTime: 60,
-            learningTimeIncrease: 2.0,
-            stats: {
-                modifier: EStatModifier.increase_percentage,
-                stat: EStatType.armor_impact_resistance,
-                values: [0.5, 1, 1.5, 2, 2.5]
+                values: [0, 0.5, 1, 1.5, 2, 2.5]
             }
         },
         [EStatType.shield_generation] : {
-            name: "Shield generator calibrator",
+            name: "Shield Generation",
             description: "Increases ship " + StatInfo.statTypeToString(EStatType.shield_generation) + ".",
             maxLevel: 5,
             startLearningTime: 60,
@@ -192,11 +120,11 @@ export module SkillInfo {
             stats: {
                 modifier: EStatModifier.increase_percentage,
                 stat: EStatType.shield_generation,
-                values: [0.5, 1, 1.5, 2, 2.5]
+                values: [0, 0.5, 1, 1.5, 2, 2.5]
             }
         },
         [EStatType.shield] : {
-            name: "Shield generator mechanic",
+            name: "Shield",
             description: "Increases ship " + StatInfo.statTypeToString(EStatType.shield) + ".",
             maxLevel: 5,
             startLearningTime: 60,
@@ -204,11 +132,11 @@ export module SkillInfo {
             stats: {
                 modifier: EStatModifier.increase_percentage,
                 stat: EStatType.shield,
-                values: [0.5, 1, 1.5, 2, 2.5]
+                values: [0, 0.5, 1, 1.5, 2, 2.5]
             }
         },
         [EStatType.armor] : {
-            name: "Armor technician",
+            name: "Armor",
             description: "Increases ship " + StatInfo.statTypeToString(EStatType.armor) + ".",
             maxLevel: 5,
             startLearningTime: 60,
@@ -216,11 +144,11 @@ export module SkillInfo {
             stats: {
                 modifier: EStatModifier.increase_percentage,
                 stat: EStatType.armor,
-                values: [0.5, 1, 1.5, 2, 2.5]
+                values: [0, 0.5, 1, 1.5, 2, 2.5]
             }
         },
         [EStatType.hull] : {
-            name: "Preserver",
+            name: "Hull",
             description: "Increases ship " + StatInfo.statTypeToString(EStatType.hull) + ".",
             maxLevel: 5,
             startLearningTime: 60,
@@ -228,11 +156,11 @@ export module SkillInfo {
             stats: {
                 modifier: EStatModifier.increase_percentage,
                 stat: EStatType.hull,
-                values: [0.5, 1, 1.5, 2, 2.5]
+                values: [0, 0.5, 1, 1.5, 2, 2.5]
             }
         },
         [EStatType.power] : {
-            name: "Electrician",
+            name: "Power",
             description: "Increases ship " + StatInfo.statTypeToString(EStatType.power) + ".",
             maxLevel: 5,
             startLearningTime: 60,
@@ -240,11 +168,11 @@ export module SkillInfo {
             stats: {
                 modifier: EStatModifier.increase_percentage,
                 stat: EStatType.power,
-                values: [0.5, 1, 1.5, 2, 2.5]
+                values: [0, 0.5, 1, 1.5, 2, 2.5]
             }
         },
         [EStatType.thrust] : {
-            name: "Engine Calibrator",
+            name: "Thrust",
             description: "Increases ship " + StatInfo.statTypeToString(EStatType.thrust) + ".",
             maxLevel: 5,
             startLearningTime: 60,
@@ -252,11 +180,11 @@ export module SkillInfo {
             stats: {
                 modifier: EStatModifier.increase_percentage,
                 stat: EStatType.thrust,
-                values: [0.5, 1, 1.5, 2, 2.5]
+                values: [0, 0.5, 1, 1.5, 2, 2.5]
             }
         },
         [EStatType.max_speed] : {
-            name: "Navigator",
+            name: "Max Speed",
             description: "Increases ship " + StatInfo.statTypeToString(EStatType.max_speed) + ".",
             maxLevel: 5,
             startLearningTime: 60,
@@ -264,11 +192,11 @@ export module SkillInfo {
             stats: {
                 modifier: EStatModifier.increase_percentage,
                 stat: EStatType.max_speed,
-                values: [0.5, 1, 1.5, 2, 2.5]
+                values: [0, 0.5, 1, 1.5, 2, 2.5]
             }
         },
         [EStatType.acceleration] : {
-            name: "Engine Mechanic",
+            name: "Acceleration",
             description: "Increases ship " + StatInfo.statTypeToString(EStatType.acceleration) + ".",
             maxLevel: 5,
             startLearningTime: 60,
@@ -276,11 +204,11 @@ export module SkillInfo {
             stats: {
                 modifier: EStatModifier.increase_percentage,
                 stat: EStatType.acceleration,
-                values: [0.5, 1, 1.5, 2, 2.5]
+                values: [0, 0.5, 1, 1.5, 2, 2.5]
             }
         },
         [EStatType.radar_range] : {
-            name: "Surveyor",
+            name: "Radar Range",
             description: "Increases ship " + StatInfo.statTypeToString(EStatType.radar_range) + ".",
             maxLevel: 5,
             startLearningTime: 60,
@@ -288,11 +216,11 @@ export module SkillInfo {
             stats: {
                 modifier: EStatModifier.increase_additive,
                 stat: EStatType.radar_range,
-                values: [1000, 2000, 3000, 4000, 5000]
+                values: [0, 1000, 2000, 3000, 4000, 5000]
             }
         },
         [EStatType.max_nr_of_modules] : {
-            name: "Commander",
+            name: "Ship Size",
             description: "Increases the maximum number of modules your ship can contain.",
             maxLevel: 5,
             startLearningTime: 60,
@@ -300,7 +228,163 @@ export module SkillInfo {
             stats: {
                 modifier: EStatModifier.neutral,
                 stat: EStatType.max_nr_of_modules,
-                values: [5, 10, 50, 100, 200]
+                values: [0, 5, 10, 50, 100, 200]
+            }
+        },
+        [EStatType.main_module_quality] : {
+            name: "Main Module",
+            description: "Allows using higher quality modules of given type.",
+            maxLevel: 10,
+            startLearningTime: 60,
+            learningTimeIncrease: 2.0,
+            stats: {
+                modifier: EStatModifier.neutral,
+                stat: EStatType.main_module_quality,
+                values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            }
+        },
+        [EStatType.thrust_module_quality] : {
+            name: "Thrust Module",
+            description: "Allows using higher quality modules of given type.",
+            maxLevel: 10,
+            startLearningTime: 60,
+            learningTimeIncrease: 2.0,
+            stats: {
+                modifier: EStatModifier.neutral,
+                stat: EStatType.thrust_module_quality,
+                values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            }
+        },
+        [EStatType.power_module_quality] : {
+            name: "Power Module",
+            description: "Allows using higher quality modules of given type.",
+            maxLevel: 10,
+            startLearningTime: 60,
+            learningTimeIncrease: 2.0,
+            stats: {
+                modifier: EStatModifier.neutral,
+                stat: EStatType.power_module_quality,
+                values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            }
+        },
+        [EStatType.cargo_hold_module_quality] : {
+            name: "Cargo Hold Module",
+            description: "Allows using higher quality modules of given type.",
+            maxLevel: 10,
+            startLearningTime: 60,
+            learningTimeIncrease: 2.0,
+            stats: {
+                modifier: EStatModifier.neutral,
+                stat: EStatType.cargo_hold_module_quality,
+                values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            }
+        },
+        [EStatType.armor_module_quality] : {
+            name: "Armor Module",
+            description: "Allows using higher quality modules of given type.",
+            maxLevel: 10,
+            startLearningTime: 60,
+            learningTimeIncrease: 2.0,
+            stats: {
+                modifier: EStatModifier.neutral,
+                stat: EStatType.armor_module_quality,
+                values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            }
+        },
+        [EStatType.shield_module_quality] : {
+            name: "Shield Module",
+            description: "Allows using higher quality modules of given type.",
+            maxLevel: 10,
+            startLearningTime: 60,
+            learningTimeIncrease: 2.0,
+            stats: {
+                modifier: EStatModifier.neutral,
+                stat: EStatType.shield_module_quality,
+                values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            }
+        },
+        [EStatType.shield_generation_module_quality] : {
+            name: "Shield Generation Module",
+            description: "Allows using higher quality modules of given type.",
+            maxLevel: 10,
+            startLearningTime: 60,
+            learningTimeIncrease: 2.0,
+            stats: {
+                modifier: EStatModifier.neutral,
+                stat: EStatType.shield_generation_module_quality,
+                values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            }
+        },
+        [EStatType.radar_range_module_quality] : {
+            name: "Radar Range Module",
+            description: "Allows using higher quality modules of given type.",
+            maxLevel: 10,
+            startLearningTime: 60,
+            learningTimeIncrease: 2.0,
+            stats: {
+                modifier: EStatModifier.neutral,
+                stat: EStatType.radar_range_module_quality,
+                values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            }
+        },
+        [EStatType.weapon_range_module_quality] : {
+            name: "Weapon Range Module",
+            description: "Allows using higher quality modules of given type.",
+            maxLevel: 10,
+            startLearningTime: 60,
+            learningTimeIncrease: 2.0,
+            stats: {
+                modifier: EStatModifier.neutral,
+                stat: EStatType.weapon_range_module_quality,
+                values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            }
+        },
+        [EStatType.mining_laser_module_quality] : {
+            name: "Mining Laser Module",
+            description: "Allows using higher quality modules of given type.",
+            maxLevel: 10,
+            startLearningTime: 60,
+            learningTimeIncrease: 2.0,
+            stats: {
+                modifier: EStatModifier.neutral,
+                stat: EStatType.mining_laser_module_quality,
+                values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            }
+        },
+        [EStatType.turret_module_quality] : {
+            name: "Turret Module",
+            description: "Allows using higher quality modules of given type.",
+            maxLevel: 10,
+            startLearningTime: 60,
+            learningTimeIncrease: 2.0,
+            stats: {
+                modifier: EStatModifier.neutral,
+                stat: EStatType.turret_module_quality,
+                values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            }
+        },
+        [EStatType.target_dodge_reduction_quality] : {
+            name: "Target Dodge Reduction Module",
+            description: "Allows using higher quality modules of given type.",
+            maxLevel: 10,
+            startLearningTime: 60,
+            learningTimeIncrease: 2.0,
+            stats: {
+                modifier: EStatModifier.neutral,
+                stat: EStatType.target_dodge_reduction_quality,
+                values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            }
+        },
+        [EStatType.radar_signature_reduction_module_quality] : {
+            name: "Radar Signature Reduction Module",
+            description: "Allows using higher quality modules of given type.",
+            maxLevel: 10,
+            startLearningTime: 60,
+            learningTimeIncrease: 2.0,
+            stats: {
+                modifier: EStatModifier.neutral,
+                stat: EStatType.radar_signature_reduction_module_quality,
+                values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
             }
         }
     }

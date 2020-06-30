@@ -1,6 +1,10 @@
 #!/bin/bash
 
+rm -r build/shared
+rm -r build/server
+
 npm run tsc
+
 browserify js-src/client/scripts/main.js -o build/public/bundle.js
 cp js-src/index.js build/index.js
 cp src/client/index.html build/public/index.html

@@ -11,8 +11,8 @@
 -npm install --save-dev bufferutil <br />
 -npm install --save-dev utf-8-validate <br />
 -npm install --save express <br />
--npm install -g typescript <br />
--npm install -g browserify <br />
+-npm install -g typescript (g is global, g could proboblt be omitted) <br />
+-npm install -g browserify (g is global, g could proboblt be omitted)<br />
 -npm install --save socket.io <br />
 -npm i @types/node <br />
 -npm install @types/socket.io <br />
