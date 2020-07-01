@@ -1,4 +1,4 @@
-import { SSector } from "./Sector";
+import { SSector } from "./SSector";
 import { PacketFactory } from "../PacketFactory";
 import { CargoUtils } from "../CargoUtils";
 import { SClient } from "../objects/SClient";
@@ -16,8 +16,7 @@ export class AsteroidBeltSector extends SSector {
     private asteroidSpawner: AsteroidSpawner;
 
     constructor(
-        sector_x : number,
-        sector_y : number,
+        sectorId : number,
         x : number, 
         y : number, 
         sectorName : string,
@@ -29,7 +28,7 @@ export class AsteroidBeltSector extends SSector {
         maxSize : number, 
         generationRate : number,
         maxNrOfAsteroids : number) {
-        super(sector_x, sector_y, x, y, sectorName, id, sectorType);
+        super(sectorId, x, y, sectorName, id, sectorType);
 
         this.npcSpawner = new NpcSpawner(ENpcType.SMUGGLER, this);
         this.asteroidSpawner = new AsteroidSpawner(this, 0, 0, type, hardness, minSize, maxSize, generationRate, maxNrOfAsteroids);
@@ -49,8 +48,6 @@ export class AsteroidBeltSector extends SSector {
         this.sendAsteroidUpdates();
         this.sendUpdatedCargo(); 
     }
-
-    
 
     private sendAsteroidUpdates() {
         let packet : any = PacketFactory.createAsteroidsUpdatePacket(this.getAsteroids());

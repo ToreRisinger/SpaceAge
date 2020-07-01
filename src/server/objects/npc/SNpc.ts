@@ -1,7 +1,7 @@
 import { INpc } from "../../../shared/data/npc/INpc";
 import { SShip } from "../SShip";
 import { Utils } from "../../../shared/util/Utils";
-import { SSector } from "../../sector/Sector";
+import { SSector } from "../../sector/SSector";
 
 export class SNpc extends SShip {
 

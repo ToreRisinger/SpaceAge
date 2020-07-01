@@ -8,7 +8,6 @@ import { Graphics } from "./Graphics";
 import { Camera } from "../Camera";
 import { EStatType } from "../../../../shared/data/stats/EStatType";
 
-
 export module GraphicsEffects {
 
     let destinationLine : Graphics.Line;

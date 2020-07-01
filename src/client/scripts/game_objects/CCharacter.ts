@@ -33,8 +33,8 @@ export class CCharacter extends CShip {
         return this.characterData.location;
     }
 
-    public getSectorCoordinates(): Phaser.Math.Vector2 {
-        return new Phaser.Math.Vector2(this.characterData.sectorCoords.x, this.characterData.sectorCoords.x);
+    public getSectorId(): number {
+        return this.characterData.sectorId;
     }
 
     public getSkills(): ICharacterSkills {

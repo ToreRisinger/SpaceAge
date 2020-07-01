@@ -3,5 +3,6 @@ import { ESectorType } from "./ESectorType";
 
 export interface ISector extends IGameObject {
     name: string,
-    sectorType: ESectorType
+    sectorType: ESectorType,
+    sectorId: number
 }

@@ -3,7 +3,7 @@ import { RadarDetectable } from "../../../game_objects/RadarDetectable";
 import { Events } from "../../../../../shared/util/Events";
 import { EventHandler } from "../../EventHandler";
 import { GlobalDataService } from "../../GlobalDataService";
-import { CSector } from "../../../game_objects/Sector";
+import { CSector } from "../../../game_objects/CSector";
 import { InputHandler } from "../../InputHandler";
 
 export class WarpAction extends Action {

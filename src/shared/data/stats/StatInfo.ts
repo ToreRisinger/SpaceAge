@@ -155,7 +155,7 @@ export module StatInfo {
             case EStatModifier.decrease_percentage:
                 return -(baseStat * value / 100);
             case EStatModifier.increase_additive:
-                    return value;
+                return value;
             case EStatModifier.increase_percentage:
                 return baseStat * value / 100;
             default:

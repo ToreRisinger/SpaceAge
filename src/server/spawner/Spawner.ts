@@ -1,4 +1,4 @@
-import { SSector } from "../sector/Sector";
+import { SSector } from "../sector/SSector";
 
 export abstract class Spawner {
 

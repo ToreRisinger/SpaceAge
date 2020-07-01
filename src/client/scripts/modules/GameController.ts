@@ -11,7 +11,7 @@ import { Com } from "./Com";
 import { GUI } from "./GUI";
 import { Events } from "../../../shared/util/Events";
 import { GlobalDataService } from "./GlobalDataService";
-import { CSector } from "../game_objects/Sector";
+import { CSector } from "../game_objects/CSector";
 import { CCharacter } from "../game_objects/CCharacter";
 import { Logger } from "../../../shared/logger/Logger";
 import { ICharacter } from "../../../shared/data/gameobject/ICharacter";
@@ -48,7 +48,11 @@ export class GameController {
     }
 
     public inSpaceStateInit(character: ICharacter, sectors : Array<ISector>, clientSectorId: number) {
-        GameObjectHandler.init(character, sectors);
+        let thisSector = sectors.find(sec => sec.id == clientSectorId);
+        
+        //@ts-ignore
+        GameObjectHandler.init(character, sectors, thisSector);
+        
         //@ts-ignore
         let sector : CSector = GameObjectHandler.getGameObjectsMap().get(clientSectorId);
         //@ts-ignore

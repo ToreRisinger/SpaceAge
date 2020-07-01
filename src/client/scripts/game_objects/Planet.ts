@@ -22,6 +22,7 @@ export class Planet extends RadarDetectable {
         this.planetData = planetData;
 
         let thisPlanet = GlobalDataService.getInstance().getThisPlanet();
+        let thisSectorPos = GlobalDataService.getInstance().getSector().getMapPos();
         let thisPlanetDistance = thisPlanet.distanceFromSun;
         this.planetOrbit = new Graphics.Circle(Colors.HEX.WHITE, 0.2, 1, DRAW_LAYERS.FOREGROUND_LAYER_1, true, planetData.distanceFromSun, 1, false);
         let point = new Phaser.Geom.Point(0, 0);
@@ -29,16 +30,17 @@ export class Planet extends RadarDetectable {
             point = this.planetOrbit.getRandomPoint(Utils.getRandomNumber(0, 100) / 100);
             point.x -= thisPlanetDistance;
         }
-        let randomX = Utils.getRandomNumber(-5000, 5000);
-        let randomY = Utils.getRandomNumber(-5000, 5000);
-        this.setPos(point.x + randomX, point.y + randomY);
-        this.planetOrbit.setPos(-thisPlanetDistance + randomX, randomY);
+        let randomPoint = new Phaser.Geom.Point(Utils.getRandomNumber(-5000, 5000), Utils.getRandomNumber(-5000, 5000))
+        point = new Phaser.Geom.Point(point.x + randomPoint.x, point.y + randomPoint.y);
+        this.setPos(point.x - thisSectorPos.x, point.y - thisSectorPos.y);
+        this.planetOrbit.setPos(-thisPlanetDistance - thisSectorPos.x, thisSectorPos.y);
+        this.mapPos = new Phaser.Math.Vector2(point.x, point.y);
+        this.orbitMapPos = new Phaser.Math.Vector2(randomPoint.x - thisPlanetDistance, randomPoint.y);
 
         this.sprite = new Graphics.Sprite(planetData.sprite.sprite, this.getPos().x, this.getPos().y);
         this.sprite.setDepth(DRAW_LAYERS.FOREGROUND_LAYER_2);
         this.sprite.setDisplaySize(planetData.diameter / 1000, planetData.diameter / 1000);
-        this.mapPos = new Phaser.Math.Vector2(this.getPos().x, this.getPos().y);
-        this.orbitMapPos = new Phaser.Math.Vector2(this.planetOrbit.getPos().x, this.planetOrbit.getPos().y);
+        
 
         this.displayInformation = new Array(
             "Diameter: " + Utils.formatMeters(this.planetData.diameter), "Mass: " + this.planetData.mass);

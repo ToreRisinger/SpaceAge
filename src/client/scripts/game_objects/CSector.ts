@@ -1,6 +1,7 @@
 import { RadarDetectable } from "./RadarDetectable";
 import { ISector } from "../../../shared/data/sector/ISector";
 import { SPRITES } from "../../../shared/util/SPRITES";
+import { GlobalDataService } from "../modules/GlobalDataService";
 
 export class CSector extends RadarDetectable {
     
@@ -9,12 +10,13 @@ export class CSector extends RadarDetectable {
     private map_y : number;
     private displayInformation: Array<string>;
 
-    constructor(sector_object_config : ISector) {
+    constructor(sector_object_config : ISector, thisSector: ISector) {
         super(sector_object_config, SPRITES.SECTOR_ICON.sprite, false, true);
         this.config = sector_object_config;
         this.map_x = this.config.x;
         this.map_y = this.config.y;
-        this.displayInformation = new Array(); 
+        this.setPos(this.getMapPos().x - thisSector.x, this.getMapPos().y - thisSector.y);
+        this.displayInformation = new Array();
     }
 
     public update() {
@@ -35,10 +37,7 @@ export class CSector extends RadarDetectable {
     }
 
     public onSectorChanged(newSectorX : number, newSectorY : number) {
-        //@ts-ignore
-        this.config.x = this.map_x - newSectorX;
-        //@ts-ignore
-        this.config.y = this.map_y - newSectorY;
+        this.setPos(this.map_x - newSectorX, this.map_y - newSectorY);
     }
 
     public getDisplayInformation(): string[] {

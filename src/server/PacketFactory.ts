@@ -6,7 +6,7 @@ import { IAsteroid } from "../shared/data/astroid/IAstroid";
 import { INpc } from "../shared/data/npc/INpc";
 import { SNpc } from "./objects/npc/SNpc";
 import { IShipwreck } from "../shared/data/gameobject/IShipwreck";
-import { IPlayerCargoPair } from "./sector/Sector";
+import { IPlayerCargoPair } from "./sector/SSector";
 
 
 export module PacketFactory {

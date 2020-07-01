@@ -1,5 +1,5 @@
 import { Spawner } from "./Spawner";
-import { SSector } from "../sector/Sector";
+import { SSector } from "../sector/SSector";
 import { EMineralItemType } from "../../shared/data/item/EMineralItemType";
 import { IAsteroid } from "../../shared/data/astroid/IAstroid";
 import { IdHandler } from "../IdHandler";

@@ -2,7 +2,7 @@ import { IShip } from "../../shared/data/gameobject/IShip";
 import { EStatType } from "../../shared/data/stats/EStatType";
 import { StatInfo } from "../../shared/data/stats/StatInfo";
 import { DamageService } from "../DamageService";
-import { SSector } from "../sector/Sector";
+import { SSector } from "../sector/SSector";
 import { SERVER_CONSTANTS } from "../constants/serverconstants";
 
 const math = require('mathjs');

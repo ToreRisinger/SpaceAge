@@ -1,6 +1,6 @@
 import { RadarDetectable } from "../game_objects/RadarDetectable";
 import { CCharacter } from "../game_objects/CCharacter";
-import { CSector } from "../game_objects/Sector";
+import { CSector } from "../game_objects/CSector";
 import { ICharacter } from "../../../shared/data/gameobject/ICharacter";
 import { PlanetInfo } from "../../../shared/data/planet/PlanetInfo";
 import { IPlanet } from "../../../shared/data/planet/IPlanet";

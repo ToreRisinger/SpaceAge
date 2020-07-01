@@ -1,9 +1,9 @@
-import React, { Fragment, MouseEvent } from "react";
+import React, { MouseEvent } from "react";
 import { ItemInfo } from "../../../../../shared/data/item/ItemInfo";
 import ItemToolTipModuleAttributes from "./ItemToolTipModuleAttributes";
 import { IItem } from "../../../../../shared/data/item/IItem";
 
-export interface CargoItemProps { item : IItem, hoverHighLight: boolean, selected: boolean, index: number, onClick: (index: number) => void }
+export interface CargoItemProps { item : IItem, hoverHighLight: boolean, selected: boolean, index: number, onClick: (index: number) => void, onEnter: (item: IItem, index: number) => void, onLeave: (item: IItem, index: number) => void }
 export interface CargoItemState { mouseX : number, mouseY : number }
 
 export default class CargoItem extends React.Component<CargoItemProps, CargoItemState> {
@@ -16,10 +16,20 @@ export default class CargoItem extends React.Component<CargoItemProps, CargoItem
       }
       this.onClick = this.onClick.bind(this);
       this.onMouseMove = this.onMouseMove.bind(this);
+      this.onMouseEnter = this.onMouseEnter.bind(this);
+      this.onMouseLeave = this.onMouseLeave.bind(this);
     }
 
-    private onMouseMove: { (event: MouseEvent): void } = (event: MouseEvent) => {
+    onMouseMove: { (event: MouseEvent): void } = (event: MouseEvent) => {
         this.setState({mouseX: event.pageX - event.nativeEvent.offsetX, mouseY: event.pageY - event.nativeEvent.offsetY});
+    }
+
+    onMouseEnter() {
+        this.props.onEnter(this.props.item, this.props.index);
+    }
+
+    onMouseLeave() {
+        this.props.onLeave(this.props.item, this.props.index);
     }
 
     onClick() {
@@ -36,7 +46,7 @@ export default class CargoItem extends React.Component<CargoItemProps, CargoItem
 
         let itemInfo : ItemInfo.IItemInfo = ItemInfo.getItemInfo(this.props.item.itemType);
         return (
-            <div className={cargoItemClass} onMouseMove={this.onMouseMove} onClick={this.onClick}>
+            <div className={cargoItemClass} onMouseMove={this.onMouseMove} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave} onClick={this.onClick}>
                 <img className="CargoItemImage" src={itemInfo.image}/>
 
                 {itemInfo.canStack &&

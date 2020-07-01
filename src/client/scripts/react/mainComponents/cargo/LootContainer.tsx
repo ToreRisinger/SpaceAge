@@ -20,6 +20,10 @@ export default class LootContainer extends React.Component<LootContainerProps, {
         this.props.onClick(index);
     }
 
+    func(item: IItem, index: number) {
+
+    }
+
     render() {
         let extraSlots = 40 + (4 - this.props.items.length % 4);
         let emptySlots = new Array<number>();
@@ -29,7 +33,7 @@ export default class LootContainer extends React.Component<LootContainerProps, {
 
         return (
             <div className="CargoContainer">
-                {this.props.items.map((object, i) => <CargoItem item={object} key={i} hoverHighLight={true} index={i} selected={this.props.selectedItems.has(i)} onClick={this.onClick}/>)}
+                {this.props.items.map((object, i) => <CargoItem item={object} key={i} hoverHighLight={true} index={i} selected={this.props.selectedItems.has(i)} onClick={this.onClick} onLeave={this.func} onEnter={this.func}/>)}
                 {emptySlots.map((object, i) => <CargoSlot key={i} />)}
             </div>
         );

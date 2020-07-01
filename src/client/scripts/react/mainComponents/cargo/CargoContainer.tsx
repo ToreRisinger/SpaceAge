@@ -11,10 +11,14 @@ export default class CargoContainer extends React.Component<CargoContainerProps,
       super(props)
    }
 
-   onClick(index: number) {
+   func(item: IItem, index: number) {
 
    }
 
+   onClick() {
+
+   }
+   
    render() {
         let extraSlots = 40 + (4 - this.props.items.length % 4);
         let emptySlots = new Array<number>();
@@ -24,7 +28,7 @@ export default class CargoContainer extends React.Component<CargoContainerProps,
 
         return (
             <div className="CargoContainer">
-                {this.props.items.map((object, i) => <CargoItem item={object} key={i} hoverHighLight={false} index={i} selected={false} onClick={this.onClick}/>)}
+                {this.props.items.map((object, i) => <CargoItem item={object} key={i} hoverHighLight={false} index={i} selected={false} onClick={this.onClick} onEnter={this.func} onLeave={this.func}/>)}
                 {emptySlots.map((object, i) => <CargoSlot key={i} />)}
             </div>
         );

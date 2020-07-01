@@ -1,7 +1,7 @@
 import { IClient } from "../interfaces/IClient";
 import { SCharacter } from "./SCharacter";
 import { Events } from "../../shared/util/Events";
-import { SSector } from "../sector/Sector";
+import { SSector } from "../sector/SSector";
 
 export class SClient {
 

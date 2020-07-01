@@ -2,7 +2,6 @@ import { GameScene } from "../../scenes/GameScene";
 import { Camera } from "../Camera";
 import { ISprite, ISpriteAnimation } from "../../../../shared/data/ISprite";
 import { SPRITES } from "../../../../shared/util/SPRITES";
-import { DRAW_LAYERS } from "../../constants/DRAW_LAYERS";
 
 export namespace Graphics {
     

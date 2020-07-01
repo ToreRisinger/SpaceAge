@@ -3,7 +3,7 @@ import { Events } from "../../../shared/util/Events"
 import { CCharacter } from "../game_objects/CCharacter";
 import { GameObject } from "../game_objects/GameObject";
 import { Asteroid } from "../game_objects/Asteroid";
-import { CSector } from "../game_objects/Sector";
+import { CSector } from "../game_objects/CSector";
 import { GlobalDataService } from "./GlobalDataService";
 import { ICharacter } from "../../../shared/data/gameobject/ICharacter";
 import { SpaceStation } from "../game_objects/SpaceStation";
@@ -21,7 +21,7 @@ export module GameObjectHandler {
     let gameObjects = new Map<number, GameObject>();
     let planets = new Array<Planet>();
 
-    export function init(character: ICharacter, sectors : Array<ISector>) {
+    export function init(character: ICharacter, sectors : Array<ISector>, thisSector: ISector) {
         let newShip : CCharacter = new CCharacter(character, true);
         newShip.setCargo(character.cargo);
       
@@ -29,7 +29,7 @@ export module GameObjectHandler {
         gameObjects.set(thisShipId, newShip);
 
         sectors.forEach((value: ISector, index: number, array: ISector[]) => {
-            gameObjects.set(value.id, new CSector(value));
+            gameObjects.set(value.id, new CSector(value, thisSector));
         });
 
         subscribeToEvents();
@@ -142,7 +142,7 @@ export module GameObjectHandler {
         let gameObject = gameObjects.get(event.data.clientSectorId);
         if(gameObject instanceof CSector) {
             GlobalDataService.getInstance().setSector(gameObject)
-            let newSectorPos = GlobalDataService.getInstance().getSector().getPos();
+            let newSectorPos = GlobalDataService.getInstance().getSector().getMapPos();
             let objectsToRemove : Array<GameObject> = new Array();
             gameObjects.forEach((element, key) => {
                 if(element instanceof CSector) {

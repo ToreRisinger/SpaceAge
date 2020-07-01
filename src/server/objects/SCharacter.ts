@@ -6,7 +6,7 @@ import { Events } from "../../shared/util/Events";
 import { SkillInfo } from "../../shared/data/skills/SkillInfo";
 import { performance } from 'perf_hooks'
 import { IdHandler } from "../IdHandler"
-import { SSector } from "../sector/Sector";
+import { SSector } from "../sector/SSector";
 import { IItem } from "../../shared/data/item/IItem";
 import { EModuleItemType } from "../../shared/data/item/EModuleItemType";
 import { EMineralItemType } from "../../shared/data/item/EMineralItemType";
@@ -105,10 +105,7 @@ export class SCharacter extends SShip {
               warpDestination : [0, 0],
               warpSource : [0, 0],
             },
-            sectorCoords: {
-              x: 0, 
-              y: 0
-            },
+            sectorId: 0,
             location: location,
             skills: {
               skillList: skills,

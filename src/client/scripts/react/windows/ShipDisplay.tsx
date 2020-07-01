@@ -4,16 +4,37 @@ import CargoSlot from "../mainComponents/cargo/CargoSlot";
 import { IShipModuleInstance } from "../../../../shared/data/shipmodule/IShipModuleInstance";
 import { IItem } from "../../../../shared/data/item/IItem";
 
-export interface ShipDisplayProps { modules : Array<IShipModuleInstance>}
+export interface ShipDisplayProps { modules : Array<IShipModuleInstance>, onHover: (item: IItem | undefined) => void}
 
 export default class ShipDisplay extends React.Component<ShipDisplayProps, {}> {
 
+    private selectedItem: IItem | undefined;
+    private selectedIndex: number;
+
     constructor(props : ShipDisplayProps) {
       super(props)
+      this.onEnter = this.onEnter.bind(this);
+      this.onLeave = this.onLeave.bind(this);
+      this.selectedItem = undefined;
+      this.selectedIndex = -1;
     }
 
-    onClick(index: number) {
+    onClick(index: number): void {
 
+    }
+
+    onEnter(item: IItem, index: number) {
+        this.selectedItem = item;
+        this.selectedIndex = index;
+        this.props.onHover(this.selectedItem);
+    }
+
+    onLeave(item: IItem, index: number) {
+        if(this.selectedIndex == index) {
+            this.selectedItem = undefined;
+            this.selectedIndex = -1;
+            this.props.onHover(this.selectedItem);
+        }
     }
 
     render() {
@@ -60,7 +81,7 @@ export default class ShipDisplay extends React.Component<ShipDisplayProps, {}> {
                 id++;
                 let module = coordToModuleMap.get(x + "," + y);
                 if(module != undefined) {
-                    items.push(<CargoItem item={module} key={id} hoverHighLight={false} selected={false} index={0} onClick={this.onClick}/>);
+                    items.push(<CargoItem item={module} key={id} hoverHighLight={false} selected={false} index={0} onClick={this.onClick} onEnter={this.onEnter} onLeave={this.onLeave}/>);
                 } else {
                     items.push(<CargoSlot key={id} />);
                 }
@@ -68,7 +89,7 @@ export default class ShipDisplay extends React.Component<ShipDisplayProps, {}> {
         }
 
         return (
-            <div id="ship_display_container" style={styles}>
+            <div className="ShipDisplay" style={styles}>
                 {items}
             </div>
         );

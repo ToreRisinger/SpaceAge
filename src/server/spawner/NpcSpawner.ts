@@ -1,4 +1,4 @@
-import { SSector } from "../sector/Sector";
+import { SSector } from "../sector/SSector";
 import { Spawner } from "./Spawner";
 import { ENpcType } from "../../shared/data/npc/ENpcType";
 import { Utils } from "../../shared/util/Utils";

@@ -35,22 +35,19 @@ export class SSector {
     
     protected x: number;
     protected y: number;
-    protected sector_x: number;
-    protected sector_y: number;
+    protected sectorId: number;
     protected sectorName: string;
     protected id: number;
     protected sectorType: ESectorType;
 
     constructor(
-      sector_x : number,
-      sector_y : number, 
+      sectorId : number,
       x : number, 
       y : number, 
       sectorName : string, 
       id : number,
       sectorType: ESectorType) {
-        this.sector_x = sector_x;
-        this.sector_y = sector_y;
+        this.sectorId = sectorId;
         this.x = x;
         this.y = y;
         this.sectorName = sectorName;
@@ -65,12 +62,8 @@ export class SSector {
         this.spawners = new Array();
     }
 
-    public getSectorX() {
-      return this.sector_x;
-    }
-
-    public getSectorY() {
-      return this.sector_y;
+    public getSectorId() {
+      return this.sectorId;
     }
 
     public getX() {
@@ -128,6 +121,7 @@ export class SSector {
     }
 
     public addClient(client : SClient) {
+      client.getCharacter().getData().sectorId = this.sectorId;
       this.clients.set(client.getData().id, client);
     }
 

@@ -1,5 +1,5 @@
 import * as map_config from "../resources/server-map.json";
-import { SSector } from "./Sector";
+import { SSector } from "./SSector";
 import { AsteroidBeltSector } from "./AstriodBeltSector";
 import { IdHandler } from "../IdHandler.js";
 import { PacketFactory } from "../PacketFactory.js";
@@ -12,7 +12,7 @@ const math = require('mathjs');
 
 export class SectorHandler {
 
-    private sectors : Map<string, SSector>;
+    private sectors : Map<number, SSector>;
     private SECTOR_COORD_TO_MAP_COORD : number = 10000000;
     private playersToSectorMap :  Map<number, SSector>;
     private location: string = "unknown";
@@ -51,8 +51,8 @@ export class SectorHandler {
         });
     }
 
-    public addClientToSector(client : SClient, sector_x : number, sector_y : number) {
-        let sector = this.getSector(sector_x, sector_y);
+    public addClientToSector(client : SClient, sectorId: number) {
+        let sector = this.getSector(sectorId);
         if(sector != undefined) {
             sector.addClient(client);
             this.playersToSectorMap.set(client.getData().id, sector);
@@ -141,8 +141,8 @@ export class SectorHandler {
                     throw new Error("Error reading asteroid-type value in config.");
                 }
             
-                this.addSector(sector.x, sector.y, new AsteroidBeltSector(sector.x, sector.y, sector.x * this.SECTOR_COORD_TO_MAP_COORD, 
-                    sector.y * this.SECTOR_COORD_TO_MAP_COORD,
+                this.addSector(new AsteroidBeltSector(sector["id"], sector.x, 
+                    sector.y,
                     //@ts-ignore
                     sector["name"],
                     IdHandler.getNewGameObjectId(),
@@ -155,8 +155,8 @@ export class SectorHandler {
                     sector["asteroid-generation-rate"],
                     sector["max-number-of-asteroids"]));
             } else if(sector.type == "space-station") {
-                this.addSector(sector.x, sector.y, new SpaceStationSector(sector.x, sector.y, sector.x * this.SECTOR_COORD_TO_MAP_COORD, 
-                    sector.y * this.SECTOR_COORD_TO_MAP_COORD,
+                this.addSector(new SpaceStationSector(sector["id"], sector.x, 
+                    sector.y,
                     //@ts-ignore
                     sector["name"],
                     IdHandler.getNewGameObjectId(),
@@ -207,19 +207,12 @@ export class SectorHandler {
         }
     }
 
-    public getSector(x : number, y : number) : SSector | undefined {
-        let sector : SSector | undefined = undefined;
-        this.sectors.forEach((value, key) => {
-            if(value.getSectorX() == x && value.getSectorY() == y) {
-                sector = value;
-                return sector;
-            }
-        });
-        return sector;
+    public getSector(id: number) : SSector | undefined {
+        return this.sectors.get(id);
     }
 
-    private addSector(x : number, y : number, sector : SSector) {
-        this.sectors.set("" + x + y, sector);
+    private addSector(sector : SSector) {
+        this.sectors.set(sector.getSectorId(), sector);
     }
 
     private sendSectorChangedEvent(client : SClient, sectorId : number) {

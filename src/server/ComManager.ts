@@ -5,7 +5,7 @@ import { Events } from "../shared/util/Events";
 import { IUserDocument } from "./database/models/user.model";
 import { Logger } from "../shared/logger/Logger";
 import { ICharacter } from "../shared/data/gameobject/ICharacter";
-import { SSector } from "./sector/Sector";
+import { SSector } from "./sector/SSector";
 import { SCharacter } from "./objects/SCharacter";
 import { SClient } from "./objects/SClient";
 import { ICombatLogMessage } from "../shared/data/CombatLogInterfaces";
@@ -184,6 +184,7 @@ export class ComManager {
                         let sectors : Array<SSector> = this.sectorHandler.getSectors();
                         for(let i = 0; i < sectors.length; i++) {
                             sectorArray.push({
+                                sectorId: sectors[i].getSectorId(),
                                 id : sectors[i].getId(),
                                 x : sectors[i].getX(),
                                 y : sectors[i].getY(),
@@ -192,7 +193,7 @@ export class ComManager {
                             });
                         }
                 
-                        let sector : SSector | undefined = this.sectorHandler.getSector(0, 0);
+                        let sector : SSector | undefined = this.sectorHandler.getSector(character.getData().sectorId);
                         if(sector == undefined) {
                             this.connectionError("Could not find sector", socket);
                             return;
@@ -210,7 +211,7 @@ export class ComManager {
                         }
                 
                         this.clientMap.set(client.getData().id, client);
-                        this.sectorHandler.addClientToSector(client, 0, 0);
+                        this.sectorHandler.addClientToSector(client, character.getData().sectorId);
                 
                         socket.on('ClientEvent', (event : Events.GameEvent) => {
                             this.onClientEvent(client, event);

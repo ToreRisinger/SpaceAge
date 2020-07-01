@@ -1,4 +1,4 @@
-import { SSector } from "./Sector";
+import { SSector } from "./SSector";
 import { ISpaceStation } from "../../shared/data/ISpaceStation";
 import { IdHandler } from "../IdHandler";
 import { Utils } from "../../shared/util/Utils";
@@ -10,14 +10,13 @@ export class SpaceStationSector extends SSector {
     private spaceStation : ISpaceStation;
 
     constructor(
-        sector_x : number,
-        sector_y : number,
+        sectorId : number,
         x : number, 
         y : number, 
         sectorName : string,
         id : number,
         sectorType: ESectorType) {
-        super(sector_x, sector_y, x, y, sectorName, id, sectorType);
+        super(sectorId, x, y, sectorName, id, sectorType);
 
         this.spaceStation = {
             id: IdHandler.getNewGameObjectId(),

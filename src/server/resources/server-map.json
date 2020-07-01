@@ -6,14 +6,16 @@
     },
     "sections": [
         {
+            "id": 0,
             "x": 0,
             "y": 0,
             "type": "space-station",
             "name": "Mars Station I"
         },
         {
-            "x": 1,
-            "y": 0,
+            "id": 1,
+            "x": 12500000,
+            "y": 250000,
             "type": "asteroid-belt",
             "name": "Mars belt II",
             "asteroid-type": "iron",
@@ -24,8 +26,9 @@
             "max-number-of-asteroids": 30
         },
         {
-            "x": 0,
-            "y": 1,
+            "id": 2,
+            "x": 5300000,
+            "y": 12981798,
             "type": "asteroid-belt",
             "name": "Mars belt III",
             "asteroid-type": "gold",
@@ -36,8 +39,9 @@
             "max-number-of-asteroids": 30
         },
         {
-            "x": -4,
-            "y": -2,
+            "id": 3,
+            "x": -46157816,
+            "y": -20987298,
             "type": "asteroid-belt",
             "name": "Mars belt IV",
             "asteroid-type": "gold",
@@ -48,8 +52,9 @@
             "max-number-of-asteroids": 30
         },
         {
-            "x": -3,
-            "y": 1,
+            "id": 4,
+            "x": -38098297,
+            "y": 13456708,
             "type": "asteroid-belt",
             "name": "Mars belt V",
             "asteroid-type": "gold",
@@ -60,8 +65,9 @@
             "max-number-of-asteroids": 30
         },
         {
-            "x": -1,
-            "y": 4,
+            "id": 5,
+            "x": -14179769,
+            "y": 46436435,
             "type": "asteroid-belt",
             "name": "Mars belt VI",
             "asteroid-type": "gold",
@@ -72,8 +78,9 @@
             "max-number-of-asteroids": 30
         },
         {
-            "x": -3,
-            "y": 3,
+            "id": 6,
+            "x": -37697865,
+            "y": 37468546,
             "type": "asteroid-belt",
             "name": "Mars belt I",
             "asteroid-type": "gold",

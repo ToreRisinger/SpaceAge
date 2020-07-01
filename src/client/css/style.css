@@ -350,20 +350,25 @@ body {
     margin-bottom: 25px;
 }
 
-#ship_window_left_section {
+.ShipWindowContent {
     height: 100%;
-    float: left;
-    width: 30%;
-    
 }
 
-#ship_window_right_section {
+.StatList {
+    width: 450px;
     height: 100%;
-    width: 70%;
-    margin-left: 30%;
 }
 
-#ship_display_container {
+.StatListContainer {
+    width: 400px;
+}
+
+.ShipWindowContentWrapper {
+    height: calc(100% - 80px);
+    display: flex;
+}
+
+.ShipDisplay {
     display: grid;
     z-index: inherit;
     grid-gap: 2px 2px;
@@ -371,10 +376,8 @@ body {
     overflow-x: scroll;
     border: 1px solid rgb(40, 40, 40);
     background-color: rgba(0, 0, 0, 0);
-    width: 80%;
-    height: 80%;
-    margin-left: 10%;
-    margin-right: 10%;
+    width: calc(100% - 700px);
+    margin-left: 300px;
 }
 
 #ship_display_container::-webkit-scrollbar-thumb {
