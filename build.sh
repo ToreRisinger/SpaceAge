@@ -15,5 +15,3 @@ cp -R js-src/server build/server
 
 cp -R src/client/css build/public
 cp -R src/server/resources build/server/resources
-
-node build/index.js
