@@ -1,17 +1,24 @@
 import { PacketFactory } from "../PacketFactory";
 import { SClient } from "../objects/SClient";
-import { ESectorType } from "../../shared/data/sector/ESectorType";
 import { SNpc } from "../objects/npc/SNpc";
 import { SShip } from "../objects/SShip";
 import { IAsteroid } from "../../shared/data/astroid/IAstroid";
 import { Spawner } from "../spawner/Spawner";
-import { IShipwreck } from "../../shared/data/gameobject/IShipwreck";
+import { IContainer } from "../../shared/data/gameobject/IContainer";
 import { IdHandler } from "../IdHandler";
-import { EMineralItemType } from "../../shared/data/item/EMineralItemType";
 import { CargoUtils } from "../CargoUtils";
 import { IItem } from "../../shared/data/item/IItem";
 import { NpcInfo } from "../../shared/data/npc/NpcInfo";
 import { Utils } from "../../shared/util/Utils";
+import { SCharacter } from "../objects/SCharacter";
+import { SectorDefinition } from "./SectorDefinition";
+import { AsteroidSpawner } from "../spawner/AsteroidSpawner";
+import { EMineralItemType } from "../../shared/data/item/EMineralItemType";
+import { NpcSpawner } from "../spawner/NpcSpawner";
+import { ENpcType } from "../../shared/data/npc/ENpcType";
+import { Events } from "../../shared/util/Events";
+import { ISpaceStation } from "../../shared/data/gameobject/ISpaceStation";
+import { ISceneObject } from "../../shared/data/gameobject/ISceneObject";
 
 const math = require('mathjs');
 math.length = function vec2Length(vec2 : Array<number>) {
@@ -19,17 +26,20 @@ math.length = function vec2Length(vec2 : Array<number>) {
 };
 
 export interface IPlayerCargoPair {
-  cargo: IShipwreck,
+  cargo: IContainer,
   playerId: number | undefined
 }
 
 export class SSector {
 
     protected clients: Map<number, SClient>;
+    protected newClients: Array<SClient>;
     protected npcs: Map<number, SNpc>;
     private asteroids: Map<number, IAsteroid>;
-    private shipWrecks: Map<number, IPlayerCargoPair>;
-    private playerToShipWreckMap: Map<number, number>;
+    private containers: Map<number, IPlayerCargoPair>;
+    private playerToContainerMap: Map<number, number>;
+    private spaceStation: ISpaceStation | undefined;
+    private sceneObjects: Array<ISceneObject>
 
     private spawners: Array<Spawner>;
     
@@ -38,7 +48,6 @@ export class SSector {
     protected sectorId: number;
     protected sectorName: string;
     protected id: number;
-    protected sectorType: ESectorType;
 
     constructor(
       sectorId : number,
@@ -46,20 +55,55 @@ export class SSector {
       y : number, 
       sectorName : string, 
       id : number,
-      sectorType: ESectorType) {
+      sectorDefinitions: Array<SectorDefinition.ISectorDef>) {
         this.sectorId = sectorId;
         this.x = x;
         this.y = y;
         this.sectorName = sectorName;
         this.id = id;
-        this.sectorType = sectorType;
 
         this.clients = new Map<number, SClient>();
+        this.newClients = new Array();
         this.npcs = new Map<number, SNpc>();
         this.asteroids = new Map<number, IAsteroid>();
-        this.shipWrecks = new Map<number, IPlayerCargoPair>();
-        this.playerToShipWreckMap = new Map<number, number>();
+        this.containers = new Map<number, IPlayerCargoPair>();
+        this.playerToContainerMap = new Map<number, number>();
         this.spawners = new Array();
+        this.sceneObjects = new Array();
+
+        this.setupSector(sectorDefinitions);
+
+        this.spawners.forEach(spawner => {
+          spawner.getSceneObjects().forEach(obj => {
+            this.sceneObjects.push(obj);
+          })
+          
+        });
+    }
+
+    private setupSector(sectorDefinitions: Array<SectorDefinition.ISectorDef>) {
+      sectorDefinitions.forEach(def => {
+        if(SectorDefinition.instanceOfIAsteroidDef(def)) {
+          
+          let asteroidType = this.getAsteroidType(def.asteroidType);
+          this.addSpawner(new AsteroidSpawner(this, 0, 0, asteroidType, def.asteroidHardness, def.asteroidMinSize, def.maxNumberOfAsteroids, def.asteroidGenerationRate, def.maxNumberOfAsteroids));
+        } else if(SectorDefinition.instanceOfIPirateDef(def)) {
+          for(let i = 0; i < def.locations; i++) {
+            this.addSpawner(new NpcSpawner(this, this.getNpcType(def.type), def.level, def.maxNrOfNpcs, def.spawnRate));
+          }
+        } else if(SectorDefinition.instanceOfISmugglerDef(def)) {
+          for(let i = 0; i < def.locations; i++) {
+            this.addSpawner(new NpcSpawner(this, this.getNpcType(def.type), def.level, def.maxNrOfNpcs, def.spawnRate));
+          }
+        } else if(SectorDefinition.instanceOfISpaceStationDef(def)) {
+          this.spaceStation = {
+            id: IdHandler.getNewGameObjectId(),
+            x: Utils.getRandomNumber(-2000, 2000),
+            y: Utils.getRandomNumber(-2000, 2000),
+            name: this.getName()
+          }
+        }
+      });
     }
 
     public getSectorId() {
@@ -81,15 +125,17 @@ export class SSector {
     public getId() {
       return this.id;
     }
-    
-    public getSectorType() : ESectorType {
-      return this.sectorType;
-    }
 
     public update40ms() {
+      this.newClients.forEach(client => {
+        this.handleNewClient(client);
+      })
+      this.newClients = new Array();
+
       this.clients.forEach(client => {
         client.update40ms(this);
       });
+
       this.npcs.forEach(npc => {
         npc.update40ms(this);
       });
@@ -115,14 +161,19 @@ export class SSector {
         spawner.update1000ms();
       });
 
-      this.handleEmptyShipwrecks();
-      
-      this.sendShipWrecks();
+      this.handleEmptyContainers();
+      this.sendContainers();
+      this.handleDestroyedAsteroids();
+      this.sendAsteroidUpdates();
+      this.sendUpdatedCargo();
+      this.sendSpaceStationData(this.spaceStation);
     }
 
     public addClient(client : SClient) {
       client.getCharacter().getData().sectorId = this.sectorId;
       this.clients.set(client.getData().id, client);
+      this.newClients.push(client);
+
     }
 
     public removeClient(client : SClient) {
@@ -139,8 +190,8 @@ export class SSector {
       this.spawners.push(spawner);
     }
 
-    public addShipWreck(shipWreck: IShipwreck): void {
-      this.shipWrecks.set(shipWreck.id, {cargo: shipWreck, playerId: undefined});
+    public addContainer(container: IContainer): void {
+      this.containers.set(container.id, {cargo: container, playerId: undefined});
     }
 
     private sendClientDisconnected(disconnectedShipId : number) {
@@ -157,8 +208,8 @@ export class SSector {
       });
     }
 
-    private sendShipWrecks() {
-      let packet : any = PacketFactory.createShipWreckPacket(this.clients, this.shipWrecks);
+    private sendContainers() {
+      let packet : any = PacketFactory.createContainerPacket(this.clients, this.containers);
       this.clients.forEach((client: SClient, key: number) => {
         client.getData().socket.emit("ServerEvent", packet);
       });
@@ -186,25 +237,25 @@ export class SSector {
       return this.npcs;
     }
 
-    public getShipWrecks() {
-      return this.shipWrecks;
+    public getContainers() {
+      return this.containers;
     }
 
     public closeCargo(client: SClient): void {
-      let cargoId = this.playerToShipWreckMap.get(client.getData().id);
+      let cargoId = this.playerToContainerMap.get(client.getData().id);
       if(cargoId != undefined) {
-        let cargo = this.shipWrecks.get(cargoId);
+        let cargo = this.containers.get(cargoId);
         if(cargo != undefined) {
           cargo.playerId = undefined;
         }
       }
       
-      this.playerToShipWreckMap.delete(client.getData().id);
+      this.playerToContainerMap.delete(client.getData().id);
     }
 
     //Make this thread safe?
     public openCargoRequest(client: SClient, cargoId: number): boolean {
-      let playerCargoPair = this.shipWrecks.get(cargoId);
+      let playerCargoPair = this.containers.get(cargoId);
       if(playerCargoPair != undefined) {
         if(this.canInteractWithCargo(client, playerCargoPair)) {
           this.lockCargo(client, playerCargoPair);
@@ -217,7 +268,7 @@ export class SSector {
     }
 
     public takeItems(client: SClient, indexes: Array<number>, cargoId: number) {
-      let playerCargoPair = this.shipWrecks.get(cargoId);
+      let playerCargoPair = this.containers.get(cargoId);
       if(playerCargoPair != undefined) {
         if(this.canInteractWithCargo(client, playerCargoPair)) {
           let indexesSet = new Set(indexes);
@@ -251,7 +302,7 @@ export class SSector {
     private lockCargo(client: SClient, playerCargoPair: IPlayerCargoPair) {
       let clientId = client.getData().id;
       playerCargoPair.playerId = clientId;
-      this.playerToShipWreckMap.set(clientId, playerCargoPair.cargo.id);
+      this.playerToContainerMap.set(clientId, playerCargoPair.cargo.id);
     }
 
     private handleDestroyedNpcs() {
@@ -281,7 +332,7 @@ export class SSector {
           }
 
           destroyedNpcIds.push(npc.getData().id);
-          this.addShipWreck({
+          this.addContainer({
             id: IdHandler.getNewGameObjectId(),
             x: npc.getData().x,
             y: npc.getData().y,
@@ -299,19 +350,19 @@ export class SSector {
       this.sendDestroyedGameObjects(destroyedNpcIds);
     }
 
-    private handleEmptyShipwrecks() {
+    private handleEmptyContainers() {
       let idsToRemove: Array<number> = new Array();
-      this.shipWrecks.forEach(shipwreck => {
-        if(shipwreck.cargo.cargo.items.length == 0) {
-          idsToRemove.push(shipwreck.cargo.id);
-          let shipwreckToDelete = this.shipWrecks.get(shipwreck.cargo.id);
-          if(shipwreckToDelete != undefined) {
-            let playerLink = shipwreckToDelete.playerId;
+      this.containers.forEach(container => {
+        if(container.cargo.cargo.items.length == 0) {
+          idsToRemove.push(container.cargo.id);
+          let containerToDelete = this.containers.get(container.cargo.id);
+          if(containerToDelete != undefined) {
+            let playerLink = containerToDelete.playerId;
             if(playerLink != undefined) {
-              this.playerToShipWreckMap.delete(playerLink);
+              this.playerToContainerMap.delete(playerLink);
             }
           }
-          this.shipWrecks.delete(shipwreck.cargo.id);
+          this.containers.delete(container.cargo.id);
         }
       });
 
@@ -323,5 +374,93 @@ export class SSector {
       this.clients.forEach((client: SClient, key: number) => {
           client.getData().socket.emit("ServerEvent", packet);
       });
+  }
+
+  private sendUpdatedCargo() {
+    CargoUtils.getClientsWithChangedCargo().forEach((character: SCharacter, key: number) => {
+        let client = this.clients.get(character.getData().id);
+        if(client != undefined) {
+            let packet : any = PacketFactory.createCargoUpdatePacket(client.getData().character.cargo);
+            client.getData().socket.emit("ServerEvent", packet);
+        }
+    });
+  }
+
+  private handleDestroyedAsteroids() {
+      let allAsteroidsToDestroy = Array.from(this.getAsteroids().values()).filter(current => current.size == 0).map(asteroid => asteroid.id);
+      if(allAsteroidsToDestroy.length > 0) {
+          this.sendDestroyedAsteroids(allAsteroidsToDestroy);
+          allAsteroidsToDestroy.forEach(asteroid => this.getAsteroids().delete(asteroid))
+      }
+  }
+
+  private sendDestroyedAsteroids(asteroidIdsTodestroy : number[]) {
+      let packet : any = PacketFactory.createDestroyedGameObjectsPacket(asteroidIdsTodestroy);
+      this.clients.forEach((client: SClient, key: number) => {
+          client.getData().socket.emit("ServerEvent", packet);
+      });
+  }
+
+  private sendAsteroidUpdates() {
+    let packet : any = PacketFactory.createAsteroidsUpdatePacket(this.getAsteroids());
+    this.clients.forEach((client: SClient, key: number) => {
+      client.getData().socket.emit("ServerEvent", packet);
+    });
+  }
+
+  private sendSpaceStationData(spaceStation: ISpaceStation | undefined) {
+    if(spaceStation == undefined) {
+      return;
+    }
+
+    let packet: Events.SPACE_STATION_UPDATE_EVENT_CONFIG = {
+        eventId: Events.EEventType.SPACE_STATION_UPDATE_EVENT,
+        data: {
+            spaceStation: spaceStation
+        }
+    }
+    this.clients.forEach(client => {
+        client.getData().socket.emit("ServerEvent", packet);
+    });
+  }
+
+  private getAsteroidType(typeString : string) : EMineralItemType {
+    switch (typeString) {
+        case "gold":
+            return EMineralItemType.GOLD_ORE;
+        case "iron":
+            return EMineralItemType.IRON_ORE; 
+        case "diamond":
+            return EMineralItemType.DIAMOND_ORE;
+        case "uranium":
+            return EMineralItemType.URANIUM_ORE;
+        case "titanium":
+            return EMineralItemType.TITANIUM_ORE;   
+        default:
+            throw new TypeError("Sector definition error. Could not parse asteroidType");
+    }
+  }
+
+  private getNpcType(typeString : string) : ENpcType {
+    switch (typeString) {
+        case "smuggler":
+            return ENpcType.SMUGGLER;
+        case "pirate":
+            return ENpcType.PIRATE; 
+        case "TRADER":
+            return ENpcType.TRADER;  
+        default:
+          throw new TypeError("Sector definition error. Could not parse npc type");
+    }
+  }
+
+  private handleNewClient(client: SClient): void {
+    let packet: Events.SCENE_OBJECT_UPDATE_EVENT_CONFIG = {
+      eventId: Events.EEventType.SCENE_OBJECT_UPDATE_EVENT,
+      data: {
+        sceneObjects: this.sceneObjects
+      }
+    }
+    client.getData().socket.emit("ServerEvent", packet);
   }
 }

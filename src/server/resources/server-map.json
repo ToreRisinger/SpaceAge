@@ -1,6 +1,6 @@
 {
     "location": "Mars",
-    "warp-gate-section": {
+    "warpGameSector": {
         "x": 0,
         "y": 0
     },
@@ -9,86 +9,129 @@
             "id": 0,
             "x": 0,
             "y": 0,
-            "type": "space-station",
-            "name": "Mars Station I"
+            "name": "Mars Station I",
+            "content": [
+                {
+                    "type": "space-station"
+                }
+            ]
         },
         {
             "id": 1,
             "x": 12500000,
             "y": 250000,
-            "type": "asteroid-belt",
-            "name": "Mars belt II",
-            "asteroid-type": "iron",
-            "asteroid-hardness": 1,
-            "asteroid-generation-rate": 1,
-            "asteroid-min-size": 100,
-            "asteroid-max-size": 1000,
-            "max-number-of-asteroids": 30
+            "name": "Mars Belt I",
+            "content": [
+                {
+                    "type": "asteroid",
+                    "asteroidType": "iron",
+                    "asteroidHardness": 1,
+                    "asteroidGenerationRate": 1,
+                    "asteroidMinSize": 100,
+                    "asteroidMaxSize": 1000,
+                    "maxNumberOfAsteroids": 500
+                },
+                {
+                    "type": "smuggler",
+                    "level": 1,
+                    "locations": 1,
+                    "spawnRate": 1,
+                    "maxNrOfNpcs": 20
+                },
+                {
+                    "type": "pirate",
+                    "level": 1,
+                    "locations": 1,
+                    "spawnRate": 1,
+                    "maxNrOfNpcs": 20
+                }
+            ]
         },
         {
             "id": 2,
             "x": 5300000,
             "y": 12981798,
-            "type": "asteroid-belt",
-            "name": "Mars belt III",
-            "asteroid-type": "gold",
-            "asteroid-hardness": 1,
-            "asteroid-generation-rate": 5,
-            "asteroid-min-size": 100,
-            "asteroid-max-size": 1000,
-            "max-number-of-asteroids": 30
+            "name": "Mars Belt II",
+            "content": [
+                {
+                    "type": "asteroid",
+                    "asteroidType": "gold",
+                    "asteroidHardness": 1,
+                    "asteroidGenerationRate": 1,
+                    "asteroidMinSize": 100,
+                    "asteroidMaxSize": 1000,
+                    "maxNumberOfAsteroids": 500
+                }
+            ]
         },
         {
             "id": 3,
             "x": -46157816,
             "y": -20987298,
-            "type": "asteroid-belt",
-            "name": "Mars belt IV",
-            "asteroid-type": "gold",
-            "asteroid-hardness": 1,
-            "asteroid-generation-rate": 5,
-            "asteroid-min-size": 100,
-            "asteroid-max-size": 1000,
-            "max-number-of-asteroids": 30
+            "name": "Mars belt III",
+            "content": [
+                {
+                    "type": "asteroid",
+                    "asteroidType": "gold",
+                    "asteroidHardness": 1,
+                    "asteroidGenerationRate": 1,
+                    "asteroidMinSize": 100,
+                    "asteroidMaxSize": 1000,
+                    "maxNumberOfAsteroids": 500
+                }
+            ]
         },
         {
             "id": 4,
             "x": -38098297,
             "y": 13456708,
-            "type": "asteroid-belt",
-            "name": "Mars belt V",
-            "asteroid-type": "gold",
-            "asteroid-hardness": 1,
-            "asteroid-generation-rate": 5,
-            "asteroid-min-size": 100,
-            "asteroid-max-size": 1000,
-            "max-number-of-asteroids": 30
+            "name": "Mars belt IV",
+            "asteroidType": "gold",
+            "content": [
+                {
+                    "type": "asteroid",
+                    "asteroidType": "gold",
+                    "asteroidHardness": 1,
+                    "asteroidGenerationRate": 1,
+                    "asteroidMinSize": 100,
+                    "asteroidMaxSize": 1000,
+                    "maxNumberOfAsteroids": 500
+                }
+            ]
         },
         {
             "id": 5,
             "x": -14179769,
             "y": 46436435,
-            "type": "asteroid-belt",
-            "name": "Mars belt VI",
-            "asteroid-type": "gold",
-            "asteroid-hardness": 1,
-            "asteroid-generation-rate": 5,
-            "asteroid-min-size": 100,
-            "asteroid-max-size": 1000,
-            "max-number-of-asteroids": 30
+            "name": "Mars belt V",
+            "content": [
+                {
+                    "type": "asteroid",
+                    "asteroidType": "gold",
+                    "asteroidHardness": 1,
+                    "asteroidGenerationRate": 1,
+                    "asteroidMinSize": 100,
+                    "asteroidMaxSize": 1000,
+                    "maxNumberOfAsteroids": 500
+                }
+            ]
         },
         {
             "id": 6,
             "x": -37697865,
             "y": 37468546,
-            "type": "asteroid-belt",
-            "name": "Mars belt I",
-            "asteroid-type": "gold",
-            "asteroid-hardness": 1,
-            "asteroid-generation-rate": 5,
-            "asteroid-min-size": 100,
-            "asteroid-max-size": 1000,
-            "max-number-of-asteroids": 30
+            "name": "Mars belt VI",
+            "content": [
+                {
+                    "type": "asteroid",
+                    "asteroidType": "gold",
+                    "asteroidHardness": 1,
+                    "asteroidGenerationRate": 1,
+                    "asteroidMinSize": 100,
+                    "asteroidMaxSize": 1000,
+                    "maxNumberOfAsteroids": 500
+                }
+            ]
         }
         
     ]

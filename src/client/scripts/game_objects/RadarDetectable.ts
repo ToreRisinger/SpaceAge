@@ -13,7 +13,7 @@ export abstract class RadarDetectable extends GameObject {
 
     private iconSprite : Graphics.Sprite;
     private isHoverVar : boolean;
-    private ICON_ALPHA_DEFAULT : number = 0.5;
+    private ICON_ALPHA_DEFAULT : number = 0.7;
     private ICON_ALPHA_HOVER : number = 1;
     private icon : ISprite;
 
@@ -75,11 +75,8 @@ export abstract class RadarDetectable extends GameObject {
         if(this.isDetected()) {
             this.calculateIconAlpha();
             this.calculateIconSizeAndPos();
-            if(!isDetectedPreviousFrame) {
-                this.setIconTint(this.isTarget() ? 0xff0000 : this.baseColor);
-            }
         }
-
+        
         this.iconSprite.update();
     }
 
@@ -132,6 +129,7 @@ export abstract class RadarDetectable extends GameObject {
 
     protected setIconBaseColor(color : number) {
         this.baseColor = color;
+        this.setIconTint(this.baseColor);
     }
 
     private calculateDetectedByRadar(distance : number, radarMass : number) {

@@ -2,10 +2,10 @@ import React, { Fragment } from "react";
 import { EventHandler } from "../../../modules/EventHandler";
 import { Events } from "../../../../../shared/util/Events";
 import { GameObjectHandler } from "../../../modules/GameObjectHandler";
-import { CShipwreck } from "../../../game_objects/CShipwreck";
+import { CContainer } from "../../../game_objects/CContainer";
 import LootContainer from "./LootContainer";
 
-export interface CargoPanelState { shipwreck : CShipwreck | undefined}
+export interface CargoPanelState { container : CContainer | undefined}
 
 export default class LootWindow extends React.Component<{}, CargoPanelState> {
 
@@ -17,7 +17,7 @@ export default class LootWindow extends React.Component<{}, CargoPanelState> {
     constructor(props : {}) {
         super(props)
         this.state = {
-            shipwreck : undefined
+            container : undefined
         }
         this.selectedItems = new Set();
         this.open = false;
@@ -41,7 +41,7 @@ export default class LootWindow extends React.Component<{}, CargoPanelState> {
         }
         EventHandler.pushEvent(event);
         this.open = false;
-        this.setState({shipwreck: undefined});
+        this.setState({container: undefined});
     }
 
     public isOpen() {
@@ -51,18 +51,18 @@ export default class LootWindow extends React.Component<{}, CargoPanelState> {
     public onOpen(event: Events.OPEN_CARGO_ACK_CONFIG) {
         this.selectedItems.clear();
         let obj = GameObjectHandler.getGameObjectsMap().get(event.data.id);
-        if(obj != undefined && obj instanceof CShipwreck) {
+        if(obj != undefined && obj instanceof CContainer) {
             this.openWindow(obj);
         }
     }
 
     public onTakeItems() {
-        if(this.state.shipwreck != undefined) {
+        if(this.state.container != undefined) {
             let event : Events.TAKE_ITEM_REQUEST_CONFIG = {
                 eventId: Events.EEventType.TAKE_ITEM_REQUEST,
                 data: {
                     indexes: Array.from(this.selectedItems),
-                    cargoId: this.state.shipwreck.getId()
+                    cargoId: this.state.container.getId()
                 }
             }
             EventHandler.pushEvent(event);
@@ -79,18 +79,18 @@ export default class LootWindow extends React.Component<{}, CargoPanelState> {
         this.forceUpdate();
     }
 
-    private openWindow(shipwreck : CShipwreck) {
+    private openWindow(container : CContainer) {
         this.open = true;
-        this.setState({shipwreck: shipwreck});
+        this.setState({container: container});
     }
 
     render() {
         return (
             <Fragment>
-                {this.state.shipwreck != undefined ?
+                {this.state.container != undefined ?
                     <div className="LootWindow HasBorder Unselectable PanelBackground BodyText" style={{visibility: this.open ? "visible" : "hidden"}}>
                         <div className="LootWindowContainerWrapper">
-                            <LootContainer items={this.state.shipwreck.getCargo().items} onClick={this.onClick} selectedItems={this.selectedItems}/>
+                            <LootContainer items={this.state.container.getCargo().items} onClick={this.onClick} selectedItems={this.selectedItems}/>
                         </div>
                         <div className="LootWindowButtonWrapper">
                             <div className="Button" onClick={this.onTakeItems}>

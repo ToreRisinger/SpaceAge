@@ -3,6 +3,7 @@ import { ICharacter } from "../../../shared/data/gameobject/ICharacter";
 import { CShip } from "./CShip";
 import { ICharacterSkills } from "../../../shared/data/skills/ICharacterSkills";
 import { SPRITES } from "../../../shared/util/SPRITES";
+import { Colors } from "../../../shared/colors/Colors";
 
 export class CCharacter extends CShip {
 
@@ -14,6 +15,12 @@ export class CCharacter extends CShip {
         this.characterData = characterData;
         this.shipCargo = {
             items : []
+        }
+
+        if(thisPlayerShip) {
+            this.setIconBaseColor(Colors.HEX.GREEN);
+        } else {
+            this.setIconBaseColor(0x596fff);
         }
     }
 

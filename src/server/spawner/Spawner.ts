@@ -1,4 +1,5 @@
 import { SSector } from "../sector/SSector";
+import { ISceneObject } from "../../shared/data/gameobject/ISceneObject";
 
 export abstract class Spawner {
 
@@ -14,4 +15,5 @@ export abstract class Spawner {
 
     abstract update1000ms(): void;
     abstract update40ms(): void;
+    abstract getSceneObjects(): Array<ISceneObject>;
 }

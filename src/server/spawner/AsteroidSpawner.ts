@@ -48,13 +48,13 @@ export class AsteroidSpawner extends Spawner {
         this.y = y;
 
         this.startPos = {
-            x: 3000,
-            y: -5000,
+            x: 100000,
+            y: -100000,
         }
 
         this.endPos = {
-            x: 3000,
-            y: 5000
+            x: 100000,
+            y: 100000
         }
     }
 
@@ -78,10 +78,14 @@ export class AsteroidSpawner extends Spawner {
             hardness : this.hardness,
             size : Utils.getRandomNumber(this.minSize, this.maxSize),
             type : this.type,
-            x : 3000 + Utils.getRandomNumber(-500, 500),
+            x : 3000 + Utils.getRandomNumber(-50000, 50000),
             y : Utils.getRandomNumber(this.startPos.y, this.endPos.y)
         }
 
         this.getParentSector().getAsteroids().set(asteroid.id, asteroid);
-    }  
+    } 
+    
+    public getSceneObjects() {
+        return new Array();
+    }
 }

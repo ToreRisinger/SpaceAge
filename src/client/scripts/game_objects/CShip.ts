@@ -27,10 +27,6 @@ export class CShip extends RadarDetectable {
 
         this.shipModuleWrapper = new ShipModuleWrapper(this, thisPlayerShip);
 
-        if(thisPlayerShip) {
-            this.setIconBaseColor(0x00ff00);
-        }
-
         //@ts-ignore
         this.shieldDamageParticleEmitter = new Graphics.ParticleEmitter({
             x: 0,

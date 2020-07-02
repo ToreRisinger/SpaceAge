@@ -188,8 +188,7 @@ export class ComManager {
                                 id : sectors[i].getId(),
                                 x : sectors[i].getX(),
                                 y : sectors[i].getY(),
-                                name : sectors[i].getName(),
-                                sectorType: sectors[i].getSectorType()
+                                name : sectors[i].getName()
                             });
                         }
                 

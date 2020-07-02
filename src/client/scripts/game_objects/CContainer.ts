@@ -1,20 +1,21 @@
 import { RadarDetectable } from "./RadarDetectable";
 import { SPRITES } from "../../../shared/util/SPRITES";
-import { IShipwreck } from "../../../shared/data/gameobject/IShipwreck";
+import { IContainer } from "../../../shared/data/gameobject/IContainer";
 import { Graphics } from "../modules/graphics/Graphics";
 import { ICargo } from "../../../shared/data/ICargo";
 
-export class CShipwreck extends RadarDetectable {
+export class CContainer extends RadarDetectable {
     
     private static SHIP_WRECK_MASS: number = 1000;
     private sprite: Graphics.Sprite;
 
-    private data: IShipwreck;
+    private data: IContainer;
     
-    constructor(data: IShipwreck) {
-        super(data, SPRITES.SHIPWRECK_ICON.sprite, false, false);
+    constructor(data: IContainer) {
+        super(data, SPRITES.CONTAINER_ICON.sprite, false, false);
         this.data = data;
-        this.sprite = new Graphics.Sprite(SPRITES.SHIPWRECK.sprite, data.x, data.y);
+        this.sprite = new Graphics.Sprite(SPRITES.CONTAINER.sprite, data.x, data.y);
+        this.sprite.setScale(0.5);
     }
 
     public update() {
@@ -22,17 +23,17 @@ export class CShipwreck extends RadarDetectable {
         super.update();
     }
 
-    public updateData(data: IShipwreck) {
+    public updateData(data: IContainer) {
         super.updateData(data);
         this.data = data;
     }
 
     protected getRadarMass(): number {
-        return CShipwreck.SHIP_WRECK_MASS;
+        return CContainer.SHIP_WRECK_MASS;
     }    
     
     public getName(): string {
-        return "Shipwreck";
+        return "Container";
     }
     
     public getDisplayInformation(): string[] {

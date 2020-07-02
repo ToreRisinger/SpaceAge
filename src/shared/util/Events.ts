@@ -2,13 +2,14 @@ import { RadarDetectable } from "../../client/scripts/game_objects/RadarDetectab
 import { EGameState } from "./EGameState";
 import { ICharacter } from "../data/gameobject/ICharacter";
 import { ICargo } from "../data/ICargo";
-import { ISpaceStation } from "../data/ISpaceStation";
+import { ISpaceStation } from "../data/gameobject/ISpaceStation";
 import { ISector } from "../data/sector/ISector";
 import { IAsteroid } from "../data/astroid/IAstroid";
 import { ISkill } from "../data/skills/ISkill";
 import { ICombatLogMessage } from "../data/CombatLogInterfaces";
 import { INpc } from "../data/npc/INpc";
-import { IShipwreck } from "../data/gameobject/IShipwreck";
+import { IContainer } from "../data/gameobject/IContainer";
+import { ISceneObject } from "../data/gameobject/ISceneObject";
 
 
 export module Events {
@@ -19,10 +20,11 @@ export module Events {
         PLAYER_CONNECTED_EVENT,
         PLAYER_DISCONNECTED_EVENT,
         SHIPS_UPDATE_EVENT,
-        SHIP_WRECK_UPDATE_EVENT,
+        CONTAINER_UPDATE_EVENT,
         ASTEROIDS_UPDATE_EVENT,
         CARGO_UPDATE_EVENT,
         SPACE_STATION_UPDATE_EVENT,
+        SCENE_OBJECT_UPDATE_EVENT,
 
         GAME_OBJECT_DESTOYED_EVENT,
         CHANGE_SECTOR_EVENT,
@@ -192,9 +194,9 @@ export module Events {
         }
     }
 
-    export interface SHIP_WRECK_UPDATE_EVENT_CONFIG extends GameEvent {
+    export interface CONTAINER_UPDATE_EVENT_CONFIG extends GameEvent {
         data: {
-            shipWrecks: Array<IShipwreck>,
+            containers: Array<IContainer>,
         }
     }
 
@@ -207,6 +209,12 @@ export module Events {
     export interface SPACE_STATION_UPDATE_EVENT_CONFIG extends GameEvent {
         data : {
             spaceStation: ISpaceStation
+        }
+    }
+
+    export interface SCENE_OBJECT_UPDATE_EVENT_CONFIG extends GameEvent {
+        data: {
+            sceneObjects: Array<ISceneObject>
         }
     }
 

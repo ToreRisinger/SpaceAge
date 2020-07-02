@@ -13,7 +13,7 @@ cp src/client/lib/phaser.js build/public/phaser.js
 cp -R js-src/shared build/shared
 cp -R js-src/server build/server
 
-cp -R src/client/css build/public/css
+cp -R src/client/css build/public
 cp -R src/server/resources build/server/resources
 
 node build/index.js

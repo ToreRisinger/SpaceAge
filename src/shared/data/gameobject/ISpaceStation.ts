@@ -1,4 +1,4 @@
-import { IGameObject } from "./gameobject/IGameObject";
+import { IGameObject } from "./IGameObject";
 
 export interface ISpaceStation extends IGameObject {
     name: string

@@ -1,7 +1,7 @@
 import { Action } from "../fw/Action";
 import { RadarDetectable } from "../../../game_objects/RadarDetectable";
 import { InputHandler } from "../../InputHandler";
-import { CShipwreck } from "../../../game_objects/CShipwreck";
+import { CContainer } from "../../../game_objects/CContainer";
 import LootWindow from "../../../react/mainComponents/cargo/LootWindow";
 import { GlobalDataService } from "../../GlobalDataService";
 import { Events } from "../../../../../shared/util/Events";
@@ -25,7 +25,7 @@ export class OpenAction extends Action {
     }
 
     public isEnabled(selection: RadarDetectable | undefined, target: RadarDetectable | undefined): boolean {
-        if(selection != undefined && selection instanceof CShipwreck && !LootWindow.getInstance().isOpen() ) {
+        if(selection != undefined && selection instanceof CContainer && !LootWindow.getInstance().isOpen() ) {
             let thisShipPos = GlobalDataService.getInstance().getPlayerShip().getPos();
             return thisShipPos.subtract(selection.getPos()).length() <= 1000;
         } else {

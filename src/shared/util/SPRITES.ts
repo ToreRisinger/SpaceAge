@@ -24,6 +24,30 @@ export const SPRITES = {
     },
 
     /*
+
+        SCENE OBJECTS
+
+    */
+    SMUGGLER_HIDEOUT : {
+        animation : undefined,
+        sprite : {
+            key : "PIRATE_HOLD",
+            file : "sceneobjects/smuggler_hideout.png",
+            width: 217,
+            height: 243
+        }
+    },
+    PIRATE_HOLD : {
+        animation : undefined,
+        sprite : {
+            key : "PIRATE_HOLD",
+            file : "sceneobjects/pirate_hold.png",
+            width: 217,
+            height: 243
+        }
+    },
+
+    /*
         ASTEROIDS
     */
     
@@ -325,11 +349,11 @@ export const SPRITES = {
             height: 38
         }
     },
-    SHIPWRECK_ICON: {
+    CONTAINER_ICON: {
         animation: undefined,
         sprite: {
-            key: "shipwreck_icon",
-            file: "icons/shipwreck_icon.png",
+            key: "container_icon",
+            file: "icons/container_icon.png",
             width: 38,
             height: 38
         }
@@ -338,16 +362,16 @@ export const SPRITES = {
 
     /*
 
-        SHIPWRECK
+        CONTAINER
 
     */
-    SHIPWRECK: {
+    CONTAINER: {
         animation: undefined,
         sprite: {
-            key: "shipwreck",
-            file: "shipwreck/shipwreck.png",
-            width: 100,
-            height: 100
+            key: "container",
+            file: "container/container.png",
+            width: 84,
+            height: 193
         }
     },
 

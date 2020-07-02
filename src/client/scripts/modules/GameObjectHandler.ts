@@ -13,7 +13,8 @@ import { ISector } from "../../../shared/data/sector/ISector";
 import { IPlanet } from "../../../shared/data/planet/IPlanet";
 import { IAsteroid } from "../../../shared/data/astroid/IAstroid";
 import { CNpc } from "../game_objects/CNpc";
-import { CShipwreck } from "../game_objects/CShipwreck";
+import { CContainer } from "../game_objects/CContainer";
+import { CSceneObject } from "../game_objects/CSceneObject";
 
 export module GameObjectHandler {
 
@@ -173,16 +174,26 @@ export module GameObjectHandler {
         EventHandler.pushEvent(eventToSend); 
     }  
 
-    function onShipWreckUpdate(event: Events.SHIP_WRECK_UPDATE_EVENT_CONFIG) {
-        event.data.shipWrecks.forEach(shipWreck => {
-            if(gameObjects.get(shipWreck.id) == undefined) {
-                gameObjects.set(shipWreck.id, new CShipwreck(shipWreck));
+    function onContainerUpdate(event: Events.CONTAINER_UPDATE_EVENT_CONFIG) {
+        event.data.containers.forEach(container => {
+            if(gameObjects.get(container.id) == undefined) {
+                gameObjects.set(container.id, new CContainer(container));
             } else {
                 //@ts-ignore
-                gameObjects.get(shipWreck.id).updateData(shipWreck);
+                gameObjects.get(container.id).updateData(container);
             }
         });
-        
+    }
+
+    function onSceneObjectUpdate(event: Events.SCENE_OBJECT_UPDATE_EVENT_CONFIG) {
+        event.data.sceneObjects.forEach(obj => {
+            if(gameObjects.get(obj.id) == undefined) {
+                gameObjects.set(obj.id, new CSceneObject(obj));
+            } else {
+                //@ts-ignore
+                gameObjects.get(obj.id).updateData(obj);
+            }
+        });
     }
 
     function subscribeToEvents() {
@@ -191,11 +202,12 @@ export module GameObjectHandler {
         EventHandler.on(Events.EEventType.SHIPS_UPDATE_EVENT, onShipsUpdate);
         EventHandler.on(Events.EEventType.ASTEROIDS_UPDATE_EVENT, onAsteroidsUpdate);
         EventHandler.on(Events.EEventType.SPACE_STATION_UPDATE_EVENT, onSpaceStationUpdate);
-        EventHandler.on(Events.EEventType.SHIP_WRECK_UPDATE_EVENT, onShipWreckUpdate);
+        EventHandler.on(Events.EEventType.CONTAINER_UPDATE_EVENT, onContainerUpdate);
         EventHandler.on(Events.EEventType.CARGO_UPDATE_EVENT, onCargoUpdate);
         EventHandler.on(Events.EEventType.GAME_OBJECT_DESTOYED_EVENT, onGameObjectsDestroyed);
         EventHandler.on(Events.EEventType.CHANGE_SECTOR_EVENT, onSectorChanged); 
-        EventHandler.on(Events.EEventType.SKILL_STATE_EVENT, onSkillStateChanged);   
+        EventHandler.on(Events.EEventType.SKILL_STATE_EVENT, onSkillStateChanged); 
+        EventHandler.on(Events.EEventType.SCENE_OBJECT_UPDATE_EVENT, onSceneObjectUpdate);  
     }
 
     function destroyGameObject(objectId : number) {

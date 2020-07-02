@@ -1,5 +1,5 @@
 import { RadarDetectable } from "./RadarDetectable";
-import { ISpaceStation } from "../../../shared/data/ISpaceStation";
+import { ISpaceStation } from "../../../shared/data/gameobject/ISpaceStation";
 import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
 import { Graphics } from "../modules/graphics/Graphics";
 import { SPRITES } from "../../../shared/util/SPRITES";

@@ -209,6 +209,10 @@ export namespace Graphics {
         public setAlpha(alpha: number): void {
             this.sprite.alpha = alpha;
         }
+
+        public setScale(scale: number): void {
+            this.sprite.setScale(scale);
+        }
     
         public setInteractive(): void {
             this.sprite.setInteractive();

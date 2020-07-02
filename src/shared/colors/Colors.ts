@@ -12,6 +12,7 @@ export namespace Colors {
         export let GREY: string = "rgb(109, 109, 109)";
         export let DARK_YELLOW: string = "rgb(139, 137, 0)";
         export let DARK_RED: string = "rgb(133, 0, 0)";
+        export let ORANGE: string = "rgb255, 187, 0)";
 
 
     }
@@ -19,8 +20,11 @@ export namespace Colors {
     export module HEX {
         export let RED: number = 0xff5454;
         export let GREEN: number = 0x6cff59;
+        export let BLUE: number = 0x4542ff;
+        export let LIGHT_BLUE: number = 0x706dfd;
         export let YELLOW: number = 0xffeb39;
         export let WHITE: number = 0xffffff;
+        export let ORANGE: number = 0xffbb00;
     }
     
 }
