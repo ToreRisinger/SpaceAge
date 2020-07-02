@@ -47,10 +47,6 @@ export class Asteroid extends RadarDetectable {
         return this.asteroid_config.type;
     }
 
-    public getHardness(): number {
-        return this.asteroid_config.hardness;
-    }
-
     public getSize(): number {
         return this.asteroid_config.size;
     }
@@ -58,7 +54,6 @@ export class Asteroid extends RadarDetectable {
     public getDisplayInformation() : Array<string> {
         let asteroidInfo = AsteroidInfo.getAsteroidInfo(this.asteroid_config.type);
         return new Array<string>(
-                "Hardness: " + this.asteroid_config.hardness, 
                 "Mineral:  " + asteroidInfo.mineral,
                 "Size:   " + Math.round(this.asteroid_config.size) + " m²",
                 "Mass:   " + Math.round(this.asteroid_config.size * asteroidInfo.massPerM2) + " kg",

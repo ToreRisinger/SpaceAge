@@ -38,8 +38,8 @@ export module StatInfo {
                 return "Radar signature reduction";
             case EStatType.weapon_range :
                 return "Weapon range";
-            case EStatType.mining_laser_strength :
-                return "Mining laser strength";
+            case EStatType.mining_laser_yield :
+                return "Mining laser yield";
             case EStatType.mining_laser_range :
                 return "Mining laser range";
             case EStatType.max_nr_of_modules : 
@@ -107,10 +107,10 @@ export module StatInfo {
                 return " m ";
             case EStatType.weapon_damage :
                 return " damage per second ";
-            case EStatType.mining_laser_strength :
-                return " ";
+            case EStatType.mining_laser_yield :
+                return ' m<sup>2</sup> ';
             case EStatType.mining_laser_range :
-                return " m ";
+                return ' m ';
             case EStatType.max_nr_of_modules : 
                 return " ";
             default :

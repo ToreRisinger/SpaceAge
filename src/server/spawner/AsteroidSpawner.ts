@@ -8,7 +8,6 @@ import { Utils } from "../../shared/util/Utils";
 export class AsteroidSpawner extends Spawner {
     
     private type: EMineralItemType;
-    private hardness: number;
     private minSize: number;
     private maxSize: number;
     private generationRate: number;
@@ -30,15 +29,13 @@ export class AsteroidSpawner extends Spawner {
     constructor(sector: SSector,
         x: number,
         y: number,
-        type: EMineralItemType, 
-        hardness: number, 
+        type: EMineralItemType,  
         minSize: number, 
         maxSize: number, 
         generationRate: number,
         maxNrOfAsteroids: number) {
         super(sector);
         this.type = type;
-        this.hardness = hardness;
         this.minSize = minSize;
         this.maxSize = maxSize;
         this.generationRate = generationRate;
@@ -75,7 +72,6 @@ export class AsteroidSpawner extends Spawner {
     private createAsteroid() {
         let asteroid : IAsteroid = {
             id : IdHandler.getNewGameObjectId(),
-            hardness : this.hardness,
             size : Utils.getRandomNumber(this.minSize, this.maxSize),
             type : this.type,
             x : 3000 + Utils.getRandomNumber(-50000, 50000),

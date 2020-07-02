@@ -27,15 +27,15 @@ export module SkillInfo {
                 values: [0, 0.5, 1, 1.5, 2, 2.5]
             }
         },
-        [EStatType.mining_laser_strength] : {
+        [EStatType.mining_laser_yield] : {
             name: "Mining Laser Strength",
-            description: "Increases ship " + StatInfo.statTypeToString(EStatType.mining_laser_strength) + ".",
+            description: "Increases ship " + StatInfo.statTypeToString(EStatType.mining_laser_yield) + ".",
             maxLevel: 5,
             startLearningTime: 61342160,
             learningTimeIncrease: 2.0,
             stats: {
                 modifier: EStatModifier.increase_percentage,
-                stat: EStatType.mining_laser_strength,
+                stat: EStatType.mining_laser_yield,
                 values: [0, 0.5, 1, 1.5, 2, 2.5]
             }
         },

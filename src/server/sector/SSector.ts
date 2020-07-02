@@ -86,7 +86,7 @@ export class SSector {
         if(SectorDefinition.instanceOfIAsteroidDef(def)) {
           
           let asteroidType = this.getAsteroidType(def.asteroidType);
-          this.addSpawner(new AsteroidSpawner(this, 0, 0, asteroidType, def.asteroidHardness, def.asteroidMinSize, def.maxNumberOfAsteroids, def.asteroidGenerationRate, def.maxNumberOfAsteroids));
+          this.addSpawner(new AsteroidSpawner(this, 0, 0, asteroidType, def.asteroidMinSize, def.maxNumberOfAsteroids, def.asteroidGenerationRate, def.maxNumberOfAsteroids));
         } else if(SectorDefinition.instanceOfIPirateDef(def)) {
           for(let i = 0; i < def.locations; i++) {
             this.addSpawner(new NpcSpawner(this, this.getNpcType(def.type), def.level, def.maxNrOfNpcs, def.spawnRate));

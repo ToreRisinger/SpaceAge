@@ -18,7 +18,7 @@ export interface ISkillList {
     [EStatType.cargo_hold] : ISkill,
     [EStatType.dodge] : ISkill,
     [EStatType.weapon_damage] : ISkill,
-    [EStatType.mining_laser_strength] : ISkill,
+    [EStatType.mining_laser_yield] : ISkill,
 
     [EStatType.max_nr_of_modules] : ISkill,
     [EStatType.main_module_quality] : ISkill,

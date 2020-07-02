@@ -26,36 +26,36 @@ export default class StatList extends React.Component<StatListProps, {}> {
                 <div className="StatListContainer">
                     <pre>Thrust:                      {this.getStatString(char, EStatType.thrust, statMap)}</pre>
                     <pre>Acceleration:                {this.getStatString(char, EStatType.acceleration, statMap)}</pre>
-                    <pre>Max speed:                   {char.getStat(EStatType.max_speed)} m/s {this.getHighLightText(char.getStat(EStatType.max_speed), EStatType.max_speed, statMap)}</pre>
-                    <pre>Mass:                        {char.getStat(EStatType.mass)} kg {this.getHighLightText(char.getStat(EStatType.mass), EStatType.mass, statMap)}</pre>
+                    <pre>Max speed:                   {this.getStatString(char, EStatType.max_speed, statMap)}</pre>
+                    <pre>Mass:                        {this.getStatString(char, EStatType.mass, statMap)}</pre>
                     
                     <hr></hr>
-                    <pre>Power:                       {char.getStat(EStatType.power)} {this.getHighLightText(char.getStat(EStatType.power), EStatType.power, statMap)}</pre>
+                    <pre>Power:                       {this.getStatString(char, EStatType.power, statMap)}</pre>
                     
                     <hr></hr>
-                    <pre>Shield:                      {char.getStat(EStatType.shield)} {this.getHighLightText(char.getStat(EStatType.shield), EStatType.shield, statMap)}</pre>
-                    <pre>Shield generation:           {char.getStat(EStatType.shield_generation)} p/s {this.getHighLightText(char.getStat(EStatType.shield_generation), EStatType.shield_generation, statMap)}</pre>
-                    <pre>Armor:                       {char.getStat(EStatType.armor)} {this.getHighLightText(char.getStat(EStatType.armor), EStatType.armor, statMap)}</pre>
-                    <pre>Hull:                        {char.getStat(EStatType.hull)} {this.getHighLightText(char.getStat(EStatType.hull), EStatType.hull, statMap)}</pre>
+                    <pre>Shield:                      {this.getStatString(char, EStatType.shield, statMap)}</pre>
+                    <pre>Shield generation:           {this.getStatString(char, EStatType.shield_generation, statMap)}</pre>
+                    <pre>Armor:                       {this.getStatString(char, EStatType.armor, statMap)}</pre>
+                    <pre>Hull:                        {this.getStatString(char, EStatType.hull, statMap)}</pre>
 
                     <hr></hr>
-                    <pre>Radar range:                 {char.getStat(EStatType.radar_range)} m {this.getHighLightText(char.getStat(EStatType.radar_range), EStatType.radar_range, statMap)}</pre>
-                    <pre>Radar signature reduction:   {char.getStat(EStatType.radar_signature_reduction)} {this.getHighLightText(char.getStat(EStatType.radar_signature_reduction), EStatType.radar_signature_reduction, statMap)}</pre>
+                    <pre>Radar range:                 {this.getStatString(char, EStatType.radar_range, statMap)}</pre>
+                    <pre>Radar signature reduction:   {this.getStatString(char, EStatType.radar_signature_reduction, statMap)}</pre>
                     
                     <hr></hr>
-                    <pre>Dodge:                       {Math.round(char.getStat(EStatType.dodge) * 100)} % {this.getHighLightText(char.getStat(EStatType.dodge), EStatType.dodge, statMap)}</pre>
-                    <pre>Target dodge reduction:      {char.getStat(EStatType.target_dodge_reduction)} {this.getHighLightText(char.getStat(EStatType.target_dodge_reduction), EStatType.target_dodge_reduction, statMap)}</pre>
+                    <pre>Dodge:                       {this.getStatString(char, EStatType.dodge, statMap)}</pre>
+                    <pre>Target dodge reduction:      {this.getStatString(char, EStatType.target_dodge_reduction, statMap)}</pre>
 
                     <hr></hr>
-                    <pre>Cargo hold:                  {char.getStat(EStatType.cargo_hold)} m<sup>2</sup> {this.getHighLightText(char.getStat(EStatType.cargo_hold), EStatType.cargo_hold, statMap)}</pre>
+                    <pre>Cargo hold:                  {this.getStatString(char, EStatType.cargo_hold, statMap)}</pre>
                     
                     <hr></hr>
-                    <pre>Weapon range:                {char.getStat(EStatType.weapon_range)} m {this.getHighLightText(char.getStat(EStatType.weapon_range), EStatType.weapon_range, statMap)}</pre>
-                    <pre>Weapon damage:               {char.getStat(EStatType.weapon_damage)} damage per second {this.getHighLightText(char.getStat(EStatType.weapon_damage), EStatType.weapon_damage, statMap)}</pre>
+                    <pre>Weapon range:                {this.getStatString(char, EStatType.weapon_range, statMap)}</pre>
+                    <pre>Weapon damage:               {this.getStatString(char, EStatType.weapon_damage, statMap)}</pre>
 
                     <hr></hr>
-                    <pre>Mining laser strength:       {char.getStat(EStatType.mining_laser_strength)} {this.getHighLightText(char.getStat(EStatType.mining_laser_strength), EStatType.mining_laser_strength, statMap)}</pre>
-                    <pre>Mining laser range:          {char.getStat(EStatType.mining_laser_range)} m {this.getHighLightText(char.getStat(EStatType.mining_laser_range), EStatType.mining_laser_range, statMap)}</pre>    
+                    <pre>Mining laser yield:          {this.getStatString(char, EStatType.mining_laser_yield, statMap)}</pre>
+                    <pre>Mining laser range:          {this.getStatString(char, EStatType.mining_laser_range, statMap)}</pre>    
                 </div>
             </div>
         );

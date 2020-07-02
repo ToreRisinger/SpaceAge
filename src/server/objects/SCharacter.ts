@@ -65,7 +65,7 @@ export class SCharacter extends SShip {
         skills.push({level: 0, skillType: EStatType.radar_signature_reduction, progress: 0});
         skills.push({level: 0, skillType: EStatType.weapon_range, progress: 0});
         skills.push({level: 0, skillType: EStatType.weapon_damage, progress: 0});
-        skills.push({level: 0, skillType: EStatType.mining_laser_strength, progress: 0});
+        skills.push({level: 0, skillType: EStatType.mining_laser_yield, progress: 0});
         skills.push({level: 0, skillType: EStatType.mining_laser_range, progress: 0});
 
         skills.push({level: 1, skillType: EStatType.main_module_quality, progress: 0});
@@ -319,7 +319,7 @@ export class SCharacter extends SShip {
         let miningShipToAsteroidDistance : number = math.length(miningShipToAsteroidVec);
         let miningShipMiningRange = character.stats[EStatType.mining_laser_range];
         if(miningShipToAsteroidDistance <= miningShipMiningRange) {
-          let sizeMined = Math.floor(character.stats[EStatType.mining_laser_strength] / targetAsteroid.hardness);
+          let sizeMined = character.stats[EStatType.mining_laser_yield];
           if(sizeMined == 0) {
               sizeMined = 1;
           }

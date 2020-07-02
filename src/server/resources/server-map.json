@@ -25,7 +25,6 @@
                 {
                     "type": "asteroid",
                     "asteroidType": "iron",
-                    "asteroidHardness": 1,
                     "asteroidGenerationRate": 1,
                     "asteroidMinSize": 100,
                     "asteroidMaxSize": 1000,
@@ -56,7 +55,6 @@
                 {
                     "type": "asteroid",
                     "asteroidType": "gold",
-                    "asteroidHardness": 1,
                     "asteroidGenerationRate": 1,
                     "asteroidMinSize": 100,
                     "asteroidMaxSize": 1000,
@@ -73,7 +71,6 @@
                 {
                     "type": "asteroid",
                     "asteroidType": "gold",
-                    "asteroidHardness": 1,
                     "asteroidGenerationRate": 1,
                     "asteroidMinSize": 100,
                     "asteroidMaxSize": 1000,
@@ -91,7 +88,6 @@
                 {
                     "type": "asteroid",
                     "asteroidType": "gold",
-                    "asteroidHardness": 1,
                     "asteroidGenerationRate": 1,
                     "asteroidMinSize": 100,
                     "asteroidMaxSize": 1000,
@@ -108,7 +104,6 @@
                 {
                     "type": "asteroid",
                     "asteroidType": "gold",
-                    "asteroidHardness": 1,
                     "asteroidGenerationRate": 1,
                     "asteroidMinSize": 100,
                     "asteroidMaxSize": 1000,
@@ -125,7 +120,6 @@
                 {
                     "type": "asteroid",
                     "asteroidType": "gold",
-                    "asteroidHardness": 1,
                     "asteroidGenerationRate": 1,
                     "asteroidMinSize": 100,
                     "asteroidMaxSize": 1000,

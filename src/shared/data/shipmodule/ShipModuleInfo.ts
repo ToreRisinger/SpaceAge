@@ -397,7 +397,7 @@ export module ShipModuleInfo {
                         modifier : EStatModifier.increase_additive
                     },
                     {
-                        stat: EStatType.mining_laser_strength,
+                        stat: EStatType.mining_laser_yield,
                         max : [2, 3, 4, 5, 6],
                         min : [1, 2, 3, 4, 5],
                         modifier : EStatModifier.increase_additive

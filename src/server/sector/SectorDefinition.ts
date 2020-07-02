@@ -7,7 +7,6 @@ export namespace SectorDefinition {
     export interface IAsteroidDef extends ISectorDef {
         type: "asteroid"
         asteroidType: string,
-        asteroidHardness: number,
         asteroidGenerationRate: number,
         asteroidMinSize: number,
         asteroidMaxSize: number,

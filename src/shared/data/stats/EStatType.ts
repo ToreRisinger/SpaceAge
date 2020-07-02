@@ -24,7 +24,7 @@ export enum EStatType {
     radar_range,
     weapon_range,
     mining_laser_range,
-    mining_laser_strength,
+    mining_laser_yield,
     weapon_damage,
 
     target_dodge_reduction, // calculating %: log((stat/(radar_range/<some_low_value_to_reduce_radar_range_impact>)+1)), gives value between 0->1 which is the %
