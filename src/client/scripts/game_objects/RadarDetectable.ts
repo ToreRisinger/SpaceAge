@@ -66,11 +66,11 @@ export abstract class RadarDetectable extends GameObject {
 
     public abstract getName(): string;
 
-    public update() {
-        super.update();
+    public update(time: number, delta: number) {
+        super.update(time, delta);
     }
 
-    public updateGraphics(): void {
+    public updateGraphics(time: number, delta: number): void {
         if(this.firstUpdate) {
             this.calculateDetectedByRadar(this.getDistanceToPlayerShip(), this.getRadarMass());
             this.setVisibleOrInvisible();

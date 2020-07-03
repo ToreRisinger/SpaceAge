@@ -97,6 +97,7 @@ export class GameController {
     }
 
     private inSpaceUpdate(time : number, delta : number) {
+        //console.log("Time: " + time + ", Delta: " + delta);
         InputHandler.update(time, delta);
         EventHandler.update(time, delta);
         ActionManager.update(time, delta);

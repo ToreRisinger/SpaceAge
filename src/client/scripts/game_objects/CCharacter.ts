@@ -24,6 +24,11 @@ export class CCharacter extends CShip {
         }
     }
 
+    public updateData(characterData : ICharacter) {
+        super.updateData(characterData);
+        this.characterData = characterData;
+    }
+
     public getMoney(): number {
         return this.characterData.money;
     }
@@ -46,11 +51,6 @@ export class CCharacter extends CShip {
 
     public getSkills(): ICharacterSkills {
         return this.characterData.skills;
-    }
-
-    public updateData(characterData : ICharacter) {
-        super.updateData(characterData);
-        this.characterData = characterData;
     }
 
     public isWarping(): boolean {

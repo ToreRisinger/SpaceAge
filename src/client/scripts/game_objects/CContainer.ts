@@ -18,8 +18,8 @@ export class CContainer extends RadarDetectable {
         this.sprite.setScale(0.5);
     }
 
-    public updateGraphics() {
-        super.updateGraphics();
+    public updateGraphics(time: number, delta: number) {
+        super.updateGraphics(time, delta);
         this.sprite.update();
     }
 

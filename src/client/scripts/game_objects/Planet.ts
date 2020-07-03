@@ -45,12 +45,12 @@ export class Planet extends RadarDetectable {
             "Diameter: " + Utils.formatMeters(this.planetData.diameter), "Mass: " + this.planetData.mass);
     }
 
-    public update() {
-        super.update();   
+    public update(time: number, delta: number) {
+        super.update(time, delta);   
     }
 
-    public updateGraphics() {
-        super.updateGraphics();
+    public updateGraphics(time: number, delta: number) {
+        super.updateGraphics(time, delta);
         this.sprite.update();
         this.planetOrbit.update();
     }

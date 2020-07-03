@@ -18,8 +18,8 @@ export class CSector extends RadarDetectable {
         this.displayInformation = new Array();
     }
 
-    public update() {
-        super.update();
+    public update(time: number, delta: number) {
+        super.update(time, delta);
     }
 
     public getMapPos() {

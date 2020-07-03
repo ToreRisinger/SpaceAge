@@ -24,12 +24,12 @@ export class Asteroid extends RadarDetectable {
         this.setupSprite();
     }
 
-    public update() {
-        super.update();
+    public update(time: number, delta: number) {
+        super.update(time, delta);
     }
 
-    public updateGraphics() {
-        super.updateGraphics();
+    public updateGraphics(time: number, delta: number) {
+        super.updateGraphics(time, delta);
         this.sprite.update();
     }
     

@@ -45,21 +45,21 @@ export module GameObjectHandler {
 
     export function update(time : number, delta : number) {
         gameObjects.forEach((object: GameObject, key: number) => {
-            object.update();
+            object.update(time, delta);
         });
 
         planets.forEach(planet => {
-            planet.update();
+            planet.update(time, delta);
         })
     }
 
     export function updateGraphics(time: number, delta: number) {
         gameObjects.forEach((object: GameObject, key: number) => {
-            object.updateGraphics();
+            object.updateGraphics(time, delta);
         });
 
         planets.forEach(planet => {
-            planet.updateGraphics();
+            planet.updateGraphics(time, delta);
         })
     }
 

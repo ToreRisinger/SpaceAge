@@ -86,6 +86,22 @@ export class CShip extends RadarDetectable {
         }
     }
 
+    public update(time: number, delta: number) {
+        super.update(time, delta);
+    }
+
+    public updateGraphics(time: number, delta: number) {
+        super.updateGraphics(time, delta);
+        this.shipModuleWrapper.update();  
+        this.updateTargetDamageEffects();
+
+        if(this.isAttackingPlayer()) {
+            let pos = this.getPos();
+            this.attackingIcon.setPos(pos.x, pos.y);
+            this.attackingIcon.update();
+        }
+    }
+
     public getIsMoving() {
         return this.shipData.state.isMoving;
     }
@@ -144,22 +160,6 @@ export class CShip extends RadarDetectable {
 
     public getTargetId(): number {
         return this.shipData.state.targetId;
-    }
-
-    public update() {
-        super.update();
-    }
-
-    public updateGraphics() {
-        super.updateGraphics();
-        this.shipModuleWrapper.update();  
-        this.updateTargetDamageEffects();
-
-        if(this.isAttackingPlayer()) {
-            let pos = this.getPos();
-            this.attackingIcon.setPos(pos.x, pos.y);
-            this.attackingIcon.update();
-        }
     }
 
     public getDisplayInformation() : Array<string> {
