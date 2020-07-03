@@ -39,8 +39,8 @@ export module ShipModuleInfo {
                     },
                     {
                         stat: EStatType.radar_range,
-                        max : [2000, 3000, 4000, 5000, 6000],
-                        min : [1000, 2000, 3000, 4000, 5000],
+                        max : [20000, 3000, 4000, 5000, 6000],
+                        min : [10000, 2000, 3000, 4000, 5000],
                         modifier : EStatModifier.increase_additive
                     },
                     {

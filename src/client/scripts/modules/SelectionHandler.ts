@@ -2,24 +2,17 @@ import { EventHandler } from "./EventHandler";
 import { Events } from "../../../shared/util/Events";
 import { InputHandler } from "./InputHandler";
 import { GlobalDataService } from "./GlobalDataService";
-import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
 import { RadarDetectable } from "../game_objects/RadarDetectable";
 import { Graphics } from "./graphics/Graphics";
 import { SPRITES } from "../../../shared/util/SPRITES";
 
 export module SelectionHandler {
 
-    let selectionIcon: Graphics.Sprite;
-    let selectIconFadeInScale: number;
-    let selectIconIsFadingIn: boolean;
+    let selectionIcon: Graphics.TargetSprite;
     let selectedObject: RadarDetectable | undefined;
 
     export function init() {
-        selectionIcon = new Graphics.Sprite(SPRITES.SELECTION_ICON.sprite, 0, 0);
-        selectionIcon.setDepth(DRAW_LAYERS.GRAPHICS_LAYER);
-        selectionIcon.setVisible(false);
-        selectIconIsFadingIn = false;
-        selectIconFadeInScale = 0;
+        selectionIcon = new Graphics.TargetSprite(SPRITES.SELECTION_ICON.sprite, 0, 0);
         selectedObject = undefined;
         subscribeToEvents();
     }
@@ -32,17 +25,6 @@ export module SelectionHandler {
         }
 
         if(selectedObject != undefined) {    
-            let cameraZoom = GlobalDataService.getInstance().getCameraZoom();
-            if(selectIconIsFadingIn) {
-                selectionIcon.setDisplaySize(SPRITES.SELECTION_ICON.sprite.width * selectIconFadeInScale * cameraZoom, 
-                    SPRITES.SELECTION_ICON.sprite.height * selectIconFadeInScale * cameraZoom);
-                selectIconFadeInScale -= 0.05;
-                if(selectIconFadeInScale <= 1) {
-                    selectIconIsFadingIn = false;
-                }
-            } else {
-                selectionIcon.setDisplaySize(SPRITES.SELECTION_ICON.sprite.width * cameraZoom, SPRITES.SELECTION_ICON.sprite.height * cameraZoom);
-            }
             let selectedObjectPos = selectedObject.getPos();
             selectionIcon.setPos(selectedObjectPos.x, selectedObjectPos.y);
             selectionIcon.update();
@@ -64,8 +46,7 @@ export module SelectionHandler {
         }
 
         if(newSelection != undefined) {
-            selectIconIsFadingIn = true;
-            selectIconFadeInScale = 2;
+            selectionIcon.trigger();
         }
 
         GlobalDataService.getInstance().setSelectedObject(selectedObject);

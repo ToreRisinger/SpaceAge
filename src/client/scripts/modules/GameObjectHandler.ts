@@ -53,6 +53,16 @@ export module GameObjectHandler {
         })
     }
 
+    export function updateGraphics(time: number, delta: number) {
+        gameObjects.forEach((object: GameObject, key: number) => {
+            object.updateGraphics();
+        });
+
+        planets.forEach(planet => {
+            planet.updateGraphics();
+        })
+    }
+
     export function getGameObjects() : Array<GameObject> {
         return Array.from(gameObjects.values());
     }

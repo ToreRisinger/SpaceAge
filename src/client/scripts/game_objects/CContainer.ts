@@ -12,15 +12,15 @@ export class CContainer extends RadarDetectable {
     private data: IContainer;
     
     constructor(data: IContainer) {
-        super(data, SPRITES.CONTAINER_ICON.sprite, false, false);
+        super(data, SPRITES.CONTAINER_ICON.sprite, false, false, false);
         this.data = data;
         this.sprite = new Graphics.Sprite(SPRITES.CONTAINER.sprite, data.x, data.y);
         this.sprite.setScale(0.5);
     }
 
-    public update() {
+    public updateGraphics() {
+        super.updateGraphics();
         this.sprite.update();
-        super.update();
     }
 
     public updateData(data: IContainer) {
@@ -41,6 +41,7 @@ export class CContainer extends RadarDetectable {
     }
 
     protected setVisible(value: boolean): void {
+        super.setVisible(value);
         this.sprite.setVisible(value);
     }
 

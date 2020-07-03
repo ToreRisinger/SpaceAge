@@ -59,12 +59,6 @@ export module Camera {
             zoom(1 - 2 / (1000 / delta));
         }
 
-        /*
-        if(InputHandler.getKeyState(InputHandler.EKey.SPACE) == InputHandler.EKeyState.DOWN) {
-            cameraMode = ECameraMode.CENTERED;
-        }
-        */
-
         if(InputHandler.getKeyState(InputHandler.EKey.DOWN) == InputHandler.EKeyState.DOWN) {
             cameraMode = ECameraMode.FREE;
             mapY += CAMERA_SPEED * currentZoom;
@@ -85,12 +79,11 @@ export module Camera {
             mapX += CAMERA_SPEED * currentZoom;
         }
 
-        if(cameraMode == ECameraMode.CENTERED && objectToCenterOn == undefined) {
+        if(cameraMode == ECameraMode.CENTERED && objectToCenterOn == undefined || (objectToCenterOn != undefined && !objectToCenterOn.isVisible())) {
             cameraMode = ECameraMode.FREE;
         }
         
         setCameraPos();
-
         let globalDataService = GlobalDataService.getInstance();
         globalDataService.setCameraX(mapX);
         globalDataService.setCameraY(mapY);
@@ -106,7 +99,7 @@ export module Camera {
 
     export function getCameraOffset() : Phaser.Math.Vector2 {
         if(centeredCamera) {
-            return new Phaser.Math.Vector2(-mapX, -mapY);
+            return new Phaser.Math.Vector2(-mapX -camera.width/2, -mapY -camera.height/2);
         } else {
             return new Phaser.Math.Vector2(0, 0);
         }
@@ -145,7 +138,6 @@ export module Camera {
 
     function setCameraPos() {
         if(cameraMode == ECameraMode.CENTERED && objectToCenterOn != undefined) {
-            //let ship : Ship = GlobalDataService.getInstance().getPlayerShip();
             mapX = objectToCenterOn.getPos().x - camera.width / 2;
             mapY = objectToCenterOn.getPos().y - camera.height / 2;
         }

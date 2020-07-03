@@ -56,4 +56,8 @@ export class CCharacter extends CShip {
     public isWarping(): boolean {
         return this.characterData.warpState.isWarping;
     }
+
+    protected shouldShowThrustEffect(): boolean {
+        return this.getIsMoving() && !this.isWarping();
+    }
 }

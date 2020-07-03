@@ -15,7 +15,7 @@ export class Asteroid extends RadarDetectable {
     private spriteHeight: number;
 
     constructor(asteroid_config : IAsteroid) {
-        super(asteroid_config, SPRITES.ASTEROID_ICON.sprite, false, false);
+        super(asteroid_config, SPRITES.ASTEROID_ICON.sprite, false, false, false);
         this.asteroid_config = asteroid_config;
         let spriteInfo = AsteroidInfo.getAsteroidInfo(this.asteroid_config.type).sprite;
         this.spriteWidth = spriteInfo.width;
@@ -26,8 +26,13 @@ export class Asteroid extends RadarDetectable {
 
     public update() {
         super.update();
+    }
+
+    public updateGraphics() {
+        super.updateGraphics();
         this.sprite.update();
     }
+    
 
     public destroy() {
         this.sprite.destroy();

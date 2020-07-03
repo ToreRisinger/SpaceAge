@@ -18,7 +18,7 @@ export class Planet extends RadarDetectable {
     private displayInformation: Array<string>;
     
     constructor(planetData: IPlanet) {
-        super(planetData, SPRITES.PLANET_ICON.sprite, false, true);
+        super(planetData, SPRITES.PLANET_ICON.sprite, false, true, false);
         this.planetData = planetData;
 
         let thisPlanet = GlobalDataService.getInstance().getThisPlanet();
@@ -32,21 +32,25 @@ export class Planet extends RadarDetectable {
         }
         let randomPoint = new Phaser.Geom.Point(Utils.getRandomNumber(-5000, 5000), Utils.getRandomNumber(-5000, 5000))
         point = new Phaser.Geom.Point(point.x + randomPoint.x, point.y + randomPoint.y);
-        this.setPos(point.x - thisSectorPos.x, point.y - thisSectorPos.y);
-        this.planetOrbit.setPos(randomPoint.x -thisPlanetDistance - thisSectorPos.x, thisSectorPos.y + randomPoint.y);
         this.mapPos = new Phaser.Math.Vector2(point.x, point.y);
         this.orbitMapPos = new Phaser.Math.Vector2(randomPoint.x - thisPlanetDistance, randomPoint.y);
 
         this.sprite = new Graphics.Sprite(planetData.sprite.sprite, this.getPos().x, this.getPos().y);
         this.sprite.setDepth(DRAW_LAYERS.FOREGROUND_LAYER_2);
         this.sprite.setDisplaySize(planetData.diameter / 1000, planetData.diameter / 1000);
+
+        this.onSectorChanged(thisSectorPos.x, thisSectorPos.y);
         
         this.displayInformation = new Array(
             "Diameter: " + Utils.formatMeters(this.planetData.diameter), "Mass: " + this.planetData.mass);
     }
 
     public update() {
-        super.update();
+        super.update();   
+    }
+
+    public updateGraphics() {
+        super.updateGraphics();
         this.sprite.update();
         this.planetOrbit.update();
     }

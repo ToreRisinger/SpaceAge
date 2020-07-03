@@ -167,18 +167,21 @@ export class SShip {
             let nrOfUpdatesUntilReachDestination = math.multiply(math.length(shipToDestVec), 1/math.length(goodVelVecComp));
             let nrOfStepsNeededToDecelerate = math.multiply(math.length(goodVelVecComp), 1/shipAcceleration)
             if(nrOfUpdatesUntilReachDestination <= nrOfStepsNeededToDecelerate) {
-                midPoint = [0.5, 0.5];
+                midPoint = [0, 0];
             }
         
             let velVecToMidPoint = math.subtract(midPoint, shipVelVec);
             let normalizedVelVecToMidPoint = math.multiply(velVecToMidPoint, 1/math.length(velVecToMidPoint));
             let directionVecAdjustmentVec = math.multiply(normalizedVelVecToMidPoint, shipAcceleration  / SERVER_CONSTANTS.UPDATES_PER_SECOND);
+            if(math.length(directionVecAdjustmentVec) > math.length(velVecToMidPoint)) {
+                directionVecAdjustmentVec = velVecToMidPoint;
+            }
             newVelVec = math.add(shipVelVec, directionVecAdjustmentVec);
         
             return newVelVec;
         }
                 
-        let acceleration = shipData.stats[EStatType.acceleration];
+        let acceleration = this.getAcceleration();
         let destVec = shipData.state.destVec;
         let shipPosVec = [shipData.x, shipData.y];
         let shipToDestVec = math.subtract(destVec, shipPosVec);
@@ -187,7 +190,7 @@ export class SShip {
         let badVelVecComp = math.subtract(shipData.state.velVec, goodVelVecComp);
         
         if(shipData.state.hasDestination) {
-            if(math.length(shipToDestVec) <= acceleration / SERVER_CONSTANTS.UPDATES_PER_SECOND && math.length(shipData.state.velVec) - acceleration / SERVER_CONSTANTS.UPDATES_PER_SECOND <= 0) {
+            if(math.length(shipToDestVec) < 5 && math.length(shipToDestVec) <= acceleration / SERVER_CONSTANTS.UPDATES_PER_SECOND && math.length(shipData.state.velVec) - acceleration / SERVER_CONSTANTS.UPDATES_PER_SECOND <= 0) {
                 shipData.state.isMoving = false;
                 shipData.x = shipData.state.destVec[0];
                 shipData.y = shipData.state.destVec[1];
@@ -204,7 +207,7 @@ export class SShip {
 
             let newVelVecLength = math.length(newVelVec);
 
-            let shipMaxSpeed = shipData.stats[EStatType.max_speed];
+            let shipMaxSpeed = this.getMaxSpeed();
             if(newVelVecLength > shipMaxSpeed) {
                 shipData.state.velVec = math.multiply(newVelVec, shipMaxSpeed/newVelVecLength)
             } else {
@@ -235,5 +238,13 @@ export class SShip {
                 DamageService.attackShip(this, targetShip);
             }
         }
+    }
+
+    protected getAcceleration(): number {
+        return this.shipData.stats[EStatType.acceleration]
+    }
+
+    protected getMaxSpeed(): number {
+        return this.shipData.stats[EStatType.max_speed];
     }
 }

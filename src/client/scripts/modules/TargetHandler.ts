@@ -1,24 +1,17 @@
 import { EventHandler } from "./EventHandler";
 import { Events } from "../../../shared/util/Events";
 import { GlobalDataService } from "./GlobalDataService";
-import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
 import { RadarDetectable } from "../game_objects/RadarDetectable";
 import { Graphics } from "./graphics/Graphics";
 import { SPRITES } from "../../../shared/util/SPRITES";
 
 export module TargetHandler {
     
-    let targetIcon: Graphics.Sprite;
-    let targetIconFadeInScale: number;
-    let targetIconIsFadingIn: boolean;
+    let targetIcon: Graphics.TargetSprite;
     let targetObject: RadarDetectable | undefined;
 
     export function init() {
-        targetIcon = new Graphics.Sprite(SPRITES.TARGET_ICON.sprite, 0, 0);
-        targetIcon.setDepth(DRAW_LAYERS.GRAPHICS_LAYER);
-        targetIcon.setVisible(false);
-        targetIconIsFadingIn = false;
-        targetIconFadeInScale = 0;
+        targetIcon = new Graphics.TargetSprite(SPRITES.TARGET_ICON.sprite, 0, 0);
         targetObject = undefined;
         subscribeToEvents();
     }
@@ -31,17 +24,6 @@ export module TargetHandler {
         if(targetObject != undefined) {
             let targetPos = targetObject.getPos();
             targetIcon.setPos(targetPos.x, targetPos.y)
-            let cameraZoom = GlobalDataService.getInstance().getCameraZoom();
-            if(targetIconIsFadingIn) {
-                targetIcon.setDisplaySize(SPRITES.TARGET_ICON.sprite.width * targetIconFadeInScale * cameraZoom, 
-                    SPRITES.TARGET_ICON.sprite.height * targetIconFadeInScale * cameraZoom);
-                targetIconFadeInScale -= 0.05;
-                if(targetIconFadeInScale <= 1) {
-                    targetIconIsFadingIn = false;
-                }
-            } else {
-                targetIcon.setDisplaySize(SPRITES.TARGET_ICON.sprite.width * cameraZoom, SPRITES.TARGET_ICON.sprite.height * cameraZoom);
-            }
             targetIcon.update();
         }
 
@@ -69,8 +51,7 @@ export module TargetHandler {
         GlobalDataService.getInstance().setTargetObject(targetObject);
 
         if(newTarget != undefined) {
-            targetIconIsFadingIn = true;
-            targetIconFadeInScale = 2;
+            targetIcon.trigger();
         }
         
         sendTargetChangedEvent()

@@ -14,7 +14,6 @@ import { EStatType } from "../../shared/data/stats/EStatType";
 import { ISkill } from "../../shared/data/skills/ISkill";
 import { StatInfo } from "../../shared/data/stats/StatInfo";
 import { SShip } from "./SShip";
-import { SERVER_CONSTANTS } from "../constants/serverconstants";
 import { CargoUtils } from "../CargoUtils";
 import { CombatLogManager } from "../CombatLogManager";
 
@@ -102,8 +101,8 @@ export class SCharacter extends SShip {
             },
             warpState: {
               isWarping : false,
-              warpDestination : [0, 0],
-              warpSource : [0, 0],
+              toSectorId : 0,
+              fromSectorId : 0,
             },
             sectorId: 0,
             location: location,
@@ -178,7 +177,6 @@ export class SCharacter extends SShip {
 
     public update40ms(sector: SSector): void {
       super.update40ms(sector);
-      this.updateWarpingShipPosition();
       this.updateSkillProgress();
     }
 
@@ -189,16 +187,9 @@ export class SCharacter extends SShip {
 
     public resetState() {
       super.resetState();
-      this.character.warpState.warpDestination = [0, 0];
-      this.character.warpState.warpSource = [0, 0];
+      this.character.warpState.toSectorId = 0;
+      this.character.warpState.fromSectorId = 0;
       this.character.warpState.isWarping = false;
-    }
-
-    public startWarp(sector: SSector) {
-        this.character.warpState.isWarping = true;
-        this.character.warpState.warpDestination = [sector.getX(), sector.getY()];
-        this.character.warpState.warpSource = [this.character.x, this.character.y];
-        this.character.state.hasDestination = false;   
     }
 
     public startTrainSkill(event: Events.TRAIN_SKILL_START_CONFIG) {
@@ -277,31 +268,6 @@ export class SCharacter extends SShip {
           let baseStat: number = this.character.stats[skillInfo.stats.stat];
           this.character.stats[skillInfo.stats.stat] = Math.floor(baseStat + StatInfo.getAddedValue(baseStat, skillInfo.stats.modifier, skillInfo.stats.values[skill.level]));
       });
-    }   
-
-    private updateWarpingShipPosition() {
-      let characterData: ICharacter = this.getData();
-      if(!characterData.warpState.isWarping) {
-        return;
-      }
-
-      let x = this.getData().x;
-      let y = this.getData().y;
-      
-      let totalLength = math.length(math.subtract(characterData.warpState.warpDestination,[x + characterData.warpState.warpSource[0], y + characterData.warpState.warpSource[1]]));
-      let distanceTraveled = math.length(
-                                math.subtract([x + characterData.warpState.warpSource[0], y + characterData.warpState.warpSource[1]], 
-                                  [x + characterData.x, y + characterData.y]));;
-      let shipToDest = math.subtract(characterData.warpState.warpDestination, [x + characterData.x, y + characterData.y]);
-      
-      let speed = 1000000;
-      let ratio = distanceTraveled / totalLength;
-      let acceleration = 1 + ratio * speed;
-      let velVec = math.multiply(math.multiply(shipToDest, 1/math.length(shipToDest)), acceleration);
-
-      characterData.x = characterData.x + velVec[0];
-      characterData.y = characterData.y + velVec[1];
-      characterData.state.meters_per_second = math.length(velVec) / SERVER_CONSTANTS.UPDATES_PER_SECOND
     }
 
     private handleMiningShip(sector: SSector) {
@@ -339,5 +305,19 @@ export class SCharacter extends SShip {
           CombatLogManager.addCombatLogAstroidMinedMessage(this, targetAsteroid, sizeMined);
         } 
       }
+  }
+
+  public newDestination(x: number, y: number) {
+    if(!this.character.warpState.isWarping) {
+      super.newDestination(x, y);
+    }
+  }
+
+  protected getAcceleration(): number {
+    return this.getData().warpState.isWarping ? 100000 : this.getData().stats[EStatType.acceleration];
+  }
+
+  protected getMaxSpeed(): number {
+    return this.getData().warpState.isWarping ? 100000000 : this.getData().stats[EStatType.max_speed];
   }
 }

@@ -57,7 +57,7 @@ export module GraphicsEffects {
         let ship : CCharacter = GlobalDataService.getInstance().getPlayerShip();
         let x = ship.getPos().x;
         let y = ship.getPos().y;
-        if(ship.getIsMoving() && ship.hasDestination()) {
+        if(ship.getIsMoving() && ship.hasDestination() && !ship.isWarping()) {
             destinationLine.setLineWidth(cameraZoom);
 
             destinationLine.setPos(x, y, ship.getDestinationVec().x, ship.getDestinationVec().y);

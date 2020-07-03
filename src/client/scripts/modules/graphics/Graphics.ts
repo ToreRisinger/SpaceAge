@@ -2,6 +2,8 @@ import { GameScene } from "../../scenes/GameScene";
 import { Camera } from "../Camera";
 import { ISprite, ISpriteAnimation } from "../../../../shared/data/ISprite";
 import { SPRITES } from "../../../../shared/util/SPRITES";
+import { DRAW_LAYERS } from "../../constants/DRAW_LAYERS";
+import { GlobalDataService } from "../GlobalDataService";
 
 export namespace Graphics {
     
@@ -259,6 +261,43 @@ export namespace Graphics {
         public placeOnCircle(point: Phaser.Math.Vector2, distance: number, angle: number) {
             let circle = new Phaser.Geom.Circle(point.x, point.y, distance);
             Phaser.Actions.PlaceOnCircle(Array.of(this.sprite), circle, angle);
+        }
+    }
+
+    export class TargetSprite extends Sprite {
+        
+        private fadeInScale: number;
+        private isFadingIn: boolean;
+        private static SCALE_SPEED: number = 0.1;
+        private static SCALE: number = 3;
+
+        constructor(sprite : ISprite, x: number, y: number) {
+            super(sprite, x, y);
+            this.isFadingIn = false;
+            this.fadeInScale = 0;
+            this.setDepth(DRAW_LAYERS.GRAPHICS_LAYER);
+            this.setVisible(false);
+        }
+
+        public update() {
+            let cameraZoom = GlobalDataService.getInstance().getCameraZoom();
+            if(this.isFadingIn) {
+                this.setDisplaySize(SPRITES.SELECTION_ICON.sprite.width * this.fadeInScale * cameraZoom, 
+                    SPRITES.SELECTION_ICON.sprite.height * this.fadeInScale * cameraZoom);
+                    this.fadeInScale -= TargetSprite.SCALE_SPEED;
+                if(this.fadeInScale <= 1) {
+                    this.isFadingIn = false;
+                }
+            } else {
+                this.setDisplaySize(SPRITES.SELECTION_ICON.sprite.width * cameraZoom, SPRITES.SELECTION_ICON.sprite.height * cameraZoom);
+            }
+            
+            super.update();
+        }
+
+        public trigger() {
+            this.isFadingIn = true;
+            this.fadeInScale = TargetSprite.SCALE;
         }
     }
 

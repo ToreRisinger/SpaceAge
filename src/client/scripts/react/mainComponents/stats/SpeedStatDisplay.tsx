@@ -17,8 +17,12 @@ export default class SpeedStatDisplay extends React.Component<SpeedStatDisplayPr
         //@ts-ignore
         let maxValue = this.props.ship.getStat(EStatType.max_speed);
         let value = Math.round(this.props.ship.getMetersPerSecond());
+        let percentage = value/maxValue * 100;
+        if(percentage > 100) {
+            percentage = 100;
+        }
         const backgroundStyle = {
-            width: value/maxValue * 100 + "%",
+            width: percentage + "%",
             backgroundColor: Colors.RGB.GREY
         }
 
@@ -27,7 +31,7 @@ export default class SpeedStatDisplay extends React.Component<SpeedStatDisplayPr
                 <div className="StatDisplayBarBackground" style={backgroundStyle}/>
                 <img className="StatDisplayImage" src={"assets/sprite/stats/speed_stat_image.png"}/>
                 <div className="StatDisplayBar">
-                    {value + " / " + maxValue}
+                    {value + " m/s"}
                 </div>
             </div>
         );

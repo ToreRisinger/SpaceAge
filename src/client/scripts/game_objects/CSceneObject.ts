@@ -12,7 +12,7 @@ export class CSceneObject extends RadarDetectable {
     private sprite: Graphics.Sprite;
 
     constructor(data: ISceneObject) {
-        super(data, SPRITES.SPACE_STATION_ICON.sprite, false, true);
+        super(data, SPRITES.SPACE_STATION_ICON.sprite, false, false, false);
         this.data = data;
         this.info = SceneObjectInfo.getSceneObjectInfo(this.data.type);
         this.sprite = new Graphics.Sprite(this.info.sprite, Math.floor(this.data.x), Math.floor(this.data.y));
@@ -21,6 +21,10 @@ export class CSceneObject extends RadarDetectable {
 
     public update() {
         super.update();
+    }
+
+    public updateGraphics() {
+        super.updateGraphics();
         this.sprite.update();
     }
 
@@ -29,6 +33,7 @@ export class CSceneObject extends RadarDetectable {
     }
 
     protected setVisible(value : boolean) : void {
+        super.setVisible(value);
         this.sprite.setVisible(value)
     }
 

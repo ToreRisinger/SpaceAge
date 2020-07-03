@@ -331,6 +331,15 @@ export const SPRITES = {
             height: 38
         }
     },
+    ATTACKING_ICON: {
+        animation : undefined,
+        sprite : {
+            key: "attacking_icon",
+            file: "icons/attacking_icon.png",
+            width: 38,
+            height: 38
+        }
+    },
     PLANET_ICON: {
         animation : undefined,
         sprite : {

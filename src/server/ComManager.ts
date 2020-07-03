@@ -380,7 +380,6 @@ export class ComManager {
         //TODO, add check if they should be able to warp
         let sector = this.sectorHandler.getSectors().find(sector => sector.getId() == event.data.targetId);
         if(sector != undefined && ! client.getCharacter().getData().warpState.isWarping) {
-            client.getCharacter().startWarp(sector);
             this.sectorHandler.onPlayerStartWarping(client, sector);
         }
     }

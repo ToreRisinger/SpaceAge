@@ -14,7 +14,7 @@ export class SpaceStation extends RadarDetectable {
     private displayInformation: Array<string>;
 
     constructor(spaceStationData: ISpaceStation) {
-        super(spaceStationData, SPRITES.SPACE_STATION_ICON.sprite, false, true);
+        super(spaceStationData, SPRITES.SPACE_STATION_ICON.sprite, false, true, false);
         this.spaceStationData = spaceStationData;
         this.spaceStationSprite = new Graphics.Sprite(SPRITES.SPACE_STATION.sprite, Math.floor(this.spaceStationData.x), Math.floor(this.spaceStationData.y));
         this.spaceStationRadarSprite = new Graphics.Sprite(SPRITES.SPACE_STATION_RADAR.sprite, Math.floor(this.spaceStationData.x + 400), Math.floor(this.spaceStationData.y + 400));
@@ -26,6 +26,11 @@ export class SpaceStation extends RadarDetectable {
 
     public update() {
         super.update();
+        
+    }
+
+    public updateGraphics() {
+        super.updateGraphics();
         this.spaceStationSprite.setRotation(this.spaceStationSpriteRotation);
         this.spaceStationSpriteRotation += 0.0005;
         this.spaceStationRadarSprite.setRotation(this.spaceStationRadarSpriteRotation);

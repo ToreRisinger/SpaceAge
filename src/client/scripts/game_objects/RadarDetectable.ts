@@ -25,8 +25,10 @@ export abstract class RadarDetectable extends GameObject {
     private firstUpdate : boolean = true;
     private alwaysVisible : boolean;
 
-    constructor(gameObjectData : IGameObject, iconSprite : ISprite, thisPlayerShip : boolean, alwaysVisible : boolean) {
-        super(gameObjectData);
+    private _isVisible: boolean;
+
+    constructor(gameObjectData : IGameObject, iconSprite : ISprite, thisPlayerShip : boolean, alwaysVisible : boolean, interpolation: boolean) {
+        super(gameObjectData, interpolation);
         this.thisPlayerShip = thisPlayerShip;
         this.alwaysVisible = alwaysVisible;
         this.detected = this.thisPlayerShip || this.alwaysVisible;
@@ -49,16 +51,26 @@ export abstract class RadarDetectable extends GameObject {
             this.select();
         });
 
+        this._isVisible = true;
         this.baseColor = 0xffffff;
     }
 
-    protected abstract getRadarMass() : number;
-    protected abstract setVisible(value : boolean) : void;
-    public abstract getName() : string;
+    protected abstract getRadarMass(): number;
+    protected setVisible(value : boolean): void {
+        this._isVisible = value;
+    }
+
+    public isVisible(): boolean {
+        return this._isVisible;
+    }
+
+    public abstract getName(): string;
 
     public update() {
         super.update();
+    }
 
+    public updateGraphics(): void {
         if(this.firstUpdate) {
             this.calculateDetectedByRadar(this.getDistanceToPlayerShip(), this.getRadarMass());
             this.setVisibleOrInvisible();

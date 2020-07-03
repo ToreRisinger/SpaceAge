@@ -9,6 +9,8 @@ import { IShip } from "../../../shared/data/gameobject/IShip";
 import { Utils } from "../../../shared/util/Utils";
 import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
 import { ISprite } from "../../../shared/data/ISprite";
+import { GlobalDataService } from "../modules/GlobalDataService";
+import { SPRITES } from "../../../shared/util/SPRITES";
 
 export class CShip extends RadarDetectable {
     
@@ -21,8 +23,10 @@ export class CShip extends RadarDetectable {
     private shipData : IShip;
     private shipModuleWrapper : ShipModuleWrapper;
 
+    private attackingIcon: Graphics.TargetSprite;
+
     constructor(shipData : IShip, icon: ISprite, thisPlayerShip : boolean) {
-        super(shipData, icon, thisPlayerShip, false);
+        super(shipData, icon, thisPlayerShip, false, true);
         this.shipData = shipData;
 
         this.shipModuleWrapper = new ShipModuleWrapper(this, thisPlayerShip);
@@ -68,11 +72,18 @@ export class CShip extends RadarDetectable {
         this.armorDamageParticleEmitter.stop();
         this.shieldDamageParticleEmitter.stop();
         this.damageParticleTimer = CShip.DAMAGE_EFFECT_TIME;
+        this.attackingIcon = new Graphics.TargetSprite(SPRITES.ATTACKING_ICON.sprite, 0, 0);
     }
 
     public updateData(shipData : IShip) {
+        let wasAttackingPlayer = this.isAttackingPlayer();
         super.updateData(shipData);
         this.shipData = shipData;
+        this.attackingIcon.setVisible(this.isAttackingPlayer() && this.isVisible());
+
+        if(!wasAttackingPlayer && this.isAttackingPlayer()) {
+            this.attackingIcon.trigger();
+        }
     }
 
     public getIsMoving() {
@@ -136,9 +147,19 @@ export class CShip extends RadarDetectable {
     }
 
     public update() {
-        this.shipModuleWrapper.update();
         super.update();
+    }
+
+    public updateGraphics() {
+        super.updateGraphics();
+        this.shipModuleWrapper.update();  
         this.updateTargetDamageEffects();
+
+        if(this.isAttackingPlayer()) {
+            let pos = this.getPos();
+            this.attackingIcon.setPos(pos.x, pos.y);
+            this.attackingIcon.update();
+        }
     }
 
     public getDisplayInformation() : Array<string> {
@@ -186,7 +207,7 @@ export class CShip extends RadarDetectable {
             }
         }
 
-        if(this.getIsMoving()) {
+        if(this.shouldShowThrustEffect()) {
             let velVec : Phaser.Math.Vector2 = this.getVelVec();
             let pos : Phaser.Math.Vector2 = this.getPos();
             let oppositeVelVec = velVec.multiply(new Phaser.Math.Vector2(-1, -1)).add(pos);
@@ -207,6 +228,7 @@ export class CShip extends RadarDetectable {
         this.thrustParticleEmitter.destroy();
         this.armorDamageParticleEmitter.destroy();
         this.shieldDamageParticleEmitter.destroy();
+        this.attackingIcon.destroy();
         super.destroy();
     }
 
@@ -219,6 +241,7 @@ export class CShip extends RadarDetectable {
     }
 
     protected setVisible(value : boolean) : void {
+        super.setVisible(value);
         this.shipModuleWrapper.setVisible(value);
         this.thrustParticleEmitter.setVisible(value);
         this.shieldDamageParticleEmitter.setVisible(value);
@@ -231,4 +254,11 @@ export class CShip extends RadarDetectable {
         return targetPos.subtract(ship.getPos()).length() <= range;
     }
 
+    private isAttackingPlayer(): boolean {
+        return this.shipData.state.isAttacking && this.shipData.state.targetId == GlobalDataService.getInstance().getPlayerShip().getId();
+    }
+
+    protected shouldShowThrustEffect(): boolean {
+        return this.getIsMoving();
+    }
 }

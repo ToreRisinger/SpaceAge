@@ -3,6 +3,7 @@ import { SSector } from "./SSector";
 import { IdHandler } from "../IdHandler.js";
 import { PacketFactory } from "../PacketFactory.js";
 import { SClient } from "../objects/SClient.js";
+import { Utils } from "../../shared/util/Utils.js";
 
 const math = require('mathjs');
 
@@ -13,10 +14,13 @@ export class SectorHandler {
     private location: string = "unknown";
 
     private warpingPlayers : Map<number, {
-        client : SClient, 
-        playerStartPos : Array<number>, 
-        destinationSector : SSector, 
-        sourceSector : SSector}>;
+        client : SClient,
+        toSector : SSector,
+        fromSector : SSector
+        destinationX: number,
+        destinationY: number, 
+        
+    }>;
 
     constructor() {
         this.sectors = new Map();
@@ -64,16 +68,26 @@ export class SectorHandler {
         }
     }
 
-    public onPlayerStartWarping(client: SClient, destinationSector : SSector) {
-        let sourceSector = this.playersToSectorMap.get(client.getData().id);
-        if(sourceSector != undefined) {
-            this.warpingPlayers.set(client.getData().id, 
-                {
+    public onPlayerStartWarping(client: SClient, toSector : SSector) {
+        let fromSector = this.playersToSectorMap.get(client.getData().id);
+        if(fromSector != undefined) {
+            let destinationX = Utils.getRandomNumber(-2000, 2000);
+            let destinationY = Utils.getRandomNumber(-2000, 2000);
+            client.getData().character.warpState.toSectorId = toSector.getId();
+            client.getData().character.warpState.fromSectorId = fromSector.getId();
+            client.getData().character.state.destVec = [toSector.getX() - fromSector.getX() + destinationX, toSector.getY() - fromSector.getY() + destinationY];
+
+            client.getData().character.state.hasDestination = true;   
+            client.getData().character.state.isMoving = true;
+            client.getData().character.warpState.isWarping = true;
+
+            this.warpingPlayers.set(client.getData().id, {
                     client : client, 
-                    playerStartPos : [client.getData().character.x, client.getData().character.y],
-                    destinationSector: destinationSector, 
-                    sourceSector : sourceSector
-                });
+                    toSector: toSector,
+                    fromSector : fromSector,
+                    destinationX: destinationX,
+                    destinationY: destinationY
+            });
         }
     }
 
@@ -85,34 +99,27 @@ export class SectorHandler {
         let toRemove : Array<SClient> = new Array();
 
         this.warpingPlayers.forEach((value, key) => {
-            let sourceCoordinates = [value.sourceSector.getX(), value.sourceSector.getY()];
-            let destinationCoordinates = [value.destinationSector.getX(), value.destinationSector.getY()];
+            let destinationCoordinates = [value.client.getData().character.state.destVec[0], value.client.getData().character.state.destVec[1]]; 
+            let playerPos = [value.client.getData().character.x, value.client.getData().character.y];
+            let posToDestinationLength = math.length(math.subtract(playerPos, destinationCoordinates));
 
-            let destToSource_test = math.subtract(sourceCoordinates, destinationCoordinates);
-            let distanceTraveled = math.length(
-                                        math.subtract(value.playerStartPos, [value.client.getData().character.x, value.client.getData().character.y]));
-
-            if(distanceTraveled > 20000) {
-                //Player finish warp
-                let sectorToLeave = value.sourceSector;
-                let sectorToEnter = value.destinationSector;
-                if(sectorToLeave != undefined && sectorToEnter != undefined) {
-                    let newShipPosition = math.add([0, 0], math.multiply(destToSource_test, 2000/math.length(destToSource_test)));
-                    value.client.getData().character.x = newShipPosition[0];
-                    value.client.getData().character.y = newShipPosition[1];
-                    value.client.getData().character.state.velVec = [0, 0];
-                    sectorToLeave.removeClient(value.client);
-                    sectorToEnter.addClient(value.client);
-                    toRemove.push(value.client);
-                    this.playersToSectorMap.set(value.client.getData().id, sectorToEnter);
-                    this.sendSectorChangedEvent(value.client, sectorToEnter.getId());
-                    value.client.getData().character.warpState.isWarping = false;
-                    value.client.getData().character.state.isMoving = false;
-                    value.client.getData().character.state.hasDestination = false;
-                    value.client.getData().character.state.meters_per_second = 0;
-                }
-                //TODO if something goes wrong here..
-            }
+           //finish warp
+           if(posToDestinationLength == 0) {
+               let fromSector = value.fromSector;
+               let toSector = value.toSector;
+               if(fromSector != undefined && toSector != undefined) {
+                   fromSector.removeClient(value.client);
+                   toSector.addClient(value.client);
+                   toRemove.push(value.client);
+                   this.playersToSectorMap.set(value.client.getData().id, toSector);
+                   this.sendSectorChangedEvent(value.client, toSector.getId());
+                   value.client.getData().character.warpState.isWarping = false;
+                   value.client.getData().character.state.isMoving = false;
+                   value.client.getData().character.state.hasDestination = false;
+                   value.client.getData().character.x = value.destinationX;
+                   value.client.getData().character.y = value.destinationY;
+               }
+           }
         });
 
         toRemove.forEach(client => this.warpingPlayers.delete(client.getData().id));
