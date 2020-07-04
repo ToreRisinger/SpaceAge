@@ -3,6 +3,7 @@ import { Events } from "../../../../shared/util/Events";
 import { Command } from "./fw/Command";
 import { PingCommand } from "./commands/PingCommand";
 import { HelpCommand } from "./commands/HelpCommand";
+import { FpsCommand } from "./commands/FpsCommand";
 
 export module CommandManager {
 
@@ -14,9 +15,11 @@ export module CommandManager {
 
         let pingCommand = new PingCommand();
         helpCommand = new HelpCommand();
+        let fpsCommand = new FpsCommand();
 
         commandMap.set(pingCommand.getName(), pingCommand);
         commandMap.set(helpCommand.getName(), helpCommand);
+        commandMap.set(fpsCommand.getName(), fpsCommand);
 
         let commands : Array<Command> = new Array();
         commandMap.forEach(command => {

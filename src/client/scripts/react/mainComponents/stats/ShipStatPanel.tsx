@@ -1,9 +1,9 @@
 import React, { Fragment } from "react";
 import { GlobalDataService } from "../../../modules/GlobalDataService";
-import { CShip } from "../../../game_objects/CShip";
 import ShipStatContainer from "./ShipStatContainer";
 import MoneyContainer from "../cargo/MoneyContainer";
 import { CCharacter } from "../../../game_objects/CCharacter";
+import WarpingNotificationContainer from "./WarpingNotificationContainer";
 
 export interface ShipStatPanelState { character : CCharacter; }
 
@@ -43,6 +43,7 @@ export default class ShipStatPanel extends React.Component<{}, ShipStatPanelStat
       return (
          <Fragment>
             <MoneyContainer character={this.state.character}/>
+            <WarpingNotificationContainer isWarping={this.state.character.isWarping()}></WarpingNotificationContainer>
             <div className="ShipStatPanel">
                <ShipStatContainer ship={this.state.character}></ShipStatContainer>
             </div>

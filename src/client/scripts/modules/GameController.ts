@@ -19,6 +19,7 @@ import { ActionManager } from "./action/ActionManager";
 import { EGameState } from "../../../shared/util/EGameState";
 import { ISector } from "../../../shared/data/sector/ISector";
 import { CommandManager } from "./command/CommandManager";
+import { FpsCounter } from "./FpsCounter";
 
 export class GameController {
 
@@ -58,7 +59,8 @@ export class GameController {
         //@ts-ignore
         let playerShip : CCharacter = GameObjectHandler.getPlayerShip();
         GlobalDataService.createInstance(character, playerShip, sector);
-
+       
+        FpsCounter.init();
         GameObjectHandler.init2();
         SelectionHandler.init();
         TargetHandler.init();
@@ -98,6 +100,7 @@ export class GameController {
 
     private inSpaceUpdate(time : number, delta : number) {
         //console.log("Time: " + time + ", Delta: " + delta);
+        FpsCounter.update(time, delta);
         InputHandler.update(time, delta);
         EventHandler.update(time, delta);
         ActionManager.update(time, delta);

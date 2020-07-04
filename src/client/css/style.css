@@ -452,17 +452,6 @@ body {
     width: 286px;
 }
 
-/*
-.navigation_row_base {
-
-}
-
-.navigation_row_base:hover {
-    background-color: rgb(122, 122, 122);
-    color: rgb(0, 0, 0);
-}
-*/
-
 .navigation_row_selected {
     background-color: rgb(184, 184, 184);
     color: rgb(0, 0, 0);
@@ -751,6 +740,18 @@ body {
     top: 0px;
     bottom: 0px;
     margin: auto;
+}
+
+.WarpingNotificationContainer {
+    position: absolute;
+    top: 100px;
+    left: 0px;
+    right: 0px;
+    width: 200px;
+    margin: auto;
+    font-size: 20px;
+    text-align: center;
+
 }
 
 /*
