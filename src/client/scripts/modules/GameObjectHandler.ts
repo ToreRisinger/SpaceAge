@@ -15,12 +15,17 @@ import { IAsteroid } from "../../../shared/data/astroid/IAstroid";
 import { CNpc } from "../game_objects/CNpc";
 import { CContainer } from "../game_objects/CContainer";
 import { CSceneObject } from "../game_objects/CSceneObject";
+import { ISceneObject } from "../../../shared/data/gameobject/ISceneObject";
+import { ESceneObjectType } from "../../../shared/data/sceneobjects/ESceneObjectType";
+import { RadarDetectable } from "../game_objects/RadarDetectable";
+import { WarpGate } from "../game_objects/WarpGate";
 
 export module GameObjectHandler {
 
     let thisShipId : number = -1;
     let gameObjects = new Map<number, GameObject>();
     let planets = new Array<Planet>();
+    let warpGate: WarpGate | undefined;
 
     export function init(character: ICharacter, sectors : Array<ISector>, thisSector: ISector) {
         let newShip : CCharacter = new CCharacter(character, true);
@@ -121,6 +126,7 @@ export module GameObjectHandler {
         });
     }
 
+    /*
     function onSpaceStationUpdate(event: Events.SPACE_STATION_UPDATE_EVENT_CONFIG) {
         if(gameObjects.get(event.data.spaceStation.id) == undefined) {
             gameObjects.set(event.data.spaceStation.id, new SpaceStation(event.data.spaceStation));
@@ -129,6 +135,7 @@ export module GameObjectHandler {
             gameObjects.get(event.data.spaceStation.id).updateData(event.data.spaceStation);
         }
     }
+    */
 
     function onCargoUpdate(event : Events.CARGO_UPDATE_EVENT_CONFIG) {
         GlobalDataService.getInstance().getPlayerShip().setCargo(event.data.cargo);
@@ -169,6 +176,7 @@ export module GameObjectHandler {
             for(let i = 0; i < objectsToRemove.length; i++) {
                 destroyGameObject(objectsToRemove[i].getId());
             }
+            warpGate = undefined;
             planets.forEach(planet => {
                 planet.onSectorChanged(newSectorPos.x, newSectorPos.y);
             })
@@ -198,7 +206,7 @@ export module GameObjectHandler {
     function onSceneObjectUpdate(event: Events.SCENE_OBJECT_UPDATE_EVENT_CONFIG) {
         event.data.sceneObjects.forEach(obj => {
             if(gameObjects.get(obj.id) == undefined) {
-                gameObjects.set(obj.id, new CSceneObject(obj));
+                gameObjects.set(obj.id, sceneObjectFactory(obj));
             } else {
                 //@ts-ignore
                 gameObjects.get(obj.id).updateData(obj);
@@ -206,12 +214,24 @@ export module GameObjectHandler {
         });
     }
 
+    function sceneObjectFactory(obj: ISceneObject): RadarDetectable {
+        switch(obj.type) {
+            case ESceneObjectType.SPACE_STATION:
+                return new SpaceStation(obj);
+            case ESceneObjectType.WARP_GATE:
+                warpGate = new WarpGate(obj);
+                return warpGate;   
+            default:
+                return new CSceneObject(obj);
+        }
+    }
+
     function subscribeToEvents() {
         EventHandler.on(Events.EEventType.PLAYER_CONNECTED_EVENT, onPlayerConnect);
         EventHandler.on(Events.EEventType.PLAYER_DISCONNECTED_EVENT, onPlayerDisconnect);
         EventHandler.on(Events.EEventType.SHIPS_UPDATE_EVENT, onShipsUpdate);
         EventHandler.on(Events.EEventType.ASTEROIDS_UPDATE_EVENT, onAsteroidsUpdate);
-        EventHandler.on(Events.EEventType.SPACE_STATION_UPDATE_EVENT, onSpaceStationUpdate);
+        //EventHandler.on(Events.EEventType.SPACE_STATION_UPDATE_EVENT, onSpaceStationUpdate);
         EventHandler.on(Events.EEventType.CONTAINER_UPDATE_EVENT, onContainerUpdate);
         EventHandler.on(Events.EEventType.CARGO_UPDATE_EVENT, onCargoUpdate);
         EventHandler.on(Events.EEventType.GAME_OBJECT_DESTOYED_EVENT, onGameObjectsDestroyed);
@@ -226,5 +246,9 @@ export module GameObjectHandler {
             object.destroy();
             gameObjects.delete(objectId);
         }
+    }
+
+    export function getWarpGate(): WarpGate | undefined  {
+        return warpGate;
     }
 }

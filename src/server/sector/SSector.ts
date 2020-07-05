@@ -17,8 +17,8 @@ import { EMineralItemType } from "../../shared/data/item/EMineralItemType";
 import { NpcSpawner } from "../spawner/NpcSpawner";
 import { ENpcType } from "../../shared/data/npc/ENpcType";
 import { Events } from "../../shared/util/Events";
-import { ISpaceStation } from "../../shared/data/gameobject/ISpaceStation";
 import { ISceneObject } from "../../shared/data/gameobject/ISceneObject";
+import { ESceneObjectType } from "../../shared/data/sceneobjects/ESceneObjectType";
 
 const math = require('mathjs');
 math.length = function vec2Length(vec2 : Array<number>) {
@@ -38,8 +38,9 @@ export class SSector {
     private asteroids: Map<number, IAsteroid>;
     private containers: Map<number, IPlayerCargoPair>;
     private playerToContainerMap: Map<number, number>;
-    private spaceStation: ISpaceStation | undefined;
     private sceneObjects: Array<ISceneObject>
+    private warpGate: ISceneObject;
+    //private spaceStation: ISpaceStation | undefined;
 
     private spawners: Array<Spawner>;
     
@@ -70,6 +71,13 @@ export class SSector {
         this.playerToContainerMap = new Map<number, number>();
         this.spawners = new Array();
         this.sceneObjects = new Array();
+        this.warpGate = {
+          id: IdHandler.getNewGameObjectId(),
+          type: ESceneObjectType.WARP_GATE,
+          x: Utils.getRandomNumber(-2000, 2000),
+          y: Utils.getRandomNumber(-2000, 2000)
+        }
+        this.sceneObjects.push(this.warpGate);
 
         this.setupSector(sectorDefinitions);
 
@@ -77,14 +85,12 @@ export class SSector {
           spawner.getSceneObjects().forEach(obj => {
             this.sceneObjects.push(obj);
           })
-          
         });
     }
 
     private setupSector(sectorDefinitions: Array<SectorDefinition.ISectorDef>) {
       sectorDefinitions.forEach(def => {
         if(SectorDefinition.instanceOfIAsteroidDef(def)) {
-          
           let asteroidType = this.getAsteroidType(def.asteroidType);
           this.addSpawner(new AsteroidSpawner(this, 0, 0, asteroidType, def.asteroidMinSize, def.maxNumberOfAsteroids, def.asteroidGenerationRate, def.maxNumberOfAsteroids));
         } else if(SectorDefinition.instanceOfIPirateDef(def)) {
@@ -96,12 +102,20 @@ export class SSector {
             this.addSpawner(new NpcSpawner(this, this.getNpcType(def.type), def.level, def.maxNrOfNpcs, def.spawnRate));
           }
         } else if(SectorDefinition.instanceOfISpaceStationDef(def)) {
+          this.sceneObjects.push({
+            id: IdHandler.getNewGameObjectId(),
+            x: Utils.getRandomNumber(-2000, 2000),
+            y: Utils.getRandomNumber(-2000, 2000),
+            type: ESceneObjectType.SPACE_STATION
+          })
+          /*
           this.spaceStation = {
             id: IdHandler.getNewGameObjectId(),
             x: Utils.getRandomNumber(-2000, 2000),
             y: Utils.getRandomNumber(-2000, 2000),
             name: this.getName()
           }
+          */
         }
       });
     }
@@ -166,7 +180,7 @@ export class SSector {
       this.handleDestroyedAsteroids();
       this.sendAsteroidUpdates();
       this.sendUpdatedCargo();
-      this.sendSpaceStationData(this.spaceStation);
+      //this.sendSpaceStationData(this.spaceStation);
     }
 
     public addClient(client : SClient) {
@@ -408,6 +422,7 @@ export class SSector {
     });
   }
 
+  /*
   private sendSpaceStationData(spaceStation: ISpaceStation | undefined) {
     if(spaceStation == undefined) {
       return;
@@ -423,6 +438,7 @@ export class SSector {
         client.getData().socket.emit("ServerEvent", packet);
     });
   }
+  */
 
   private getAsteroidType(typeString : string) : EMineralItemType {
     switch (typeString) {

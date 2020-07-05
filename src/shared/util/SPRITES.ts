@@ -28,6 +28,15 @@ export const SPRITES = {
         SCENE OBJECTS
 
     */
+    WARP_GATE : {
+        animation : undefined,
+        sprite : {
+            key : "WARP_GATE",
+            file : "sceneobjects/warp_gate.png",
+            width: 1428,
+            height: 1432
+        }
+    },
     SMUGGLER_HIDEOUT : {
         animation : undefined,
         sprite : {
@@ -363,6 +372,15 @@ export const SPRITES = {
         sprite: {
             key: "container_icon",
             file: "icons/container_icon.png",
+            width: 38,
+            height: 38
+        }
+    },
+    WARP_GATE_ICON: {
+        animation: undefined,
+        sprite: {
+            key: "warp_gate_icon",
+            file: "icons/warp_gate_icon.png",
             width: 38,
             height: 38
         }

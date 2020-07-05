@@ -1,27 +1,30 @@
 import { RadarDetectable } from "./RadarDetectable";
-import { ISpaceStation } from "../../../shared/data/gameobject/ISpaceStation";
 import { DRAW_LAYERS } from "../constants/DRAW_LAYERS";
 import { Graphics } from "../modules/graphics/Graphics";
 import { SPRITES } from "../../../shared/util/SPRITES";
+import { ISceneObject } from "../../../shared/data/gameobject/ISceneObject";
+import { SceneObjectInfo } from "../../../shared/data/sceneobjects/SceneObjectInfo";
 
 export class SpaceStation extends RadarDetectable {
     
-    private spaceStationData: ISpaceStation;
+    private data: ISceneObject;
     private spaceStationSprite: Graphics.Sprite;
     private spaceStationRadarSprite: Graphics.Sprite;
     private spaceStationSpriteRotation: number;
     private spaceStationRadarSpriteRotation: number;
     private displayInformation: Array<string>;
+    private info: SceneObjectInfo.ISceneObjectInfo;
 
-    constructor(spaceStationData: ISpaceStation) {
-        super(spaceStationData, SPRITES.SPACE_STATION_ICON.sprite, false, true, false);
-        this.spaceStationData = spaceStationData;
-        this.spaceStationSprite = new Graphics.Sprite(SPRITES.SPACE_STATION.sprite, Math.floor(this.spaceStationData.x), Math.floor(this.spaceStationData.y));
-        this.spaceStationRadarSprite = new Graphics.Sprite(SPRITES.SPACE_STATION_RADAR.sprite, Math.floor(this.spaceStationData.x + 400), Math.floor(this.spaceStationData.y + 400));
+    constructor(data: ISceneObject) {
+        super(data, SPRITES.SPACE_STATION_ICON.sprite, false, true, false);
+        this.data = data;
+        this.spaceStationSprite = new Graphics.Sprite(SPRITES.SPACE_STATION.sprite, Math.floor(this.data.x), Math.floor(this.data.y));
+        this.spaceStationRadarSprite = new Graphics.Sprite(SPRITES.SPACE_STATION_RADAR.sprite, Math.floor(this.data.x + 400), Math.floor(this.data.y + 400));
         this.setupSprite();
         this.spaceStationSpriteRotation = 0;
         this.spaceStationRadarSpriteRotation = 0;
         this.displayInformation = new Array();
+        this.info = SceneObjectInfo.getSceneObjectInfo(this.data.type);
     }
 
     public update(time: number, delta: number) {
@@ -48,7 +51,7 @@ export class SpaceStation extends RadarDetectable {
     }
 
     public getName(): string {
-        return this.spaceStationData.name;
+        return this.info.name;
     }
 
     public destroy() {
