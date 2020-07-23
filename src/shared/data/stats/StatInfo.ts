@@ -30,8 +30,10 @@ export module StatInfo {
                 return "Weapon damage";
             case EStatType.target_dodge_reduction :
                 return "Target dodge reduction";
-            case EStatType.cargo_hold :
+            case EStatType.cargo_hold_size :
                 return "Cargo hold";
+            case EStatType.cargo_containers :
+                return "Cargo containers";
             case EStatType.dodge :
                 return "Dodge chance";
             case EStatType.radar_signature_reduction :
@@ -97,8 +99,10 @@ export module StatInfo {
                 return " points per second";
             case EStatType.target_dodge_reduction :
                 return " ";
-            case EStatType.cargo_hold :
+            case EStatType.cargo_hold_size :
                 return ' m<sup>2</sup> ';
+            case EStatType.cargo_hold_size :
+                return '';
             case EStatType.dodge :
                 return " ";
             case EStatType.radar_signature_reduction :

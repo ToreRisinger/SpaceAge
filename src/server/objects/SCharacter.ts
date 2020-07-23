@@ -9,7 +9,6 @@ import { IdHandler } from "../IdHandler"
 import { SSector } from "../sector/SSector";
 import { IItem } from "../../shared/data/item/IItem";
 import { EModuleItemType } from "../../shared/data/item/EModuleItemType";
-import { EMineralItemType } from "../../shared/data/item/EMineralItemType";
 import { EStatType } from "../../shared/data/stats/EStatType";
 import { ISkill } from "../../shared/data/skills/ISkill";
 import { StatInfo } from "../../shared/data/stats/StatInfo";
@@ -26,13 +25,7 @@ export class SCharacter extends SShip {
     private progressTime: number = 0;
 
     public static createNewCharacter(user: IUserDocument, characterName: string, location: string) : SCharacter {
-        let items : Array<IItem> = new Array();
-        items.push(ItemFactory.createMineral(EMineralItemType.DIAMOND_ORE, 1));
-        items.push(ItemFactory.createMineral(EMineralItemType.GOLD_ORE, 20));
-        items.push(ItemFactory.createMineral(EMineralItemType.IRON_ORE, 1));
-        items.push(ItemFactory.createMineral(EMineralItemType.TITANIUM_ORE, 1));
-        items.push(ItemFactory.createMineral(EMineralItemType.URANIUM_ORE, 1));
-        
+        let items : Array<IItem> = new Array(); 
         items.push(ItemFactory.createModule(EModuleItemType.SHIELD_MODULE, 1));
         items.push(ItemFactory.createModule(EModuleItemType.ARMOR_MODULE, 2));
         items.push(ItemFactory.createModule(EModuleItemType.MAIN_MODULE, 3));
@@ -59,14 +52,13 @@ export class SCharacter extends SShip {
         skills.push({level: 0, skillType: EStatType.radar_range, progress: 0});
         skills.push({level: 0, skillType: EStatType.shield_generation, progress: 0});
         skills.push({level: 0, skillType: EStatType.target_dodge_reduction, progress: 0});
-        skills.push({level: 0, skillType: EStatType.cargo_hold, progress: 0});
+        skills.push({level: 0, skillType: EStatType.cargo_hold_size, progress: 0});
         skills.push({level: 0, skillType: EStatType.dodge, progress: 0});
         skills.push({level: 0, skillType: EStatType.radar_signature_reduction, progress: 0});
         skills.push({level: 0, skillType: EStatType.weapon_range, progress: 0});
         skills.push({level: 0, skillType: EStatType.weapon_damage, progress: 0});
         skills.push({level: 0, skillType: EStatType.mining_laser_yield, progress: 0});
         skills.push({level: 0, skillType: EStatType.mining_laser_range, progress: 0});
-
         skills.push({level: 1, skillType: EStatType.main_module_quality, progress: 0});
         skills.push({level: 1, skillType: EStatType.thrust_module_quality, progress: 0});
         skills.push({level: 1, skillType: EStatType.power_module_quality, progress: 0});
@@ -129,11 +121,11 @@ export class SCharacter extends SShip {
               {moduleItem: ItemFactory.createModule(EModuleItemType.MINING_LASER_MODULE, 1), x: 1, y : 2},
               {moduleItem: ItemFactory.createModule(EModuleItemType.TURRET_MODULE, 1), x: 1, y : 3},
               {moduleItem: ItemFactory.createModule(EModuleItemType.TURRET_MODULE, 1), x: 1, y : 4},
-              {moduleItem: ItemFactory.createModule(EModuleItemType.ARMOR_MODULE, 1), x: 2, y : 1},
-              {moduleItem: ItemFactory.createModule(EModuleItemType.ARMOR_MODULE, 1), x: 3, y : 2},
-              {moduleItem: ItemFactory.createModule(EModuleItemType.ARMOR_MODULE, 1), x: 4, y : 3},
-              {moduleItem: ItemFactory.createModule(EModuleItemType.ARMOR_MODULE, 1), x: 5, y : 4},
-              {moduleItem: ItemFactory.createModule(EModuleItemType.ARMOR_MODULE, 1), x: 6, y : 5},
+              {moduleItem: ItemFactory.createModule(EModuleItemType.CARGO_HOLD_MODULE, 1), x: 2, y : 1},
+              {moduleItem: ItemFactory.createModule(EModuleItemType.CARGO_HOLD_MODULE, 1), x: 3, y : 2},
+              {moduleItem: ItemFactory.createModule(EModuleItemType.CARGO_HOLD_MODULE, 1), x: 4, y : 3},
+              {moduleItem: ItemFactory.createModule(EModuleItemType.CARGO_HOLD_MODULE, 1), x: 5, y : 4},
+              {moduleItem: ItemFactory.createModule(EModuleItemType.CARGO_HOLD_MODULE, 1), x: 6, y : 5},
               {moduleItem: ItemFactory.createModule(EModuleItemType.ARMOR_MODULE, 1), x: 7, y : 6},
               {moduleItem: ItemFactory.createModule(EModuleItemType.ARMOR_MODULE, 1), x: 8, y : 7},
               {moduleItem: ItemFactory.createModule(EModuleItemType.ARMOR_MODULE, 1), x: 9, y : 8},
@@ -277,8 +269,7 @@ export class SCharacter extends SShip {
 
       let character = this.character
       let targetAsteroid = sector.getAsteroids().get(character.state.targetId);
-      let cargoSpaceLeft = character.stats[EStatType.cargo_hold] - CargoUtils.getCargoSize(this);
-      if(targetAsteroid != undefined && cargoSpaceLeft > 0) {
+      if(targetAsteroid != undefined) {
         let miningShipPos = [character.x, character.y];
         let asteroidPos = [targetAsteroid.x, targetAsteroid.y];
         let miningShipToAsteroidVec = math.subtract(miningShipPos, asteroidPos);
@@ -286,23 +277,25 @@ export class SCharacter extends SShip {
         let miningShipMiningRange = character.stats[EStatType.mining_laser_range];
         if(miningShipToAsteroidDistance <= miningShipMiningRange) {
           let sizeMined = character.stats[EStatType.mining_laser_yield];
-          if(sizeMined == 0) {
-              sizeMined = 1;
-          }
 
-          if(sizeMined > cargoSpaceLeft) {
-              sizeMined = cargoSpaceLeft;
-          }
-
+          let success: boolean = true;
           if(targetAsteroid.size >= sizeMined) {
-              CargoUtils.addItemToPlayerCargo(ItemFactory.createMineral(targetAsteroid.type, sizeMined), this);
-              targetAsteroid.size = targetAsteroid.size - sizeMined;
+              success = CargoUtils.addItemToPlayerCargo(ItemFactory.createMineral(targetAsteroid.type, sizeMined), this);
+              if(success) {
+                targetAsteroid.size = targetAsteroid.size - sizeMined;
+              }
+              
           } else {
-              CargoUtils.addItemToPlayerCargo(ItemFactory.createMineral(targetAsteroid.type, targetAsteroid.size), this);
-              targetAsteroid.size = 0;
+              success = CargoUtils.addItemToPlayerCargo(ItemFactory.createMineral(targetAsteroid.type, targetAsteroid.size), this);
+              if(success) {
+                targetAsteroid.size = 0;
+              }
           }
 
-          CombatLogManager.addCombatLogAstroidMinedMessage(this, targetAsteroid, sizeMined);
+          if(success) {
+            CombatLogManager.addCombatLogAstroidMinedMessage(this, targetAsteroid, sizeMined);
+          }
+          //TODO send cargo full
         } 
       }
   }

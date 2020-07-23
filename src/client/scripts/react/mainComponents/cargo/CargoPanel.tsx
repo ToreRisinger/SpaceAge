@@ -67,7 +67,7 @@ export default class CargoPanel extends React.Component<{}, CargoPanelState> {
       let playerShip = GlobalDataService.getInstance().getPlayerShip();
       let shipCargoHoldSize = 0;
       if(playerShip != undefined) {
-         shipCargoHoldSize = playerShip.getStat(EStatType.cargo_hold);
+         shipCargoHoldSize = playerShip.getStat(EStatType.cargo_hold_size);
       }
 
       let cargoHoldSize = 0

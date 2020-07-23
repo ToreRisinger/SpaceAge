@@ -126,18 +126,8 @@ export module GameObjectHandler {
         });
     }
 
-    /*
-    function onSpaceStationUpdate(event: Events.SPACE_STATION_UPDATE_EVENT_CONFIG) {
-        if(gameObjects.get(event.data.spaceStation.id) == undefined) {
-            gameObjects.set(event.data.spaceStation.id, new SpaceStation(event.data.spaceStation));
-        } else {
-            //@ts-ignore
-            gameObjects.get(event.data.spaceStation.id).updateData(event.data.spaceStation);
-        }
-    }
-    */
-
     function onCargoUpdate(event : Events.CARGO_UPDATE_EVENT_CONFIG) {
+        console.log("oncargoupdate");
         GlobalDataService.getInstance().getPlayerShip().setCargo(event.data.cargo);
         let eventToSend : Events.PLAYER_CARGO_UPDATED_EVENT_CONFIG = {
             eventId : Events.EEventType.PLAYER_CARGO_UPDATED_EVENT,
@@ -231,7 +221,6 @@ export module GameObjectHandler {
         EventHandler.on(Events.EEventType.PLAYER_DISCONNECTED_EVENT, onPlayerDisconnect);
         EventHandler.on(Events.EEventType.SHIPS_UPDATE_EVENT, onShipsUpdate);
         EventHandler.on(Events.EEventType.ASTEROIDS_UPDATE_EVENT, onAsteroidsUpdate);
-        //EventHandler.on(Events.EEventType.SPACE_STATION_UPDATE_EVENT, onSpaceStationUpdate);
         EventHandler.on(Events.EEventType.CONTAINER_UPDATE_EVENT, onContainerUpdate);
         EventHandler.on(Events.EEventType.CARGO_UPDATE_EVENT, onCargoUpdate);
         EventHandler.on(Events.EEventType.GAME_OBJECT_DESTOYED_EVENT, onGameObjectsDestroyed);

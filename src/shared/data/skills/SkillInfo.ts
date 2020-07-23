@@ -87,15 +87,15 @@ export module SkillInfo {
                 values: [0, 0.5, 1, 1.5, 2, 2.5]
             }
         },
-        [EStatType.cargo_hold] : {
+        [EStatType.cargo_hold_size] : {
             name: "Cargo Hold",
-            description: "Increases ship " + StatInfo.statTypeToString(EStatType.cargo_hold) + ".",
+            description: "Increases ship " + StatInfo.statTypeToString(EStatType.cargo_hold_size) + ".",
             maxLevel: 5,
             startLearningTime: 60,
             learningTimeIncrease: 2.0,
             stats: {
                 modifier: EStatModifier.increase_percentage,
-                stat: EStatType.cargo_hold,
+                stat: EStatType.cargo_hold_size,
                 values: [0, 0.5, 1, 1.5, 2, 2.5]
             }
         },

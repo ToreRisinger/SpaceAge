@@ -40,7 +40,6 @@ export class SSector {
     private playerToContainerMap: Map<number, number>;
     private sceneObjects: Array<ISceneObject>
     private warpGate: ISceneObject;
-    //private spaceStation: ISpaceStation | undefined;
 
     private spawners: Array<Spawner>;
     
@@ -108,14 +107,6 @@ export class SSector {
             y: Utils.getRandomNumber(-2000, 2000),
             type: ESceneObjectType.SPACE_STATION
           })
-          /*
-          this.spaceStation = {
-            id: IdHandler.getNewGameObjectId(),
-            x: Utils.getRandomNumber(-2000, 2000),
-            y: Utils.getRandomNumber(-2000, 2000),
-            name: this.getName()
-          }
-          */
         }
       });
     }
@@ -180,7 +171,6 @@ export class SSector {
       this.handleDestroyedAsteroids();
       this.sendAsteroidUpdates();
       this.sendUpdatedCargo();
-      //this.sendSpaceStationData(this.spaceStation);
     }
 
     public addClient(client : SClient) {
@@ -281,22 +271,30 @@ export class SSector {
       return false;
     }
 
-    public takeItems(client: SClient, indexes: Array<number>, cargoId: number) {
+    public takeItems(client: SClient, indexes: Array<number>, cargoId: number): boolean {
       let playerCargoPair = this.containers.get(cargoId);
+      let addedAllItems = true;
       if(playerCargoPair != undefined) {
         if(this.canInteractWithCargo(client, playerCargoPair)) {
           let indexesSet = new Set(indexes);
           let itemsRemaining = new Array<IItem>();
           for(let i = 0; i < playerCargoPair.cargo.cargo.items.length; i++) {
+            let addedToClient: boolean = false;
             if(indexesSet.has(i)) {
-              CargoUtils.addItemToPlayerCargo(playerCargoPair.cargo.cargo.items[i], client.getCharacter());
-            } else {
+              addedToClient = CargoUtils.addItemToPlayerCargo(playerCargoPair.cargo.cargo.items[i], client.getCharacter());
+              if(!addedToClient) {
+                addedAllItems = false;
+              }
+            }
+            if(!addedToClient) {
               itemsRemaining.push(playerCargoPair.cargo.cargo.items[i]);
             }
           }
           playerCargoPair.cargo.cargo.items = itemsRemaining;
         }
       }
+      //TODO if fail to add all, send take item fail event
+      return addedAllItems;
     }
 
     private canInteractWithCargo(client: SClient, playerCargoPair: IPlayerCargoPair): boolean {
@@ -336,7 +334,7 @@ export class SSector {
           let nrOfLoot = Utils.getRandomNumber(npcInfo.loot.numberOfLootMin, npcInfo.loot.numberOfLootMax);
           for(let i = 0; i < nrOfLoot; i++) {
             let random = Utils.getRandomNumber(0, npcInfo.loot.possibleLootList.length - 1);
-            let loot = npcInfo.loot.possibleLootList[Utils.getRandomNumber(0, npcInfo.loot.possibleLootList.length - 1)];
+            let loot = npcInfo.loot.possibleLootList[random];
             let item: IItem = {
               itemType : loot.itemType,
               module: undefined,
@@ -398,6 +396,7 @@ export class SSector {
             client.getData().socket.emit("ServerEvent", packet);
         }
     });
+    //CargoUtils.clear();
   }
 
   private handleDestroyedAsteroids() {
@@ -421,24 +420,6 @@ export class SSector {
       client.getData().socket.emit("ServerEvent", packet);
     });
   }
-
-  /*
-  private sendSpaceStationData(spaceStation: ISpaceStation | undefined) {
-    if(spaceStation == undefined) {
-      return;
-    }
-
-    let packet: Events.SPACE_STATION_UPDATE_EVENT_CONFIG = {
-        eventId: Events.EEventType.SPACE_STATION_UPDATE_EVENT,
-        data: {
-            spaceStation: spaceStation
-        }
-    }
-    this.clients.forEach(client => {
-        client.getData().socket.emit("ServerEvent", packet);
-    });
-  }
-  */
 
   private getAsteroidType(typeString : string) : EMineralItemType {
     switch (typeString) {

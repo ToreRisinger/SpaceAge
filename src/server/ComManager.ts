@@ -20,12 +20,14 @@ export class ComManager {
 
     private clientMap: Map<number, SClient>; 
     private combatLogMessages: Array<{receiver: SClient, message: ICombatLogMessage}>;
+    private eventQueue: Map<number, Array<{id: number, event: Events.GameEvent}>>;
+
 
     constructor(http: any, sectorHandler: SectorHandler) {
         this.clientMap = new Map<number, SClient>();
         this.combatLogMessages = new Array();
         this.sectorHandler = sectorHandler;
-        
+        this.eventQueue = new Map();
         
         http.listen(ConnectionConfiguration.serverPort, '0.0.0.0', function () {
             Logger.info(`Listening on ${http.address().port}`);
@@ -38,6 +40,7 @@ export class ComManager {
 
     public update40ms() {
         this.sendCombatLogMessages();
+        this.sendEvents();
     }
 
     public update1000ms() {
@@ -54,6 +57,15 @@ export class ComManager {
 
     public getClients() : Array<SClient> {
         return Array.from(this.clientMap.values());
+    }
+
+    public addEvent(id: number, event: Events.GameEvent) {
+        let arr = this.eventQueue.get(id);
+        if(arr == undefined) {
+            arr = new Array();
+            this.eventQueue.set(id, arr);
+        }
+        arr.push({id: id, event: event});
     }
 
     private setupOnConnection() {
@@ -322,6 +334,7 @@ export class ComManager {
         if(sector != undefined) {
             sector.takeItems(client, event.data.indexes, event.data.cargoId);
         }
+        //TODO send fail if cargo is full
     }
 
     private onRequestOpenCargo(client: SClient, event: Events.OPEN_CARGO_REQUEST_CONFIG) {
@@ -438,6 +451,18 @@ export class ComManager {
             obj.receiver.getData().socket.emit("ServerEvent", packet); 
         });
         this.combatLogMessages = new Array();
+    }
+
+    private sendEvents() {
+        this.eventQueue.forEach(eventArray => {
+            eventArray.forEach(event=> {
+                let client = this.clientMap.get(event.id);
+                if(client != undefined) {
+                    client.getData().socket.emit('ServerEvent', event.event);
+                }
+            });
+        });
+        this.eventQueue.clear();
     }
 
     private onLoginFail(socket: any, message: string) {
