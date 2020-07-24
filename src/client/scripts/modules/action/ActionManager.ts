@@ -19,6 +19,7 @@ import { CenterOnShipAction } from "./actions/CenterOnShipAction";
 import { OpenAction } from "./actions/OpenAction";
 import { CloseAction } from "./actions/CloseAction";
 import { MoveToAction } from "./actions/MoveToAction";
+import { DockAction } from "./actions/DockAction";
 
 export module ActionManager {
 
@@ -43,7 +44,8 @@ export module ActionManager {
             new CenterOnAction(),
             new CenterOnShipAction(),
             new OpenAction(),
-            new CloseAction());
+            new CloseAction(),
+            new DockAction());
 
         shortcutMap = new Map();
         actions.forEach(action => {

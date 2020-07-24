@@ -53,6 +53,7 @@ export module Events {
         OPEN_CARGO_ACK,
         OPEN_CARGO_FAIL,
         TAKE_ITEM_REQUEST,
+        CLOSE_CARGO,
 
         //GameState changes events
         GAME_STATE_CHANGE,
@@ -69,7 +70,7 @@ export module Events {
         SERVER_NEW_CHARACTER_FAIL,
         CLIENT_REGISTER_REQ,
         SERVER_REGISTER_FAIL,
-        CLOSE_CARGO,
+        CLIENT_DOCK_REQ,
         
         //Input
         MOUSE_PRESSED_EVENT,
@@ -400,6 +401,12 @@ export module Events {
     export interface SERVER_NEW_CHARACTER_FAIL extends GameEvent {
         data: {
             message: string
+        }
+    }
+
+    export interface CLIENT_DOCK_REQ extends GameEvent {
+        data: {
+            spaceStationId: number
         }
     }
 }

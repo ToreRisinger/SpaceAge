@@ -10,6 +10,7 @@ export module InputHandler {
         SPACE = "space",
         A = "a",
         C = "c",
+        D = "d",
         M = "m",
         O = "o",
         S = "s",

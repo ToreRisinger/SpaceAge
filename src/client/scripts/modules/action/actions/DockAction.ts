@@ -1,32 +1,33 @@
 import { Action } from "../fw/Action";
 import { RadarDetectable } from "../../../game_objects/RadarDetectable";
+import { InputHandler } from "../../InputHandler";
+import { SpaceStation } from "../../../game_objects/SpaceStation";
 import { Events } from "../../../../../shared/util/Events";
 import { EventHandler } from "../../EventHandler";
 import { GlobalDataService } from "../../GlobalDataService";
-import { InputHandler } from "../../InputHandler";
 
-export class StopAction extends Action {
+export class DockAction extends Action {
    
     constructor() {
-        super("Stop");
+        super("Dock");
     }
 
     public run(selection: RadarDetectable | undefined, target: RadarDetectable | undefined): void {
-        let event : Events.PLAYER_STOP_SHIP_EVENT_CONFIG = {
-            eventId : Events.EEventType.PLAYER_STOP_SHIP_EVENT,
-            data : {
-                
+        let event: Events.CLIENT_DOCK_REQ = {
+            eventId: Events.EEventType.CLIENT_DOCK_REQ,
+            data: {
+                //@ts-ignore
+                spaceStationId: selection.getId()
             }
         }
         EventHandler.pushEvent(event);
     }
 
     public isEnabled(selection: RadarDetectable | undefined, target: RadarDetectable | undefined): boolean {
-        let playerShip = GlobalDataService.getInstance().getPlayerShip();
-        return playerShip.hasDestination() && !playerShip.isWarping();
+        return selection != undefined && selection instanceof SpaceStation && !GlobalDataService.getInstance().getPlayerShip().isWarping();
     }
 
     public getShortCut(): InputHandler.EKey {
-        return InputHandler.EKey.S;
+        return InputHandler.EKey.D;
     }
 }

@@ -6,6 +6,7 @@ import { ISceneObject } from "../../../shared/data/gameobject/ISceneObject";
 import { SceneObjectInfo } from "../../../shared/data/sceneobjects/SceneObjectInfo";
 import { Colors } from "../../../shared/colors/Colors";
 import { Camera } from "../modules/Camera";
+import { GameConstants } from "../../../shared/constants/GameConstants";
 
 export class WarpGate extends RadarDetectable {
     
@@ -14,7 +15,6 @@ export class WarpGate extends RadarDetectable {
     private spriteRotation: number;
     private displayInformation: Array<string>;
     private info: SceneObjectInfo.ISceneObjectInfo;
-    private static WARP_GATE_RANGE: number = 4000;
     private rangeCircle: Graphics.Circle;
     private rangeColor : number = Colors.HEX.WHITE;
 
@@ -41,12 +41,12 @@ export class WarpGate extends RadarDetectable {
         this.spriteRotation += 0.0005;
         this.sprite.update();
         this.rangeCircle.setPos(this.data.x, this.data.y);
-        this.rangeCircle.setRadius(WarpGate.WARP_GATE_RANGE);
+        this.rangeCircle.setRadius(GameConstants.WARP_GATE_RANGE);
         this.rangeCircle.update();
     }
 
     public getRange(): number {
-        return WarpGate.WARP_GATE_RANGE;
+        return GameConstants.WARP_GATE_RANGE;
     }
 
     protected getRadarMass(): number {

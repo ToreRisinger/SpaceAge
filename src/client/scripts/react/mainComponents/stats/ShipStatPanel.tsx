@@ -4,6 +4,7 @@ import ShipStatContainer from "./ShipStatContainer";
 import MoneyContainer from "../cargo/MoneyContainer";
 import { CCharacter } from "../../../game_objects/CCharacter";
 import WarpingNotificationContainer from "./WarpingNotificationContainer";
+import DockingNotificationContainer from "./DockingNotificationContainer";
 
 export interface ShipStatPanelState { character : CCharacter; }
 
@@ -44,6 +45,7 @@ export default class ShipStatPanel extends React.Component<{}, ShipStatPanelStat
          <Fragment>
             <MoneyContainer character={this.state.character}/>
             <WarpingNotificationContainer isWarping={this.state.character.isWarping()}></WarpingNotificationContainer>
+            <DockingNotificationContainer isDocking={this.state.character.isDocking()}></DockingNotificationContainer>
             <div className="ShipStatPanel">
                <ShipStatContainer ship={this.state.character}></ShipStatContainer>
             </div>

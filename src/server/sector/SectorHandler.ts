@@ -19,7 +19,6 @@ export class SectorHandler {
         fromSector : SSector
         destinationX: number,
         destinationY: number, 
-        
     }>;
 
     constructor() {
@@ -68,18 +67,24 @@ export class SectorHandler {
         }
     }
 
+    public onPlayerDockRequest(client: SClient, spaceStationId: number) {
+        let sector = this.playersToSectorMap.get(client.getData().id);
+        if(sector != undefined) {
+            sector.onPlayerDockRequest(client, spaceStationId);
+        }
+    }
+
     public onPlayerStartWarping(client: SClient, toSector : SSector) {
         let fromSector = this.playersToSectorMap.get(client.getData().id);
         if(fromSector != undefined) {
             let destinationX = Utils.getRandomNumber(-2000, 2000);
             let destinationY = Utils.getRandomNumber(-2000, 2000);
-            client.getData().character.warpState.toSectorId = toSector.getId();
-            client.getData().character.warpState.fromSectorId = fromSector.getId();
-            client.getData().character.state.destVec = [toSector.getX() - fromSector.getX() + destinationX, toSector.getY() - fromSector.getY() + destinationY];
+            
 
-            client.getData().character.state.hasDestination = true;   
-            client.getData().character.state.isMoving = true;
-            client.getData().character.warpState.isWarping = true;
+            let destVec = client.getData().character.state.destVec = [toSector.getX() - fromSector.getX() + destinationX, toSector.getY() - fromSector.getY() + destinationY];
+            let toSectorId = client.getData().character.warpState.toSectorId = toSector.getId();
+            let fromSectorId = client.getData().character.warpState.fromSectorId = fromSector.getId();
+            client.getCharacter().startWarping(destVec[0], destVec[1], toSectorId, fromSectorId);
 
             this.warpingPlayers.set(client.getData().id, {
                     client : client, 

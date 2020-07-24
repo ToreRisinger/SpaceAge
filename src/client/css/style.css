@@ -742,7 +742,7 @@ body {
     margin: auto;
 }
 
-.WarpingNotificationContainer {
+.NotificationContainer {
     position: absolute;
     top: 100px;
     left: 0px;
@@ -751,7 +751,6 @@ body {
     margin: auto;
     font-size: 20px;
     text-align: center;
-
 }
 
 /*

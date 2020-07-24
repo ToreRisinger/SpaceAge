@@ -11,7 +11,7 @@ import { SClient } from "./objects/SClient";
 import { ICombatLogMessage } from "../shared/data/CombatLogInterfaces";
 import { ISector } from "../shared/data/sector/ISector";
 import { SShip } from "./objects/SShip";
-import { ConnectionConfiguration as ConnectionConfiguration } from "../shared/constants/connectionConfiguration";
+import { ConnectionConfiguration as ConnectionConfiguration } from "../shared/constants/ConnectionConfiguration";
 
 export class ComManager {
 
@@ -322,6 +322,11 @@ export class ComManager {
           }
           case Events.EEventType.TAKE_ITEM_REQUEST: {
             this.onTakeItemsRequest(client, event);
+            break;
+          }
+          case Events.EEventType.CLIENT_DOCK_REQ: {
+            this.onPlayerDockRequest(client, event);
+            break;
           }
           default: {
             break;
@@ -388,11 +393,17 @@ export class ComManager {
     private onPlayerStopShipEvent(client : SClient, event : Events.PLAYER_STOP_SHIP_EVENT_CONFIG) {
         client.getCharacter().stopMove();
     }
+
+    private onPlayerDockRequest(client: SClient, event: Events.CLIENT_DOCK_REQ) {
+        if(!client.getCharacter().getData().warpState.isWarping) {
+            this.sectorHandler.onPlayerDockRequest(client, event.data.spaceStationId);
+        }
+    }
   
     private onPlayerStartWarpEvent(client : SClient, event : Events.PLAYER_START_WARP_REQUEST_EVENT_CONFIG) {
         //TODO, add check if they should be able to warp
         let sector = this.sectorHandler.getSectors().find(sector => sector.getId() == event.data.targetId);
-        if(sector != undefined && ! client.getCharacter().getData().warpState.isWarping) {
+        if(sector != undefined && !client.getCharacter().getData().warpState.isWarping) {
             this.sectorHandler.onPlayerStartWarping(client, sector);
         }
     }

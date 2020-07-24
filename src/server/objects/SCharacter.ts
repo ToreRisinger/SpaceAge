@@ -96,6 +96,9 @@ export class SCharacter extends SShip {
               toSectorId : 0,
               fromSectorId : 0,
             },
+            dockingState: {
+              isDocking: false
+            },
             sectorId: 0,
             location: location,
             skills: {
@@ -302,9 +305,33 @@ export class SCharacter extends SShip {
 
   public newDestination(x: number, y: number) {
     if(!this.character.warpState.isWarping) {
+      this.character.dockingState.isDocking = false;
       super.newDestination(x, y);
     }
   }
+
+  public startDocking(x: number, y: number) {
+    if(!this.character.warpState.isWarping) {
+      this.character.dockingState.isDocking = true;
+      super.newDestination(x, y);
+    }
+  }
+
+  public startWarping(x: number, y: number, toSectorId: number, fromSectorId: number) {
+    this.character.warpState.toSectorId = toSectorId;
+    this.character.warpState.fromSectorId = fromSectorId;
+    this.character.warpState.isWarping = true;
+    this.character.dockingState.isDocking = false;
+    super.newDestination(x, y);
+  }
+
+  public stopMove() {
+    if(!this.character.warpState.isWarping) {
+      super.stopMove();
+      this.character.dockingState.isDocking = false;
+    }
+  }
+  
 
   protected getAcceleration(): number {
     return this.getData().warpState.isWarping ? 100000 : this.getData().stats[EStatType.acceleration];

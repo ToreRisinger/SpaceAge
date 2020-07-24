@@ -19,6 +19,8 @@ import { ENpcType } from "../../shared/data/npc/ENpcType";
 import { Events } from "../../shared/util/Events";
 import { ISceneObject } from "../../shared/data/gameobject/ISceneObject";
 import { ESceneObjectType } from "../../shared/data/sceneobjects/ESceneObjectType";
+import { SSpaceStation } from "../spaceStation/SSpaceStation";
+import { SpaceStation } from "../../client/scripts/game_objects/SpaceStation";
 
 const math = require('mathjs');
 math.length = function vec2Length(vec2 : Array<number>) {
@@ -34,13 +36,14 @@ export class SSector {
 
     protected clients: Map<number, SClient>;
     protected newClients: Array<SClient>;
+
     protected npcs: Map<number, SNpc>;
     private asteroids: Map<number, IAsteroid>;
     private containers: Map<number, IPlayerCargoPair>;
     private playerToContainerMap: Map<number, number>;
-    private sceneObjects: Array<ISceneObject>
+    private sceneObjects: Array<ISceneObject>;
+    private spaceStations: Map<number, SSpaceStation>;
     private warpGate: ISceneObject;
-
     private spawners: Array<Spawner>;
     
     protected x: number;
@@ -70,12 +73,15 @@ export class SSector {
         this.playerToContainerMap = new Map<number, number>();
         this.spawners = new Array();
         this.sceneObjects = new Array();
+        this.spaceStations = new Map();
+
         this.warpGate = {
           id: IdHandler.getNewGameObjectId(),
           type: ESceneObjectType.WARP_GATE,
           x: Utils.getRandomNumber(-2000, 2000),
           y: Utils.getRandomNumber(-2000, 2000)
         }
+
         this.sceneObjects.push(this.warpGate);
 
         this.setupSector(sectorDefinitions);
@@ -101,10 +107,15 @@ export class SSector {
             this.addSpawner(new NpcSpawner(this, this.getNpcType(def.type), def.level, def.maxNrOfNpcs, def.spawnRate));
           }
         } else if(SectorDefinition.instanceOfISpaceStationDef(def)) {
+          let id: number = IdHandler.getNewGameObjectId();
+          let x = Utils.getRandomNumber(-2000, 2000);
+          let y = Utils.getRandomNumber(-2000, 2000);
+          this.spaceStations.set(id, new SSpaceStation(id, x, y));
+         
           this.sceneObjects.push({
-            id: IdHandler.getNewGameObjectId(),
-            x: Utils.getRandomNumber(-2000, 2000),
-            y: Utils.getRandomNumber(-2000, 2000),
+            id: id,
+            x: x,
+            y: y,
             type: ESceneObjectType.SPACE_STATION
           })
         }
@@ -144,8 +155,13 @@ export class SSector {
       this.npcs.forEach(npc => {
         npc.update40ms(this);
       });
-      this.spawners.forEach(spawner=> {
+
+      this.spawners.forEach(spawner => {
         spawner.update40ms();
+      });
+
+      this.spaceStations.forEach(spaceStation => {
+        spaceStation.update40ms();
       });
 
       this.sendShipUpdates();
@@ -165,6 +181,10 @@ export class SSector {
       this.spawners.forEach(spawner=> {
         spawner.update1000ms();
       });
+
+      this.spaceStations.forEach(spaceStation => {
+        spaceStation.update1000ms();
+      })
 
       this.handleEmptyContainers();
       this.sendContainers();
@@ -257,6 +277,13 @@ export class SSector {
       this.playerToContainerMap.delete(client.getData().id);
     }
 
+    public onPlayerDockRequest(client: SClient, spaceStationId: number) {
+      let spaceStation = this.spaceStations.get(spaceStationId);
+      if(spaceStation != undefined) {
+        spaceStation.onPlayerDockRequest(client);
+      }
+    }
+    
     //Make this thread safe?
     public openCargoRequest(client: SClient, cargoId: number): boolean {
       let playerCargoPair = this.containers.get(cargoId);
