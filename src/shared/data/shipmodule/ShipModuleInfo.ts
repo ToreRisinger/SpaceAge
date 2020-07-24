@@ -110,7 +110,7 @@ export module ShipModuleInfo {
                         modifier : EStatModifier.increase_additive
                     },
                     {
-                        stat: EStatType.cargo_containers,
+                        stat: EStatType.cargo_slots,
                         max : [1, 1, 1, 1, 1],
                         min : [1, 1, 1, 1, 1],
                         modifier : EStatModifier.increase_additive

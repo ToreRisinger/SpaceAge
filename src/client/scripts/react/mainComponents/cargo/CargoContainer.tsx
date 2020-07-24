@@ -22,7 +22,7 @@ export default class CargoContainer extends React.Component<CargoContainerProps,
    }
    
    render() {
-        let extraSlots = GlobalDataService.getInstance().getPlayerShip().getStat(EStatType.cargo_containers) - this.props.items.length;
+        let extraSlots = GlobalDataService.getInstance().getPlayerShip().getStat(EStatType.cargo_slots) - this.props.items.length;
         let emptySlots = new Array<number>();
         for(let i = 0; i < extraSlots; i++) {
             emptySlots.push(i);

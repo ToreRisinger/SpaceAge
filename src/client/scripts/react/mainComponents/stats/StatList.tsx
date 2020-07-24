@@ -48,7 +48,7 @@ export default class StatList extends React.Component<StatListProps, {}> {
 
                     <hr></hr>
                     <pre>Cargo hold:                  {this.getStatString(char, EStatType.cargo_hold_size, statMap)}</pre>
-                    <pre>Cargo containers:            {this.getStatString(char, EStatType.cargo_containers, statMap)}</pre>
+                    <pre>Cargo slots:            {this.getStatString(char, EStatType.cargo_slots, statMap)}</pre>
 
                     <hr></hr>
                     <pre>Weapon range:                {this.getStatString(char, EStatType.weapon_range, statMap)}</pre>

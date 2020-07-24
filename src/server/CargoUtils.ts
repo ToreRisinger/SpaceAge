@@ -10,7 +10,7 @@ export module CargoUtils {
     export function addItemToPlayerCargo(itemToAdd : IItem, character: SCharacter): boolean {
         let itemInfo : ItemInfo.IItemInfo = ItemInfo.getItemInfo(itemToAdd.itemType);
         let existingItems = character.getData().cargo.items;
-        let containersLeft = character.getData().stats[EStatType.cargo_containers] - existingItems.length;
+        let containersLeft = character.getData().stats[EStatType.cargo_slots] - existingItems.length;
         let itemTypeExists = existingItems.filter(item => item.itemType == itemToAdd.itemType).length > 0;
         let canFit = (itemInfo.canStack && itemTypeExists) || containersLeft > 0;
         let totalSize = itemInfo.size * itemToAdd.quantity;
