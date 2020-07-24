@@ -4,6 +4,7 @@ import { Utils } from "../../../shared/util/Utils";
 import { EventHandler } from "./EventHandler";
 import { GlobalDataService } from "./GlobalDataService";
 import { Camera } from "./Camera";
+import { CUtils } from "../utils/CUtils";
 
 export module GUI {
     export function init() {
@@ -25,17 +26,9 @@ export module GUI {
         let globalData = GlobalDataService.getInstance();
         let newDestination : Phaser.Math.Vector2 = Utils.screenVecToMapVec(new Phaser.Math.Vector2(x * globalData.getCameraZoom(), y * globalData.getCameraZoom()),
         Camera.getMapPos().x, Camera.getMapPos().y, globalData.getCameraWidth(), globalData.getCameraHeight());
-        let event : Events.PLAYER_SET_NEW_DESTINATION_EVENT_CONFIG = {
-            eventId : Events.EEventType.PLAYER_SET_NEW_DESTINATION_EVENT,
-            data : { 
-                destinationX: 
-                newDestination.x, 
-                destinationY: 
-                newDestination.y
-            }
-        }
-        EventHandler.pushEvent(event);
+        CUtils.newDestination(newDestination.x, newDestination.y);
     }
+
     function subscribeToEvents() {
         EventHandler.on(Events.EEventType.BACKGROUND_CLICKED_TWICE_EVENT, onBackgroundClicked);
     }

@@ -24,6 +24,6 @@ export class StopMineAction extends Action {
     }
 
     public getShortCut(): InputHandler.EKey {
-        return InputHandler.EKey.M;
+        return InputHandler.EKey.A;
     }
 }

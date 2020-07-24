@@ -18,6 +18,7 @@ import { CenterOnAction } from "./actions/CenterOnAction";
 import { CenterOnShipAction } from "./actions/CenterOnShipAction";
 import { OpenAction } from "./actions/OpenAction";
 import { CloseAction } from "./actions/CloseAction";
+import { MoveToAction } from "./actions/MoveToAction";
 
 export module ActionManager {
 
@@ -26,6 +27,7 @@ export module ActionManager {
 
     export function init() {
         actions = new Array(
+            new MoveToAction(),
             new TargetAction(), 
             new RemoveTargetAction(), 
             new AttackAction(), 
