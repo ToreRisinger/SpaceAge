@@ -5,7 +5,6 @@ import { SPRITES } from "../../../shared/util/SPRITES";
 import { ISceneObject } from "../../../shared/data/gameobject/ISceneObject";
 import { SceneObjectInfo } from "../../../shared/data/sceneobjects/SceneObjectInfo";
 import { Colors } from "../../../shared/colors/Colors";
-import { Camera } from "../modules/Camera";
 import { GameConstants } from "../../../shared/constants/GameConstants";
 
 export class WarpGate extends RadarDetectable {
@@ -64,6 +63,7 @@ export class WarpGate extends RadarDetectable {
 
     public destroy() {
         this.sprite.destroy();
+        this.rangeCircle.destroy();
         super.destroy();
     }
 

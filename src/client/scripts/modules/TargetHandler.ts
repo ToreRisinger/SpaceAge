@@ -16,6 +16,10 @@ export module TargetHandler {
         subscribeToEvents();
     }
 
+    export function deinit() {
+        targetIcon.destroy();
+    }
+
     export function update(time : number, delta : number) {
         if(targetObject != undefined && !targetObject.isDetected()) {
             changeTarget(undefined);
@@ -67,7 +71,7 @@ export module TargetHandler {
         EventHandler.pushEvent(newEvent);
     }
 
-    function onPlayerDisconnect(event : Events.PLAYER_DISCONNECTED_EVENT_CONFIG) {
+    function onPlayerDisconnect(event : Events.PLAYER_LEFT_EVENT_CONFIG) {
         let targetObject = GlobalDataService.getInstance().getTargetObject();
         if(targetObject != undefined && targetObject.getId() == event.data.shipId) {
             changeTarget(undefined);
@@ -86,7 +90,7 @@ export module TargetHandler {
     }
 
     function subscribeToEvents() {
-        EventHandler.on(Events.EEventType.PLAYER_DISCONNECTED_EVENT, onPlayerDisconnect);
+        EventHandler.on(Events.EEventType.PLAYER_LEFT_EVENT, onPlayerDisconnect);
         EventHandler.on(Events.EEventType.GAME_OBJECT_DESTOYED_EVENT, onGameObjectsDestroyed);
     }
 

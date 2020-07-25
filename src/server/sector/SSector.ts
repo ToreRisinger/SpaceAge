@@ -20,7 +20,6 @@ import { Events } from "../../shared/util/Events";
 import { ISceneObject } from "../../shared/data/gameobject/ISceneObject";
 import { ESceneObjectType } from "../../shared/data/sceneobjects/ESceneObjectType";
 import { SSpaceStation } from "../spaceStation/SSpaceStation";
-import { SpaceStation } from "../../client/scripts/game_objects/SpaceStation";
 
 const math = require('mathjs');
 math.length = function vec2Length(vec2 : Array<number>) {
@@ -110,7 +109,7 @@ export class SSector {
           let id: number = IdHandler.getNewGameObjectId();
           let x = Utils.getRandomNumber(-2000, 2000);
           let y = Utils.getRandomNumber(-2000, 2000);
-          this.spaceStations.set(id, new SSpaceStation(id, x, y));
+          this.spaceStations.set(id, new SSpaceStation(id, x, y, this));
          
           this.sceneObjects.push({
             id: id,
@@ -203,7 +202,7 @@ export class SSector {
     public removeClient(client : SClient) {
       this.clients.delete(client.getData().id);
       this.closeCargo(client);
-      this.sendClientDisconnected(client.getCharacter().getData().id);
+      this.sendClientLeft(client.getCharacter().getData().id);
     }
 
     public addNpc(npc: SNpc): void {
@@ -218,8 +217,8 @@ export class SSector {
       this.containers.set(container.id, {cargo: container, playerId: undefined});
     }
 
-    private sendClientDisconnected(disconnectedShipId : number) {
-      let packet : any = PacketFactory.createPlayerDisconnectedPacket(disconnectedShipId);
+    private sendClientLeft(disconnectedShipId : number) {
+      let packet : any = PacketFactory.createPlayerLeftSectorPackage(disconnectedShipId);
       this.clients.forEach((client: SClient, key: number) => {
         client.getData().socket.emit('ServerEvent', packet)
       });

@@ -44,6 +44,15 @@ export module GraphicsEffects {
         subscribeToEvents();
     }
 
+    export function deinit() {
+        destinationLine.destroy();
+        destinationCircle.destroy();
+        radarRangeCircle.destroy();
+        radarMaxRangeCircle.destroy();
+        weaponRangeCircle.destroy();
+        miningRangeCircle.destroy();
+    }
+
     export function update(time : number, delta : number) {
         let cameraZoom = GlobalDataService.getInstance().getCameraZoom();
 

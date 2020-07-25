@@ -19,6 +19,7 @@ import { ISceneObject } from "../../../shared/data/gameobject/ISceneObject";
 import { ESceneObjectType } from "../../../shared/data/sceneobjects/ESceneObjectType";
 import { RadarDetectable } from "../game_objects/RadarDetectable";
 import { WarpGate } from "../game_objects/WarpGate";
+import { EGameState } from "../../../shared/util/EGameState";
 
 export module GameObjectHandler {
 
@@ -84,7 +85,7 @@ export module GameObjectHandler {
 
     }
 
-    function onPlayerDisconnect(event : Events.PLAYER_DISCONNECTED_EVENT_CONFIG) {
+    function onPlayerDisconnect(event : Events.PLAYER_LEFT_EVENT_CONFIG) {
         destroyGameObject(event.data.shipId);
     }
 
@@ -204,6 +205,22 @@ export module GameObjectHandler {
         });
     }
 
+    function onGameStateChange(event: Events.GAME_STATE_CHANGED) {
+        if(event.data.gameState == EGameState.DOCKED) {
+            let objectsToRemove : Array<GameObject> = new Array();
+            gameObjects.forEach((element, key) => {
+                if(!(element instanceof CSector) && !(element instanceof Planet) && !(element instanceof SpaceStation)) {
+                    objectsToRemove.push(element);
+                }
+            });
+            for(let i = 0; i < objectsToRemove.length; i++) {
+                destroyGameObject(objectsToRemove[i].getId());
+            }
+        } else if(event.data.gameState == EGameState.IN_SPACE) {
+
+        }
+    }
+
     function sceneObjectFactory(obj: ISceneObject): RadarDetectable {
         switch(obj.type) {
             case ESceneObjectType.SPACE_STATION:
@@ -218,7 +235,7 @@ export module GameObjectHandler {
 
     function subscribeToEvents() {
         EventHandler.on(Events.EEventType.PLAYER_CONNECTED_EVENT, onPlayerConnect);
-        EventHandler.on(Events.EEventType.PLAYER_DISCONNECTED_EVENT, onPlayerDisconnect);
+        EventHandler.on(Events.EEventType.PLAYER_LEFT_EVENT, onPlayerDisconnect);
         EventHandler.on(Events.EEventType.SHIPS_UPDATE_EVENT, onShipsUpdate);
         EventHandler.on(Events.EEventType.ASTEROIDS_UPDATE_EVENT, onAsteroidsUpdate);
         EventHandler.on(Events.EEventType.CONTAINER_UPDATE_EVENT, onContainerUpdate);
@@ -226,7 +243,8 @@ export module GameObjectHandler {
         EventHandler.on(Events.EEventType.GAME_OBJECT_DESTOYED_EVENT, onGameObjectsDestroyed);
         EventHandler.on(Events.EEventType.CHANGE_SECTOR_EVENT, onSectorChanged); 
         EventHandler.on(Events.EEventType.SKILL_STATE_EVENT, onSkillStateChanged); 
-        EventHandler.on(Events.EEventType.SCENE_OBJECT_UPDATE_EVENT, onSceneObjectUpdate);  
+        EventHandler.on(Events.EEventType.SCENE_OBJECT_UPDATE_EVENT, onSceneObjectUpdate);
+        EventHandler.on(Events.EEventType.GAME_STATE_CHANGE, onGameStateChange); 
     }
 
     function destroyGameObject(objectId : number) {

@@ -2,7 +2,7 @@ import React, {Fragment} from "react";
 import { CCharacter } from "../game_objects/CCharacter";
 import ShipStatPanel from "./mainComponents/stats/ShipStatPanel";
 import SideMenu from "./mainComponents/SidePanel";
-import Chat from "./mainComponents/ChatWindow";
+import ChatWindow from "./mainComponents/ChatWindow";
 import RulerPanel from "./mainComponents/RulerPanel";
 import { EventHandler } from "../modules/EventHandler";
 import { Events } from "../../../shared/util/Events";
@@ -105,13 +105,20 @@ export default class App extends React.Component<{}, AppState> {
                     <Fragment>
                         <ShipStatPanel/>
                         <SideMenu/>
-                        <Chat/>
+                        <ChatWindow/>
                         <RightPanel/>
                         <RulerPanel/>
                         <LocationPanel/>
                         <TopButtonPanel/>
                         <ContextMenuPanel/>
                         <LootWindow/>
+                    </Fragment>
+                ) 
+            }
+            case EGameState.DOCKED: {
+                return (
+                    <Fragment>
+                        <ChatWindow/>
                     </Fragment>
                 ) 
             }

@@ -4,5 +4,6 @@ export enum EGameState {
     LOGGING_IN_LOADING,
     CHARACTER_SELECTION,
     LOADING_GAME,
-    IN_SPACE
+    IN_SPACE,
+    DOCKED
 }

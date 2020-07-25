@@ -1,3 +1,4 @@
 export interface IDockingState {
-    isDocking : boolean
+    isDocking: boolean,
+    isDocked: boolean
 }

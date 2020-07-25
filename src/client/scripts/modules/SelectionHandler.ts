@@ -63,7 +63,7 @@ export module SelectionHandler {
         EventHandler.pushEvent(newEvent);
     }
 
-    function onPlayerDisconnect(event : Events.PLAYER_DISCONNECTED_EVENT_CONFIG) {
+    function onPlayerDisconnect(event : Events.PLAYER_LEFT_EVENT_CONFIG) {
         let selectedObject = GlobalDataService.getInstance().getSelectedObject();
         if(selectedObject != undefined && selectedObject.getId() == event.data.shipId) {
             changeSelection(undefined);
@@ -82,7 +82,7 @@ export module SelectionHandler {
     }
 
     function subscribeToEvents() {
-        EventHandler.on(Events.EEventType.PLAYER_DISCONNECTED_EVENT, onPlayerDisconnect);
+        EventHandler.on(Events.EEventType.PLAYER_LEFT_EVENT, onPlayerDisconnect);
         EventHandler.on(Events.EEventType.GAME_OBJECT_DESTOYED_EVENT, onGameObjectsDestroyed);
     }
 }

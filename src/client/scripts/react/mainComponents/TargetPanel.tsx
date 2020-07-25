@@ -1,7 +1,6 @@
 import React from "react";
 import { RadarDetectable } from "../../game_objects/RadarDetectable";
 import ObjectInfoPanel from "./ObjectInfoPanel";
-import ContextMenu from "../actions/ContextMenu";
 
 export interface TargetPanelProps { object: RadarDetectable | undefined }
 

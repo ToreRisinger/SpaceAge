@@ -97,7 +97,8 @@ export class SCharacter extends SShip {
               fromSectorId : 0,
             },
             dockingState: {
-              isDocking: false
+              isDocking: false,
+              isDocked: false
             },
             sectorId: 0,
             location: location,

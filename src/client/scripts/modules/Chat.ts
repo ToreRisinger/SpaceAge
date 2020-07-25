@@ -14,7 +14,6 @@ export module Chat {
 
     export function init() {
         chat_input = document.getElementById("chat_input");
-           
         subscribeToEvents();
     }
 
@@ -31,20 +30,16 @@ export module Chat {
     }
 
     function checkEnterPressed() {
-        if(chat_input == null) {
-            chat_input = document.getElementById("chat_input");
-            //@ts-ignore 
-            chat_input.disabled = true;
-        }
-        
         if(InputHandler.getKeyState(InputHandler.EKey.ENTER) == InputHandler.EKeyState.PRESSED) {
             if(chat_input === document.activeElement) {
+                chat_input = document.getElementById("chat_input");
                 //@ts-ignore
                 chat_input.blur();
                 //@ts-ignore
                 chat_input.disabled = true;
                 InputHandler.setChatInputIsActive(false);
             } else {
+                chat_input = document.getElementById("chat_input");
                 //@ts-ignore
                 chat_input.disabled = false;
                 //@ts-ignore

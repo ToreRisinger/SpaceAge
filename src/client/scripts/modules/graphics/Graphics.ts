@@ -60,6 +60,12 @@ export namespace Graphics {
         public setVisible(value: boolean): void {
             this.visible = value;
         }
+
+        public destroy() {
+            if(this.lineGraphics) {
+                this.lineGraphics.destroy();
+            }
+        }
     }
 
     export class Circle {
@@ -135,6 +141,12 @@ export namespace Graphics {
 
         public setRadius(radius: number) {
             this.radius = radius;
+        }
+
+        public destroy() {
+            if(this.circleGraphics) {
+                this.circleGraphics.destroy();
+            }
         }
     }
 

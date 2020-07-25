@@ -67,12 +67,11 @@ export module PacketFactory {
       return packet;
   }
 
-  export function createPlayerDisconnectedPacket(disconnectedShipId : number) {
-    let packet : Events.PLAYER_DISCONNECTED_EVENT_CONFIG = {
-      eventId : Events.EEventType.PLAYER_DISCONNECTED_EVENT,
+  export function createPlayerLeftSectorPackage(id : number) {
+    let packet : Events.PLAYER_LEFT_EVENT_CONFIG = {
+      eventId : Events.EEventType.PLAYER_LEFT_EVENT,
       data : {
-        shipId : disconnectedShipId
-          
+        shipId : id
       }
     }
 
@@ -107,6 +106,15 @@ export module PacketFactory {
       data : {
         clientSectorId : sectorId
       }
+    }
+
+    return packet;
+  }
+
+  export function createDockedAckPackage() {
+    let packet : Events.SERVER_DOCK_ACK = {
+      eventId : Events.EEventType.SERVER_DOCK_ACK,
+      data : { }
     }
 
     return packet;

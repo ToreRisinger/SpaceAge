@@ -18,7 +18,7 @@ export module Events {
 
         //Player events
         PLAYER_CONNECTED_EVENT,
-        PLAYER_DISCONNECTED_EVENT,
+        PLAYER_LEFT_EVENT,
         SHIPS_UPDATE_EVENT,
         CONTAINER_UPDATE_EVENT,
         ASTEROIDS_UPDATE_EVENT,
@@ -71,6 +71,7 @@ export module Events {
         CLIENT_REGISTER_REQ,
         SERVER_REGISTER_FAIL,
         CLIENT_DOCK_REQ,
+        SERVER_DOCK_ACK,
         
         //Input
         MOUSE_PRESSED_EVENT,
@@ -241,7 +242,7 @@ export module Events {
         }
     }
 
-    export interface PLAYER_DISCONNECTED_EVENT_CONFIG extends GameEvent {
+    export interface PLAYER_LEFT_EVENT_CONFIG extends GameEvent {
         data : {
             shipId : number 
         }
@@ -408,6 +409,10 @@ export module Events {
         data: {
             spaceStationId: number
         }
+    }
+
+    export interface SERVER_DOCK_ACK extends GameEvent {
+        data: { }
     }
 }
 
