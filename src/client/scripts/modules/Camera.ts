@@ -63,27 +63,31 @@ export module Camera {
 
         if(InputHandler.getKeyState(InputHandler.EKey.DOWN) == InputHandler.EKeyState.DOWN) {
             cameraMode = ECameraMode.FREE;
+            objectToCenterOn = undefined;
             mapY += CAMERA_SPEED * currentZoom;
         }
 
         if(InputHandler.getKeyState(InputHandler.EKey.UP) == InputHandler.EKeyState.DOWN) {
             cameraMode = ECameraMode.FREE;
+            objectToCenterOn = undefined;
             mapY -= CAMERA_SPEED * currentZoom;
         }
 
         if(InputHandler.getKeyState(InputHandler.EKey.LEFT) == InputHandler.EKeyState.DOWN) {
             cameraMode = ECameraMode.FREE;
+            objectToCenterOn = undefined;
             mapX -= CAMERA_SPEED * currentZoom;
         }
 
         if(InputHandler.getKeyState(InputHandler.EKey.RIGHT) == InputHandler.EKeyState.DOWN) {
             cameraMode = ECameraMode.FREE;
+            objectToCenterOn = undefined;
             mapX += CAMERA_SPEED * currentZoom;
         }
 
         if(cameraMode == ECameraMode.CENTERED && objectToCenterOn == undefined || (objectToCenterOn != undefined && !objectToCenterOn.isVisible())) {
+            objectToCenterOn = undefined;
             cameraMode = ECameraMode.FREE;
-            centerComplete = false;
         }
         
         setCameraPos();
