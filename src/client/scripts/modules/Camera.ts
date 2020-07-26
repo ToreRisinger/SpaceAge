@@ -3,7 +3,6 @@ import { EventHandler } from "./EventHandler";
 import { Events } from "../../../shared/util/Events";
 import { InputHandler } from "./InputHandler";
 import { GlobalDataService } from "./GlobalDataService";
-import { CCharacter } from "../game_objects/CCharacter";
 import { RadarDetectable } from "../game_objects/RadarDetectable";
 
 export module Camera {
@@ -17,14 +16,16 @@ export module Camera {
     let CAMERA_MAX_ZOOM: number = 35;
     let CAMERA_SPEED: number = 5;
 
+    let CAMERA_CENTER_SPEED: number = 0.3;
+    let centerComplete: boolean;
+    let centerTimer: number = 0;
+
     let cameraMode: ECameraMode = ECameraMode.CENTERED;
 
     let camera: Phaser.Cameras.Scene2D.Camera;
 
     let mapX: integer;
     let mapY: integer;
-    let cameraX : integer;
-    let cameraY : integer;
 
     let width: number;
     let height: number;
@@ -43,6 +44,7 @@ export module Camera {
         height = camera.height;
         mapX = 0;
         mapY = 0;
+        centerComplete = true;
 
         camera.centerOn(mapX, mapY);
 
@@ -81,6 +83,7 @@ export module Camera {
 
         if(cameraMode == ECameraMode.CENTERED && objectToCenterOn == undefined || (objectToCenterOn != undefined && !objectToCenterOn.isVisible())) {
             cameraMode = ECameraMode.FREE;
+            centerComplete = false;
         }
         
         setCameraPos();
@@ -128,6 +131,11 @@ export module Camera {
     }
 
     export function centerOn(object: RadarDetectable) {
+        if(cameraMode != ECameraMode.CENTERED || objectToCenterOn != object) {
+            centerComplete = false;
+            centerTimer = 10;
+        }
+
         objectToCenterOn = object;
         cameraMode = ECameraMode.CENTERED;
     }
@@ -138,8 +146,23 @@ export module Camera {
 
     function setCameraPos() {
         if(cameraMode == ECameraMode.CENTERED && objectToCenterOn != undefined) {
-            mapX = objectToCenterOn.getPos().x - camera.width / 2;
-            mapY = objectToCenterOn.getPos().y - camera.height / 2;
+            if(centerComplete) {
+                mapX = objectToCenterOn.getPos().x - camera.width / 2;
+                mapY = objectToCenterOn.getPos().y - camera.height / 2;
+            } else {
+                let cameraVec = new Phaser.Math.Vector2(mapX, mapY);
+                let objectVec = new Phaser.Math.Vector2(objectToCenterOn.getPos().x - camera.width / 2, objectToCenterOn.getPos().y - camera.height / 2);
+                let cameraSpeed = objectVec.subtract(cameraVec).scale(CAMERA_CENTER_SPEED);
+                let newCameraVec = cameraVec.add(cameraSpeed);
+    
+                mapX = newCameraVec.x;
+                mapY = newCameraVec.y;
+
+                centerTimer--;
+                if(centerTimer == 0) {
+                    centerComplete = true;
+                }
+            }
         }
 
         if(mapX < 10000000 && mapX > -10000000 && mapY < 10000000 && mapY > -10000000) {
