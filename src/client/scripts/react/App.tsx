@@ -16,6 +16,8 @@ import LootWindow from "./mainComponents/cargo/LootWindow";
 import RightPanel from "./mainComponents/RigthPanel";
 import { GameController } from "../modules/GameController";
 import { HomePage } from "./mainComponents/login/HomePage";
+import SelectionPanel from "./mainComponents/SelectionPanel";
+import TargetPanel from "./mainComponents/TargetPanel";
 
 export interface AppState { gameState : EGameState; }
 
@@ -112,6 +114,8 @@ export default class App extends React.Component<{}, AppState> {
                         <TopButtonPanel/>
                         <ContextMenuPanel/>
                         <LootWindow/>
+                        <SelectionPanel/>
+                        <TargetPanel/>
                     </Fragment>
                 ) 
             }
@@ -119,6 +123,7 @@ export default class App extends React.Component<{}, AppState> {
                 return (
                     <Fragment>
                         <ChatWindow/>
+                        <SelectionPanel/>
                     </Fragment>
                 ) 
             }

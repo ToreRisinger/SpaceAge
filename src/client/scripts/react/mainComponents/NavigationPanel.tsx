@@ -8,7 +8,7 @@ import { Events } from "../../../../shared/util/Events";
 import TargetPanel from "./TargetPanel";
 import SelectionPanel from "./SelectionPanel";
 
-export interface NavigationPanelState { gameObjects : Array<GameObject>, selectedObject : GameObject | undefined, targetObject : GameObject | undefined; }
+export interface NavigationPanelState { gameObjects : Array<GameObject>, targetObject : GameObject | undefined; }
 
 export default class NavigationPanel extends React.Component<{}, NavigationPanelState> {
   
@@ -18,22 +18,17 @@ export default class NavigationPanel extends React.Component<{}, NavigationPanel
       super(props)
       this.state = {
          gameObjects : GameObjectHandler.getGameObjects(),
-         selectedObject : undefined,
          targetObject : undefined
-     }
+      }
       this.timerID = undefined;
       this.tick = this.tick.bind(this);
-      this.onNewSelection = this.onNewSelection.bind(this);
-      this.onNewTarget = this.onNewTarget.bind(this);
-      EventHandler.on(Events.EEventType.SELECTION_CHANGED_EVENT, this.onNewSelection)
-      EventHandler.on(Events.EEventType.TARGET_CHANGED_EVENT, this.onNewTarget)
    }
 
    componentDidMount() {
       this.timerID = setInterval(
         () => this.tick(),
         1000
-      );  
+      );
    }
   
    componentWillUnmount() {
@@ -45,18 +40,6 @@ export default class NavigationPanel extends React.Component<{}, NavigationPanel
    tick() {
       this.setState({
          gameObjects: GameObjectHandler.getGameObjects()
-      });
-   }
-
-   onNewSelection(event: Events.SELECTION_CHANGED_EVENT_CONFIG) {
-      this.setState({
-         selectedObject: event.data.object 
-      });
-   }
-
-   onNewTarget(event: Events.TARGET_CHANGED_EVENT_CONFIG) {
-      this.setState({
-         targetObject: event.data.object 
       });
    }
 
@@ -74,14 +57,6 @@ export default class NavigationPanel extends React.Component<{}, NavigationPanel
       
       return (
          <Fragment>
-            {this.state.selectedObject instanceof RadarDetectable &&
-               <SelectionPanel object={this.state.selectedObject} />
-            }
-
-            {this.state.targetObject instanceof RadarDetectable &&
-               <TargetPanel object={this.state.targetObject} />
-            }
-            
             <div id="navigation_panel">
                <div id="navigation_panel_table_header" className="BodyText">
                   <div id="navigation_panel_table_header_icon" className=""></div>
@@ -94,5 +69,3 @@ export default class NavigationPanel extends React.Component<{}, NavigationPanel
       );
    }
 }
-
-//<div id="navigation_panel_title" className="TitleText">Navigation</div>
