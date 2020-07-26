@@ -19,6 +19,7 @@ import SelectionPanel from "./mainComponents/SelectionPanel";
 import TargetPanel from "./mainComponents/TargetPanel";
 import NavigationPanel from "./mainComponents/NavigationPanel";
 import CargoPanel from "./mainComponents/cargo/CargoPanel";
+import MoneyContainer from "./mainComponents/cargo/MoneyContainer";
 
 export interface AppState { gameState : EGameState; }
 
@@ -118,6 +119,7 @@ export default class App extends React.Component<{}, AppState> {
                         <LootWindow/>
                         <SelectionPanel/>
                         <TargetPanel/>
+                        <MoneyContainer/>
                     </Fragment>
                 ) 
             }
@@ -128,6 +130,7 @@ export default class App extends React.Component<{}, AppState> {
                         <SelectionPanel/>
                         <NavigationPanel/>
                         <CargoPanel/>
+                        <MoneyContainer/>
                     </Fragment>
                 ) 
             }
