@@ -79,7 +79,7 @@ export default class CargoPanel extends React.Component<{}, CargoPanelState> {
       let cargoPanelFullClass = cargoHoldSize >= shipCargoHoldSize ? " RedText" : "";
       
       return (
-         <div id="cargo_panel">
+         <div id="cargo_panel" className="BodyText HasBorder Unselectable PanelBackground">
             <div className="CargoContainerWrapper">
                <CargoContainer items={this.state.items}/>
             </div>

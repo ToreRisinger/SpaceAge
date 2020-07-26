@@ -13,11 +13,12 @@ import TopButtonPanel from "./topbuttonpanel/TopButtonPanel";
 import ContextMenuPanel from "./actions/ContextMenuPanel";
 import { EGameState } from "../../../shared/util/EGameState";
 import LootWindow from "./mainComponents/cargo/LootWindow";
-import RightPanel from "./mainComponents/RigthPanel";
 import { GameController } from "../modules/GameController";
 import { HomePage } from "./mainComponents/login/HomePage";
 import SelectionPanel from "./mainComponents/SelectionPanel";
 import TargetPanel from "./mainComponents/TargetPanel";
+import NavigationPanel from "./mainComponents/NavigationPanel";
+import CargoPanel from "./mainComponents/cargo/CargoPanel";
 
 export interface AppState { gameState : EGameState; }
 
@@ -108,7 +109,8 @@ export default class App extends React.Component<{}, AppState> {
                         <ShipStatPanel/>
                         <SideMenu/>
                         <ChatWindow/>
-                        <RightPanel/>
+                        <NavigationPanel/>
+                        <CargoPanel/>
                         <RulerPanel/>
                         <LocationPanel/>
                         <TopButtonPanel/>
@@ -124,6 +126,8 @@ export default class App extends React.Component<{}, AppState> {
                     <Fragment>
                         <ChatWindow/>
                         <SelectionPanel/>
+                        <NavigationPanel/>
+                        <CargoPanel/>
                     </Fragment>
                 ) 
             }

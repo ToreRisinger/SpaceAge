@@ -391,7 +391,8 @@ body {
 #navigation_panel {
     margin: auto;
     position: absolute;
-    top: 0px;
+    top: -1px;
+    right: -1px;
     width: 300px; 
     height: 50%;
 }
@@ -588,8 +589,9 @@ body {
 #cargo_panel {
     margin: auto;
     position: absolute;
-    bottom: 0px;
-    width: 300px; 
+    bottom: -1px;
+    right: -1px;
+    width: 300px;
     height: 50%;
 }
 
