@@ -13,9 +13,10 @@ export module Camera {
     }
 
     let CAMERA_MIN_ZOOM: number = 1;
+    let CAMERA_INITIAL_ZOOM: number = 1;
     let CAMERA_MAX_ZOOM: number = 35;
-    let CAMERA_SCROLL_SPEED: number = 5;
-    let CAMERA_ZOOM_SPEED: number = 3;
+    let CAMERA_SCROLL_SPEED: number = 8;
+    let CAMERA_ZOOM_SPEED: number = 2.5;
 
     let CAMERA_CENTER_SPEED: number = 0.3;
     let centerComplete: boolean;
@@ -49,7 +50,7 @@ export module Camera {
 
         camera.centerOn(mapX, mapY);
 
-        currentZoom = CAMERA_MIN_ZOOM;
+        currentZoom = CAMERA_INITIAL_ZOOM;
         minZoom = CAMERA_MIN_ZOOM;
         maxZoom = Math.pow(2, CAMERA_MAX_ZOOM);
         initialized = true;
