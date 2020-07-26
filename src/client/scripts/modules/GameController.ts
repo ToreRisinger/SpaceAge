@@ -117,10 +117,10 @@ export class GameController {
         InputHandler.update(time, delta);
         EventHandler.update(time, delta);
         ActionManager.update(time, delta);
-        SelectionHandler.update(time, delta);
-        TargetHandler.update(time, delta);
         GameObjectHandler.update(time, delta);
         Camera.update(time, delta);
+        SelectionHandler.update(time, delta);
+        TargetHandler.update(time, delta);
         GameObjectHandler.updateGraphics(time, delta);
         Background.update(time, delta);
         GraphicsEffects.update(time, delta);
@@ -131,48 +131,15 @@ export class GameController {
     private dockedUpdate(time: number, delta: number) {
         InputHandler.update(time, delta);
         EventHandler.update(time, delta);
-        SelectionHandler.update(time, delta);
         GameObjectHandler.update(time, delta);
         Camera.update(time, delta);
+        SelectionHandler.update(time, delta);
         GameObjectHandler.updateGraphics(time, delta);
         Background.update(time, delta);
         Chat.update(time, delta);
     }
 
-    private onGameStateChange(event : Events.GAME_STATE_CHANGED) {
-        /*
-        switch(event.data.gameState) { 
-            case EGameState.LOGGING_IN_LOADING: {
-                this.updateFunction = this.loggingInStateUpdate;
-                break; 
-            } 
-            case EGameState.CHARACTER_SELECTION: { 
-                this.updateFunction = this.characterSelectionStateUpdate;
-                break; 
-            }
-            case EGameState.LOADING_GAME: { 
-                this.updateFunction = this.loadingGameStateUpdate;
-                break; 
-            }
-            case EGameState.IN_SPACE: {
-                this.updateFunction = this.inSpaceUpdate;
-                break; 
-            }
-            case EGameState.DOCKED: {
-                this.updateFunction = this.dockedUpdate;
-                break;
-            }
-            default: { 
-               break; 
-            } 
-        }
-        */
-    }
-
     private setNextState(state : EGameState) {
-        //Logger.debug("Game state changed from: " + this.gameState + " to " + state);
-        //this.gameState = state;
-        //this.triggerGameStateChangeEvent();
         this.nextState = state;
     }
 
@@ -240,7 +207,6 @@ export class GameController {
     }
 
     private subscribeToEvents() {
-        EventHandler.on(Events.EEventType.GAME_STATE_CHANGE, (event : Events.GAME_STATE_CHANGED) => {this.onGameStateChange(event)});
         EventHandler.on(Events.EEventType.SERVER_LOGIN_ACK, (event : Events.SERVER_LOGIN_ACK) => {this.onServerLoginAck(event)});
         EventHandler.on(Events.EEventType.CLIENT_JOIN_REQ, (event : Events.CLIENT_JOIN_REQ) => {this.onClientJoinReq(event)});
         EventHandler.on(Events.EEventType.SERVER_JOIN_ACK, (event : Events.SERVER_JOIN_ACK) => {this.onServerJoinAck(event)}); 

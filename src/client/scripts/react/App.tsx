@@ -126,6 +126,7 @@ export default class App extends React.Component<{}, AppState> {
             case EGameState.DOCKED: {
                 return (
                     <Fragment>
+                        <SideMenu/>
                         <ChatWindow/>
                         <SelectionPanel/>
                         <NavigationPanel/>
