@@ -14,7 +14,8 @@ export module Camera {
 
     let CAMERA_MIN_ZOOM: number = 1;
     let CAMERA_MAX_ZOOM: number = 35;
-    let CAMERA_SPEED: number = 5;
+    let CAMERA_SCROLL_SPEED: number = 5;
+    let CAMERA_ZOOM_SPEED: number = 3;
 
     let CAMERA_CENTER_SPEED: number = 0.3;
     let centerComplete: boolean;
@@ -56,33 +57,33 @@ export module Camera {
 
     export function update(time : number, delta : number) {
         if(InputHandler.getKeyState(InputHandler.EKey.Z) == InputHandler.EKeyState.DOWN) {
-            zoom(1 + (2 / (1000 / delta)));
+            zoom(1 + (CAMERA_ZOOM_SPEED / (1000 / delta)));
         } else if(InputHandler.getKeyState(InputHandler.EKey.X) == InputHandler.EKeyState.DOWN) {
-            zoom(1 - 2 / (1000 / delta));
+            zoom(1 - (CAMERA_ZOOM_SPEED / (1000 / delta)));
         }
 
         if(InputHandler.getKeyState(InputHandler.EKey.DOWN) == InputHandler.EKeyState.DOWN) {
             cameraMode = ECameraMode.FREE;
             objectToCenterOn = undefined;
-            mapY += CAMERA_SPEED * currentZoom;
+            mapY += CAMERA_SCROLL_SPEED * currentZoom;
         }
 
         if(InputHandler.getKeyState(InputHandler.EKey.UP) == InputHandler.EKeyState.DOWN) {
             cameraMode = ECameraMode.FREE;
             objectToCenterOn = undefined;
-            mapY -= CAMERA_SPEED * currentZoom;
+            mapY -= CAMERA_SCROLL_SPEED * currentZoom;
         }
 
         if(InputHandler.getKeyState(InputHandler.EKey.LEFT) == InputHandler.EKeyState.DOWN) {
             cameraMode = ECameraMode.FREE;
             objectToCenterOn = undefined;
-            mapX -= CAMERA_SPEED * currentZoom;
+            mapX -= CAMERA_SCROLL_SPEED * currentZoom;
         }
 
         if(InputHandler.getKeyState(InputHandler.EKey.RIGHT) == InputHandler.EKeyState.DOWN) {
             cameraMode = ECameraMode.FREE;
             objectToCenterOn = undefined;
-            mapX += CAMERA_SPEED * currentZoom;
+            mapX += CAMERA_SCROLL_SPEED * currentZoom;
         }
 
         if(cameraMode == ECameraMode.CENTERED && objectToCenterOn == undefined || (objectToCenterOn != undefined && !objectToCenterOn.isVisible())) {
