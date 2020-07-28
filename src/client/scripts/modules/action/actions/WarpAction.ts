@@ -26,9 +26,7 @@ export class WarpAction extends Action {
 
     public isEnabled(selection: RadarDetectable | undefined, target: RadarDetectable | undefined): boolean {
         let sectorId = GlobalDataService.getInstance().getSector().getId();
-        let warpGate = GameObjectHandler.getWarpGate();
-        return warpGate != undefined && warpGate.getPos().subtract(GlobalDataService.getInstance().getPlayerShip().getPos()).length() <= warpGate.getRange() 
-        && selection != undefined 
+        return selection != undefined 
         && selection instanceof CSector 
         && !GlobalDataService.getInstance().getPlayerShip().isWarping()
         && sectorId != selection.getId();

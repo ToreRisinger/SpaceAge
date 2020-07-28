@@ -48,7 +48,7 @@ export default class StatList extends React.Component<StatListProps, {}> {
 
                     <hr></hr>
                     <pre>Cargo hold:                  {this.getStatString(char, EStatType.cargo_hold_size, statMap)}</pre>
-                    <pre>Cargo slots:            {this.getStatString(char, EStatType.cargo_slots, statMap)}</pre>
+                    <pre>Cargo slots:                 {this.getStatString(char, EStatType.cargo_slots, statMap)}</pre>
 
                     <hr></hr>
                     <pre>Weapon range:                {this.getStatString(char, EStatType.weapon_range, statMap)}</pre>
@@ -56,7 +56,11 @@ export default class StatList extends React.Component<StatListProps, {}> {
 
                     <hr></hr>
                     <pre>Mining laser yield:          {this.getStatString(char, EStatType.mining_laser_yield, statMap)}</pre>
-                    <pre>Mining laser range:          {this.getStatString(char, EStatType.mining_laser_range, statMap)}</pre>    
+                    <pre>Mining laser range:          {this.getStatString(char, EStatType.mining_laser_range, statMap)}</pre>   
+
+                    <hr></hr>
+                    <pre>Refining ore per second:     {this.getStatString(char, EStatType.ore_processing_speed, statMap)}</pre>
+                    <pre>Manufacturing speed:         {this.getStatString(char, EStatType.manufactoring_speed, statMap)}</pre> 
                 </div>
             </div>
         );
@@ -66,7 +70,7 @@ export default class StatList extends React.Component<StatListProps, {}> {
         let statValue = Math.round(character.getStat(stat));
         return (
             <Fragment>
-                {statValue} <span dangerouslySetInnerHTML={{__html: StatInfo.statTypeUnitToString(stat)}}></span> {this.getHighLightText(statValue, stat, statMap)}
+                {statValue}<span dangerouslySetInnerHTML={{__html: StatInfo.statTypeUnitToString(stat)}}></span> {this.getHighLightText(statValue, stat, statMap)}
             </Fragment>
         )
         

@@ -21,6 +21,11 @@ export interface ISkillList {
     [EStatType.weapon_damage] : ISkill,
     [EStatType.mining_laser_yield] : ISkill,
 
+    [EStatType.hull_repair_cost] : ISkill,
+    [EStatType.hull_repair_speed] : ISkill,
+    [EStatType.armor_repair_cost] : ISkill,
+    [EStatType.armor_repair_speed] : ISkill,
+
     [EStatType.max_nr_of_modules] : ISkill,
     [EStatType.main_module_quality] : ISkill,
     [EStatType.thrust_module_quality] : ISkill,
@@ -33,6 +38,10 @@ export interface ISkillList {
     [EStatType.weapon_range_module_quality] : ISkill,
     [EStatType.mining_laser_module_quality] : ISkill,
     [EStatType.turret_module_quality] : ISkill,
-    [EStatType.target_dodge_reduction_quality] : ISkill,
+    [EStatType.target_dodge_reduction_module_quality] : ISkill,
     [EStatType.radar_signature_reduction_module_quality] : ISkill,
+    [EStatType.factory_module_quality] : ISkill,
+    [EStatType.refinary_module_quality] : ISkill,
+    [EStatType.manufactoring_skill] : ISkill,
+    [EStatType.refining_skill] : ISkill,
 }

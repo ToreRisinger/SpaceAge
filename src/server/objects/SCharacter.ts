@@ -70,8 +70,16 @@ export class SCharacter extends SShip {
         skills.push({level: 1, skillType: EStatType.weapon_range_module_quality, progress: 0});
         skills.push({level: 1, skillType: EStatType.mining_laser_module_quality, progress: 0});
         skills.push({level: 1, skillType: EStatType.turret_module_quality, progress: 0});
-        skills.push({level: 1, skillType: EStatType.target_dodge_reduction_quality, progress: 0});
+        skills.push({level: 1, skillType: EStatType.target_dodge_reduction_module_quality, progress: 0});
         skills.push({level: 1, skillType: EStatType.radar_signature_reduction_module_quality, progress: 0});
+        skills.push({level: 1, skillType: EStatType.factory_module_quality, progress: 0});
+        skills.push({level: 1, skillType: EStatType.refinary_module_quality, progress: 0});
+        skills.push({level: 1, skillType: EStatType.refining_skill, progress: 0});
+        skills.push({level: 1, skillType: EStatType.manufactoring_skill, progress: 0});
+        skills.push({level: 0, skillType: EStatType.hull_repair_cost, progress: 0});
+        skills.push({level: 0, skillType: EStatType.hull_repair_speed, progress: 0});
+        skills.push({level: 0, skillType: EStatType.armor_repair_cost, progress: 0});
+        skills.push({level: 0, skillType: EStatType.armor_repair_speed, progress: 0});
 
         let character : ICharacter = {
             cargo: cargo,
@@ -85,8 +93,6 @@ export class SCharacter extends SShip {
               hasDestination : false,
               isAttacking : false,
               isMining : false,
-              hasWeapon : false,
-              hasMiningLaser : false,
               targetId : -1,
               destVec : [0, 0],
               velVec : [0, 0]
@@ -139,17 +145,6 @@ export class SCharacter extends SShip {
               {moduleItem: ItemFactory.createModule(EModuleItemType.ARMOR_MODULE, 1), x: 13, y : 12}
           ],
           money: 0
-        }
-
-        for(let i = 0; i < character.modules.length; i++) {
-          let mod = character.modules[i].moduleItem;
-          if(mod.itemType == EModuleItemType.MINING_LASER_MODULE) {
-            character.state.hasMiningLaser = true;
-          }
-    
-          if(mod.itemType == EModuleItemType.TURRET_MODULE || mod.itemType == EModuleItemType.MINING_LASER_MODULE) {
-                character.state.hasWeapon = true;
-              }
         }
         
         return new SCharacter(character);

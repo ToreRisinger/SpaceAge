@@ -18,8 +18,7 @@ export class TargetAction extends Action {
     }
 
     public isEnabled(context: RadarDetectable | undefined, target: RadarDetectable | undefined): boolean {
-        return (GlobalDataService.getInstance().getPlayerShip().hasWeapon() || GlobalDataService.getInstance().getPlayerShip().hasMiningLaser())
-            && (context != undefined 
+        return (context != undefined 
             && ((context instanceof Asteroid 
             || context instanceof CShip)
             && context != TargetHandler.getTarget()));

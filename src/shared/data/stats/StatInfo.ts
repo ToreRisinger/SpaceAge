@@ -68,10 +68,30 @@ export module StatInfo {
                 return "Maximum quality level";
             case EStatType.turret_module_quality : 
                 return "Maximum quality level";
-            case EStatType.target_dodge_reduction_quality : 
+            case EStatType.target_dodge_reduction_module_quality : 
                 return "Maximum quality level";
             case EStatType.radar_signature_reduction_module_quality : 
                 return "Maximum quality level";
+            case EStatType.refinary_module_quality :
+                return "Maximum quality level";
+            case EStatType.factory_module_quality :
+                return "Maximum quality level";   
+            case EStatType.hull_repair_cost : 
+                return "Hull repair cost";
+            case EStatType.armor_repair_cost : 
+                return "Armor repair cost";
+            case EStatType.hull_repair_speed : 
+                return "Hull repair speed";
+            case EStatType.armor_repair_speed : 
+                return "Armor repair speed";
+            case EStatType.ore_processing_speed : 
+                return "Ore refining speed";
+            case EStatType.manufactoring_speed : 
+                return "Manufacturing speed";
+            case EStatType.manufactoring_skill : 
+                return "Manufacturing skill";
+            case EStatType.refining_skill : 
+                return "Refining skill";
             default :
                 return "";
         }

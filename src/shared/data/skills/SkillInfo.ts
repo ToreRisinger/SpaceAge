@@ -363,7 +363,7 @@ export module SkillInfo {
                 values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
             }
         },
-        [EStatType.target_dodge_reduction_quality] : {
+        [EStatType.target_dodge_reduction_module_quality] : {
             name: "Target Dodge Reduction Module",
             description: "Allows using higher quality modules of given type.",
             maxLevel: 10,
@@ -371,7 +371,7 @@ export module SkillInfo {
             learningTimeIncrease: 2.0,
             stats: {
                 modifier: EStatModifier.neutral,
-                stat: EStatType.target_dodge_reduction_quality,
+                stat: EStatType.target_dodge_reduction_module_quality,
                 values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
             }
         },
@@ -386,7 +386,106 @@ export module SkillInfo {
                 stat: EStatType.radar_signature_reduction_module_quality,
                 values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
             }
+        },
+        [EStatType.refinary_module_quality] : {
+            name: "Refinary Module",
+            description: "Allows using higher quality modules of given type.",
+            maxLevel: 10,
+            startLearningTime: 60,
+            learningTimeIncrease: 2.0,
+            stats: {
+                modifier: EStatModifier.neutral,
+                stat: EStatType.refinary_module_quality,
+                values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            }
+        },
+        [EStatType.factory_module_quality] : {
+            name: "Factory Module",
+            description: "Allows using higher quality modules of given type.",
+            maxLevel: 10,
+            startLearningTime: 60,
+            learningTimeIncrease: 2.0,
+            stats: {
+                modifier: EStatModifier.neutral,
+                stat: EStatType.factory_module_quality,
+                values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            }
+        },
+        [EStatType.refining_skill] : {
+            name: "Refining",
+            description: "Increases the skill in refining, making it possible to refine rarer ores.",
+            maxLevel: 10,
+            startLearningTime: 60,
+            learningTimeIncrease: 2.0,
+            stats: {
+                modifier: EStatModifier.neutral,
+                stat: EStatType.refining_skill,
+                values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            }
+        },
+        [EStatType.manufactoring_skill] : {
+            name: "Manufactoring",
+            description: "Increases the skill in manufactoring, making it possible to manufactor items of higher quality.",
+            maxLevel: 10,
+            startLearningTime: 60,
+            learningTimeIncrease: 2.0,
+            stats: {
+                modifier: EStatModifier.neutral,
+                stat: EStatType.manufactoring_skill,
+                values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            }
         }
+
+        ,
+        [EStatType.hull_repair_cost] : {
+            name: "Hull Repair Efficiency",
+            description: "Decreases the cost of hull repair.",
+            maxLevel: 10,
+            startLearningTime: 60,
+            learningTimeIncrease: 2.0,
+            stats: {
+                modifier: EStatModifier.neutral,
+                stat: EStatType.hull_repair_cost,
+                values: [11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+            }
+        },
+        [EStatType.hull_repair_speed] : {
+            name: "Hull repair speed",
+            description: "Increases the speed at which hull is repaired.",
+            maxLevel: 10,
+            startLearningTime: 60,
+            learningTimeIncrease: 2.0,
+            stats: {
+                modifier: EStatModifier.neutral,
+                stat: EStatType.hull_repair_speed,
+                values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+            }
+        },
+        [EStatType.armor_repair_cost] : {
+            name: "Armor Repair Efficiency",
+            description: "Decreases the cost of armor repair.",
+            maxLevel: 10,
+            startLearningTime: 60,
+            learningTimeIncrease: 2.0,
+            stats: {
+                modifier: EStatModifier.neutral,
+                stat: EStatType.armor_repair_cost,
+                values: [11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+            }
+        },
+        [EStatType.armor_repair_speed] : {
+            name: "Armor repair speed",
+            description: "Increases the speed at which armor is repaired.",
+            maxLevel: 10,
+            startLearningTime: 60,
+            learningTimeIncrease: 2.0,
+            stats: {
+                modifier: EStatModifier.neutral,
+                stat: EStatType.armor_repair_speed,
+                values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+            }
+        }
+
     }
 
     export function getSkillInfo(statType : EStatType) : ISkillInfo {

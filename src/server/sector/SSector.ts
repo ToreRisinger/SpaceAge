@@ -41,8 +41,8 @@ export class SSector {
     private containers: Map<number, IPlayerCargoPair>;
     private playerToContainerMap: Map<number, number>;
     private sceneObjects: Array<ISceneObject>;
-    private spaceStations: Map<number, SSpaceStation>;
-    private warpGate: ISceneObject;
+    //private spaceStations: Map<number, SSpaceStation>;
+    //private warpGate: ISceneObject;
     private spawners: Array<Spawner>;
     
     protected x: number;
@@ -72,8 +72,9 @@ export class SSector {
         this.playerToContainerMap = new Map<number, number>();
         this.spawners = new Array();
         this.sceneObjects = new Array();
-        this.spaceStations = new Map();
+        //this.spaceStations = new Map();
 
+        /*
         this.warpGate = {
           id: IdHandler.getNewGameObjectId(),
           type: ESceneObjectType.WARP_GATE,
@@ -82,6 +83,7 @@ export class SSector {
         }
 
         this.sceneObjects.push(this.warpGate);
+        */
 
         this.setupSector(sectorDefinitions);
 
@@ -98,25 +100,32 @@ export class SSector {
           let asteroidType = this.getAsteroidType(def.asteroidType);
           this.addSpawner(new AsteroidSpawner(this, 0, 0, asteroidType, def.asteroidMinSize, def.maxNumberOfAsteroids, def.asteroidGenerationRate, def.maxNumberOfAsteroids));
         } else if(SectorDefinition.instanceOfIPirateDef(def)) {
+          /*
           for(let i = 0; i < def.locations; i++) {
             this.addSpawner(new NpcSpawner(this, this.getNpcType(def.type), def.level, def.maxNrOfNpcs, def.spawnRate));
           }
+          */
+
         } else if(SectorDefinition.instanceOfISmugglerDef(def)) {
+          /*
           for(let i = 0; i < def.locations; i++) {
             this.addSpawner(new NpcSpawner(this, this.getNpcType(def.type), def.level, def.maxNrOfNpcs, def.spawnRate));
           }
+          */
         } else if(SectorDefinition.instanceOfISpaceStationDef(def)) {
           let id: number = IdHandler.getNewGameObjectId();
           let x = Utils.getRandomNumber(-2000, 2000);
           let y = Utils.getRandomNumber(-2000, 2000);
-          this.spaceStations.set(id, new SSpaceStation(id, x, y, this));
+          //this.spaceStations.set(id, new SSpaceStation(id, x, y, this));
          
+          /*
           this.sceneObjects.push({
             id: id,
             x: x,
             y: y,
             type: ESceneObjectType.SPACE_STATION
           })
+          */
         }
       });
     }
@@ -159,9 +168,9 @@ export class SSector {
         spawner.update40ms();
       });
 
-      this.spaceStations.forEach(spaceStation => {
-        spaceStation.update40ms();
-      });
+      //this.spaceStations.forEach(spaceStation => {
+        //spaceStation.update40ms();
+      //});
 
       this.sendShipUpdates();
     }
@@ -181,9 +190,9 @@ export class SSector {
         spawner.update1000ms();
       });
 
-      this.spaceStations.forEach(spaceStation => {
-        spaceStation.update1000ms();
-      })
+      //this.spaceStations.forEach(spaceStation => {
+        //spaceStation.update1000ms();
+      //})
 
       this.handleEmptyContainers();
       this.sendContainers();
@@ -277,10 +286,10 @@ export class SSector {
     }
 
     public onPlayerDockRequest(client: SClient, spaceStationId: number) {
-      let spaceStation = this.spaceStations.get(spaceStationId);
-      if(spaceStation != undefined) {
-        spaceStation.onPlayerDockRequest(client);
-      }
+      //let spaceStation = this.spaceStations.get(spaceStationId);
+      //if(spaceStation != undefined) {
+      //  spaceStation.onPlayerDockRequest(client);
+      //}
     }
     
     //Make this thread safe?

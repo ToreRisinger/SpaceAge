@@ -150,14 +150,6 @@ export class CShip extends RadarDetectable {
         return this.shipData.state.hasDestination;
     }
 
-    public hasMiningLaser(): boolean {
-        return this.shipData.state.hasMiningLaser;
-    }
-
-    public hasWeapon(): boolean {
-        return this.shipData.state.hasWeapon;
-    }
-
     public getTargetId(): number {
         return this.shipData.state.targetId;
     }

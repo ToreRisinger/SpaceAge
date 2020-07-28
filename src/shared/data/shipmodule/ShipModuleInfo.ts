@@ -44,9 +44,39 @@ export module ShipModuleInfo {
                         modifier : EStatModifier.increase_additive
                     },
                     {
+                        stat: EStatType.weapon_damage,
+                        max : [10, 15, 20, 25, 30],
+                        min : [5, 10, 15, 20, 25],
+                        modifier : EStatModifier.increase_additive
+                    },
+                    {
+                        stat: EStatType.mining_laser_yield,
+                        max : [2, 3, 4, 5, 6],
+                        min : [1, 2, 3, 4, 5],
+                        modifier : EStatModifier.increase_additive
+                    },
+                    {
+                        stat: EStatType.weapon_range,
+                        max : [1000, 1500, 2000, 2500, 3000],
+                        min : [500, 1000, 1500, 2000, 2500],
+                        modifier : EStatModifier.increase_additive
+                    },
+                    {
+                        stat: EStatType.mining_laser_range,
+                        max : [1000, 1500, 2000, 2500, 3000],
+                        min : [500, 1000, 1500, 2000, 2500],
+                        modifier : EStatModifier.increase_additive
+                    },
+                    {
                         stat: EStatType.cargo_hold_size,
                         max : [20, 30, 40, 50, 60],
                         min : [10, 20, 30, 40, 50],
+                        modifier : EStatModifier.increase_additive
+                    },
+                    {
+                        stat: EStatType.cargo_slots,
+                        max : [4, 4, 4, 4, 4],
+                        min : [4, 4, 4, 4, 4],
                         modifier : EStatModifier.increase_additive
                     },
                     {

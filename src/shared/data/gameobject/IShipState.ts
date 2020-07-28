@@ -6,7 +6,5 @@ export interface IShipState {
     targetId : number,
     destVec : Array<number>,
     velVec : Array<number>,
-    isMining : boolean,
-    hasWeapon : boolean,
-    hasMiningLaser : boolean
+    isMining : boolean
 }

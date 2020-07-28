@@ -70,8 +70,6 @@ export class NpcSpawner extends Spawner {
                     hasDestination : false,
                     isAttacking : false,
                     isMining : false,
-                    hasWeapon : false,
-                    hasMiningLaser : false,
                     targetId : -1,
                     destVec : [0, 0],
                     velVec : [0, 0]

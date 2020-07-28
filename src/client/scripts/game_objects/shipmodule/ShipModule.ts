@@ -1,4 +1,3 @@
-import { CCharacter } from "../CCharacter";
 import { ShipModuleInfo } from "../../../../shared/data/shipmodule/ShipModuleInfo";
 import { DRAW_LAYERS } from "../../constants/DRAW_LAYERS";
 import { Graphics } from "../../modules/graphics/Graphics";
