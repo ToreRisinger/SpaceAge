@@ -22,6 +22,10 @@ export default class NavigationPanel extends React.Component<{}, NavigationPanel
       }
       this.timerID = undefined;
       this.tick = this.tick.bind(this);
+      this.onNewSelection = this.onNewSelection.bind(this);
+      this.onNewTarget = this.onNewTarget.bind(this);
+      EventHandler.on(Events.EEventType.SELECTION_CHANGED_EVENT, this.onNewSelection)
+      EventHandler.on(Events.EEventType.TARGET_CHANGED_EVENT, this.onNewTarget)
    }
 
    componentDidMount() {
@@ -41,6 +45,18 @@ export default class NavigationPanel extends React.Component<{}, NavigationPanel
       this.setState({
          gameObjects: GameObjectHandler.getGameObjects()
       });
+   }
+
+   onNewSelection() {
+      this.setState({
+         gameObjects: GameObjectHandler.getGameObjects()
+      })
+   }
+
+   onNewTarget() {
+      this.setState({
+         gameObjects: GameObjectHandler.getGameObjects()
+      })
    }
 
    render() {

@@ -15,7 +15,6 @@ export enum EStatType {
     power,
 
     cargo_hold_size,
-    cargo_slots,
 
     hull,
     armor,

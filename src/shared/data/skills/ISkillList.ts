@@ -16,7 +16,6 @@ export interface ISkillList {
     [EStatType.target_dodge_reduction] : ISkill,
     [EStatType.radar_signature_reduction] : ISkill,
     [EStatType.cargo_hold_size] : ISkill,
-    [EStatType.cargo_slots] : ISkill,
     [EStatType.dodge] : ISkill,
     [EStatType.weapon_damage] : ISkill,
     [EStatType.mining_laser_yield] : ISkill,

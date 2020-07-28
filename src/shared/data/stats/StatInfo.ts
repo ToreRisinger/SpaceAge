@@ -32,8 +32,6 @@ export module StatInfo {
                 return "Target dodge reduction";
             case EStatType.cargo_hold_size :
                 return "Cargo hold";
-            case EStatType.cargo_slots :
-                return "Cargo slots";
             case EStatType.dodge :
                 return "Dodge chance";
             case EStatType.radar_signature_reduction :

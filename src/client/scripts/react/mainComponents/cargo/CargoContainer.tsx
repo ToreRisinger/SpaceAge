@@ -22,15 +22,10 @@ export default class CargoContainer extends React.Component<CargoContainerProps,
    }
    
    render() {
-        let extraSlots = GlobalDataService.getInstance().getPlayerShip().getStat(EStatType.cargo_slots) - this.props.items.length;
-        let emptySlots = new Array<number>();
-        for(let i = 0; i < extraSlots; i++) {
-            emptySlots.push(i);
-        }
+        
         return (
             <div className="CargoContainer">
                 {this.props.items.map((object, i) => <CargoItem item={object} key={i} hoverHighLight={false} index={i} selected={false} onClick={this.onClick} onEnter={this.func} onLeave={this.func}/>)}
-                {emptySlots.map((object, i) => <CargoSlot key={i} />)}
             </div>
         );
    }

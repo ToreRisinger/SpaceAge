@@ -74,12 +74,6 @@ export module ShipModuleInfo {
                         modifier : EStatModifier.increase_additive
                     },
                     {
-                        stat: EStatType.cargo_slots,
-                        max : [4, 4, 4, 4, 4],
-                        min : [4, 4, 4, 4, 4],
-                        modifier : EStatModifier.increase_additive
-                    },
-                    {
                         stat: EStatType.power,
                         max : [10, 15, 20, 25, 30],
                         min : [5, 10, 15, 20, 25],
@@ -137,12 +131,6 @@ export module ShipModuleInfo {
                         stat: EStatType.cargo_hold_size,
                         max : [100, 150, 200, 250, 300],
                         min : [50, 100, 150, 200, 250],
-                        modifier : EStatModifier.increase_additive
-                    },
-                    {
-                        stat: EStatType.cargo_slots,
-                        max : [1, 1, 1, 1, 1],
-                        min : [1, 1, 1, 1, 1],
                         modifier : EStatModifier.increase_additive
                     },
                     {
