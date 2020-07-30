@@ -2,8 +2,18 @@ import React, { MouseEvent } from "react";
 import { ItemInfo } from "../../../../../shared/data/item/ItemInfo";
 import ItemToolTipModuleAttributes from "./ItemToolTipModuleAttributes";
 import { IItem } from "../../../../../shared/data/item/IItem";
+import { DragAndDropHelper } from "../../../utils/DragAndDropHelper";
 
-export interface CargoItemProps { item : IItem, hoverHighLight: boolean, selected: boolean, index: number, onClick: (index: number) => void, onEnter: (item: IItem, index: number) => void, onLeave: (item: IItem, index: number) => void }
+export interface CargoItemProps { 
+    item : IItem, 
+    hoverHighLight: boolean, 
+    selected: boolean, 
+    index: number,
+    enableDragAndDrop: boolean,
+    onClick: (index: number) => void, 
+    onEnter: (item: IItem, index: number) => void, 
+    onLeave: (item: IItem, index: number) => void }
+
 export interface CargoItemState { mouseX : number, mouseY : number }
 
 export default class CargoItem extends React.Component<CargoItemProps, CargoItemState> {
@@ -18,6 +28,8 @@ export default class CargoItem extends React.Component<CargoItemProps, CargoItem
       this.onMouseMove = this.onMouseMove.bind(this);
       this.onMouseEnter = this.onMouseEnter.bind(this);
       this.onMouseLeave = this.onMouseLeave.bind(this);
+      this.onDragStart = this.onDragStart.bind(this);
+      this.onDragEnd = this.onDragEnd.bind(this);
     }
 
     onMouseMove: { (event: MouseEvent): void } = (event: MouseEvent) => {
@@ -36,6 +48,14 @@ export default class CargoItem extends React.Component<CargoItemProps, CargoItem
         this.props.onClick(this.props.index);
     }
 
+    onDragStart() {
+        DragAndDropHelper.setSelection({item: this.props.item, index: this.props.index});
+    }
+
+    onDragEnd() {
+        DragAndDropHelper.setSelection(undefined);
+    }
+
     render() {
         const styles = {
             top : this.state.mouseY - 50,
@@ -43,18 +63,18 @@ export default class CargoItem extends React.Component<CargoItemProps, CargoItem
         }
 
         let cargoItemClass = "CargoItem Unselectable" + (this.props.hoverHighLight ? " BackgroundHoverHighlight" : "") + (this.props.selected ? " Selected" : "");
-
         let itemInfo : ItemInfo.IItemInfo = ItemInfo.getItemInfo(this.props.item.itemType);
+
         return (
-            <div className={cargoItemClass} onMouseMove={this.onMouseMove} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave} onClick={this.onClick}>
+            <div className={cargoItemClass} draggable={this.props.enableDragAndDrop} onDragStart={this.onDragStart} onDragEnd={this.onDragEnd} onMouseMove={this.onMouseMove} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave} onClick={this.onClick}>
                 <img className="CargoItemImage" src={itemInfo.image}/>
 
                 {itemInfo.canStack &&
                     <div className="CargoItemStockLabelWrapper">
                         <div className="CargoItemStockLabel">{this.props.item.quantity}</div>
-                    </div>     
+                    </div>
                 }
-                <div className="ItemToolTipWrapper" style={styles}>
+                <div className="ItemToolTipWrapper PanelBackgroundNoAlpha" style={styles}>
                     <span className="ItemToolTipContainer Unselectable">
                         <div className="ItemToolTipTitle">{itemInfo.name}</div>
                         <hr></hr>

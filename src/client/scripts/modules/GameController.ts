@@ -20,6 +20,7 @@ import { EGameState } from "../../../shared/util/EGameState";
 import { ISector } from "../../../shared/data/sector/ISector";
 import { CommandManager } from "./command/CommandManager";
 import { FpsCounter } from "./FpsCounter";
+import { RefineryHandler } from "./RefineryHandler";
 
 export class GameController {
 
@@ -62,6 +63,7 @@ export class GameController {
         let playerShip : CCharacter = GameObjectHandler.getPlayerShip();
         GlobalDataService.createInstance(character, playerShip, sector);
        
+        RefineryHandler.init();
         FpsCounter.init();
         GameObjectHandler.init2();
         SelectionHandler.init();

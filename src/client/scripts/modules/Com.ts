@@ -34,6 +34,9 @@ export module Com {
         EventHandler.on(Events.EEventType. CLIENT_CHARACTER_LIST_REQ, sendEventToServer);
         EventHandler.on(Events.EEventType. CLIENT_NEW_CHARACTER_REQ, sendEventToServer);
         EventHandler.on(Events.EEventType.CLIENT_DOCK_REQ, sendEventToServer);
+
+        EventHandler.on(Events.EEventType.CLIENT_START_ORE_PROCESSING_REQ, sendEventToServer);
+        EventHandler.on(Events.EEventType.CLIENT_STOP_ORE_PROCESSING_REQ, sendEventToServer);
         
         EventHandler.on(Events.EEventType.TRAIN_SKILL_START, sendEventToServer);
         EventHandler.on(Events.EEventType.TRAIN_SKILL_STOP, sendEventToServer);

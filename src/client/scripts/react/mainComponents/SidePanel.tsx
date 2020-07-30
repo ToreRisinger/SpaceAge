@@ -2,6 +2,7 @@ import React, {Fragment}  from "react";
 import ShipWindow from "../windows/ShipWindow";
 import MapWindow from "../windows/MapWindow";
 import SkillsWindow from "./Skills/SkillsWindow";
+import RefineryWindow from "../windows/RefineryWindow";
 
 export interface SidePanelState {
     ship_window_open : boolean,
@@ -73,6 +74,7 @@ export default class SidePanel extends React.Component<{}, SidePanelState> {
                 <ShipWindow window_open={this.state.ship_window_open} />
                 <MapWindow window_open={this.state.map_window_open} />
                 <SkillsWindow window_open={this.state.skills_window_open} />
+                <RefineryWindow window_open={this.state.refinery_window_open} />
             </Fragment>
         );
     }

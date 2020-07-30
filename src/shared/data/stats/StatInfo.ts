@@ -83,7 +83,7 @@ export module StatInfo {
             case EStatType.armor_repair_speed : 
                 return "Armor repair speed";
             case EStatType.ore_processing_speed : 
-                return "Ore refining speed";
+                return "Ore processing speed";
             case EStatType.manufactoring_speed : 
                 return "Manufacturing speed";
             case EStatType.manufactoring_skill : 

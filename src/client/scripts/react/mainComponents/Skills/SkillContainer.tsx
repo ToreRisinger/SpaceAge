@@ -6,6 +6,7 @@ import { ISkill } from "../../../../../shared/data/skills/ISkill";
 import { EStatModifier } from "../../../../../shared/data/stats/EStatModifier";
 import { EStatType } from "../../../../../shared/data/stats/EStatType";
 import { StatInfo } from "../../../../../shared/data/stats/StatInfo";
+import ProgressBar from "../../general/ProgressBar";
 
 export interface SkillContainerProps {
     skill: ISkill,
@@ -90,17 +91,7 @@ export default class SkillContainer extends React.Component<SkillContainerProps,
                                 "Train"
                             }
                         </div>
-                        <div id="skill_train_bar" className="SkillField">
-                            <div id="skill_train_bar_progress" style={{width: progressPercentage + "%"}}></div>
-                            <div id="skill_train_bar_progress_text">
-                                {currentProgress > maxProgress ?
-                                    "100%"
-                                    : currentProgress == 0 ?
-                                        "0%"
-                                        : Math.floor((currentProgress/maxProgress) * 100) + "%"
-                                }
-                            </div>
-                        </div>
+                        <ProgressBar currentProgress={currentProgress} totalProgress={maxProgress}/>
                     </Fragment>
                     : 
                     <Fragment></Fragment>

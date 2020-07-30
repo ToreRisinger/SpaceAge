@@ -2,6 +2,7 @@ import React from "react";
 import CargoSlot from "./CargoSlot";
 import CargoItem from "./CargoItem";
 import { IItem } from "../../../../../shared/data/item/IItem";
+import { DragAndDropHelper } from "../../../utils/DragAndDropHelper";
 
 export interface LootContainerProps { items : Array<IItem>, onClick: (index: number) => void, selectedItems: Set<number> }
 
@@ -14,6 +15,7 @@ export default class LootContainer extends React.Component<LootContainerProps, {
         super(props)
         this.shouldClear = false;
         this.onClick = this.onClick.bind(this);
+        this.onDrop = this.onDrop.bind(this);
     }
 
     onClick(index: number) {
@@ -21,6 +23,14 @@ export default class LootContainer extends React.Component<LootContainerProps, {
     }
 
     func(item: IItem, index: number) {
+
+    }
+
+    onDrop(item: DragAndDropHelper.DragAndDropObject | undefined) {
+
+    }
+
+    allowDrop(event: React.DragEvent<HTMLInputElement>) {
 
     }
 
@@ -33,8 +43,8 @@ export default class LootContainer extends React.Component<LootContainerProps, {
 
         return (
             <div className="CargoContainer">
-                {this.props.items.map((object, i) => <CargoItem item={object} key={i} hoverHighLight={true} index={i} selected={this.props.selectedItems.has(i)} onClick={this.onClick} onLeave={this.func} onEnter={this.func}/>)}
-                {emptySlots.map((object, i) => <CargoSlot key={i} />)}
+                {this.props.items.map((object, i) => <CargoItem enableDragAndDrop={false} item={object} key={i} hoverHighLight={true} index={i} selected={this.props.selectedItems.has(i)} onClick={this.onClick} onLeave={this.func} onEnter={this.func}/>)}
+                {emptySlots.map((object, i) => <CargoSlot allowDrop={this.allowDrop} onDrop={this.onDrop} key={i} />)}
             </div>
         );
     }

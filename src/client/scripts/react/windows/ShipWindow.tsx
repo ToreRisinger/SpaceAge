@@ -59,7 +59,7 @@ export default class ShipWindow extends React.Component<ShipWindowProps, ShipWin
         return (
             <Fragment>
                 {this.props.window_open &&
-                    <div id="ship_window" className="BodyText SidePanelWindow Unselectable">
+                    <div id="ship_window" className="BodyText SidePanelWindow Unselectable PanelBackgroundNoAlpha">
                         <WindowHeader text="Ship"/>
                         <div className="ShipWindowContent">
                             <div className="ShipWindowContentWrapper">

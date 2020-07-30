@@ -15,6 +15,8 @@ import { StatInfo } from "../../shared/data/stats/StatInfo";
 import { SShip } from "./SShip";
 import { CargoUtils } from "../CargoUtils";
 import { CombatLogManager } from "../CombatLogManager";
+import { GameConstants } from "../../shared/constants/GameConstants";
+import { ItemInfo } from "../../shared/data/item/ItemInfo";
 
 const math = require('mathjs');
 
@@ -118,6 +120,11 @@ export class SCharacter extends SShip {
               currentHull : 0,
               currentShield : 0
             },
+            oreProcessingState: {
+              isProcessing: false,
+              item: undefined,
+              startTime: 0
+            },
             modules : [
               {moduleItem: ItemFactory.createModule(EModuleItemType.POWER_MODULE, 1), x: -1, y : -1},
               {moduleItem: ItemFactory.createModule(EModuleItemType.SHIELD_MODULE, 1), x: 0, y : -1},
@@ -174,6 +181,7 @@ export class SCharacter extends SShip {
     public update1000ms(sector: SSector): void {
       super.update1000ms(sector);
       this.handleMiningShip(sector);
+      this.handleOreProcessing();
     }
 
     public resetState() {
@@ -328,6 +336,40 @@ export class SCharacter extends SShip {
     }
   }
   
+  private handleOreProcessing() {
+    if(this.character.oreProcessingState.isProcessing) {
+      if(this.character.oreProcessingState.item != undefined && this.character.oreProcessingState.item.quantity >= 10) {
+        let totalTime = GameConstants.ORE_PROCESSING_BASE_TIME * (1 - this.character.stats[EStatType.ore_processing_speed]) * 1000;
+        let timePassed = Date.now() - this.character.oreProcessingState.startTime;
+        let shouldResetStartTime = timePassed > totalTime;
+
+        timePassed - totalTime;
+        while(timePassed > totalTime) {
+          this.character.oreProcessingState.item.quantity = this.character.oreProcessingState.item.quantity - 10;
+
+          let refined: IItem = {
+            itemType: ItemInfo.getRefinedFromOre(this.character.oreProcessingState.item.itemType),
+            module: undefined,
+            quantity: 1
+          };
+          CargoUtils.addItemToPlayerCargo(refined, this);
+          timePassed = timePassed - totalTime;
+
+          if(this.character.oreProcessingState.item.quantity == 0) {
+            this.character.oreProcessingState.item = undefined;
+            this.character.oreProcessingState.isProcessing = false;
+            return;
+          }
+        }
+        if(shouldResetStartTime) {
+          this.character.oreProcessingState.startTime = Date.now();
+        }
+        
+      } else {
+        this.character.oreProcessingState.startTime = Date.now();
+      }
+    }
+  }
 
   protected getAcceleration(): number {
     return this.getData().warpState.isWarping ? 100000 : this.getData().stats[EStatType.acceleration];

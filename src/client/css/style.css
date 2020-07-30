@@ -67,15 +67,19 @@ body {
 }
 
 .PanelBackground {
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(60, 60, 60, 0.4);
+}
+
+.PanelBackgroundNoAlpha {
+    background-color: rgba(20, 20, 20, 1.0);
 }
 
 .PanelBackgroundOnHover {
-    background-color: rgba(0, 0, 0, 0.0);
+    background-color: rgba(60, 60, 60, 0.0);
 }
 
 .PanelBackgroundOnHover:hover {
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(60, 60, 60, 0.4);
 }
 
 .HasBorder {
@@ -235,9 +239,9 @@ body {
     top: 0px;
     right: 301px;
     bottom: 0px;
-    background-color: rgba(0, 0, 0, 1);
     z-index: 20;
     font-size: 12px;
+
 }
 
 #ship_window {
@@ -250,6 +254,15 @@ body {
 
 #skills_window {
     
+}
+
+#refinery_window {
+    width: 400px;
+    left: 50px;
+    top: 150px;
+    margin: unset;
+    height: 500px;
+    border-left: 0px;
 }
 
 #skills_container {
@@ -672,7 +685,6 @@ body {
     visibility: hidden;
     z-index: 25;
     border: 1px solid rgb(40, 40, 40);
-    background-color: rgba(0, 0, 0, 1.0);
     width: 300px;
     padding: 4px;
 }
@@ -1224,4 +1236,54 @@ input:focus, textarea:focus, select:focus {
 
 #context_menu_item {
     padding: 3px;
+}
+
+/*
+
+    REFINERY
+
+*/
+
+.OreItemContainer {
+    width: 200px;
+    height: 70px;
+}
+
+.StopRefineButton {
+    border: 2px solid rgb(122, 122, 122);
+    background-color: rgb(63, 63, 63);
+    text-align: center;
+    margin-top: 5px;
+    width: 67px;
+}
+
+.StopRefineButton:hover {
+    background-color: rgb(97, 97, 97);
+}
+
+/*
+
+    GENERAL
+
+*/
+
+.ProgressBar {
+    border: 1px solid rgb(122, 122, 122);
+    background-image: linear-gradient(rgb(63, 63, 63), rgb(0, 0, 0));
+    margin-top: 5px;
+    margin-bottom: 0px;
+    display: grid;
+}
+
+.ProgressBarBar {
+    background-image: linear-gradient(rgb(0, 199, 17), rgb(0, 59, 5));
+    height: 100%;
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.ProgressBarText {
+    grid-column: 1;
+    grid-row: 1;
+    text-align: center;
 }

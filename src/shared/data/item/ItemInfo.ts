@@ -3,6 +3,7 @@ import { EModuleItemType } from "./EModuleItemType";
 import { EMineralItemType } from "./EMineralItemType";
 import { EItemType } from "./EItemType";
 import { SPRITES } from "../../util/SPRITES";
+import { ERefinedMineralItemType } from "./EIngotItemType";
 
 export module ItemInfo {
 
@@ -188,6 +189,53 @@ export module ItemInfo {
             cargoSpace : 1,
             canStack: true,
             sprite : undefined
+        },
+
+
+        [ERefinedMineralItemType.REFINED_TITANIUM] : {
+            image : "assets/image/items/item_titanium_ore.png",
+            name: "Refined Titanium",
+            description: "Refined Titanium canbe used as a building material",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [ERefinedMineralItemType.REFINED_URANIUM] : {
+            image : "assets/image/items/item_uranium_ore.png",
+            name: "Refined Uranium",
+            description: "Refined Uranium can be used as a building material",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [ERefinedMineralItemType.REFINED_IRON] : {
+            image : "assets/image/items/item_iron_ore.png",
+            name: "Refined Iron",
+            description: "Refined Iron can be used as a building material",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [ERefinedMineralItemType.REFINED_GOLD] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Refined Gold",
+            description: "Refined Gold can be used as a building material",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [ERefinedMineralItemType.REFINED_DIAMOND] : {
+            image : "assets/image/items/item_diamond_ore.png",
+            name: "Diamond Ore",
+            description: "Refined Diamond can be used as a building material",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
         }
     }
 
@@ -209,6 +257,23 @@ export module ItemInfo {
                 return "Orange";
             default :
                 return "";
+        }
+    }
+
+    export function getRefinedFromOre(type: EItemType) {
+        switch(type) {
+            case EMineralItemType.DIAMOND_ORE:
+                return ERefinedMineralItemType.REFINED_DIAMOND;
+            case EMineralItemType.GOLD_ORE:
+                return ERefinedMineralItemType.REFINED_GOLD;
+            case EMineralItemType.IRON_ORE:
+                return ERefinedMineralItemType.REFINED_IRON;
+            case EMineralItemType.TITANIUM_ORE:
+                return ERefinedMineralItemType.REFINED_TITANIUM;
+            case EMineralItemType.URANIUM_ORE:
+                return ERefinedMineralItemType.REFINED_URANIUM;
+            default:
+                return ERefinedMineralItemType.REFINED_DIAMOND;
         }
     }
 }

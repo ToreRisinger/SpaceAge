@@ -12,6 +12,8 @@ import { ICombatLogMessage } from "../shared/data/CombatLogInterfaces";
 import { ISector } from "../shared/data/sector/ISector";
 import { SShip } from "./objects/SShip";
 import { ConnectionConfiguration as ConnectionConfiguration } from "../shared/constants/ConnectionConfiguration";
+import { EMineralItemType } from "../shared/data/item/EMineralItemType";
+import { CargoUtils } from "./CargoUtils";
 
 export class ComManager {
 
@@ -328,6 +330,14 @@ export class ComManager {
             this.onPlayerDockRequest(client, event);
             break;
           }
+          case Events.EEventType.CLIENT_START_ORE_PROCESSING_REQ: {
+            this.onPlayerStartOreProcessingRequest(client, event);
+            break;
+          }
+          case Events.EEventType.CLIENT_STOP_ORE_PROCESSING_REQ: {
+            this.onPlayerStopOreProcessingRequest(client, event);
+            break;
+          }
           default: {
             break;
           }
@@ -397,6 +407,38 @@ export class ComManager {
     private onPlayerDockRequest(client: SClient, event: Events.CLIENT_DOCK_REQ) {
         if(!client.getCharacter().getData().warpState.isWarping) {
             this.sectorHandler.onPlayerDockRequest(client, event.data.spaceStationId);
+        }
+    }
+
+    private onPlayerStartOreProcessingRequest(client: SClient, event: Events.CLIENT_START_ORE_PROCESSING_REQ) {
+        let charData = client.getCharacter().getData();
+        let items = charData.cargo.items
+        if(!charData.oreProcessingState.isProcessing && event.data.itemIndex < items.length && event.data.itemIndex > 0) {
+            let item = items[event.data.itemIndex];
+            if(item != undefined && item.itemType in EMineralItemType) {
+                //TODO add skill check
+                charData.oreProcessingState.isProcessing = true;
+                charData.oreProcessingState.startTime = Date.now();
+                charData.oreProcessingState.item = item;
+                items.splice(event.data.itemIndex, 1);
+                let packet: Events.SERVER_START_ORE_PROCESSING_ACK = {
+                    eventId: Events.EEventType.SERVER_START_ORE_PROCESSING_ACK,
+                    data: {
+                        item: item
+                    }
+                }
+                client.getData().socket.emit("ServerEvent", packet);
+            }
+        }
+    }
+
+    private onPlayerStopOreProcessingRequest(client: SClient, event: Events.CLIENT_START_ORE_PROCESSING_REQ) {
+        let charData = client.getCharacter().getData();
+        if(charData.oreProcessingState.isProcessing && charData.oreProcessingState.item != undefined) {
+            CargoUtils.addItemToPlayerCargo(charData.oreProcessingState.item, client.getCharacter());
+            charData.oreProcessingState.isProcessing = false;
+            charData.oreProcessingState.startTime = 0;
+            charData.oreProcessingState.item = undefined;
         }
     }
   

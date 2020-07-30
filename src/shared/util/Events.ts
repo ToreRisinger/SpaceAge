@@ -10,6 +10,7 @@ import { ICombatLogMessage } from "../data/CombatLogInterfaces";
 import { INpc } from "../data/npc/INpc";
 import { IContainer } from "../data/gameobject/IContainer";
 import { ISceneObject } from "../data/gameobject/ISceneObject";
+import { IItem } from "../data/item/IItem";
 
 
 export module Events {
@@ -54,6 +55,9 @@ export module Events {
         OPEN_CARGO_FAIL,
         TAKE_ITEM_REQUEST,
         CLOSE_CARGO,
+        CLIENT_START_ORE_PROCESSING_REQ,
+        SERVER_START_ORE_PROCESSING_ACK,
+        CLIENT_STOP_ORE_PROCESSING_REQ,
 
         //GameState changes events
         GAME_STATE_CHANGE,
@@ -413,6 +417,22 @@ export module Events {
 
     export interface SERVER_DOCK_ACK extends GameEvent {
         data: { }
+    }
+
+    export interface CLIENT_START_ORE_PROCESSING_REQ extends GameEvent {
+        data: {
+            itemIndex: number
+        }
+    }
+
+    export interface SERVER_START_ORE_PROCESSING_ACK extends GameEvent {
+        data: {
+            item: IItem
+        }
+    }
+
+    export interface CLIENT_STOP_ORE_PROCESSING_REQ extends GameEvent {
+        data: {}
     }
 }
 

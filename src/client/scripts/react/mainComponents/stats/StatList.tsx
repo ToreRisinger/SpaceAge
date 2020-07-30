@@ -58,7 +58,7 @@ export default class StatList extends React.Component<StatListProps, {}> {
                     <pre>Mining laser range:          {this.getStatString(char, EStatType.mining_laser_range, statMap)}</pre>   
 
                     <hr></hr>
-                    <pre>Refining ore per second:     {this.getStatString(char, EStatType.ore_processing_speed, statMap)}</pre>
+                    <pre>Ore processing speed:        {this.getStatString(char, EStatType.ore_processing_speed, statMap)}</pre>
                     <pre>Manufacturing speed:         {this.getStatString(char, EStatType.manufactoring_speed, statMap)}</pre> 
                 </div>
             </div>

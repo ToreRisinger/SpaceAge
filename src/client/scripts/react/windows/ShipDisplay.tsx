@@ -3,6 +3,7 @@ import CargoItem from "../mainComponents/cargo/CargoItem";
 import CargoSlot from "../mainComponents/cargo/CargoSlot";
 import { IShipModuleInstance } from "../../../../shared/data/shipmodule/IShipModuleInstance";
 import { IItem } from "../../../../shared/data/item/IItem";
+import { DragAndDropHelper } from "../../utils/DragAndDropHelper";
 
 export interface ShipDisplayProps { modules : Array<IShipModuleInstance>, onHover: (item: IItem | undefined) => void}
 
@@ -15,6 +16,7 @@ export default class ShipDisplay extends React.Component<ShipDisplayProps, {}> {
       super(props)
       this.onEnter = this.onEnter.bind(this);
       this.onLeave = this.onLeave.bind(this);
+      this.onDrop = this.onDrop.bind(this);
       this.selectedItem = undefined;
       this.selectedIndex = -1;
     }
@@ -35,6 +37,14 @@ export default class ShipDisplay extends React.Component<ShipDisplayProps, {}> {
             this.selectedIndex = -1;
             this.props.onHover(this.selectedItem);
         }
+    }
+
+    onDrop(item: DragAndDropHelper.DragAndDropObject | undefined) {
+
+    }
+
+    allowDrop(event: React.DragEvent<HTMLInputElement>) {
+
     }
 
     render() {
@@ -81,9 +91,9 @@ export default class ShipDisplay extends React.Component<ShipDisplayProps, {}> {
                 id++;
                 let module = coordToModuleMap.get(x + "," + y);
                 if(module != undefined) {
-                    items.push(<CargoItem item={module} key={id} hoverHighLight={false} selected={false} index={0} onClick={this.onClick} onEnter={this.onEnter} onLeave={this.onLeave}/>);
+                    items.push(<CargoItem enableDragAndDrop={false} item={module} key={id} hoverHighLight={false} selected={false} index={0} onClick={this.onClick} onEnter={this.onEnter} onLeave={this.onLeave}/>);
                 } else {
-                    items.push(<CargoSlot key={id} />);
+                    items.push(<CargoSlot onDrop={this.onDrop} allowDrop={this.allowDrop} key={id} />);
                 }
             }
         }
