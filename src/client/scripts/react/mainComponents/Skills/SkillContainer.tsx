@@ -49,22 +49,24 @@ export default class SkillContainer extends React.Component<SkillContainerProps,
         const skillName = skillInfo.name;
         const maxLevel = skillInfo.maxLevel;
         const currentLevel = skill.level;
-        let nextLevel = currentLevel + 1 > maxLevel ? maxLevel : currentLevel + 1;
+        let nextLevel = maxLevel == -1 ? currentLevel + 1 : currentLevel + 1 > maxLevel ? maxLevel : currentLevel + 1;
         const currentProgress = skill.progress;
         const maxProgress = skillInfo.startLearningTime * (Math.pow(skillInfo.learningTimeIncrease, currentLevel));
         let modifier: EStatModifier = skillInfo.stats.modifier;
         let statType: EStatType = skillInfo.stats.stat;
-        let progressPercentage = currentProgress > maxProgress ? 100 : (currentProgress / maxProgress) * 100;
-        const hasNextLevel = currentLevel < nextLevel;
+        const hasNextLevel = nextLevel == -1 ? true : currentLevel < nextLevel;
         const className = "Unselectable " + (this.props.currentlyTraining ? "SkillContainerInTraining": "");
-        
+        let maxLevelText = "" + maxLevel;
+        if(maxLevel == -1) {
+            maxLevelText = "inf";
+        }
         return (
             <div id="skill_container" className={className}>
                 <div id="skill_title" className="SkillField">
                     <u>{skillName}</u>
                 </div>
                 <div id="skill_level" className="SkillField">
-                    {"Level: " + currentLevel + "/" + maxLevel}
+                    {"Level: " + currentLevel + "/" + maxLevelText}
                 </div>
                 <div id="skill_current_effect" className="SkillField">
                     {StatInfo.statTypeToString(statType) + ": "}
@@ -101,9 +103,10 @@ export default class SkillContainer extends React.Component<SkillContainerProps,
     }
 
     getEffect(skillInfo: SkillInfo.ISkillInfo, level: number, modifier: EStatModifier) {
+        let value: number = skillInfo.stats.baseValue + skillInfo.stats.increase * level;
         return (
             <span style={{color: StatInfo.statModifierColor(modifier)}}>
-                            {StatInfo.statModifierToString(modifier) + skillInfo.stats.values[level] 
+                            {StatInfo.statModifierToString(modifier) + value 
                                 + (modifier == EStatModifier.increase_percentage || modifier == EStatModifier.decrease_percentage ? "%" : "")}
             </span>
         )

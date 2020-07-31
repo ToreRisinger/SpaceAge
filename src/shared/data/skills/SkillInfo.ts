@@ -24,7 +24,8 @@ export module SkillInfo {
             stats: {
                 modifier: EStatModifier.decrease_percentage,
                 stat: EStatType.mining_laser_range,
-                values: [0, 0.5, 1, 1.5, 2, 2.5]
+                baseValue: 0,
+                increase: 0.5
             }
         },
         [EStatType.mining_laser_yield] : {
@@ -36,7 +37,8 @@ export module SkillInfo {
             stats: {
                 modifier: EStatModifier.increase_percentage,
                 stat: EStatType.mining_laser_yield,
-                values: [0, 0.5, 1, 1.5, 2, 2.5]
+                baseValue: 0,
+                increase: 0.5
             }
         },
         [EStatType.weapon_damage] : {
@@ -48,7 +50,8 @@ export module SkillInfo {
             stats: {
                 modifier: EStatModifier.increase_percentage,
                 stat: EStatType.weapon_damage,
-                values: [0, 0.5, 1, 1.5, 2, 2.5]
+                baseValue: 0,
+                increase: 0.5
             }
         },
         [EStatType.weapon_range] : {
@@ -60,7 +63,8 @@ export module SkillInfo {
             stats: {
                 modifier: EStatModifier.increase_percentage,
                 stat: EStatType.weapon_range,
-                values: [0, 0.5, 1, 1.5, 2, 2.5]
+                baseValue: 0,
+                increase: 0.5
             }
         },
         [EStatType.radar_signature_reduction] : {
@@ -72,7 +76,8 @@ export module SkillInfo {
             stats: {
                 modifier: EStatModifier.increase_percentage,
                 stat: EStatType.radar_signature_reduction,
-                values: [0, 0.5, 1, 1.5, 2, 2.5]
+                baseValue: 0,
+                increase: 0.5
             }
         },
         [EStatType.dodge] : {
@@ -84,7 +89,8 @@ export module SkillInfo {
             stats: {
                 modifier: EStatModifier.increase_percentage,
                 stat: EStatType.dodge,
-                values: [0, 0.5, 1, 1.5, 2, 2.5]
+                baseValue: 0,
+                increase: 0.5
             }
         },
         [EStatType.cargo_hold_size] : {
@@ -96,7 +102,8 @@ export module SkillInfo {
             stats: {
                 modifier: EStatModifier.increase_percentage,
                 stat: EStatType.cargo_hold_size,
-                values: [0, 0.5, 1, 1.5, 2, 2.5]
+                baseValue: 0,
+                increase: 0.5
             }
         },
         [EStatType.target_dodge_reduction] : {
@@ -108,7 +115,8 @@ export module SkillInfo {
             stats: {
                 modifier: EStatModifier.increase_percentage,
                 stat: EStatType.target_dodge_reduction,
-                values: [0, 0.5, 1, 1.5, 2, 2.5]
+                baseValue: 0,
+                increase: 0.5
             }
         },
         [EStatType.shield_generation] : {
@@ -120,7 +128,8 @@ export module SkillInfo {
             stats: {
                 modifier: EStatModifier.increase_percentage,
                 stat: EStatType.shield_generation,
-                values: [0, 0.5, 1, 1.5, 2, 2.5]
+                baseValue: 0,
+                increase: 0.5
             }
         },
         [EStatType.shield] : {
@@ -132,7 +141,8 @@ export module SkillInfo {
             stats: {
                 modifier: EStatModifier.increase_percentage,
                 stat: EStatType.shield,
-                values: [0, 0.5, 1, 1.5, 2, 2.5]
+                baseValue: 0,
+                increase: 0.5
             }
         },
         [EStatType.armor] : {
@@ -144,7 +154,8 @@ export module SkillInfo {
             stats: {
                 modifier: EStatModifier.increase_percentage,
                 stat: EStatType.armor,
-                values: [0, 0.5, 1, 1.5, 2, 2.5]
+                baseValue: 0,
+                increase: 0.5
             }
         },
         [EStatType.hull] : {
@@ -156,7 +167,8 @@ export module SkillInfo {
             stats: {
                 modifier: EStatModifier.increase_percentage,
                 stat: EStatType.hull,
-                values: [0, 0.5, 1, 1.5, 2, 2.5]
+                baseValue: 0,
+                increase: 0.5
             }
         },
         [EStatType.power] : {
@@ -168,7 +180,8 @@ export module SkillInfo {
             stats: {
                 modifier: EStatModifier.increase_percentage,
                 stat: EStatType.power,
-                values: [0, 0.5, 1, 1.5, 2, 2.5]
+                baseValue: 0,
+                increase: 0.5
             }
         },
         [EStatType.thrust] : {
@@ -180,7 +193,8 @@ export module SkillInfo {
             stats: {
                 modifier: EStatModifier.increase_percentage,
                 stat: EStatType.thrust,
-                values: [0, 0.5, 1, 1.5, 2, 2.5]
+                baseValue: 0,
+                increase: 0.5
             }
         },
         [EStatType.max_speed] : {
@@ -192,7 +206,8 @@ export module SkillInfo {
             stats: {
                 modifier: EStatModifier.increase_percentage,
                 stat: EStatType.max_speed,
-                values: [0, 0.5, 1, 1.5, 2, 2.5]
+                baseValue: 0,
+                increase: 0.5
             }
         },
         [EStatType.acceleration] : {
@@ -204,7 +219,8 @@ export module SkillInfo {
             stats: {
                 modifier: EStatModifier.increase_percentage,
                 stat: EStatType.acceleration,
-                values: [0, 0.5, 1, 1.5, 2, 2.5]
+                baseValue: 0,
+                increase: 0.5
             }
         },
         [EStatType.radar_range] : {
@@ -216,199 +232,216 @@ export module SkillInfo {
             stats: {
                 modifier: EStatModifier.increase_additive,
                 stat: EStatType.radar_range,
-                values: [0, 1000, 2000, 3000, 4000, 5000]
+                baseValue: 0,
+                increase: 1000
             }
         },
         [EStatType.max_nr_of_modules] : {
             name: "Ship Size",
             description: "Increases the maximum number of modules your ship can contain.",
-            maxLevel: 5,
+            maxLevel: -1,
             startLearningTime: 60,
             learningTimeIncrease: 2.0,
             stats: {
                 modifier: EStatModifier.neutral,
                 stat: EStatType.max_nr_of_modules,
-                values: [0, 5, 10, 50, 100, 200]
+                baseValue: 0,
+                increase: 5
             }
         },
         [EStatType.main_module_quality] : {
             name: "Main Module",
             description: "Allows using higher quality modules of given type.",
-            maxLevel: 10,
+            maxLevel: -1,
             startLearningTime: 60,
             learningTimeIncrease: 2.0,
             stats: {
                 modifier: EStatModifier.neutral,
                 stat: EStatType.main_module_quality,
-                values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                baseValue: 0,
+                increase: 1
             }
         },
         [EStatType.thrust_module_quality] : {
             name: "Thrust Module",
             description: "Allows using higher quality modules of given type.",
-            maxLevel: 10,
+            maxLevel: -1,
             startLearningTime: 60,
             learningTimeIncrease: 2.0,
             stats: {
                 modifier: EStatModifier.neutral,
                 stat: EStatType.thrust_module_quality,
-                values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                baseValue: 0,
+                increase: 1
             }
         },
         [EStatType.power_module_quality] : {
             name: "Power Module",
             description: "Allows using higher quality modules of given type.",
-            maxLevel: 10,
+            maxLevel: -1,
             startLearningTime: 60,
             learningTimeIncrease: 2.0,
             stats: {
                 modifier: EStatModifier.neutral,
                 stat: EStatType.power_module_quality,
-                values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                baseValue: 0,
+                increase: 1
             }
         },
         [EStatType.cargo_hold_module_quality] : {
             name: "Cargo Hold Module",
             description: "Allows using higher quality modules of given type.",
-            maxLevel: 10,
+            maxLevel: -1,
             startLearningTime: 60,
             learningTimeIncrease: 2.0,
             stats: {
                 modifier: EStatModifier.neutral,
                 stat: EStatType.cargo_hold_module_quality,
-                values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                baseValue: 0,
+                increase: 1
             }
         },
         [EStatType.armor_module_quality] : {
             name: "Armor Module",
             description: "Allows using higher quality modules of given type.",
-            maxLevel: 10,
+            maxLevel: -1,
             startLearningTime: 60,
             learningTimeIncrease: 2.0,
             stats: {
                 modifier: EStatModifier.neutral,
                 stat: EStatType.armor_module_quality,
-                values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                baseValue: 0,
+                increase: 1
             }
         },
         [EStatType.shield_module_quality] : {
             name: "Shield Module",
             description: "Allows using higher quality modules of given type.",
-            maxLevel: 10,
+            maxLevel: -1,
             startLearningTime: 60,
             learningTimeIncrease: 2.0,
             stats: {
                 modifier: EStatModifier.neutral,
                 stat: EStatType.shield_module_quality,
-                values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                baseValue: 0,
+                increase: 1
             }
         },
         [EStatType.shield_generation_module_quality] : {
             name: "Shield Generation Module",
             description: "Allows using higher quality modules of given type.",
-            maxLevel: 10,
+            maxLevel: -1,
             startLearningTime: 60,
             learningTimeIncrease: 2.0,
             stats: {
                 modifier: EStatModifier.neutral,
                 stat: EStatType.shield_generation_module_quality,
-                values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                baseValue: 0,
+                increase: 1
             }
         },
         [EStatType.radar_range_module_quality] : {
             name: "Radar Range Module",
             description: "Allows using higher quality modules of given type.",
-            maxLevel: 10,
+            maxLevel: -1,
             startLearningTime: 60,
             learningTimeIncrease: 2.0,
             stats: {
                 modifier: EStatModifier.neutral,
                 stat: EStatType.radar_range_module_quality,
-                values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                baseValue: 0,
+                increase: 1
             }
         },
         [EStatType.weapon_range_module_quality] : {
             name: "Weapon Range Module",
             description: "Allows using higher quality modules of given type.",
-            maxLevel: 10,
+            maxLevel: -1,
             startLearningTime: 60,
             learningTimeIncrease: 2.0,
             stats: {
                 modifier: EStatModifier.neutral,
                 stat: EStatType.weapon_range_module_quality,
-                values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                baseValue: 0,
+                increase: 1
             }
         },
         [EStatType.mining_laser_module_quality] : {
             name: "Mining Laser Module",
             description: "Allows using higher quality modules of given type.",
-            maxLevel: 10,
+            maxLevel: -1,
             startLearningTime: 60,
             learningTimeIncrease: 2.0,
             stats: {
                 modifier: EStatModifier.neutral,
                 stat: EStatType.mining_laser_module_quality,
-                values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                baseValue: 0,
+                increase: 1
             }
         },
         [EStatType.turret_module_quality] : {
             name: "Turret Module",
             description: "Allows using higher quality modules of given type.",
-            maxLevel: 10,
+            maxLevel: -1,
             startLearningTime: 60,
             learningTimeIncrease: 2.0,
             stats: {
                 modifier: EStatModifier.neutral,
                 stat: EStatType.turret_module_quality,
-                values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                baseValue: 0,
+                increase: 1
             }
         },
         [EStatType.target_dodge_reduction_module_quality] : {
             name: "Target Dodge Reduction Module",
             description: "Allows using higher quality modules of given type.",
-            maxLevel: 10,
+            maxLevel: -1,
             startLearningTime: 60,
             learningTimeIncrease: 2.0,
             stats: {
                 modifier: EStatModifier.neutral,
                 stat: EStatType.target_dodge_reduction_module_quality,
-                values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                baseValue: 0,
+                increase: 1
             }
         },
         [EStatType.radar_signature_reduction_module_quality] : {
             name: "Radar Signature Reduction Module",
             description: "Allows using higher quality modules of given type.",
-            maxLevel: 10,
+            maxLevel: -1,
             startLearningTime: 60,
             learningTimeIncrease: 2.0,
             stats: {
                 modifier: EStatModifier.neutral,
                 stat: EStatType.radar_signature_reduction_module_quality,
-                values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                baseValue: 0,
+                increase: 1
             }
         },
         [EStatType.refinary_module_quality] : {
             name: "Refinary Module",
             description: "Allows using higher quality modules of given type.",
-            maxLevel: 10,
+            maxLevel: -1,
             startLearningTime: 60,
             learningTimeIncrease: 2.0,
             stats: {
                 modifier: EStatModifier.neutral,
                 stat: EStatType.refinary_module_quality,
-                values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                baseValue: 0,
+                increase: 1
             }
         },
         [EStatType.factory_module_quality] : {
             name: "Factory Module",
             description: "Allows using higher quality modules of given type.",
-            maxLevel: 10,
+            maxLevel: -1,
             startLearningTime: 60,
             learningTimeIncrease: 2.0,
             stats: {
                 modifier: EStatModifier.neutral,
                 stat: EStatType.factory_module_quality,
-                values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                baseValue: 0,
+                increase: 1
             }
         },
         [EStatType.refining_skill] : {
@@ -420,23 +453,23 @@ export module SkillInfo {
             stats: {
                 modifier: EStatModifier.neutral,
                 stat: EStatType.refining_skill,
-                values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                baseValue: 0,
+                increase: 1
             }
         },
         [EStatType.manufactoring_skill] : {
             name: "Manufactoring",
             description: "Increases the skill in manufactoring, making it possible to manufactor items of higher quality.",
-            maxLevel: 10,
+            maxLevel: -1,
             startLearningTime: 60,
             learningTimeIncrease: 2.0,
             stats: {
                 modifier: EStatModifier.neutral,
                 stat: EStatType.manufactoring_skill,
-                values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                baseValue: 0,
+                increase: 1
             }
-        }
-
-        ,
+        },
         [EStatType.hull_repair_cost] : {
             name: "Hull Repair Efficiency",
             description: "Decreases the cost of hull repair.",
@@ -446,7 +479,8 @@ export module SkillInfo {
             stats: {
                 modifier: EStatModifier.neutral,
                 stat: EStatType.hull_repair_cost,
-                values: [11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                baseValue: 11,
+                increase: -1
             }
         },
         [EStatType.hull_repair_speed] : {
@@ -458,7 +492,8 @@ export module SkillInfo {
             stats: {
                 modifier: EStatModifier.neutral,
                 stat: EStatType.hull_repair_speed,
-                values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                baseValue: 1,
+                increase: 1
             }
         },
         [EStatType.armor_repair_cost] : {
@@ -470,7 +505,8 @@ export module SkillInfo {
             stats: {
                 modifier: EStatModifier.neutral,
                 stat: EStatType.armor_repair_cost,
-                values: [11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+                baseValue: 11,
+                increase: -1
             }
         },
         [EStatType.armor_repair_speed] : {
@@ -482,7 +518,8 @@ export module SkillInfo {
             stats: {
                 modifier: EStatModifier.neutral,
                 stat: EStatType.armor_repair_speed,
-                values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                baseValue: 1,
+                increase: 1
             }
         }
 

@@ -4,6 +4,7 @@ import { EStatModifier } from "../stats/EStatModifier";
 export interface IModuleStatGenerationConfig {
     stat: EStatType,
     modifier: EStatModifier,
-    min : Array<number>,
-    max : Array<number>,
+    baseMin: number,
+    baseMax: number,
+    increase: number
 }

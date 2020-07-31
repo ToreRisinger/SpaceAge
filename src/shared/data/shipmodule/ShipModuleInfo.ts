@@ -21,69 +21,80 @@ export module ShipModuleInfo {
                 base: [
                     {
                         stat: EStatType.hull,
-                        max : [20, 30, 40, 50, 60],
-                        min : [10, 20, 30, 40, 50],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 20,
+                        baseMin: 10,
+                        increase: 10,
+                        modifier: EStatModifier.increase_additive
                     },
                     {
                         stat: EStatType.armor,
-                        max : [20, 30, 40, 50, 60],
-                        min : [10, 20, 30, 40, 50],
+                        baseMax: 20,
+                        baseMin: 10,
+                        increase: 10,
                         modifier : EStatModifier.increase_additive
                     },
                     {
                         stat: EStatType.thrust,
-                        max : [20, 30, 40, 50, 60],
-                        min : [10, 20, 30, 40, 50],
+                        baseMax: 20,
+                        baseMin: 10,
+                        increase: 10,
                         modifier : EStatModifier.increase_additive
                     },
                     {
                         stat: EStatType.radar_range,
-                        max : [20000, 3000, 4000, 5000, 6000],
-                        min : [10000, 2000, 3000, 4000, 5000],
+                        baseMax : 2000,
+                        baseMin : 1000,
+                        increase: 1000,
                         modifier : EStatModifier.increase_additive
                     },
                     {
                         stat: EStatType.weapon_damage,
-                        max : [10, 15, 20, 25, 30],
-                        min : [5, 10, 15, 20, 25],
+                        baseMax : 10,
+                        baseMin : 5,
+                        increase: 5,
                         modifier : EStatModifier.increase_additive
                     },
                     {
                         stat: EStatType.mining_laser_yield,
-                        max : [2, 3, 4, 5, 6],
-                        min : [1, 2, 3, 4, 5],
+                        baseMax : 2,
+                        baseMin : 1,
+                        increase: 1,
                         modifier : EStatModifier.increase_additive
                     },
                     {
                         stat: EStatType.weapon_range,
-                        max : [1000, 1500, 2000, 2500, 3000],
-                        min : [500, 1000, 1500, 2000, 2500],
+                        baseMax : 1000,
+                        baseMin : 500,
+                        increase: 500,
                         modifier : EStatModifier.increase_additive
                     },
                     {
                         stat: EStatType.mining_laser_range,
-                        max : [1000, 1500, 2000, 2500, 3000],
-                        min : [500, 1000, 1500, 2000, 2500],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 1000,
+                        baseMin: 500,
+                        increase: 500,
+                        modifier: EStatModifier.increase_additive
                     },
                     {
                         stat: EStatType.cargo_hold_size,
-                        max : [20, 30, 40, 50, 60],
-                        min : [10, 20, 30, 40, 50],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 20,
+                        baseMin: 10,
+                        increase: 10,
+                        modifier: EStatModifier.increase_additive
                     },
                     {
                         stat: EStatType.power,
-                        max : [10, 15, 20, 25, 30],
-                        min : [5, 10, 15, 20, 25],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 10,
+                        baseMin: 5,
+                        increase: 5,
+                        modifier: EStatModifier.increase_additive
                     },
                     {
                         stat: EStatType.mass,
-                        max : [20, 30, 40, 50, 60],
-                        min : [10, 20, 30, 40, 50],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 20,
+                        baseMin: 10,
+                        increase: 10,
+                        modifier: EStatModifier.increase_additive
                     }
                 ],
                 possibleExtraStats : []
@@ -97,21 +108,24 @@ export module ShipModuleInfo {
                 base: [
                     {
                         stat: EStatType.hull,
-                        max : [20, 30, 40, 50, 60],
-                        min : [10, 20, 30, 40, 50],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 20,
+                        baseMin: 10,
+                        increase: 10,
+                        modifier: EStatModifier.increase_additive
                     },
                     {
                         stat: EStatType.radar_signature_reduction,
-                        max : [2, 3, 4, 5, 6],
-                        min : [1, 2, 3, 4, 5],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 2,
+                        baseMin: 1,
+                        increase: 1,
+                        modifier: EStatModifier.increase_additive
                     },
                     {
                         stat: EStatType.mass,
-                        max : [20, 30, 40, 50, 60],
-                        min : [10, 20, 30, 40, 50],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 20,
+                        baseMin: 10,
+                        increase: 10,
+                        modifier: EStatModifier.increase_additive
                     }
                 ],
                 possibleExtraStats : []
@@ -123,21 +137,24 @@ export module ShipModuleInfo {
                 base: [
                     {
                         stat: EStatType.hull,
-                        max : [20, 30, 40, 50, 60],
-                        min : [10, 20, 30, 40, 50],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 20,
+                        baseMin: 10,
+                        increase: 10,
+                        modifier: EStatModifier.increase_additive
                     },
                     {
                         stat: EStatType.cargo_hold_size,
-                        max : [100, 150, 200, 250, 300],
-                        min : [50, 100, 150, 200, 250],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 100,
+                        baseMin: 50,
+                        increase: 50,
+                        modifier: EStatModifier.increase_additive
                     },
                     {
                         stat: EStatType.mass,
-                        max : [20, 30, 40, 50, 60],
-                        min : [10, 20, 30, 40, 50],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 20,
+                        baseMin: 10,
+                        increase: 10,
+                        modifier: EStatModifier.increase_additive
                     }
                 ],
                 possibleExtraStats : []
@@ -149,21 +166,24 @@ export module ShipModuleInfo {
                 base: [
                     {
                         stat: EStatType.hull,
-                        max : [20, 30, 40, 50, 60],
-                        min : [10, 20, 30, 40, 50],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 20,
+                        baseMin: 10,
+                        increase: 10,
+                        modifier: EStatModifier.increase_additive
                     },
                     {
                         stat: EStatType.thrust,
-                        max : [21000, 32000, 43000, 54000, 65000],
-                        min : [20000, 31000, 42000, 53000, 64000],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 21000,
+                        baseMin: 20000,
+                        increase: 10000,
+                        modifier: EStatModifier.increase_additive
                     },
                     {
                         stat: EStatType.mass,
-                        max : [20, 30, 40, 50, 60],
-                        min : [10, 20, 30, 40, 50],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 20,
+                        baseMin: 10,
+                        increase: 10,
+                        modifier: EStatModifier.increase_additive
                     }
                 ],
                 possibleExtraStats : []
@@ -175,21 +195,24 @@ export module ShipModuleInfo {
                 base: [
                     {
                         stat: EStatType.hull,
-                        max : [20, 30, 40, 50, 60],
-                        min : [10, 20, 30, 40, 50],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 20,
+                        baseMin: 10,
+                        increase: 10,
+                        modifier: EStatModifier.increase_additive
                     },
                     {
                         stat: EStatType.power,
-                        max : [2, 3, 4, 5, 6],
-                        min : [1, 2, 3, 4, 5],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 2,
+                        baseMin: 1,
+                        increase: 1,
+                        modifier: EStatModifier.increase_additive
                     },
                     {
                         stat: EStatType.mass,
-                        max : [20, 30, 40, 50, 60],
-                        min : [10, 20, 30, 40, 50],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 20,
+                        baseMin: 10,
+                        increase: 10,
+                        modifier: EStatModifier.increase_additive
                     }
                 ],
                 possibleExtraStats : []
@@ -201,20 +224,23 @@ export module ShipModuleInfo {
                 base: [
                     {
                         stat: EStatType.hull,
-                        max : [20, 30, 40, 50, 60],
-                        min : [10, 20, 30, 40, 50],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 20,
+                        baseMin: 10,
+                        increase: 10,
+                        modifier: EStatModifier.increase_additive
                     },
                     {
                         stat: EStatType.radar_range,
-                        max : [2000, 3000, 4000, 5000, 6000],
-                        min : [1000, 2000, 3000, 4000, 5000],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 2000,
+                        baseMin: 1000,
+                        increase: 1000,
+                        modifier: EStatModifier.increase_additive
                     },
                     {
                         stat: EStatType.mass,
-                        max : [20, 30, 40, 50, 60],
-                        min : [10, 20, 30, 40, 50],
+                        baseMax: 20,
+                        baseMin: 10,
+                        increase: 10,
                         modifier : EStatModifier.increase_additive
                     }
                 ],
@@ -227,21 +253,24 @@ export module ShipModuleInfo {
                 base: [
                     {
                         stat: EStatType.hull,
-                        max : [20, 30, 40, 50, 60],
-                        min : [10, 20, 30, 40, 50],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 20,
+                        baseMin: 10,
+                        increase: 10,
+                        modifier: EStatModifier.increase_additive
                     },
                     {
                         stat: EStatType.mass,
-                        max : [20, 30, 40, 50, 60],
-                        min : [10, 20, 30, 40, 50],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 20,
+                        baseMin: 10,
+                        increase: 10,
+                        modifier: EStatModifier.increase_additive
                     },
                     {
                         stat: EStatType.weapon_range,
-                        max : [2000, 3000, 4000, 5000, 6000],
-                        min : [1000, 2000, 3000, 4000, 5000],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 2000,
+                        baseMin: 1000,
+                        increase: 1000,
+                        modifier: EStatModifier.increase_additive
                     },
                 ],
                 possibleExtraStats : []
@@ -253,21 +282,24 @@ export module ShipModuleInfo {
                 base: [
                     {
                         stat: EStatType.hull,
-                        max : [20, 30, 40, 50, 60],
-                        min : [10, 20, 30, 40, 50],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 20,
+                        baseMin: 10,
+                        increase: 10,
+                        modifier: EStatModifier.increase_additive
                     },
                     {
                         stat: EStatType.mass,
-                        max : [20, 30, 40, 50, 60],
-                        min : [10, 20, 30, 40, 50],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 20,
+                        baseMin: 10,
+                        increase: 10,
+                        modifier: EStatModifier.increase_additive
                     },
                     {
                         stat: EStatType.mining_laser_range,
-                        max : [2000, 3000, 4000, 5000, 6000],
-                        min : [1000, 2000, 3000, 4000, 5000],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 2000,
+                        baseMin: 1000,
+                        increase: 1000,
+                        modifier: EStatModifier.increase_additive
                     },
                 ],
                 possibleExtraStats : []
@@ -279,27 +311,31 @@ export module ShipModuleInfo {
                 base: [
                     {
                         stat: EStatType.hull,
-                        max : [20, 30, 40, 50, 60],
-                        min : [10, 20, 30, 40, 50],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 20,
+                        baseMin: 10,
+                        increase: 10,
+                        modifier: EStatModifier.increase_additive
                     },
                     {
                         stat: EStatType.shield_generation,
-                        max : [2, 3, 4, 5, 6],
-                        min : [1, 2, 3, 4, 5],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 2,
+                        baseMin: 1,
+                        increase: 1,
+                        modifier: EStatModifier.increase_additive
                     },
                     {
                         stat: EStatType.shield,
-                        max : [200, 300, 400, 500, 600],
-                        min : [100, 200, 300, 400, 500],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 200,
+                        baseMin: 100,
+                        increase: 100,
+                        modifier: EStatModifier.increase_additive
                     },
                     {
                         stat: EStatType.mass,
-                        max : [20, 30, 40, 50, 60],
-                        min : [10, 20, 30, 40, 50],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 20,
+                        baseMin: 10,
+                        increase: 10,
+                        modifier: EStatModifier.increase_additive
                     }
                 ],
                 possibleExtraStats : []
@@ -311,21 +347,24 @@ export module ShipModuleInfo {
                 base: [
                     {
                         stat: EStatType.hull,
-                        max : [20, 30, 40, 50, 60],
-                        min : [10, 20, 30, 40, 50],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 20,
+                        baseMin: 10,
+                        increase: 10,
+                        modifier: EStatModifier.increase_additive
                     },
                     {
                         stat: EStatType.shield_generation,
-                        max : [5, 10, 15, 20, 25],
-                        min : [10, 15, 20, 25, 30],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 10,
+                        baseMin: 5,
+                        increase: 5,
+                        modifier: EStatModifier.increase_additive
                     },
                     {
                         stat: EStatType.mass,
-                        max : [20, 30, 40, 50, 60],
-                        min : [10, 20, 30, 40, 50],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 20,
+                        baseMin: 10,
+                        increase: 10,
+                        modifier: EStatModifier.increase_additive
                     }
                 ],
                 possibleExtraStats : []
@@ -337,21 +376,24 @@ export module ShipModuleInfo {
                 base: [
                     {
                         stat: EStatType.hull,
-                        max : [20, 30, 40, 50, 60],
-                        min : [10, 20, 30, 40, 50],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 20,
+                        baseMin: 10,
+                        increase: 10,
+                        modifier: EStatModifier.increase_additive
                     },
                     {
                         stat: EStatType.armor,
-                        max : [200, 300, 400, 500, 600],
-                        min : [100, 200, 300, 400, 500],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 200,
+                        baseMin: 100,
+                        increase: 100,
+                        modifier: EStatModifier.increase_additive
                     },
                     {
                         stat: EStatType.mass,
-                        max : [20, 30, 40, 50, 60],
-                        min : [10, 20, 30, 40, 50],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 20,
+                        baseMin: 10,
+                        increase: 10,
+                        modifier: EStatModifier.increase_additive
                     }
                 ],
                 possibleExtraStats : []
@@ -363,18 +405,20 @@ export module ShipModuleInfo {
                 base: [
                     {
                         stat: EStatType.hull,
-                        max : [20, 30, 40, 50, 60],
-                        min : [10, 20, 30, 40, 50],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 20,
+                        baseMin: 10,
+                        increase: 10,
+                        modifier: EStatModifier.increase_additive
                     },
                     {
                         stat: EStatType.mass,
-                        max : [20, 30, 40, 50, 60],
-                        min : [10, 20, 30, 40, 50],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 20,
+                        baseMin: 10,
+                        increase: 10,
+                        modifier: EStatModifier.increase_additive
                     }
                 ],
-                possibleExtraStats : []
+                possibleExtraStats: []
             }
         },
         [EModuleItemType.TARGET_DODGE_REDUCTION_MODULE] : {
@@ -383,24 +427,27 @@ export module ShipModuleInfo {
                 base: [
                     {
                         stat: EStatType.hull,
-                        max : [20, 30, 40, 50, 60],
-                        min : [10, 20, 30, 40, 50],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 20,
+                        baseMin: 10,
+                        increase: 10,
+                        modifier: EStatModifier.increase_additive
                     },
                     {
                         stat: EStatType.target_dodge_reduction,
-                        max : [20, 30, 40, 50, 60],
-                        min : [10, 20, 30, 40, 50],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 20,
+                        baseMin: 10,
+                        increase: 10,
+                        modifier: EStatModifier.increase_additive
                     },
                     {
                         stat: EStatType.mass,
-                        max : [20, 30, 40, 50, 60],
-                        min : [10, 20, 30, 40, 50],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 20,
+                        baseMin: 10,
+                        increase: 10,
+                        modifier: EStatModifier.increase_additive
                     }
                 ],
-                possibleExtraStats : []
+                possibleExtraStats: []
             }
         },
         /* WEAPON MODULES */
@@ -410,27 +457,31 @@ export module ShipModuleInfo {
                 base: [
                     {
                         stat: EStatType.hull,
-                        max : [20, 30, 40, 50, 60],
-                        min : [10, 20, 30, 40, 50],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 20,
+                        baseMin: 10,
+                        increase: 10,
+                        modifier: EStatModifier.increase_additive
                     },
                     {
                         stat: EStatType.mass,
-                        max : [20, 30, 40, 50, 60],
-                        min : [10, 20, 30, 40, 50],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 20,
+                        baseMin: 10,
+                        increase: 10,
+                        modifier: EStatModifier.increase_additive
                     },
                     {
                         stat: EStatType.mining_laser_yield,
-                        max : [2, 3, 4, 5, 6],
-                        min : [1, 2, 3, 4, 5],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 2,
+                        baseMin: 1,
+                        increase: 1,
+                        modifier: EStatModifier.increase_additive
                     },
                     {
                         stat: EStatType.mining_laser_range,
-                        max : [2000, 3000, 4000, 5000, 6000],
-                        min : [1000, 2000, 3000, 4000, 5000],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 200,
+                        baseMin: 100,
+                        increase: 100,
+                        modifier: EStatModifier.increase_additive
                     },
                 ],
                 possibleExtraStats : []
@@ -442,21 +493,24 @@ export module ShipModuleInfo {
                 base: [
                     {
                         stat: EStatType.hull,
-                        max : [20, 30, 40, 50, 60],
-                        min : [10, 20, 30, 40, 50],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 20,
+                        baseMin: 10,
+                        increase: 10,
+                        modifier: EStatModifier.increase_additive
                     },
                     {
                         stat: EStatType.mass,
-                        max : [20, 30, 40, 50, 60],
-                        min : [10, 20, 30, 40, 50],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 20,
+                        baseMin: 10,
+                        increase: 10,
+                        modifier: EStatModifier.increase_additive
                     },
                     {
                         stat: EStatType.weapon_damage,
-                        max : [20, 30, 40, 50, 60],
-                        min : [10, 20, 30, 40, 50],
-                        modifier : EStatModifier.increase_additive
+                        baseMax: 20,
+                        baseMin: 10,
+                        increase: 10,
+                        modifier: EStatModifier.increase_additive
                     },
                 ],
                 possibleExtraStats : []

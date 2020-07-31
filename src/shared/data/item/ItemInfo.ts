@@ -244,20 +244,12 @@ export module ItemInfo {
     }
 
     export function getItemQualityColor(quality : number) : string {
-        switch(quality) {
-            case 1 :
-                return "White";
-            case 2 :
-                return "DeepSkyBlue";
-            case 3 :
-                return "LimeGreen";
-            case 4 :
-                return "Orchid";
-            case 5 :
-                return "Orange";
-            default :
-                return "";
+        if(quality > 85) {
+            quality = 85;
         }
+        let r = 170 + quality;
+        let b = 170 + quality;
+        return "rgb(" + r + ", 0, " + b + ")";
     }
 
     export function getRefinedFromOre(type: EItemType) {

@@ -245,6 +245,7 @@ export class SCharacter extends SShip {
         }
 
         this.stopTrainSkill();
+        this.updateCharacterStats();
     }
 
     private updateCharacterStats(): void {
@@ -265,7 +266,7 @@ export class SCharacter extends SShip {
       skillList.forEach(skill => {
           let skillInfo: SkillInfo.ISkillInfo = SkillInfo.getSkillInfo(skill.skillType);
           let baseStat: number = this.character.stats[skillInfo.stats.stat];
-          this.character.stats[skillInfo.stats.stat] = Math.floor(baseStat + StatInfo.getAddedValue(baseStat, skillInfo.stats.modifier, skillInfo.stats.values[skill.level]));
+          this.character.stats[skillInfo.stats.stat] = Math.floor(baseStat + StatInfo.getAddedValue(baseStat, skillInfo.stats.modifier, skillInfo.stats.baseValue + skillInfo.stats.increase * skill.level));
       });
     }
 
