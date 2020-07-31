@@ -193,7 +193,7 @@ export module ItemInfo {
 
 
         [ERefinedMineralItemType.REFINED_TITANIUM] : {
-            image : "assets/image/items/item_titanium_ore.png",
+            image : "assets/image/items/item_refined_titanium.png",
             name: "Refined Titanium",
             description: "Refined Titanium canbe used as a building material",
             size: 1,
@@ -202,7 +202,7 @@ export module ItemInfo {
             sprite : undefined
         },
         [ERefinedMineralItemType.REFINED_URANIUM] : {
-            image : "assets/image/items/item_uranium_ore.png",
+            image : "assets/image/items/item_refined_uranium.png",
             name: "Refined Uranium",
             description: "Refined Uranium can be used as a building material",
             size: 1,
@@ -211,7 +211,7 @@ export module ItemInfo {
             sprite : undefined
         },
         [ERefinedMineralItemType.REFINED_IRON] : {
-            image : "assets/image/items/item_iron_ore.png",
+            image : "assets/image/items/item_refined_iron.png",
             name: "Refined Iron",
             description: "Refined Iron can be used as a building material",
             size: 1,
@@ -220,7 +220,7 @@ export module ItemInfo {
             sprite : undefined
         },
         [ERefinedMineralItemType.REFINED_GOLD] : {
-            image : "assets/image/items/item_gold_ore.png",
+            image : "assets/image/items/item_refined_gold.png",
             name: "Refined Gold",
             description: "Refined Gold can be used as a building material",
             size: 1,
@@ -229,7 +229,7 @@ export module ItemInfo {
             sprite : undefined
         },
         [ERefinedMineralItemType.REFINED_DIAMOND] : {
-            image : "assets/image/items/item_diamond_ore.png",
+            image : "assets/image/items/item_refined_diamond.png",
             name: "Diamond Ore",
             description: "Refined Diamond can be used as a building material",
             size: 1,
