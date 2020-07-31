@@ -256,7 +256,7 @@ body {
     
 }
 
-#refinery_window {
+.RefineryWindow {
     width: 400px;
     left: 50px;
     top: 150px;
@@ -267,7 +267,7 @@ body {
 
 #skills_container {
     margin: auto;
-    height: calc(100% - 80px);
+    height: calc(100% - 50px);
     display: grid;
     justify-content: center;
     overflow-y: scroll;
@@ -357,7 +357,7 @@ body {
     top: 0px;
     right: 0px;
     left: 0px;
-    height: 80px;
+    height: 50px;
 }
 
 .WindowHeaderText {
@@ -380,7 +380,7 @@ body {
 }
 
 .ShipWindowContentWrapper {
-    height: calc(100% - 80px);
+    height: calc(100% - 50px);
     display: flex;
 }
 
@@ -1263,6 +1263,36 @@ input:focus, textarea:focus, select:focus {
 
 /*
 
+    Manufacturing
+
+*/
+
+.ManufacturingFilter {
+    background-color: green;
+    height: 50px;
+    margin-bottom: 3px;
+}
+
+.ManufacturingList {
+    margin: auto;
+    height: calc(100% - 103px);
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.ManufacturingEntry {
+    width: 600px;
+    height: 72px;
+    padding: 4px;
+    margin-bottom: 10px;
+    border: 1px solid rgb(122, 122, 122);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/*
+
     GENERAL
 
 */
@@ -1287,3 +1317,4 @@ input:focus, textarea:focus, select:focus {
     grid-row: 1;
     text-align: center;
 }
+

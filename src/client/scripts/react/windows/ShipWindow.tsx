@@ -3,7 +3,7 @@ import WindowHeader from "./WindowHeader";
 import ShipDisplay from "./ShipDisplay";
 import { GlobalDataService } from "../../modules/GlobalDataService";
 import { CCharacter } from "../../game_objects/CCharacter";
-import StatList from "../mainComponents/stats/StatList";
+import StatList from "../stats/StatList";
 import { IItem } from "../../../../shared/data/item/IItem";
 import { IModuleStat } from "../../../../shared/data/item/IModuleStat";
 

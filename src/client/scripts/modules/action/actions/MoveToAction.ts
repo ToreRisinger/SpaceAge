@@ -1,7 +1,7 @@
 import { Action } from "../fw/Action";
 import { RadarDetectable } from "../../../game_objects/RadarDetectable";
 import { InputHandler } from "../../InputHandler";
-import LootWindow from "../../../react/mainComponents/cargo/LootWindow";
+import LootWindow from "../../../react/cargo/LootWindow";
 import { CUtils } from "../../../utils/CUtils";
 
 export class MoveToAction extends Action {

@@ -1,6 +1,6 @@
 import React from "react";
-import CargoItem from "../mainComponents/cargo/CargoItem";
-import CargoSlot from "../mainComponents/cargo/CargoSlot";
+import CargoItem from "../cargo/CargoItem";
+import CargoSlot from "../cargo/CargoSlot";
 import { IShipModuleInstance } from "../../../../shared/data/shipmodule/IShipModuleInstance";
 import { IItem } from "../../../../shared/data/item/IItem";
 import { DragAndDropHelper } from "../../utils/DragAndDropHelper";

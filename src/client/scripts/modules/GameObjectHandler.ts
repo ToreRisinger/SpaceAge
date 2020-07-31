@@ -128,7 +128,6 @@ export module GameObjectHandler {
     }
 
     function onCargoUpdate(event : Events.CARGO_UPDATE_EVENT_CONFIG) {
-        console.log("oncargoupdate");
         GlobalDataService.getInstance().getPlayerShip().setCargo(event.data.cargo);
         let eventToSend : Events.PLAYER_CARGO_UPDATED_EVENT_CONFIG = {
             eventId : Events.EEventType.PLAYER_CARGO_UPDATED_EVENT,

@@ -2,7 +2,7 @@ import { Action } from "../fw/Action";
 import { RadarDetectable } from "../../../game_objects/RadarDetectable";
 import { InputHandler } from "../../InputHandler";
 import { CContainer } from "../../../game_objects/CContainer";
-import LootWindow from "../../../react/mainComponents/cargo/LootWindow";
+import LootWindow from "../../../react/cargo/LootWindow";
 import { GlobalDataService } from "../../GlobalDataService";
 import { Events } from "../../../../../shared/util/Events";
 import { EventHandler } from "../../EventHandler";

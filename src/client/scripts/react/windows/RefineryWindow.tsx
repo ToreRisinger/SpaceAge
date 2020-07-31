@@ -1,8 +1,8 @@
 import React, { Fragment }  from "react";
 import WindowHeader from "./WindowHeader";
-import CargoItem from "../mainComponents/cargo/CargoItem";
+import CargoItem from "../cargo/CargoItem";
 import { IItem } from "../../../../shared/data/item/IItem";
-import CargoSlot from "../mainComponents/cargo/CargoSlot";
+import CargoSlot from "../cargo/CargoSlot";
 import { DragAndDropHelper } from "../../utils/DragAndDropHelper";
 import { EMineralItemType } from "../../../../shared/data/item/EMineralItemType";
 import { RefineryHandler } from "../../modules/RefineryHandler";
@@ -80,7 +80,7 @@ export default class RefineryWindow extends React.Component<RefineryWindowProps,
         return (
             <Fragment>
                 {this.props.window_open &&
-                    <div id="refinery_window" className="BodyText SidePanelWindow HasBorder PanelBackgroundNoAlpha Unselectable">
+                    <div className="RefineryWindow BodyText SidePanelWindow HasBorder PanelBackgroundNoAlpha Unselectable">
                         <WindowHeader text="Refinery"/>
                         <div className="OreItemContainer">
                             {this.state.item == undefined ? 
