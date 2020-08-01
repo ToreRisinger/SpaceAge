@@ -43,7 +43,7 @@ export default class LootContainer extends React.Component<LootContainerProps, {
 
         return (
             <div className="CargoContainer">
-                {this.props.items.map((object, i) => <CargoItem enableDragAndDrop={false} item={object} key={i} hoverHighLight={true} index={i} selected={this.props.selectedItems.has(i)} onClick={this.onClick} onLeave={this.func} onEnter={this.func}/>)}
+                {this.props.items.map((object, i) => <CargoItem enableDragAndDrop={false} redTint={false} tooltipLeft={true} item={object} key={i} hoverHighLight={true} index={i} selected={this.props.selectedItems.has(i)} onClick={this.onClick} onLeave={this.func} onEnter={this.func}/>)}
                 {emptySlots.map((object, i) => <CargoSlot allowDrop={this.allowDrop} onDrop={this.onDrop} key={i} />)}
             </div>
         );

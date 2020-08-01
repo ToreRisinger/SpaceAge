@@ -10,9 +10,12 @@ export interface CargoItemProps {
     selected: boolean, 
     index: number,
     enableDragAndDrop: boolean,
+    redTint: boolean,
+    tooltipLeft: boolean,
     onClick: (index: number) => void, 
     onEnter: (item: IItem, index: number) => void, 
-    onLeave: (item: IItem, index: number) => void }
+    onLeave: (item: IItem, index: number) => void,        
+}
 
 export interface CargoItemState { mouseX : number, mouseY : number }
 
@@ -59,7 +62,7 @@ export default class CargoItem extends React.Component<CargoItemProps, CargoItem
     render() {
         const styles = {
             top : this.state.mouseY - 50,
-            left : this.state.mouseX - 320
+            left : this.props.tooltipLeft ? this.state.mouseX - 320 :  this.state.mouseX + 75
         }
 
         let cargoItemClass = "CargoItem Unselectable" + (this.props.hoverHighLight ? " BackgroundHoverHighlight" : "") + (this.props.selected ? " Selected" : "");
@@ -74,6 +77,12 @@ export default class CargoItem extends React.Component<CargoItemProps, CargoItem
                         <div className="CargoItemStockLabel">{this.props.item.quantity}</div>
                     </div>
                 }
+                {this.props.redTint ?
+                    <div className="CargoItemRedTint"></div>
+                    :
+                    ""
+                }
+
                 <div className="ItemToolTipWrapper PanelBackgroundNoAlpha" style={styles}>
                     <span className="ItemToolTipContainer Unselectable">
                         <div className="ItemToolTipTitle">{itemInfo.name}</div>

@@ -5,12 +5,20 @@ import { EStatType } from "../stats/EStatType";
 import { EStatModifier } from "../stats/EStatModifier";
 import { EItemType } from "../item/EItemType";
 import { SPRITES } from "../../util/SPRITES";
+import { ERefinedMineralItemType } from "../item/ERefinedMineralItemType";
 
 export module ShipModuleInfo {
 
+    export interface IShipModuleMineralInfo {
+        mineral: ERefinedMineralItemType,
+        base: number,
+        increase: number
+    }
+
     export interface IShipModuleInfo {
-        sprite : ISprite,
-        stats : IModuleTypeProperties
+        sprite: ISprite,
+        stats: IModuleTypeProperties,
+        minerals: Array<IShipModuleMineralInfo>
     }
 
     const moduleTypeToProperyMap : { [key: number]: IShipModuleInfo } = {
@@ -98,7 +106,24 @@ export module ShipModuleInfo {
                     }
                 ],
                 possibleExtraStats : []
-            }
+            },
+            minerals: [
+                {
+                    mineral: ERefinedMineralItemType.REFINED_IRON,
+                    base: 10,
+                    increase: 1
+                },
+                {
+                    mineral: ERefinedMineralItemType.REFINED_GOLD,
+                    base: 5,
+                    increase: 1
+                },
+                {
+                    mineral: ERefinedMineralItemType.REFINED_SILVER,
+                    base: 5,
+                    increase: 1
+                },
+            ]
         },
 
         /* MODULES */
@@ -129,7 +154,24 @@ export module ShipModuleInfo {
                     }
                 ],
                 possibleExtraStats : []
-            }
+            },
+            minerals: [
+                {
+                    mineral: ERefinedMineralItemType.REFINED_IRON,
+                    base: 10,
+                    increase: 1
+                },
+                {
+                    mineral: ERefinedMineralItemType.REFINED_GOLD,
+                    base: 5,
+                    increase: 1
+                },
+                {
+                    mineral: ERefinedMineralItemType.REFINED_SILVER,
+                    base: 5,
+                    increase: 1
+                },
+            ]
         },
         [EModuleItemType.CARGO_HOLD_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
@@ -158,7 +200,24 @@ export module ShipModuleInfo {
                     }
                 ],
                 possibleExtraStats : []
-            }
+            },
+            minerals: [
+                {
+                    mineral: ERefinedMineralItemType.REFINED_IRON,
+                    base: 10,
+                    increase: 1
+                },
+                {
+                    mineral: ERefinedMineralItemType.REFINED_GOLD,
+                    base: 5,
+                    increase: 1
+                },
+                {
+                    mineral: ERefinedMineralItemType.REFINED_SILVER,
+                    base: 5,
+                    increase: 1
+                },
+            ]
         },
         [EModuleItemType.THRUST_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
@@ -187,7 +246,24 @@ export module ShipModuleInfo {
                     }
                 ],
                 possibleExtraStats : []
-            }
+            },
+            minerals: [
+                {
+                    mineral: ERefinedMineralItemType.REFINED_IRON,
+                    base: 10,
+                    increase: 1
+                },
+                {
+                    mineral: ERefinedMineralItemType.REFINED_GOLD,
+                    base: 5,
+                    increase: 1
+                },
+                {
+                    mineral: ERefinedMineralItemType.REFINED_SILVER,
+                    base: 5,
+                    increase: 1
+                },
+            ]
         },
         [EModuleItemType.POWER_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
@@ -216,7 +292,24 @@ export module ShipModuleInfo {
                     }
                 ],
                 possibleExtraStats : []
-            }
+            },
+            minerals: [
+                {
+                    mineral: ERefinedMineralItemType.REFINED_IRON,
+                    base: 10,
+                    increase: 1
+                },
+                {
+                    mineral: ERefinedMineralItemType.REFINED_GOLD,
+                    base: 5,
+                    increase: 1
+                },
+                {
+                    mineral: ERefinedMineralItemType.REFINED_SILVER,
+                    base: 5,
+                    increase: 1
+                },
+            ]
         },
         [EModuleItemType.RADAR_RANGE_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
@@ -245,7 +338,24 @@ export module ShipModuleInfo {
                     }
                 ],
                 possibleExtraStats : []
-            }
+            },
+            minerals: [
+                {
+                    mineral: ERefinedMineralItemType.REFINED_IRON,
+                    base: 10,
+                    increase: 1
+                },
+                {
+                    mineral: ERefinedMineralItemType.REFINED_GOLD,
+                    base: 5,
+                    increase: 1
+                },
+                {
+                    mineral: ERefinedMineralItemType.REFINED_SILVER,
+                    base: 5,
+                    increase: 1
+                },
+            ]
         },
         [EModuleItemType.WEAPON_RANGE_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
@@ -274,7 +384,24 @@ export module ShipModuleInfo {
                     },
                 ],
                 possibleExtraStats : []
-            }
+            },
+            minerals: [
+                {
+                    mineral: ERefinedMineralItemType.REFINED_IRON,
+                    base: 10,
+                    increase: 1
+                },
+                {
+                    mineral: ERefinedMineralItemType.REFINED_GOLD,
+                    base: 5,
+                    increase: 1
+                },
+                {
+                    mineral: ERefinedMineralItemType.REFINED_SILVER,
+                    base: 5,
+                    increase: 1
+                },
+            ]
         },
         [EModuleItemType.MINING_RANGE_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
@@ -303,7 +430,24 @@ export module ShipModuleInfo {
                     },
                 ],
                 possibleExtraStats : []
-            }
+            },
+            minerals: [
+                {
+                    mineral: ERefinedMineralItemType.REFINED_IRON,
+                    base: 10,
+                    increase: 1
+                },
+                {
+                    mineral: ERefinedMineralItemType.REFINED_GOLD,
+                    base: 5,
+                    increase: 1
+                },
+                {
+                    mineral: ERefinedMineralItemType.REFINED_SILVER,
+                    base: 5,
+                    increase: 1
+                },
+            ]
         },
         [EModuleItemType.SHIELD_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
@@ -339,7 +483,24 @@ export module ShipModuleInfo {
                     }
                 ],
                 possibleExtraStats : []
-            }
+            },
+            minerals: [
+                {
+                    mineral: ERefinedMineralItemType.REFINED_IRON,
+                    base: 10,
+                    increase: 1
+                },
+                {
+                    mineral: ERefinedMineralItemType.REFINED_GOLD,
+                    base: 5,
+                    increase: 1
+                },
+                {
+                    mineral: ERefinedMineralItemType.REFINED_SILVER,
+                    base: 5,
+                    increase: 1
+                },
+            ]
         },
         [EModuleItemType.SHIELD_GENERATION_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
@@ -368,7 +529,24 @@ export module ShipModuleInfo {
                     }
                 ],
                 possibleExtraStats : []
-            }
+            },
+            minerals: [
+                {
+                    mineral: ERefinedMineralItemType.REFINED_IRON,
+                    base: 10,
+                    increase: 1
+                },
+                {
+                    mineral: ERefinedMineralItemType.REFINED_GOLD,
+                    base: 5,
+                    increase: 1
+                },
+                {
+                    mineral: ERefinedMineralItemType.REFINED_SILVER,
+                    base: 5,
+                    increase: 1
+                },
+            ]
         },
         [EModuleItemType.ARMOR_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
@@ -397,7 +575,24 @@ export module ShipModuleInfo {
                     }
                 ],
                 possibleExtraStats : []
-            }
+            },
+            minerals: [
+                {
+                    mineral: ERefinedMineralItemType.REFINED_IRON,
+                    base: 10,
+                    increase: 1
+                },
+                {
+                    mineral: ERefinedMineralItemType.REFINED_GOLD,
+                    base: 5,
+                    increase: 1
+                },
+                {
+                    mineral: ERefinedMineralItemType.REFINED_SILVER,
+                    base: 5,
+                    increase: 1
+                },
+            ]
         },
         [EModuleItemType.SUPPORT_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
@@ -419,7 +614,24 @@ export module ShipModuleInfo {
                     }
                 ],
                 possibleExtraStats: []
-            }
+            },
+            minerals: [
+                {
+                    mineral: ERefinedMineralItemType.REFINED_IRON,
+                    base: 10,
+                    increase: 1
+                },
+                {
+                    mineral: ERefinedMineralItemType.REFINED_GOLD,
+                    base: 5,
+                    increase: 1
+                },
+                {
+                    mineral: ERefinedMineralItemType.REFINED_SILVER,
+                    base: 5,
+                    increase: 1
+                },
+            ]
         },
         [EModuleItemType.TARGET_DODGE_REDUCTION_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
@@ -448,7 +660,24 @@ export module ShipModuleInfo {
                     }
                 ],
                 possibleExtraStats: []
-            }
+            },
+            minerals: [
+                {
+                    mineral: ERefinedMineralItemType.REFINED_IRON,
+                    base: 10,
+                    increase: 1
+                },
+                {
+                    mineral: ERefinedMineralItemType.REFINED_GOLD,
+                    base: 5,
+                    increase: 1
+                },
+                {
+                    mineral: ERefinedMineralItemType.REFINED_SILVER,
+                    base: 5,
+                    increase: 1
+                },
+            ]
         },
         /* WEAPON MODULES */
         [EModuleItemType.MINING_LASER_MODULE] : {
@@ -485,7 +714,24 @@ export module ShipModuleInfo {
                     },
                 ],
                 possibleExtraStats : []
-            }
+            },
+            minerals: [
+                {
+                    mineral: ERefinedMineralItemType.REFINED_IRON,
+                    base: 10,
+                    increase: 1
+                },
+                {
+                    mineral: ERefinedMineralItemType.REFINED_GOLD,
+                    base: 5,
+                    increase: 1
+                },
+                {
+                    mineral: ERefinedMineralItemType.REFINED_SILVER,
+                    base: 5,
+                    increase: 1
+                },
+            ]
         },
         [EModuleItemType.TURRET_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
@@ -514,7 +760,24 @@ export module ShipModuleInfo {
                     },
                 ],
                 possibleExtraStats : []
-            }
+            },
+            minerals: [
+                {
+                    mineral: ERefinedMineralItemType.REFINED_IRON,
+                    base: 10,
+                    increase: 1
+                },
+                {
+                    mineral: ERefinedMineralItemType.REFINED_GOLD,
+                    base: 5,
+                    increase: 1
+                },
+                {
+                    mineral: ERefinedMineralItemType.REFINED_SILVER,
+                    base: 5,
+                    increase: 1
+                },
+            ]
         }
     }
 

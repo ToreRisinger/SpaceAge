@@ -1,7 +1,0 @@
-export enum ERefinedMineralItemType {
-    REFINED_TITANIUM = 20,
-    REFINED_URANIUM,
-    REFINED_IRON,
-    REFINED_GOLD,
-    REFINED_DIAMOND
-}

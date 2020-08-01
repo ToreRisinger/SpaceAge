@@ -3,7 +3,7 @@ import { EModuleItemType } from "./EModuleItemType";
 import { EMineralItemType } from "./EMineralItemType";
 import { EItemType } from "./EItemType";
 import { SPRITES } from "../../util/SPRITES";
-import { ERefinedMineralItemType } from "./EIngotItemType";
+import { ERefinedMineralItemType } from "./ERefinedMineralItemType";
 
 export module ItemInfo {
 
@@ -143,30 +143,13 @@ export module ItemInfo {
 
         /*
             MINERALS
-        */
 
-        [EMineralItemType.TITANIUM_ORE] : {
-            image : "assets/image/items/item_titanium_ore.png",
-            name: "Titanium Ore",
-            description: "Titanium Ore can be refined into Refined Titanium and used as a building material",
-            size: 1,
-            cargoSpace : 1,
-            canStack: true,
-            sprite : undefined
-        },
-        [EMineralItemType.URANIUM_ORE] : {
-            image : "assets/image/items/item_uranium_ore.png",
-            name: "Uranium Ore",
-            description: "Uranium Ore can be refined into Refined Uranium and used as a building material",
-            size: 1,
-            cargoSpace : 1,
-            canStack: true,
-            sprite : undefined
-        },
+            ORES
+        */
         [EMineralItemType.IRON_ORE] : {
             image : "assets/image/items/item_iron_ore.png",
             name: "Iron Ore",
-            description: "Iron Ore can be refined into Refined Iron and used as a building material",
+            description: "description",
             size: 1,
             cargoSpace : 1,
             canStack: true,
@@ -175,41 +158,233 @@ export module ItemInfo {
         [EMineralItemType.GOLD_ORE] : {
             image : "assets/image/items/item_gold_ore.png",
             name: "Gold Ore",
-            description: "Gold Ore can be refined into Refined Gold and used as a building material",
+            description: "description",
             size: 1,
             cargoSpace : 1,
             canStack: true,
             sprite : undefined
         },
-        [EMineralItemType.DIAMOND_ORE] : {
-            image : "assets/image/items/item_diamond_ore.png",
-            name: "Diamond Ore",
-            description: "Diamond Ore can be refined into Refined Diamond and used as a building material",
+        [EMineralItemType.SILVER_ORE] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Silver Ore",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [EMineralItemType.PLATINUM_ORE] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Platiunum Ore",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [EMineralItemType.PALLADIUM_ORE] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Palladium Ore",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [EMineralItemType.RHODIUM_ORE] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Rhodium Ore",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [EMineralItemType.RUTHENIUM_ORE] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Ruthenium Ore",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [EMineralItemType.IRIDIUM_ORE] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Iridium Ore",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [EMineralItemType.OSMIUM_ORE] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Osmium Ore",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [EMineralItemType.CERIUM_ORE] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Cerium Ore",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [EMineralItemType.DYSPROSIUM_ORE] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Dysprosium Ore",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [EMineralItemType.ERBIUM_ORE] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Ebrium Ore",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [EMineralItemType.EUROPIUM_ORE] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Europium Ore",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [EMineralItemType.GADOLINIUM_ORE] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Gadolinium Ore",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [EMineralItemType.HOLMIUM_ORE] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Holmium Ore",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [EMineralItemType.LANTHANUM_ORE] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Lanthanum Ore",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [EMineralItemType.LUTETIUM_ORE] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Lutetium Ore",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [EMineralItemType.NEODYMIUM_ORE] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Neodymium Ore",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [EMineralItemType.PRASEODYMIUM_ORE] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Praseodymium Ore",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [EMineralItemType.PROMETHIUM_ORE] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Promethium Ore",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [EMineralItemType.SAMARIUM_ORE] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Samarium Ore",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [EMineralItemType.SCANDIUM_ORE] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Scandium Ore",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [EMineralItemType.TERBIUM_ORE] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Terbium Ore",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [EMineralItemType.THULIUM_ORE] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Thulium Ore",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [EMineralItemType.YTTERBIUM_ORE] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Ytterbium Ore",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [EMineralItemType.YTTRIUM_ORE] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Yttrium Ore",
+            description: "description",
             size: 1,
             cargoSpace : 1,
             canStack: true,
             sprite : undefined
         },
 
+        /*
+            REFINED
+        */
 
-        [ERefinedMineralItemType.REFINED_TITANIUM] : {
-            image : "assets/image/items/item_refined_titanium.png",
-            name: "Refined Titanium",
-            description: "Refined Titanium canbe used as a building material",
-            size: 1,
-            cargoSpace : 1,
-            canStack: true,
-            sprite : undefined
-        },
-        [ERefinedMineralItemType.REFINED_URANIUM] : {
-            image : "assets/image/items/item_refined_uranium.png",
-            name: "Refined Uranium",
-            description: "Refined Uranium can be used as a building material",
-            size: 1,
-            cargoSpace : 1,
-            canStack: true,
-            sprite : undefined
-        },
         [ERefinedMineralItemType.REFINED_IRON] : {
             image : "assets/image/items/item_refined_iron.png",
             name: "Refined Iron",
@@ -227,16 +402,223 @@ export module ItemInfo {
             cargoSpace : 1,
             canStack: true,
             sprite : undefined
-        },
-        [ERefinedMineralItemType.REFINED_DIAMOND] : {
-            image : "assets/image/items/item_refined_diamond.png",
-            name: "Diamond Ore",
-            description: "Refined Diamond can be used as a building material",
+        },     
+        [ERefinedMineralItemType.REFINED_SILVER] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Refined Silver",
+            description: "description",
             size: 1,
             cargoSpace : 1,
             canStack: true,
             sprite : undefined
-        }
+        },
+        [ERefinedMineralItemType.REFINED_PLATINUM] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Refined Platiunum",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [ERefinedMineralItemType.REFINED_PALLADIUM] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Refined Palladium",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [ERefinedMineralItemType.REFINED_RHODIUM] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Refined Rhodium",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [ERefinedMineralItemType.REFINED_RUTHENIUM] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Refined Ruthenium",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [ERefinedMineralItemType.REFINED_IRIDIUM] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Refined Iridium",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [ERefinedMineralItemType.REFINED_OSMIUM] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Refined Osmium",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [ERefinedMineralItemType.REFINED_CERIUM] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Refined Cerium",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [ERefinedMineralItemType.REFINED_DYSPROSIUM] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Refined Dysprosium",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [ERefinedMineralItemType.REFINED_ERBIUM] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Refined Ebrium",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [ERefinedMineralItemType.REFINED_EUROPIUM] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Refined Europium",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [ERefinedMineralItemType.REFINED_GADOLINIUM] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Refined Gadolinium",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [ERefinedMineralItemType.REFINED_HOLMIUM] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Refined Holmium",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [ERefinedMineralItemType.REFINED_LANTHANUM] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Refined Lanthanum",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [ERefinedMineralItemType.REFINED_LUTETIUM] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Refined Lutetium",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [ERefinedMineralItemType.REFINED_NEODYMIUM] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Refined Neodymium",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [ERefinedMineralItemType.REFINED_PRASEODYMIUM] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Refined Praseodymium",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [ERefinedMineralItemType.REFINED_PROMEHIUM] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Refined Promethium",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [ERefinedMineralItemType.REFINED_SAMARIUM] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Refined Samarium",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [ERefinedMineralItemType.REFINED_SCANDIUM] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Refined Scandium",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [ERefinedMineralItemType.REFINED_TERBIUM] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Refined Terbium",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [ERefinedMineralItemType.REFINED_THULIUM] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Refined Thulium",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [ERefinedMineralItemType.REFINED_YTTERBIUM] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Refined Ytterbium",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
+        [ERefinedMineralItemType.REFINED_YTTRIUM] : {
+            image : "assets/image/items/item_gold_ore.png",
+            name: "Refined Yttrium",
+            description: "description",
+            size: 1,
+            cargoSpace : 1,
+            canStack: true,
+            sprite : undefined
+        },
     }
 
     export function getItemInfo(itemType : EItemType) : IItemInfo {
@@ -250,22 +632,5 @@ export module ItemInfo {
         let r = 170 + quality;
         let b = 170 + quality;
         return "rgb(" + r + ", 0, " + b + ")";
-    }
-
-    export function getRefinedFromOre(type: EItemType) {
-        switch(type) {
-            case EMineralItemType.DIAMOND_ORE:
-                return ERefinedMineralItemType.REFINED_DIAMOND;
-            case EMineralItemType.GOLD_ORE:
-                return ERefinedMineralItemType.REFINED_GOLD;
-            case EMineralItemType.IRON_ORE:
-                return ERefinedMineralItemType.REFINED_IRON;
-            case EMineralItemType.TITANIUM_ORE:
-                return ERefinedMineralItemType.REFINED_TITANIUM;
-            case EMineralItemType.URANIUM_ORE:
-                return ERefinedMineralItemType.REFINED_URANIUM;
-            default:
-                return ERefinedMineralItemType.REFINED_DIAMOND;
-        }
     }
 }

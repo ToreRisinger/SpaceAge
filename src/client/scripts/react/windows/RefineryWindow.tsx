@@ -10,6 +10,7 @@ import { GlobalDataService } from "../../modules/GlobalDataService";
 import ProgressBar from "../general/ProgressBar";
 import { GameConstants } from "../../../../shared/constants/GameConstants";
 import { EStatType } from "../../../../shared/data/stats/EStatType";
+import { MineralInfo } from "../../../../shared/data/item/MineralInfo";
 
 export interface RefineryWindowProps {
     window_open: boolean
@@ -74,9 +75,18 @@ export default class RefineryWindow extends React.Component<RefineryWindowProps,
     }
 
     render() {
-        let player =  GlobalDataService.getInstance().getPlayerShip();
+        let player = GlobalDataService.getInstance().getPlayerShip();
         let totalProgess = GameConstants.ORE_PROCESSING_BASE_TIME * (1 - player.getStat(EStatType.ore_processing_speed)) * 1000;
         let currentProgress = Date.now() - GlobalDataService.getInstance().getPlayerShip().getProcessingOreStartTime();
+        
+        let quantityNeeded = 0;
+        let enoughQuantity = true;
+        if(this.state.item != undefined) {
+            //@ts-ignore
+            quantityNeeded = MineralInfo.getMineralInfo(this.state.item.itemType).refineQuantity;
+            enoughQuantity = quantityNeeded <= this.state.item.quantity;
+        }
+        
         return (
             <Fragment>
                 {this.props.window_open &&
@@ -87,10 +97,14 @@ export default class RefineryWindow extends React.Component<RefineryWindowProps,
                                 <CargoSlot onDrop={this.onDrop} allowDrop={this.allowDrop}/>
                             :
                                 <Fragment>
-                                    <CargoItem item={this.state.item} hoverHighLight={false} enableDragAndDrop={false} index={0} selected={false} onClick={this.onClick} onEnter={this.onClick} onLeave={this.onClick}/>
+                                    <CargoItem item={this.state.item} hoverHighLight={false} tooltipLeft={false} redTint={!enoughQuantity} enableDragAndDrop={false} index={0} selected={false} onClick={this.onClick} onEnter={this.onClick} onLeave={this.onClick}/>
                                     <div className="RefineProgress"></div>
                                     <div className="StopRefineButton" onClick={this.onStop}>Stop</div>
-                                    <ProgressBar currentProgress={currentProgress} totalProgress={totalProgess}/>
+                                    {enoughQuantity ?
+                                        <ProgressBar currentProgress={currentProgress} totalProgress={totalProgess}/>
+                                        :
+                                        <div>{quantityNeeded} needed.</div>
+                                    }
                                 </Fragment>
                             }
                         </div>

@@ -1,7 +1,37 @@
 export enum EMineralItemType {
-    TITANIUM_ORE = 15,
-    URANIUM_ORE,
-    IRON_ORE,
+    IRON_ORE = 15,
+
+    /*
+        Precious metals
+    */
     GOLD_ORE,
-    DIAMOND_ORE
+    SILVER_ORE,
+    PLATINUM_ORE,
+    PALLADIUM_ORE,
+    RHODIUM_ORE,
+    RUTHENIUM_ORE,
+    IRIDIUM_ORE,
+    OSMIUM_ORE,
+
+    /*
+        Rare earth metals
+    */
+   CERIUM_ORE,
+   ERBIUM_ORE,
+   TERBIUM_ORE,
+   PROMETHIUM_ORE,
+
+   DYSPROSIUM_ORE,
+   EUROPIUM_ORE,
+   GADOLINIUM_ORE,
+   HOLMIUM_ORE,
+   LANTHANUM_ORE,
+   LUTETIUM_ORE,
+   NEODYMIUM_ORE,
+   PRASEODYMIUM_ORE,
+   SAMARIUM_ORE,
+   SCANDIUM_ORE,
+   THULIUM_ORE,
+   YTTERBIUM_ORE,
+   YTTRIUM_ORE
 }

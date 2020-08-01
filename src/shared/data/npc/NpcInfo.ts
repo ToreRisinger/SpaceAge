@@ -62,12 +62,12 @@ export module NpcInfo {
                 numberOfLootMax: 2,
                 possibleLootList: [
                     {
-                        itemType: EMineralItemType.DIAMOND_ORE,
+                        itemType: EMineralItemType.IRON_ORE,
                         quantityMin: 3,
                         quantityMax: 5
                     },
                     {
-                        itemType: EMineralItemType.TITANIUM_ORE,
+                        itemType: EMineralItemType.GOLD_ORE,
                         quantityMin: 1,
                         quantityMax: 2
                     }
@@ -90,7 +90,7 @@ export module NpcInfo {
                         quantityMax: 5
                     },
                     {
-                        itemType: EMineralItemType.URANIUM_ORE,
+                        itemType: EMineralItemType.IRON_ORE,
                         quantityMin: 1,
                         quantityMax: 2
                     }

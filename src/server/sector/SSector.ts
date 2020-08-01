@@ -461,13 +461,7 @@ export class SSector {
         case "gold":
             return EMineralItemType.GOLD_ORE;
         case "iron":
-            return EMineralItemType.IRON_ORE; 
-        case "diamond":
-            return EMineralItemType.DIAMOND_ORE;
-        case "uranium":
-            return EMineralItemType.URANIUM_ORE;
-        case "titanium":
-            return EMineralItemType.TITANIUM_ORE;   
+            return EMineralItemType.IRON_ORE;  
         default:
             throw new TypeError("Sector definition error. Could not parse asteroidType");
     }

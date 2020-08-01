@@ -680,6 +680,13 @@ body {
     visibility:hidden;
 }
 
+.CargoItemRedTint {
+    width: 100%;
+    height: 100%;
+    background-color: rgb(255, 0, 0, 0.4);
+    margin-top: -71px;
+}
+
 .ItemToolTipWrapper {
     position: fixed;
     visibility: hidden;

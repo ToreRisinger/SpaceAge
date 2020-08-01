@@ -91,7 +91,7 @@ export default class ShipDisplay extends React.Component<ShipDisplayProps, {}> {
                 id++;
                 let module = coordToModuleMap.get(x + "," + y);
                 if(module != undefined) {
-                    items.push(<CargoItem enableDragAndDrop={false} item={module} key={id} hoverHighLight={false} selected={false} index={0} onClick={this.onClick} onEnter={this.onEnter} onLeave={this.onLeave}/>);
+                    items.push(<CargoItem enableDragAndDrop={false} item={module} key={id} tooltipLeft={true} redTint={false} hoverHighLight={false} selected={false} index={0} onClick={this.onClick} onEnter={this.onEnter} onLeave={this.onLeave}/>);
                 } else {
                     items.push(<CargoSlot onDrop={this.onDrop} allowDrop={this.allowDrop} key={id} />);
                 }

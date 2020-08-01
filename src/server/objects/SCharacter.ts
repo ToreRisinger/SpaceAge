@@ -16,7 +16,8 @@ import { SShip } from "./SShip";
 import { CargoUtils } from "../CargoUtils";
 import { CombatLogManager } from "../CombatLogManager";
 import { GameConstants } from "../../shared/constants/GameConstants";
-import { ItemInfo } from "../../shared/data/item/ItemInfo";
+import { MineralInfo } from "../../shared/data/item/MineralInfo";
+import { EMineralItemType } from "../../shared/data/item/EMineralItemType";
 
 const math = require('mathjs');
 
@@ -339,35 +340,42 @@ export class SCharacter extends SShip {
   
   private handleOreProcessing() {
     if(this.character.oreProcessingState.isProcessing) {
-      if(this.character.oreProcessingState.item != undefined && this.character.oreProcessingState.item.quantity >= 10) {
+      if(this.character.oreProcessingState.item == undefined || !(this.character.oreProcessingState.item.itemType in EMineralItemType)) {
+        this.character.oreProcessingState.isProcessing = false;
+        return;
+      }
+
+      //@ts-ignore
+      let mineralInfo = MineralInfo.getMineralInfo(this.character.oreProcessingState.item.itemType);
+
+      if(this.character.oreProcessingState.item.quantity >= mineralInfo.refineQuantity) {
         let totalTime = GameConstants.ORE_PROCESSING_BASE_TIME * (1 - this.character.stats[EStatType.ore_processing_speed]) * 1000;
         let timePassed = Date.now() - this.character.oreProcessingState.startTime;
         let shouldResetStartTime = timePassed > totalTime;
 
         timePassed - totalTime;
         while(timePassed > totalTime) {
-          this.character.oreProcessingState.item.quantity = this.character.oreProcessingState.item.quantity - 10;
-
+          this.character.oreProcessingState.item.quantity = this.character.oreProcessingState.item.quantity - mineralInfo.refineQuantity;
           let refined: IItem = {
-            itemType: ItemInfo.getRefinedFromOre(this.character.oreProcessingState.item.itemType),
+            //@ts-ignore
+            itemType: mineralInfo.refined,
             module: undefined,
             quantity: 1
           };
           CargoUtils.addItemToPlayerCargo(refined, this);
           timePassed = timePassed - totalTime;
 
-          if(this.character.oreProcessingState.item.quantity == 0) {
-            this.character.oreProcessingState.item = undefined;
-            this.character.oreProcessingState.isProcessing = false;
+          if(this.character.oreProcessingState.item.quantity < mineralInfo.refineQuantity) {
+            if(this.character.oreProcessingState.item.quantity == 0) {
+              this.character.oreProcessingState.item = undefined;
+              this.character.oreProcessingState.isProcessing = false;
+            }
             return;
           }
         }
         if(shouldResetStartTime) {
           this.character.oreProcessingState.startTime = Date.now();
         }
-        
-      } else {
-        this.character.oreProcessingState.startTime = Date.now();
       }
     }
   }

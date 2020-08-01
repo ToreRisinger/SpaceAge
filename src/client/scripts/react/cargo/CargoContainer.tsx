@@ -22,7 +22,7 @@ export default class CargoContainer extends React.Component<CargoContainerProps,
         
         return (
             <div className="CargoContainer">
-                {this.props.items.map((object, i) => <CargoItem enableDragAndDrop={true} item={object} key={i} hoverHighLight={false} index={i} selected={false} onClick={this.onClick} onEnter={this.func} onLeave={this.func}/>)}
+                {this.props.items.map((object, i) => <CargoItem enableDragAndDrop={true} tooltipLeft={true} redTint={false} item={object} key={i} hoverHighLight={false} index={i} selected={false} onClick={this.onClick} onEnter={this.func} onLeave={this.func}/>)}
             </div>
         );
    }

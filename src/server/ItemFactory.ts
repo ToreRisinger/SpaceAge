@@ -37,8 +37,8 @@ export module ItemFactory {
     }
 
     function generateModuleProperty(modulePropertyGenerationConfig : IModuleStatGenerationConfig, quality : number) : IModuleStat {
-        let min = modulePropertyGenerationConfig.baseMin * modulePropertyGenerationConfig.increase * quality;
-        let max = modulePropertyGenerationConfig.baseMax * modulePropertyGenerationConfig.increase * quality;
+        let min = modulePropertyGenerationConfig.baseMin + modulePropertyGenerationConfig.increase * quality - 1;
+        let max = modulePropertyGenerationConfig.baseMax + modulePropertyGenerationConfig.increase * quality - 1;
         return { 
             property : modulePropertyGenerationConfig.stat,
             modifier : modulePropertyGenerationConfig.modifier,
