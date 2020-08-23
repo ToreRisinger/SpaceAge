@@ -62,23 +62,24 @@ export class SCharacter extends SShip {
         skills.push({level: 0, skillType: EStatType.weapon_damage, progress: 0});
         skills.push({level: 0, skillType: EStatType.mining_laser_yield, progress: 0});
         skills.push({level: 0, skillType: EStatType.mining_laser_range, progress: 0});
-        skills.push({level: 1, skillType: EStatType.main_module_quality, progress: 0});
-        skills.push({level: 1, skillType: EStatType.thrust_module_quality, progress: 0});
-        skills.push({level: 1, skillType: EStatType.power_module_quality, progress: 0});
-        skills.push({level: 1, skillType: EStatType.cargo_hold_module_quality, progress: 0});
-        skills.push({level: 1, skillType: EStatType.armor_module_quality, progress: 0});
-        skills.push({level: 1, skillType: EStatType.shield_module_quality, progress: 0});
-        skills.push({level: 1, skillType: EStatType.shield_generation_module_quality, progress: 0});
-        skills.push({level: 1, skillType: EStatType.radar_range_module_quality, progress: 0});
-        skills.push({level: 1, skillType: EStatType.weapon_range_module_quality, progress: 0});
-        skills.push({level: 1, skillType: EStatType.mining_laser_module_quality, progress: 0});
-        skills.push({level: 1, skillType: EStatType.turret_module_quality, progress: 0});
-        skills.push({level: 1, skillType: EStatType.target_dodge_reduction_module_quality, progress: 0});
-        skills.push({level: 1, skillType: EStatType.radar_signature_reduction_module_quality, progress: 0});
-        skills.push({level: 1, skillType: EStatType.factory_module_quality, progress: 0});
-        skills.push({level: 1, skillType: EStatType.refinary_module_quality, progress: 0});
-        skills.push({level: 1, skillType: EStatType.refining_skill, progress: 0});
-        skills.push({level: 1, skillType: EStatType.manufactoring_skill, progress: 0});
+        skills.push({level: 0, skillType: EStatType.main_module_quality, progress: 0});
+        skills.push({level: 0, skillType: EStatType.thrust_module_quality, progress: 0});
+        skills.push({level: 0, skillType: EStatType.power_module_quality, progress: 0});
+        skills.push({level: 0, skillType: EStatType.cargo_hold_module_quality, progress: 0});
+        skills.push({level: 0, skillType: EStatType.armor_module_quality, progress: 0});
+        skills.push({level: 0, skillType: EStatType.shield_module_quality, progress: 0});
+        skills.push({level: 0, skillType: EStatType.shield_generation_module_quality, progress: 0});
+        skills.push({level: 0, skillType: EStatType.radar_range_module_quality, progress: 0});
+        skills.push({level: 0, skillType: EStatType.weapon_range_module_quality, progress: 0});
+        skills.push({level: 0, skillType: EStatType.support_module_quality, progress: 0});
+        skills.push({level: 0, skillType: EStatType.mining_laser_module_quality, progress: 0});
+        skills.push({level: 0, skillType: EStatType.turret_module_quality, progress: 0});
+        skills.push({level: 0, skillType: EStatType.target_dodge_reduction_module_quality, progress: 0});
+        skills.push({level: 0, skillType: EStatType.radar_signature_reduction_module_quality, progress: 0});
+        skills.push({level: 0, skillType: EStatType.factory_module_quality, progress: 0});
+        skills.push({level: 0, skillType: EStatType.refinary_module_quality, progress: 0});
+        skills.push({level: 0, skillType: EStatType.refining_skill, progress: 0});
+        skills.push({level: 0, skillType: EStatType.manufactoring_skill, progress: 0});
         skills.push({level: 0, skillType: EStatType.hull_repair_cost, progress: 0});
         skills.push({level: 0, skillType: EStatType.hull_repair_speed, progress: 0});
         skills.push({level: 0, skillType: EStatType.armor_repair_cost, progress: 0});
@@ -268,7 +269,10 @@ export class SCharacter extends SShip {
           let skillInfo: SkillInfo.ISkillInfo = SkillInfo.getSkillInfo(skill.skillType);
           let baseStat: number = this.character.stats[skillInfo.stats.stat];
           this.character.stats[skillInfo.stats.stat] = Math.floor(baseStat + StatInfo.getAddedValue(baseStat, skillInfo.stats.modifier, skillInfo.stats.baseValue + skillInfo.stats.increase * skill.level));
-      });
+          console.log(skillInfo.name + " base: " + baseStat + " increase: " + skillInfo.stats.increase + " level " + skill.level);
+          
+          //console.log(skillInfo.name + " " + skill.level + ": " +  this.character.stats[skillInfo.stats.stat]);
+        });
     }
 
     private handleMiningShip(sector: SSector) {

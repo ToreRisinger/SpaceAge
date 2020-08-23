@@ -73,6 +73,8 @@ export module StatInfo {
             case EStatType.refinary_module_quality :
                 return "Maximum quality level";
             case EStatType.factory_module_quality :
+                return "Maximum quality level"; 
+            case EStatType.support_module_quality :
                 return "Maximum quality level";   
             case EStatType.hull_repair_cost : 
                 return "Hull repair cost";

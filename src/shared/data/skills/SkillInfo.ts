@@ -243,10 +243,10 @@ export module SkillInfo {
             startLearningTime: 60,
             learningTimeIncrease: 2.0,
             stats: {
-                modifier: EStatModifier.neutral,
+                modifier: EStatModifier.increase_additive,
                 stat: EStatType.max_nr_of_modules,
-                baseValue: 0,
-                increase: 5
+                baseValue: 5,
+                increase: 1
             }
         },
         [EStatType.main_module_quality] : {
@@ -256,9 +256,9 @@ export module SkillInfo {
             startLearningTime: 60,
             learningTimeIncrease: 2.0,
             stats: {
-                modifier: EStatModifier.neutral,
+                modifier: EStatModifier.increase_additive,
                 stat: EStatType.main_module_quality,
-                baseValue: 0,
+                baseValue: 1,
                 increase: 1
             }
         },
@@ -269,9 +269,9 @@ export module SkillInfo {
             startLearningTime: 60,
             learningTimeIncrease: 2.0,
             stats: {
-                modifier: EStatModifier.neutral,
+                modifier: EStatModifier.increase_additive,
                 stat: EStatType.thrust_module_quality,
-                baseValue: 0,
+                baseValue: 1,
                 increase: 1
             }
         },
@@ -282,9 +282,9 @@ export module SkillInfo {
             startLearningTime: 60,
             learningTimeIncrease: 2.0,
             stats: {
-                modifier: EStatModifier.neutral,
+                modifier: EStatModifier.increase_additive,
                 stat: EStatType.power_module_quality,
-                baseValue: 0,
+                baseValue: 1,
                 increase: 1
             }
         },
@@ -295,9 +295,9 @@ export module SkillInfo {
             startLearningTime: 60,
             learningTimeIncrease: 2.0,
             stats: {
-                modifier: EStatModifier.neutral,
+                modifier: EStatModifier.increase_additive,
                 stat: EStatType.cargo_hold_module_quality,
-                baseValue: 0,
+                baseValue: 1,
                 increase: 1
             }
         },
@@ -308,9 +308,9 @@ export module SkillInfo {
             startLearningTime: 60,
             learningTimeIncrease: 2.0,
             stats: {
-                modifier: EStatModifier.neutral,
+                modifier: EStatModifier.increase_additive,
                 stat: EStatType.armor_module_quality,
-                baseValue: 0,
+                baseValue: 1,
                 increase: 1
             }
         },
@@ -321,9 +321,9 @@ export module SkillInfo {
             startLearningTime: 60,
             learningTimeIncrease: 2.0,
             stats: {
-                modifier: EStatModifier.neutral,
+                modifier: EStatModifier.increase_additive,
                 stat: EStatType.shield_module_quality,
-                baseValue: 0,
+                baseValue: 1,
                 increase: 1
             }
         },
@@ -334,9 +334,9 @@ export module SkillInfo {
             startLearningTime: 60,
             learningTimeIncrease: 2.0,
             stats: {
-                modifier: EStatModifier.neutral,
+                modifier: EStatModifier.increase_additive,
                 stat: EStatType.shield_generation_module_quality,
-                baseValue: 0,
+                baseValue: 1,
                 increase: 1
             }
         },
@@ -347,9 +347,9 @@ export module SkillInfo {
             startLearningTime: 60,
             learningTimeIncrease: 2.0,
             stats: {
-                modifier: EStatModifier.neutral,
+                modifier: EStatModifier.increase_additive,
                 stat: EStatType.radar_range_module_quality,
-                baseValue: 0,
+                baseValue: 1,
                 increase: 1
             }
         },
@@ -360,9 +360,9 @@ export module SkillInfo {
             startLearningTime: 60,
             learningTimeIncrease: 2.0,
             stats: {
-                modifier: EStatModifier.neutral,
+                modifier: EStatModifier.increase_additive,
                 stat: EStatType.weapon_range_module_quality,
-                baseValue: 0,
+                baseValue: 1,
                 increase: 1
             }
         },
@@ -373,9 +373,9 @@ export module SkillInfo {
             startLearningTime: 60,
             learningTimeIncrease: 2.0,
             stats: {
-                modifier: EStatModifier.neutral,
+                modifier: EStatModifier.increase_additive,
                 stat: EStatType.mining_laser_module_quality,
-                baseValue: 0,
+                baseValue: 1,
                 increase: 1
             }
         },
@@ -386,9 +386,9 @@ export module SkillInfo {
             startLearningTime: 60,
             learningTimeIncrease: 2.0,
             stats: {
-                modifier: EStatModifier.neutral,
+                modifier: EStatModifier.increase_additive,
                 stat: EStatType.turret_module_quality,
-                baseValue: 0,
+                baseValue: 1,
                 increase: 1
             }
         },
@@ -399,9 +399,9 @@ export module SkillInfo {
             startLearningTime: 60,
             learningTimeIncrease: 2.0,
             stats: {
-                modifier: EStatModifier.neutral,
+                modifier: EStatModifier.increase_additive,
                 stat: EStatType.target_dodge_reduction_module_quality,
-                baseValue: 0,
+                baseValue: 1,
                 increase: 1
             }
         },
@@ -412,9 +412,9 @@ export module SkillInfo {
             startLearningTime: 60,
             learningTimeIncrease: 2.0,
             stats: {
-                modifier: EStatModifier.neutral,
+                modifier: EStatModifier.increase_additive,
                 stat: EStatType.radar_signature_reduction_module_quality,
-                baseValue: 0,
+                baseValue: 1,
                 increase: 1
             }
         },
@@ -425,9 +425,9 @@ export module SkillInfo {
             startLearningTime: 60,
             learningTimeIncrease: 2.0,
             stats: {
-                modifier: EStatModifier.neutral,
+                modifier: EStatModifier.increase_additive,
                 stat: EStatType.refinary_module_quality,
-                baseValue: 0,
+                baseValue: 1,
                 increase: 1
             }
         },
@@ -438,9 +438,9 @@ export module SkillInfo {
             startLearningTime: 60,
             learningTimeIncrease: 2.0,
             stats: {
-                modifier: EStatModifier.neutral,
+                modifier: EStatModifier.increase_additive,
                 stat: EStatType.factory_module_quality,
-                baseValue: 0,
+                baseValue: 1,
                 increase: 1
             }
         },
@@ -451,7 +451,7 @@ export module SkillInfo {
             startLearningTime: 60,
             learningTimeIncrease: 2.0,
             stats: {
-                modifier: EStatModifier.neutral,
+                modifier: EStatModifier.increase_additive,
                 stat: EStatType.refining_skill,
                 baseValue: 0,
                 increase: 1
@@ -464,7 +464,7 @@ export module SkillInfo {
             startLearningTime: 60,
             learningTimeIncrease: 2.0,
             stats: {
-                modifier: EStatModifier.neutral,
+                modifier: EStatModifier.increase_additive,
                 stat: EStatType.manufactoring_skill,
                 baseValue: 0,
                 increase: 1
@@ -477,7 +477,7 @@ export module SkillInfo {
             startLearningTime: 60,
             learningTimeIncrease: 2.0,
             stats: {
-                modifier: EStatModifier.neutral,
+                modifier: EStatModifier.increase_additive,
                 stat: EStatType.hull_repair_cost,
                 baseValue: 11,
                 increase: -1
@@ -490,7 +490,7 @@ export module SkillInfo {
             startLearningTime: 60,
             learningTimeIncrease: 2.0,
             stats: {
-                modifier: EStatModifier.neutral,
+                modifier: EStatModifier.increase_additive,
                 stat: EStatType.hull_repair_speed,
                 baseValue: 1,
                 increase: 1
@@ -503,7 +503,7 @@ export module SkillInfo {
             startLearningTime: 60,
             learningTimeIncrease: 2.0,
             stats: {
-                modifier: EStatModifier.neutral,
+                modifier: EStatModifier.increase_additive,
                 stat: EStatType.armor_repair_cost,
                 baseValue: 11,
                 increase: -1
@@ -516,13 +516,25 @@ export module SkillInfo {
             startLearningTime: 60,
             learningTimeIncrease: 2.0,
             stats: {
-                modifier: EStatModifier.neutral,
+                modifier: EStatModifier.increase_additive,
                 stat: EStatType.armor_repair_speed,
                 baseValue: 1,
                 increase: 1
             }
+        },
+        [EStatType.support_module_quality] : {
+            name: "Support Module",
+            description: "Allows using higher quality modules of given type.",
+            maxLevel: -1,
+            startLearningTime: 60,
+            learningTimeIncrease: 2.0,
+            stats: {
+                modifier: EStatModifier.increase_additive,
+                stat: EStatType.support_module_quality,
+                baseValue: 1,
+                increase: 1
+            }
         }
-
     }
 
     export function getSkillInfo(statType : EStatType) : ISkillInfo {

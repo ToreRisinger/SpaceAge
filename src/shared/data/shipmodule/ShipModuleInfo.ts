@@ -18,7 +18,8 @@ export module ShipModuleInfo {
     export interface IShipModuleInfo {
         sprite: ISprite,
         stats: IModuleTypeProperties,
-        minerals: Array<IShipModuleMineralInfo>
+        minerals: Array<IShipModuleMineralInfo>,
+        requireStat: EStatType
     }
 
     const moduleTypeToProperyMap : { [key: number]: IShipModuleInfo } = {
@@ -123,7 +124,8 @@ export module ShipModuleInfo {
                     base: 5,
                     increase: 1
                 },
-            ]
+            ],
+            requireStat: EStatType.main_module_quality
         },
 
         /* MODULES */
@@ -171,7 +173,8 @@ export module ShipModuleInfo {
                     base: 5,
                     increase: 1
                 },
-            ]
+            ],
+            requireStat: EStatType.radar_range_module_quality
         },
         [EModuleItemType.CARGO_HOLD_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
@@ -217,7 +220,8 @@ export module ShipModuleInfo {
                     base: 5,
                     increase: 1
                 },
-            ]
+            ],
+            requireStat: EStatType.cargo_hold_module_quality
         },
         [EModuleItemType.THRUST_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
@@ -263,7 +267,8 @@ export module ShipModuleInfo {
                     base: 5,
                     increase: 1
                 },
-            ]
+            ],
+            requireStat: EStatType.thrust_module_quality
         },
         [EModuleItemType.POWER_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
@@ -309,7 +314,8 @@ export module ShipModuleInfo {
                     base: 5,
                     increase: 1
                 },
-            ]
+            ],
+            requireStat: EStatType.power_module_quality
         },
         [EModuleItemType.RADAR_RANGE_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
@@ -355,7 +361,8 @@ export module ShipModuleInfo {
                     base: 5,
                     increase: 1
                 },
-            ]
+            ],
+            requireStat: EStatType.radar_range_module_quality
         },
         [EModuleItemType.WEAPON_RANGE_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
@@ -401,7 +408,8 @@ export module ShipModuleInfo {
                     base: 5,
                     increase: 1
                 },
-            ]
+            ],
+            requireStat: EStatType.weapon_range_module_quality
         },
         [EModuleItemType.MINING_RANGE_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
@@ -447,7 +455,8 @@ export module ShipModuleInfo {
                     base: 5,
                     increase: 1
                 },
-            ]
+            ],
+            requireStat: EStatType.mining_laser_module_quality
         },
         [EModuleItemType.SHIELD_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
@@ -500,7 +509,8 @@ export module ShipModuleInfo {
                     base: 5,
                     increase: 1
                 },
-            ]
+            ],
+            requireStat: EStatType.shield_module_quality
         },
         [EModuleItemType.SHIELD_GENERATION_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
@@ -546,7 +556,8 @@ export module ShipModuleInfo {
                     base: 5,
                     increase: 1
                 },
-            ]
+            ],
+            requireStat: EStatType.shield_generation_module_quality
         },
         [EModuleItemType.ARMOR_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
@@ -592,7 +603,8 @@ export module ShipModuleInfo {
                     base: 5,
                     increase: 1
                 },
-            ]
+            ],
+            requireStat: EStatType.armor_module_quality
         },
         [EModuleItemType.SUPPORT_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
@@ -631,7 +643,8 @@ export module ShipModuleInfo {
                     base: 5,
                     increase: 1
                 },
-            ]
+            ],
+            requireStat: EStatType.support_module_quality
         },
         [EModuleItemType.TARGET_DODGE_REDUCTION_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
@@ -677,7 +690,8 @@ export module ShipModuleInfo {
                     base: 5,
                     increase: 1
                 },
-            ]
+            ],
+            requireStat: EStatType.target_dodge_reduction_module_quality
         },
         /* WEAPON MODULES */
         [EModuleItemType.MINING_LASER_MODULE] : {
@@ -731,7 +745,8 @@ export module ShipModuleInfo {
                     base: 5,
                     increase: 1
                 },
-            ]
+            ],
+            requireStat: EStatType.mining_laser_module_quality
         },
         [EModuleItemType.TURRET_MODULE] : {
             sprite : SPRITES.SHIP_MODULE.sprite,
@@ -777,7 +792,8 @@ export module ShipModuleInfo {
                     base: 5,
                     increase: 1
                 },
-            ]
+            ],
+            requireStat: EStatType.turret_module_quality
         }
     }
 

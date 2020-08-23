@@ -2,19 +2,22 @@ import React, { Fragment }  from "react";
 import WindowHeader from "../windows/WindowHeader";
 import ManufacturingEntry from "./ManufacturingEntry";
 import { EModuleItemType } from "../../../../shared/data/item/EModuleItemType";
+import { ShipModuleInfo } from "../../../../shared/data/shipmodule/ShipModuleInfo";
+import { SkillInfo } from "../../../../shared/data/skills/SkillInfo";
+import { GlobalDataService } from "../../modules/GlobalDataService";
+import { EStatType } from "../../../../shared/data/stats/EStatType";
 
 export interface ManufacturingWindowProps {
     window_open: boolean
 }
 
 export interface ManufacturingWindowState {
-    filterQuality: number,
-    filterModuleType: EModuleItemType | undefined
+    filterModuleType: EModuleItemType
 }
 
 interface ManufacturingEntryObject {
     quality: number,
-    moduleType: EModuleItemType
+    moduleInfo: ShipModuleInfo.IShipModuleInfo
 }
 
 export default class ManufacturingWindow extends React.Component<ManufacturingWindowProps, ManufacturingWindowState> {
@@ -22,29 +25,28 @@ export default class ManufacturingWindow extends React.Component<ManufacturingWi
     constructor(props : ManufacturingWindowProps) {
         super(props)
         this.state = {
-            filterQuality: 1,
             filterModuleType: EModuleItemType.ARMOR_MODULE
         }
     }
 
     render() {
         let entries = new Array<ManufacturingEntryObject>();
-        for(let i = 1; i <= this.state.filterQuality; i++) {
-            if(this.state.filterModuleType == undefined) {
-                //TODO add for all types
-            } else {
-                entries.push({quality: i, moduleType: this.state.filterModuleType});
-            }
+        let moduleInfo = ShipModuleInfo.getModuleInfo(this.state.filterModuleType);
+        let maxQuality = GlobalDataService.getInstance().getPlayerShip().getStat(moduleInfo.requireStat);
+    
+        for(let i = 1; i <= maxQuality; i++) {
+            entries.push({quality: i, moduleInfo});
         }
 
         return (
+            
             <Fragment>
                 {this.props.window_open &&
                     <div className="ManufacturingWindow BodyText SidePanelWindow HasBorder PanelBackgroundNoAlpha Unselectable">
                         <WindowHeader text="Manufacturing"/>
                         <div className="ManufacturingFilter"></div>
                         <div className="ManufacturingList">
-                            {entries.map((obj, i) => <ManufacturingEntry moduleType={obj.moduleType} quality={obj.quality} key={i}/>)}
+                            {entries.map((obj, i) => <ManufacturingEntry moduleInfo={obj.moduleInfo} quality={obj.quality} key={i}/>)}
                         </div>
                     </div>
                 }

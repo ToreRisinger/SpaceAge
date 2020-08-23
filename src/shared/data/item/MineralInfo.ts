@@ -15,8 +15,6 @@ export module MineralInfo {
             refined: ERefinedMineralItemType.REFINED_IRON,
             refineQuantity: 10
         },
-
-
         [EMineralItemType.GOLD_ORE] : {
             rarity: 2,
             refined: ERefinedMineralItemType.REFINED_GOLD,

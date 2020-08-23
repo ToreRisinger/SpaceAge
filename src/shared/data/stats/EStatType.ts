@@ -35,8 +35,8 @@ export enum EStatType {
     hull_repair_speed,
     armor_repair_speed,
 
-    ore_processing_speed, // m2 per second
-    manufactoring_speed, // % increase
+    ore_processing_speed, // m2 per secondn, modified by refinary module
+    manufactoring_speed, // % increase, modified by factory module
 
     refining_skill, // unlocks rarer minerals
     manufactoring_skill, // unlocks rarer quality items
@@ -45,6 +45,7 @@ export enum EStatType {
         Skill stats (affected by skills only)
     */
     max_nr_of_modules, 
+
     main_module_quality,
     thrust_module_quality,
     power_module_quality,
@@ -59,5 +60,6 @@ export enum EStatType {
     refinary_module_quality,
     factory_module_quality,
     target_dodge_reduction_module_quality,
-    radar_signature_reduction_module_quality
+    radar_signature_reduction_module_quality,
+    support_module_quality
 }
