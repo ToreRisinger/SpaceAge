@@ -3,9 +3,7 @@ import WindowHeader from "../windows/WindowHeader";
 import ManufacturingEntry from "./ManufacturingEntry";
 import { EModuleItemType } from "../../../../shared/data/item/EModuleItemType";
 import { ShipModuleInfo } from "../../../../shared/data/shipmodule/ShipModuleInfo";
-import { SkillInfo } from "../../../../shared/data/skills/SkillInfo";
 import { GlobalDataService } from "../../modules/GlobalDataService";
-import { EStatType } from "../../../../shared/data/stats/EStatType";
 
 export interface ManufacturingWindowProps {
     window_open: boolean
@@ -46,7 +44,7 @@ export default class ManufacturingWindow extends React.Component<ManufacturingWi
                         <WindowHeader text="Manufacturing"/>
                         <div className="ManufacturingFilter"></div>
                         <div className="ManufacturingList">
-                            {entries.map((obj, i) => <ManufacturingEntry moduleInfo={obj.moduleInfo} quality={obj.quality} key={i}/>)}
+                            {entries.map((obj, i) => <ManufacturingEntry moduleType={this.state.filterModuleType} moduleInfo={obj.moduleInfo} quality={obj.quality} key={i}/>)}
                         </div>
                     </div>
                 }

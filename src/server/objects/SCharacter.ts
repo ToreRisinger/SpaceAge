@@ -269,8 +269,7 @@ export class SCharacter extends SShip {
           let skillInfo: SkillInfo.ISkillInfo = SkillInfo.getSkillInfo(skill.skillType);
           let baseStat: number = this.character.stats[skillInfo.stats.stat];
           this.character.stats[skillInfo.stats.stat] = Math.floor(baseStat + StatInfo.getAddedValue(baseStat, skillInfo.stats.modifier, skillInfo.stats.baseValue + skillInfo.stats.increase * skill.level));
-          console.log(skillInfo.name + " base: " + baseStat + " increase: " + skillInfo.stats.increase + " level " + skill.level);
-          
+          //console.log(skillInfo.name + " base: " + baseStat + " increase: " + skillInfo.stats.increase + " level " + skill.level);
           //console.log(skillInfo.name + " " + skill.level + ": " +  this.character.stats[skillInfo.stats.stat]);
         });
     }
