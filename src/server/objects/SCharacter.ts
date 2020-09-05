@@ -194,10 +194,10 @@ export class SCharacter extends SShip {
     }
 
     public startTrainSkill(event: Events.TRAIN_SKILL_START_CONFIG) {
-      if(this.character.skills.skillList[event.data.skillIndex] != undefined ) {
-          let skill : ISkill = this.character.skills.skillList[event.data.skillIndex];
+      let skill : ISkill = this.character.skills.skillList[event.data.skillIndex];
+      if(skill != undefined ) {
           let skillInfo = SkillInfo.getSkillInfo(skill.skillType);
-          if(skill.level < skillInfo.maxLevel) {
+          if(skill.level < skillInfo.maxLevel || skillInfo.maxLevel == -1) {
               this.character.skills.currentlyTrainingIndex = event.data.skillIndex;
           }
           this.lastSkillProgressUpdateTime = performance.now();
@@ -221,7 +221,7 @@ export class SCharacter extends SShip {
     private increaseSkillProgress(skill: ISkill) {
         skill.progress = skill.progress + this.getProgressTime();
         let skillInfo = SkillInfo.getSkillInfo(skill.skillType);
-        const maxProgress = skillInfo.startLearningTime * (Math.pow(skillInfo.learningTimeIncrease, skill.level - 1));
+        const maxProgress = skillInfo.startLearningTime * (Math.pow(skillInfo.learningTimeIncrease, skill.level));
         if(skill.progress >= maxProgress) {
             this.upgradeSkillLevel(skill, skillInfo);
         }
@@ -242,7 +242,7 @@ export class SCharacter extends SShip {
     private upgradeSkillLevel(skill: ISkill, skillInfo: SkillInfo.ISkillInfo) {
         skill.level = skill.level + 1;
         skill.progress = 0;
-        if(skill.level > skillInfo.maxLevel) {
+        if(skillInfo.maxLevel != -1 && skill.level > skillInfo.maxLevel) {
             skill.level = skillInfo.maxLevel;
         }
 
