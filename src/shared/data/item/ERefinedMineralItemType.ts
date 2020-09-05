@@ -1,8 +1,9 @@
 export enum ERefinedMineralItemType {
-    REFINED_IRON = 41,
+    REFINED_IRON = 19,
     REFINED_GOLD,
     REFINED_SILVER,
     REFINED_PLATINUM,
+    /*
     REFINED_PALLADIUM,
     REFINED_RHODIUM,
     REFINED_RUTHENIUM,
@@ -25,4 +26,5 @@ export enum ERefinedMineralItemType {
     REFINED_THULIUM,
     REFINED_YTTERBIUM,
     REFINED_YTTRIUM
+    */
 }

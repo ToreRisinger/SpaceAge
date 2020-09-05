@@ -1305,6 +1305,7 @@ input:focus, textarea:focus, select:focus {
 
 .ManufacturingEntrySubtitle {
     text-align: center;
+    font-size: 10px;
 }
 
 .ManufacturingEntryContentContainer {
@@ -1325,6 +1326,10 @@ input:focus, textarea:focus, select:focus {
     background-color: rgb(63, 63, 63);
     text-align: center;
     margin-top: 5px;
+}
+
+.ManufacturingEntryStartBuildModuleButton:hover {
+    background-color: rgb(97, 97, 97);
 }
 
 /*

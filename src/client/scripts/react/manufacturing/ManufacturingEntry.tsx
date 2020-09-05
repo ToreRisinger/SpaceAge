@@ -5,8 +5,13 @@ import CargoItem from "../cargo/CargoItem";
 import { IItem } from "../../../../shared/data/item/IItem";
 import { EModuleItemType } from "../../../../shared/data/item/EModuleItemType";
 import ProgressBar from "../general/ProgressBar";
+import { ERefinedMineralItemType } from "../../../../shared/data/item/ERefinedMineralItemType";
 
-export interface ManufacturingEntryProps { quality: number, moduleType: EModuleItemType, moduleInfo: ShipModuleInfo.IShipModuleInfo }
+export interface ManufacturingEntryProps {
+    quality: number, 
+    moduleType: EModuleItemType,
+    moduleInfo: ShipModuleInfo.IShipModuleInfo, 
+    resourceMap: Map<ERefinedMineralItemType, number>}
 
 export default class ManufacturingEntry extends React.Component<ManufacturingEntryProps, {}> {
 
@@ -25,6 +30,7 @@ export default class ManufacturingEntry extends React.Component<ManufacturingEnt
 
     render() {
         let moduleName = ItemInfo.getItemInfo(this.props.moduleType).name;
+        
 
         return (
                 <div className="ManufacturingEntry">
@@ -58,7 +64,9 @@ export default class ManufacturingEntry extends React.Component<ManufacturingEnt
                 quantity: amount
             }
             key++;
-            resourceList.push(<CargoItem item={item} hoverHighLight={false} tooltipLeft={false} key={key} redTint={false} enableDragAndDrop={false} index={0} selected={false} onClick={this.onClick} onEnter={this.onClick} onLeave={this.onClick}/>);
+            //@ts-ignore
+            let enoughQuantity = this.props.resourceMap == undefined ? false : this.props.resourceMap.get(element.mineral) == undefined ? false : this.props.resourceMap.get(element.mineral) >= amount;
+            resourceList.push(<CargoItem item={item} hoverHighLight={false} tooltipLeft={false} key={key} redTint={!enoughQuantity} enableDragAndDrop={false} index={0} selected={false} onClick={this.onClick} onEnter={this.onClick} onLeave={this.onClick}/>);
         });
         return resourceList;
     }

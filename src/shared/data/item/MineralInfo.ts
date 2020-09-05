@@ -30,6 +30,7 @@ export module MineralInfo {
             refined: ERefinedMineralItemType.REFINED_PLATINUM,
             refineQuantity: 10
         },
+        /*
         [EMineralItemType.PALLADIUM_ORE] : {
             rarity: 3,
             refined: ERefinedMineralItemType.REFINED_PALLADIUM,
@@ -143,6 +144,7 @@ export module MineralInfo {
             refined: ERefinedMineralItemType.REFINED_YTTRIUM,
             refineQuantity: 10
         },
+        */
     }
 
     export function getMineralInfo(mineralType : EMineralItemType) : IMineralInfo {

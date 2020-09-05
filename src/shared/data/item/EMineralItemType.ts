@@ -6,16 +6,16 @@ export enum EMineralItemType {
     */
     GOLD_ORE,
     SILVER_ORE,
-    PLATINUM_ORE,
+    PLATINUM_ORE
+
+    /*
     PALLADIUM_ORE,
     RHODIUM_ORE,
     RUTHENIUM_ORE,
     IRIDIUM_ORE,
     OSMIUM_ORE,
 
-    /*
-        Rare earth metals
-    */
+   
    CERIUM_ORE,
    ERBIUM_ORE,
    TERBIUM_ORE,
@@ -34,4 +34,5 @@ export enum EMineralItemType {
    THULIUM_ORE,
    YTTERBIUM_ORE,
    YTTRIUM_ORE
+   */
 }

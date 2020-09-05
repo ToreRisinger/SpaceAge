@@ -182,6 +182,7 @@ export module ItemInfo {
             canStack: true,
             sprite : undefined
         },
+        /*
         [EMineralItemType.PALLADIUM_ORE] : {
             image : "assets/image/items/item_gold_ore.png",
             name: "Palladium Ore",
@@ -380,6 +381,7 @@ export module ItemInfo {
             canStack: true,
             sprite : undefined
         },
+        */
 
         /*
             REFINED
@@ -421,6 +423,7 @@ export module ItemInfo {
             canStack: true,
             sprite : undefined
         },
+        /*
         [ERefinedMineralItemType.REFINED_PALLADIUM] : {
             image : "assets/image/items/item_gold_ore.png",
             name: "Refined Palladium",
@@ -619,6 +622,7 @@ export module ItemInfo {
             canStack: true,
             sprite : undefined
         },
+        */
     }
 
     export function getItemInfo(itemType : EItemType) : IItemInfo {
