@@ -1289,7 +1289,7 @@ input:focus, textarea:focus, select:focus {
 
 .ManufacturingEntry {
     width: 600px;
-    height: 98px;
+    height: 140px;
     padding: 4px;
     margin-bottom: 10px;
     border: 1px solid rgb(122, 122, 122);
@@ -1309,18 +1309,22 @@ input:focus, textarea:focus, select:focus {
 
 .ManufacturingEntryContentContainer {
     display: flex;
-    flex-flow: row;
+    flex-flow: column;
 }
 
 .ManufacturingEntryResourceContainer {
     display: flex;
-    width: 50%;
-    height: 100%
 }
 
 .ManufacturingEntryButtonContainer {
-    width: 50%;
-    height: 100%;
+
+}
+
+.ManufacturingEntryStartBuildModuleButton {
+    border: 2px solid rgb(122, 122, 122);
+    background-color: rgb(63, 63, 63);
+    text-align: center;
+    margin-top: 5px;
 }
 
 /*
