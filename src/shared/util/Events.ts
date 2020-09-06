@@ -11,6 +11,7 @@ import { INpc } from "../data/npc/INpc";
 import { IContainer } from "../data/gameobject/IContainer";
 import { ISceneObject } from "../data/gameobject/ISceneObject";
 import { IItem } from "../data/item/IItem";
+import { EModuleItemType } from "../data/item/EModuleItemType";
 
 
 export module Events {
@@ -50,6 +51,7 @@ export module Events {
         SECTOR_CHANGED_EVENT,
         TRAIN_SKILL_START,
         TRAIN_SKILL_STOP,
+        BUILD_MODULE_START,
         OPEN_CARGO_REQUEST,
         OPEN_CARGO_ACK,
         OPEN_CARGO_FAIL,
@@ -433,6 +435,13 @@ export module Events {
 
     export interface CLIENT_STOP_ORE_PROCESSING_REQ extends GameEvent {
         data: {}
+    }
+
+    export interface BUILD_MODULE_START extends GameEvent {
+        data: { 
+            moduleType: EModuleItemType,
+            quality: number
+        }
     }
 }
 

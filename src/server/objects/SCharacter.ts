@@ -127,6 +127,11 @@ export class SCharacter extends SShip {
               item: undefined,
               startTime: 0
             },
+            manufactruingState: {
+              isManufacturing: false,
+              module: undefined,
+              startTime: 0
+            },
             modules : [
               {moduleItem: ItemFactory.createModule(EModuleItemType.POWER_MODULE, 1), x: -1, y : -1},
               {moduleItem: ItemFactory.createModule(EModuleItemType.SHIELD_MODULE, 1), x: 0, y : -1},

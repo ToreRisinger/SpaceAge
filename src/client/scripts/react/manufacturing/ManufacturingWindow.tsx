@@ -6,6 +6,7 @@ import { ShipModuleInfo } from "../../../../shared/data/shipmodule/ShipModuleInf
 import { GlobalDataService } from "../../modules/GlobalDataService";
 import { ERefinedMineralItemType } from "../../../../shared/data/item/ERefinedMineralItemType";
 import { CCharacter } from "../../game_objects/CCharacter";
+import { IManufacturingType } from "../../../../shared/data/IManufacturingState";
 
 export interface ManufacturingWindowProps {
     window_open: boolean
@@ -82,7 +83,9 @@ export default class ManufacturingWindow extends React.Component<ManufacturingWi
         let entries = new Array<ManufacturingEntryObject>();
         let moduleInfo = ShipModuleInfo.getModuleInfo(this.state.filterModuleType);
         let maxQuality = playerShip.getStat(moduleInfo.requireStat);
-    
+        let manufacturingType: IManufacturingType | undefined = playerShip.getManufacturingType();
+        let isManufacturing: boolean = playerShip.isManufacturing();
+
         for(let i = 1; i <= maxQuality; i++) {
             entries.push({quality: i, moduleInfo});
         }
@@ -95,7 +98,7 @@ export default class ManufacturingWindow extends React.Component<ManufacturingWi
                         <WindowHeader text="Manufacturing"/>
                         <div className="ManufacturingFilter"></div>
                         <div className="ManufacturingList">
-                            {entries.map((obj, i) => <ManufacturingEntry moduleType={this.state.filterModuleType} moduleInfo={obj.moduleInfo} quality={obj.quality} resourceMap={this.state.resourceMap} key={i}/>)}
+                            {entries.map((obj, i) => <ManufacturingEntry isManufacturing={isManufacturing} manufacturingType={manufacturingType} moduleType={this.state.filterModuleType} moduleInfo={obj.moduleInfo} quality={obj.quality} resourceMap={this.state.resourceMap} key={i}/>)}
                         </div>
                     </div>
                 }

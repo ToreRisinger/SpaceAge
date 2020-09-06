@@ -1359,3 +1359,18 @@ input:focus, textarea:focus, select:focus {
     text-align: center;
 }
 
+.Button {
+    border: 2px solid rgb(122, 122, 122);
+    background-color: rgb(63, 63, 63);
+    text-align: center;
+    margin-top: 5px;
+}
+
+.Button:hover {
+    background-color: rgb(97, 97, 97);
+}
+
+.ButtonDisabled {
+    
+}
+

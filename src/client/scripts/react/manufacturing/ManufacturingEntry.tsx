@@ -1,4 +1,4 @@
-import React, { Fragment, ReactNode }  from "react";
+import React, { ReactNode }  from "react";
 import { ShipModuleInfo } from "../../../../shared/data/shipmodule/ShipModuleInfo";
 import { ItemInfo } from "../../../../shared/data/item/ItemInfo";
 import CargoItem from "../cargo/CargoItem";
@@ -6,12 +6,19 @@ import { IItem } from "../../../../shared/data/item/IItem";
 import { EModuleItemType } from "../../../../shared/data/item/EModuleItemType";
 import ProgressBar from "../general/ProgressBar";
 import { ERefinedMineralItemType } from "../../../../shared/data/item/ERefinedMineralItemType";
+import { IManufacturingType } from "../../../../shared/data/IManufacturingState";
+import { EventHandler } from "../../modules/EventHandler";
+import { Events } from "../../../../shared/util/Events";
+import Button from "../general/Button";
 
 export interface ManufacturingEntryProps {
     quality: number, 
     moduleType: EModuleItemType,
     moduleInfo: ShipModuleInfo.IShipModuleInfo, 
-    resourceMap: Map<ERefinedMineralItemType, number>}
+    resourceMap: Map<ERefinedMineralItemType, number>
+    manufacturingType: IManufacturingType | undefined,
+    isManufacturing: boolean
+}
 
 export default class ManufacturingEntry extends React.Component<ManufacturingEntryProps, {}> {
 
@@ -25,7 +32,16 @@ export default class ManufacturingEntry extends React.Component<ManufacturingEnt
     onClick() { }
 
     onBuild() {
-
+        if(!this.props.isManufacturing) {
+            let event : Events.BUILD_MODULE_START = {
+                eventId : Events.EEventType.BUILD_MODULE_START,
+                data : { 
+                    moduleType: this.props.moduleType,
+                    quality: this.props.quality
+                }
+            }
+            EventHandler.pushEvent(event);
+        }
     }
 
     render() {
@@ -45,7 +61,7 @@ export default class ManufacturingEntry extends React.Component<ManufacturingEnt
                             {this.getResources()}
                         </div>
                         <div className="ManufacturingEntryButtonContainer">
-                            <div className="ManufacturingEntryStartBuildModuleButton" onClick={this.onBuild}>Build</div>    
+                            <Button enabled={true} onClick={this.onBuild} text={"Build"}/>
                             <ProgressBar currentProgress={0} totalProgress={100}/>
                         </div>
                     </div>

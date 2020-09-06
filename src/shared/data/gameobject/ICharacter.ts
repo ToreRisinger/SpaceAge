@@ -4,6 +4,7 @@ import { IShip } from "./IShip";
 import { IWarpState } from "../IWarpState";
 import { IDockingState } from "../IDockingState";
 import { IOreProcessingState } from "../IOreProcessingState";
+import { IManufacturingState } from "../IManufacturingState";
 
 export interface ICharacter extends IShip {
     cargo: ICargo,
@@ -13,5 +14,6 @@ export interface ICharacter extends IShip {
     warpState: IWarpState,
     dockingState: IDockingState,
     oreProcessingState: IOreProcessingState,
+    manufactruingState: IManufacturingState,
     money: number
 }
