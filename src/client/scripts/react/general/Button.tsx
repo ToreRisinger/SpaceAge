@@ -16,10 +16,10 @@ export default class Button extends React.Component<ButtonProps, {}> {
    }
 
    render() {
-        let disabledClass = this.props.enabled ? "" : "ButtonDisabled"; 
+        let className = this.props.enabled ? "Button" : "ButtonDisabled"; 
 
         return (
-                <div className={"Button " + disabledClass} onClick={this.onClick}>
+                <div className={"" + className} onClick={this.onClick}>
                     {this.props.text}
                 </div>  
         );

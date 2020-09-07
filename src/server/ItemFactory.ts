@@ -1,14 +1,13 @@
 import { ShipModuleInfo } from "../shared/data/shipmodule/ShipModuleInfo";
-import { ItemInfo } from "../shared/data/item/ItemInfo";
-import { EMineralItemType } from "../shared/data/item/EMineralItemType";
 import { IItem } from "../shared/data/item/IItem";
 import { EModuleItemType } from "../shared/data/item/EModuleItemType";
 import { IModuleStat } from "../shared/data/item/IModuleStat";
 import { IModuleStatGenerationConfig } from "../shared/data/shipmodule/IModuleStatGenerationConfig";
+import { EItemType } from "../shared/data/item/EItemType";
 
 export module ItemFactory {
 
-    export function createMineral(itemType : EMineralItemType, quantity : number) : IItem {
+    export function createItem(itemType : EItemType, quantity : number) : IItem {
         return {
             itemType : itemType,
             quantity : quantity,

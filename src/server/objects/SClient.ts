@@ -40,4 +40,8 @@ export class SClient {
     public stopTrainSkill() {
         this.character.stopTrainSkill();
     }
+
+    public startBuildModule(event: Events.BUILD_MODULE_START) {
+        this.character.startBuildModule(event);
+    }
 }

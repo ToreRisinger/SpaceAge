@@ -1,4 +1,4 @@
-import React, { ReactNode }  from "react";
+import React, { ReactNode, Fragment }  from "react";
 import { ShipModuleInfo } from "../../../../shared/data/shipmodule/ShipModuleInfo";
 import { ItemInfo } from "../../../../shared/data/item/ItemInfo";
 import CargoItem from "../cargo/CargoItem";
@@ -27,6 +27,7 @@ export default class ManufacturingEntry extends React.Component<ManufacturingEnt
         this.getResources = this.getResources.bind(this);
         this.onClick = this.onClick.bind(this);
         this.onBuild = this.onBuild.bind(this);
+        this.haveEnoughQuantity = this.haveEnoughQuantity.bind(this);
     }
 
     onClick() { }
@@ -46,7 +47,20 @@ export default class ManufacturingEntry extends React.Component<ManufacturingEnt
 
     render() {
         let moduleName = ItemInfo.getItemInfo(this.props.moduleType).name;
-        
+        let enabled: boolean = true;
+        this.props.moduleInfo.minerals.forEach(element => {
+            let amount = element.base + element.increase * (this.props.quality - 1);
+            let enoughQuantityTmp = this.haveEnoughQuantity(element.mineral, amount);
+            if(!enoughQuantityTmp) {
+                enabled = false;
+            }
+        });
+
+        if(this.props.isManufacturing) {
+            enabled = false;
+        }
+
+        let isManufacturingThisModule: boolean = this.props.isManufacturing && this.props.manufacturingType != undefined && this.props.manufacturingType.moduleType == this.props.moduleType && this.props.manufacturingType.quality == this.props.quality;
 
         return (
                 <div className="ManufacturingEntry">
@@ -61,8 +75,11 @@ export default class ManufacturingEntry extends React.Component<ManufacturingEnt
                             {this.getResources()}
                         </div>
                         <div className="ManufacturingEntryButtonContainer">
-                            <Button enabled={true} onClick={this.onBuild} text={"Build"}/>
-                            <ProgressBar currentProgress={0} totalProgress={100}/>
+                            {isManufacturingThisModule ? 
+                                    <ProgressBar currentProgress={0} totalProgress={100}/>
+                                :
+                                    <Button enabled={enabled} onClick={this.onBuild} text={"Build"}/>
+                            }
                         </div>
                     </div>
                 </div> 
@@ -80,10 +97,14 @@ export default class ManufacturingEntry extends React.Component<ManufacturingEnt
                 quantity: amount
             }
             key++;
-            //@ts-ignore
-            let enoughQuantity = this.props.resourceMap == undefined ? false : this.props.resourceMap.get(element.mineral) == undefined ? false : this.props.resourceMap.get(element.mineral) >= amount;
+            let enoughQuantity = this.haveEnoughQuantity(element.mineral, amount);
             resourceList.push(<CargoItem item={item} hoverHighLight={false} tooltipLeft={false} key={key} redTint={!enoughQuantity} enableDragAndDrop={false} index={0} selected={false} onClick={this.onClick} onEnter={this.onClick} onLeave={this.onClick}/>);
         });
         return resourceList;
+    }
+
+    haveEnoughQuantity(mineral: ERefinedMineralItemType, amount: number) {
+        //@ts-ignore
+        return this.props.resourceMap == undefined ? false : this.props.resourceMap.get(mineral) == undefined ? false : this.props.resourceMap.get(mineral) >= amount;
     }
 }

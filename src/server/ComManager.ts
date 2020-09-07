@@ -274,6 +274,7 @@ export class ComManager {
     }
   
     private handleClientEvent(client : SClient, event : Events.GameEvent) {
+        //TODO make this into a map<event, function> for faster lookup
         switch(event.eventId)  {
           case Events.EEventType.PLAYER_SET_NEW_DESTINATION_EVENT : {
             this.onPlayerSetNewDestinationEvent(client, event);
@@ -312,6 +313,10 @@ export class ComManager {
           }
           case Events.EEventType.TRAIN_SKILL_STOP : {
             client.stopTrainSkill();
+            break;
+          }
+          case Events.EEventType.BUILD_MODULE_START: {
+            client.startBuildModule(event);
             break;
           }
           case Events.EEventType.OPEN_CARGO_REQUEST: {

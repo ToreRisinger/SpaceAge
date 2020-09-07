@@ -18,6 +18,7 @@ import { CombatLogManager } from "../CombatLogManager";
 import { GameConstants } from "../../shared/constants/GameConstants";
 import { MineralInfo } from "../../shared/data/item/MineralInfo";
 import { EMineralItemType } from "../../shared/data/item/EMineralItemType";
+import { ERefinedMineralItemType } from "../../shared/data/item/ERefinedMineralItemType";
 
 const math = require('mathjs');
 
@@ -34,7 +35,10 @@ export class SCharacter extends SShip {
         items.push(ItemFactory.createModule(EModuleItemType.MAIN_MODULE, 3));
         items.push(ItemFactory.createModule(EModuleItemType.SHIELD_GENERATION_MODULE, 4));
         items.push(ItemFactory.createModule(EModuleItemType.POWER_MODULE, 5));
-        
+        items.push(ItemFactory.createItem(ERefinedMineralItemType.REFINED_IRON, 50));
+        items.push(ItemFactory.createItem(ERefinedMineralItemType.REFINED_GOLD, 50));
+        items.push(ItemFactory.createItem(ERefinedMineralItemType.REFINED_PLATINUM, 50));
+        items.push(ItemFactory.createItem(ERefinedMineralItemType.REFINED_SILVER, 50));
   
         let cargo : ICargo = {
           items : items
@@ -214,6 +218,10 @@ export class SCharacter extends SShip {
         this.character.skills.currentlyTrainingIndex = -1;
     }
 
+    public startBuildModule(event: Events.BUILD_MODULE_START) {
+      //TODO
+    }
+
     private updateSkillProgress() : void {
         let currentlyTraining : number = this.character.skills.currentlyTrainingIndex;
         if(currentlyTraining != -1) {
@@ -297,13 +305,13 @@ export class SCharacter extends SShip {
 
           let success: boolean = true;
           if(targetAsteroid.size >= sizeMined) {
-              success = CargoUtils.addItemToPlayerCargo(ItemFactory.createMineral(targetAsteroid.type, sizeMined), this);
+              success = CargoUtils.addItemToPlayerCargo(ItemFactory.createItem(targetAsteroid.type, sizeMined), this);
               if(success) {
                 targetAsteroid.size = targetAsteroid.size - sizeMined;
               }
               
           } else {
-              success = CargoUtils.addItemToPlayerCargo(ItemFactory.createMineral(targetAsteroid.type, targetAsteroid.size), this);
+              success = CargoUtils.addItemToPlayerCargo(ItemFactory.createItem(targetAsteroid.type, targetAsteroid.size), this);
               if(success) {
                 targetAsteroid.size = 0;
               }

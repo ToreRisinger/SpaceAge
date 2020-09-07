@@ -5,7 +5,6 @@ import { ICharacterSkills } from "../../../shared/data/skills/ICharacterSkills";
 import { SPRITES } from "../../../shared/util/SPRITES";
 import { Colors } from "../../../shared/colors/Colors";
 import { IItem } from "../../../shared/data/item/IItem";
-import { EModuleItemType } from "../../../shared/data/item/EModuleItemType";
 import { IManufacturingType } from "../../../shared/data/IManufacturingState";
 
 export class CCharacter extends CShip {
