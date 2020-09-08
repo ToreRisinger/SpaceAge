@@ -15,6 +15,9 @@ export interface ManufacturingWindowProps {
 export interface ManufacturingWindowState {
     filterModuleType: EModuleItemType,
     resourceMap: Map<ERefinedMineralItemType, number>
+    manufacturingType: IManufacturingType | undefined,
+    isManufacturing: boolean
+
 }
 
 interface ManufacturingEntryObject {
@@ -30,7 +33,9 @@ export default class ManufacturingWindow extends React.Component<ManufacturingWi
         super(props)
         this.state = {
             filterModuleType: EModuleItemType.ARMOR_MODULE,
-            resourceMap: new Map()  
+            resourceMap: new Map(),
+            manufacturingType: GlobalDataService.getInstance().getPlayerShip().getManufacturingType(),
+            isManufacturing: GlobalDataService.getInstance().getPlayerShip().isManufacturing()
         }
         this.tick = this.tick.bind(this);
 
@@ -39,7 +44,7 @@ export default class ManufacturingWindow extends React.Component<ManufacturingWi
     componentDidMount() {
         this.timerID = setInterval(
             () => this.tick(),
-            1000
+            500
         );
     }
 
@@ -76,6 +81,13 @@ export default class ManufacturingWindow extends React.Component<ManufacturingWi
                     break;
             }
         });
+
+        let playerShip : CCharacter = GlobalDataService.getInstance().getPlayerShip();
+        this.setState({
+            manufacturingType: playerShip.getManufacturingType(),
+            isManufacturing: playerShip.isManufacturing()
+    
+        })
     }
 
     render() {
@@ -83,9 +95,7 @@ export default class ManufacturingWindow extends React.Component<ManufacturingWi
         let entries = new Array<ManufacturingEntryObject>();
         let moduleInfo = ShipModuleInfo.getModuleInfo(this.state.filterModuleType);
         let maxQuality = playerShip.getStat(moduleInfo.requireStat);
-        let manufacturingType: IManufacturingType | undefined = playerShip.getManufacturingType();
-        let isManufacturing: boolean = playerShip.isManufacturing();
-
+    
         for(let i = 1; i <= maxQuality; i++) {
             entries.push({quality: i, moduleInfo});
         }
@@ -98,7 +108,7 @@ export default class ManufacturingWindow extends React.Component<ManufacturingWi
                         <WindowHeader text="Manufacturing"/>
                         <div className="ManufacturingFilter"></div>
                         <div className="ManufacturingList">
-                            {entries.map((obj, i) => <ManufacturingEntry isManufacturing={isManufacturing} manufacturingType={manufacturingType} moduleType={this.state.filterModuleType} moduleInfo={obj.moduleInfo} quality={obj.quality} resourceMap={this.state.resourceMap} key={i}/>)}
+                            {entries.map((obj, i) => <ManufacturingEntry isManufacturing={this.state.isManufacturing} manufacturingType={this.state.manufacturingType} moduleType={this.state.filterModuleType} moduleInfo={obj.moduleInfo} quality={obj.quality} resourceMap={this.state.resourceMap} key={i}/>)}
                         </div>
                     </div>
                 }

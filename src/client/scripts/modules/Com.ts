@@ -40,6 +40,7 @@ export module Com {
         
         EventHandler.on(Events.EEventType.TRAIN_SKILL_START, sendEventToServer);
         EventHandler.on(Events.EEventType.TRAIN_SKILL_STOP, sendEventToServer);
+        EventHandler.on(Events.EEventType.BUILD_MODULE_START, sendEventToServer);
         
         EventHandler.on(Events.EEventType.PLAYER_START_ATTACKING_EVENT, sendEventToServer);
         EventHandler.on(Events.EEventType.PLAYER_STOP_ATTACKING_EVENT, sendEventToServer);

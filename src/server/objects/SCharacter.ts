@@ -193,6 +193,7 @@ export class SCharacter extends SShip {
       super.update1000ms(sector);
       this.handleMiningShip(sector);
       this.handleOreProcessing();
+      this.handleManufacturing();
     }
 
     public resetState() {
@@ -219,7 +220,14 @@ export class SCharacter extends SShip {
     }
 
     public startBuildModule(event: Events.BUILD_MODULE_START) {
-      //TODO
+      if(!this.character.manufactruingState.isManufacturing) {
+        this.character.manufactruingState.isManufacturing = true;
+        this.character.manufactruingState.module = {
+          moduleType: event.data.moduleType,
+          quality: event.data.quality
+        }
+        this.character.manufactruingState.startTime = Date.now();
+      }
     }
 
     private updateSkillProgress() : void {
@@ -355,44 +363,67 @@ export class SCharacter extends SShip {
   }
   
   private handleOreProcessing() {
-    if(this.character.oreProcessingState.isProcessing) {
-      if(this.character.oreProcessingState.item == undefined || !(this.character.oreProcessingState.item.itemType in EMineralItemType)) {
-        this.character.oreProcessingState.isProcessing = false;
-        return;
-      }
+    if(!this.character.oreProcessingState.isProcessing) {
+      return;
+    }
 
-      //@ts-ignore
-      let mineralInfo = MineralInfo.getMineralInfo(this.character.oreProcessingState.item.itemType);
+    if(this.character.oreProcessingState.item == undefined || !(this.character.oreProcessingState.item.itemType in EMineralItemType)) {
+      this.character.oreProcessingState.isProcessing = false;
+      return;
+    }
 
-      if(this.character.oreProcessingState.item.quantity >= mineralInfo.refineQuantity) {
-        let totalTime = GameConstants.ORE_PROCESSING_BASE_TIME * (1 - this.character.stats[EStatType.ore_processing_speed]) * 1000;
-        let timePassed = Date.now() - this.character.oreProcessingState.startTime;
-        let shouldResetStartTime = timePassed > totalTime;
+    //@ts-ignore
+    let mineralInfo = MineralInfo.getMineralInfo(this.character.oreProcessingState.item.itemType);
 
-        timePassed - totalTime;
-        while(timePassed > totalTime) {
-          this.character.oreProcessingState.item.quantity = this.character.oreProcessingState.item.quantity - mineralInfo.refineQuantity;
-          let refined: IItem = {
-            //@ts-ignore
-            itemType: mineralInfo.refined,
-            module: undefined,
-            quantity: 1
-          };
-          CargoUtils.addItemToPlayerCargo(refined, this);
-          timePassed = timePassed - totalTime;
+    if(this.character.oreProcessingState.item.quantity >= mineralInfo.refineQuantity) {
+      let totalTime = GameConstants.ORE_PROCESSING_BASE_TIME * (1 - this.character.stats[EStatType.ore_processing_speed]) * 1000;
+      let timePassed = Date.now() - this.character.oreProcessingState.startTime;
+      let shouldResetStartTime = timePassed > totalTime;
 
-          if(this.character.oreProcessingState.item.quantity < mineralInfo.refineQuantity) {
-            if(this.character.oreProcessingState.item.quantity == 0) {
-              this.character.oreProcessingState.item = undefined;
-              this.character.oreProcessingState.isProcessing = false;
-            }
-            return;
+      timePassed - totalTime;
+      while(timePassed > totalTime) {
+        this.character.oreProcessingState.item.quantity = this.character.oreProcessingState.item.quantity - mineralInfo.refineQuantity;
+        let refined: IItem = {
+          //@ts-ignore
+          itemType: mineralInfo.refined,
+          module: undefined,
+          quantity: 1
+        };
+        CargoUtils.addItemToPlayerCargo(refined, this);
+        timePassed = timePassed - totalTime;
+
+        if(this.character.oreProcessingState.item.quantity < mineralInfo.refineQuantity) {
+          if(this.character.oreProcessingState.item.quantity == 0) {
+            this.character.oreProcessingState.item = undefined;
+            this.character.oreProcessingState.isProcessing = false;
           }
-        }
-        if(shouldResetStartTime) {
-          this.character.oreProcessingState.startTime = Date.now();
+          return;
         }
       }
+      if(shouldResetStartTime) {
+        this.character.oreProcessingState.startTime = Date.now();
+      }
+    }
+  }
+
+  private handleManufacturing() {
+    if(!this.character.manufactruingState.isManufacturing) {
+      return;
+    }
+
+    //TODO add check if they are able to manufacture the module they press
+
+    let totalTime = GameConstants.MANUFACURING_BASE_TIME * (1 - this.character.stats[EStatType.manufactoring_speed]) * 1000;
+    let timePassed = Date.now() - this.character.manufactruingState.startTime;
+    if(timePassed > totalTime) {
+      //@ts-ignore
+      let item: IItem = ItemFactory.createModule(this.character.manufactruingState.module.moduleType, this.character.manufactruingState.module.quality);
+      CargoUtils.addItemToPlayerCargo(item, this);
+
+      this.character.manufactruingState.isManufacturing = false;
+      this.character.manufactruingState.module = undefined;
+
+      //TODO remove refined minerals
     }
   }
 

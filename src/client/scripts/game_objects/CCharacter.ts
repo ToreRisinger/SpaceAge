@@ -83,6 +83,10 @@ export class CCharacter extends CShip {
         return this.characterData.manufactruingState.module;
     }
 
+    public getManufacturingStartTime(): number {
+        return this.characterData.manufactruingState.startTime;
+    }
+
     protected shouldShowThrustEffect(): boolean {
         return this.getIsMoving() && !this.isWarping();
     }

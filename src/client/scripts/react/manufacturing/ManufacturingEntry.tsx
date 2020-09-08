@@ -1,4 +1,4 @@
-import React, { ReactNode, Fragment }  from "react";
+import React, { ReactNode }  from "react";
 import { ShipModuleInfo } from "../../../../shared/data/shipmodule/ShipModuleInfo";
 import { ItemInfo } from "../../../../shared/data/item/ItemInfo";
 import CargoItem from "../cargo/CargoItem";
@@ -10,6 +10,9 @@ import { IManufacturingType } from "../../../../shared/data/IManufacturingState"
 import { EventHandler } from "../../modules/EventHandler";
 import { Events } from "../../../../shared/util/Events";
 import Button from "../general/Button";
+import { GameConstants } from "../../../../shared/constants/GameConstants";
+import { GlobalDataService } from "../../modules/GlobalDataService";
+import { EStatType } from "../../../../shared/data/stats/EStatType";
 
 export interface ManufacturingEntryProps {
     quality: number, 
@@ -60,7 +63,10 @@ export default class ManufacturingEntry extends React.Component<ManufacturingEnt
             enabled = false;
         }
 
+        let playerShip = GlobalDataService.getInstance().getPlayerShip();
         let isManufacturingThisModule: boolean = this.props.isManufacturing && this.props.manufacturingType != undefined && this.props.manufacturingType.moduleType == this.props.moduleType && this.props.manufacturingType.quality == this.props.quality;
+        let totalProgess = GameConstants.MANUFACURING_BASE_TIME * (1 - playerShip.getStat(EStatType.manufactoring_speed)) * 1000;
+        let currentProgress = Date.now() - playerShip.getManufacturingStartTime();
 
         return (
                 <div className="ManufacturingEntry">
@@ -76,7 +82,7 @@ export default class ManufacturingEntry extends React.Component<ManufacturingEnt
                         </div>
                         <div className="ManufacturingEntryButtonContainer">
                             {isManufacturingThisModule ? 
-                                    <ProgressBar currentProgress={0} totalProgress={100}/>
+                                    <ProgressBar currentProgress={currentProgress} totalProgress={totalProgess}/>
                                 :
                                     <Button enabled={enabled} onClick={this.onBuild} text={"Build"}/>
                             }
