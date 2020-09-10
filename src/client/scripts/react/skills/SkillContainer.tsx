@@ -21,7 +21,6 @@ export default class SkillContainer extends React.Component<SkillContainerProps,
     private SECONDS_IN_AN_HOUR : number = 60 * this.SECONDS_IN_A_MINUTE;
     private SECONDS_IN_A_DAY : number = 24 * this.SECONDS_IN_AN_HOUR;
     
-
     constructor(props : SkillContainerProps) {
         super(props)
         this.getCurrentProgress = this.getCurrentProgress.bind(this);

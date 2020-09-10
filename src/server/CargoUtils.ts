@@ -2,6 +2,7 @@ import { ItemInfo } from "../shared/data/item/ItemInfo";
 import { IItem } from "../shared/data/item/IItem";
 import { SCharacter } from "./objects/SCharacter";
 import { EStatType } from "../shared/data/stats/EStatType";
+import { EItemType } from "../shared/data/item/EItemType";
 
 export module CargoUtils {
 
@@ -52,5 +53,28 @@ export module CargoUtils {
 
     export function getCargoTotalSize(character: SCharacter) : number {
         return character.getData().stats[EStatType.cargo_hold_size];
+    }
+
+    export function removeType(character: SCharacter, itemType: EItemType, amount: number): void {
+        let remainingAmount = amount;
+        let itemIndex: 0;
+        let indexesToRemove : Array<number> = [];
+        character.getData().cargo.items.forEach(item => {
+            if(item.itemType == itemType) {
+                if(item.quantity > remainingAmount) {
+                    item.quantity = item.quantity - remainingAmount;
+                } else if(item.quantity <= remainingAmount) {
+                    remainingAmount = remainingAmount - item.quantity;
+                    indexesToRemove.push(itemIndex);
+                }
+            }
+            itemIndex++;
+        });
+        let itemsRemoved = 0;
+        indexesToRemove.forEach(index => {
+            character.getData().cargo.items.splice(index - itemsRemoved, 1);
+            itemsRemoved++;
+        });
+        clientsWithUpdatedCargo.set(character.getData().id, character);
     }
 }

@@ -19,6 +19,7 @@ import { GameConstants } from "../../shared/constants/GameConstants";
 import { MineralInfo } from "../../shared/data/item/MineralInfo";
 import { EMineralItemType } from "../../shared/data/item/EMineralItemType";
 import { ERefinedMineralItemType } from "../../shared/data/item/ERefinedMineralItemType";
+import { ShipModuleInfo } from "../../shared/data/shipmodule/ShipModuleInfo";
 
 const math = require('mathjs');
 
@@ -220,14 +221,68 @@ export class SCharacter extends SShip {
     }
 
     public startBuildModule(event: Events.BUILD_MODULE_START) {
+      let moduleInfo : ShipModuleInfo.IShipModuleInfo = ShipModuleInfo.getModuleInfo(event.data.moduleType);
+
       if(!this.character.manufactruingState.isManufacturing) {
-        this.character.manufactruingState.isManufacturing = true;
-        this.character.manufactruingState.module = {
-          moduleType: event.data.moduleType,
-          quality: event.data.quality
+        if(this.hasEnoughMinerals(moduleInfo, event.data.quality)) {
+          moduleInfo.minerals.forEach(element => {
+            let amount = element.base + element.increase * (event.data.quality - 1);
+            CargoUtils.removeType(this, element.mineral, amount);
+          });
+          
+          this.character.manufactruingState.isManufacturing = true;
+          this.character.manufactruingState.module = {
+            moduleType: event.data.moduleType,
+            quality: event.data.quality
+          }
+          this.character.manufactruingState.startTime = Date.now();
         }
-        this.character.manufactruingState.startTime = Date.now();
       }
+    }
+
+    private hasEnoughMinerals(moduleInfo : ShipModuleInfo.IShipModuleInfo, quality: number): boolean {
+      let resourceMap : Map<ERefinedMineralItemType, number> = new Map();
+      resourceMap.set(ERefinedMineralItemType.REFINED_GOLD, 0);
+      resourceMap.set(ERefinedMineralItemType.REFINED_IRON, 0);
+      resourceMap.set(ERefinedMineralItemType.REFINED_PLATINUM, 0);
+      resourceMap.set(ERefinedMineralItemType.REFINED_SILVER, 0);
+      this.character.cargo.items.forEach(item => {
+          switch(item.itemType) {
+              case ERefinedMineralItemType.REFINED_GOLD:
+                  //@ts-ignore
+                  resourceMap.set(ERefinedMineralItemType.REFINED_GOLD, resourceMap.get(ERefinedMineralItemType.REFINED_GOLD) + item.quantity);
+                  break;
+              case ERefinedMineralItemType.REFINED_IRON:
+                  //@ts-ignore
+                  resourceMap.set(ERefinedMineralItemType.REFINED_IRON, resourceMap.get(ERefinedMineralItemType.REFINED_IRON) + item.quantity);
+                  break;
+              case ERefinedMineralItemType.REFINED_PLATINUM:
+                  //@ts-ignore
+                  resourceMap.set(ERefinedMineralItemType.REFINED_PLATINUM, resourceMap.get(ERefinedMineralItemType.REFINED_PLATINUM) + item.quantity);
+                  break;
+              case ERefinedMineralItemType.REFINED_SILVER:
+                  //@ts-ignore
+                  resourceMap.set(ERefinedMineralItemType.REFINED_SILVER, resourceMap.get(ERefinedMineralItemType.REFINED_SILVER) + item.quantity);
+                  break;
+              default:
+                  break;
+          }
+      });
+
+      moduleInfo.minerals.forEach(element => {
+        let amount = element.base + element.increase * (quality - 1);
+        let enoughQuantityTmp = this.haveEnoughQuantity(resourceMap, element.mineral, amount);
+        if(!enoughQuantityTmp) {
+            return false;
+        }
+      });
+
+      return true;
+    }
+
+    private haveEnoughQuantity(resourceMap : Map<ERefinedMineralItemType, number>, mineral: ERefinedMineralItemType, amount: number) {
+      //@ts-ignore
+      return resourceMap.get(mineral) == undefined ? false : resourceMap.get(mineral) >= amount;
     }
 
     private updateSkillProgress() : void {
@@ -290,8 +345,6 @@ export class SCharacter extends SShip {
           let skillInfo: SkillInfo.ISkillInfo = SkillInfo.getSkillInfo(skill.skillType);
           let baseStat: number = this.character.stats[skillInfo.stats.stat];
           this.character.stats[skillInfo.stats.stat] = Math.floor(baseStat + StatInfo.getAddedValue(baseStat, skillInfo.stats.modifier, skillInfo.stats.baseValue + skillInfo.stats.increase * skill.level));
-          //console.log(skillInfo.name + " base: " + baseStat + " increase: " + skillInfo.stats.increase + " level " + skill.level);
-          //console.log(skillInfo.name + " " + skill.level + ": " +  this.character.stats[skillInfo.stats.stat]);
         });
     }
 
@@ -411,8 +464,6 @@ export class SCharacter extends SShip {
       return;
     }
 
-    //TODO add check if they are able to manufacture the module they press
-
     let totalTime = GameConstants.MANUFACURING_BASE_TIME * (1 - this.character.stats[EStatType.manufactoring_speed]) * 1000;
     let timePassed = Date.now() - this.character.manufactruingState.startTime;
     if(timePassed > totalTime) {
@@ -422,8 +473,6 @@ export class SCharacter extends SShip {
 
       this.character.manufactruingState.isManufacturing = false;
       this.character.manufactruingState.module = undefined;
-
-      //TODO remove refined minerals
     }
   }
 
