@@ -31,6 +31,7 @@ export default class RefineryWindow extends React.Component<RefineryWindowProps,
         this.allowDrop = this.allowDrop.bind(this);
         this.onStop = this.onStop.bind(this);
         this.tick = this.tick.bind(this);
+        this.getCurrentProgress = this.getCurrentProgress.bind(this);
     }
 
     componentDidMount() {
@@ -74,10 +75,13 @@ export default class RefineryWindow extends React.Component<RefineryWindowProps,
         RefineryHandler.stopRefine();
     }
 
+    getCurrentProgress() {
+        return Date.now() - GlobalDataService.getInstance().getPlayerShip().getProcessingOreStartTime();
+    }
+
     render() {
         let player = GlobalDataService.getInstance().getPlayerShip();
         let totalProgess = GameConstants.ORE_PROCESSING_BASE_TIME * (1 - player.getStat(EStatType.ore_processing_speed)) * 1000;
-        let currentProgress = Date.now() - GlobalDataService.getInstance().getPlayerShip().getProcessingOreStartTime();
         
         let quantityNeeded = 0;
         let enoughQuantity = true;
@@ -101,7 +105,7 @@ export default class RefineryWindow extends React.Component<RefineryWindowProps,
                                     <div className="RefineProgress"></div>
                                     <div className="StopRefineButton" onClick={this.onStop}>Stop</div>
                                     {enoughQuantity ?
-                                        <ProgressBar currentProgress={currentProgress} totalProgress={totalProgess}/>
+                                        <ProgressBar currentProgress={this.getCurrentProgress} totalProgress={totalProgess}/>
                                         :
                                         <div>{quantityNeeded} needed.</div>
                                     }

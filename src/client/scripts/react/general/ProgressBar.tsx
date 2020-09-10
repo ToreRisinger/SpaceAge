@@ -1,27 +1,54 @@
 import React from "react";
 
-export interface ProgressBarProps { currentProgress: number, totalProgress: number}
+export interface ProgressBarProps { currentProgress: () => number, totalProgress: number}
 
-export default class ProgressBar extends React.Component<ProgressBarProps, {}> {
+export interface ProgressBarState { currentProgress: number }
 
-   constructor(props : ProgressBarProps) {
-      super(props)
-   }
+export default class ProgressBar extends React.Component<ProgressBarProps, ProgressBarState> {
 
-   render() {
-        let progressPercentage = this.props.currentProgress > this.props.totalProgress ? 100 : (this.props.currentProgress / this.props.totalProgress) * 100;
+    private timerID : ReturnType<typeof setTimeout> | undefined;
+
+    constructor(props : ProgressBarProps) {
+        super(props)
+        this.state = {
+            currentProgress: 0
+        }
+        this.tick = this.tick.bind(this);
+    }
+
+    componentDidMount() {
+        this.timerID = setInterval(
+            () => this.tick(),
+            16
+        );
+    }
+
+    componentWillUnmount() {
+        if(this.timerID != undefined) {
+            clearInterval(this.timerID);
+        }
+    }
+
+    tick() {
+        this.setState({
+            currentProgress: this.props.currentProgress()
+        })
+    }
+
+    render() {
+        let progressPercentage = this.state.currentProgress > this.props.totalProgress ? 100 : (this.state.currentProgress / this.props.totalProgress) * 100;
         return (
                 <div className="ProgressBar">
                     <div className="ProgressBarBar" style={{width: progressPercentage + "%"}}></div>
                     <div className="ProgressBarText">
-                        {this.props.currentProgress > this.props.totalProgress ?
+                        {this.state.currentProgress > this.props.totalProgress ?
                             "100%"
-                            : this.props.currentProgress == 0 ?
+                            : this.state.currentProgress == 0 ?
                                 "0%"
-                                : Math.floor((this.props.currentProgress/this.props.totalProgress) * 100) + "%"
+                                : Math.floor((this.state.currentProgress/this.props.totalProgress) * 100) + "%"
                         }
                     </div>
                 </div>  
         );
-   }
+    }
 }

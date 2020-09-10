@@ -31,6 +31,7 @@ export default class ManufacturingEntry extends React.Component<ManufacturingEnt
         this.onClick = this.onClick.bind(this);
         this.onBuild = this.onBuild.bind(this);
         this.haveEnoughQuantity = this.haveEnoughQuantity.bind(this);
+        this.getCurrentProgress = this.getCurrentProgress.bind(this);
     }
 
     onClick() { }
@@ -46,6 +47,10 @@ export default class ManufacturingEntry extends React.Component<ManufacturingEnt
             }
             EventHandler.pushEvent(event);
         }
+    }
+
+    getCurrentProgress() {
+        return  Date.now() - GlobalDataService.getInstance().getPlayerShip().getManufacturingStartTime();
     }
 
     render() {
@@ -66,7 +71,6 @@ export default class ManufacturingEntry extends React.Component<ManufacturingEnt
         let playerShip = GlobalDataService.getInstance().getPlayerShip();
         let isManufacturingThisModule: boolean = this.props.isManufacturing && this.props.manufacturingType != undefined && this.props.manufacturingType.moduleType == this.props.moduleType && this.props.manufacturingType.quality == this.props.quality;
         let totalProgess = GameConstants.MANUFACURING_BASE_TIME * (1 - playerShip.getStat(EStatType.manufactoring_speed)) * 1000;
-        let currentProgress = Date.now() - playerShip.getManufacturingStartTime();
 
         return (
                 <div className="ManufacturingEntry">
@@ -82,7 +86,7 @@ export default class ManufacturingEntry extends React.Component<ManufacturingEnt
                         </div>
                         <div className="ManufacturingEntryButtonContainer">
                             {isManufacturingThisModule ? 
-                                    <ProgressBar currentProgress={currentProgress} totalProgress={totalProgess}/>
+                                    <ProgressBar currentProgress={this.getCurrentProgress} totalProgress={totalProgess}/>
                                 :
                                     <Button enabled={enabled} onClick={this.onBuild} text={"Build"}/>
                             }

@@ -24,6 +24,7 @@ export default class SkillContainer extends React.Component<SkillContainerProps,
 
     constructor(props : SkillContainerProps) {
         super(props)
+        this.getCurrentProgress = this.getCurrentProgress.bind(this);
     }
 
     onStopOrTrain() {
@@ -44,6 +45,10 @@ export default class SkillContainer extends React.Component<SkillContainerProps,
         }
     }
 
+    getCurrentProgress() {
+        return this.props.skill.progress;
+    }
+
     render() {
         const skill = this.props.skill;
         const skillInfo = SkillInfo.getSkillInfo(this.props.skill.skillType);
@@ -51,7 +56,6 @@ export default class SkillContainer extends React.Component<SkillContainerProps,
         const maxLevel = skillInfo.maxLevel;
         const currentLevel = skill.level;
         let nextLevel = maxLevel == -1 ? currentLevel + 1 : currentLevel + 1 > maxLevel ? maxLevel : currentLevel + 1;
-        const currentProgress = skill.progress;
         const maxProgress = skillInfo.startLearningTime * (Math.pow(skillInfo.learningTimeIncrease, currentLevel));
         let modifier: EStatModifier = skillInfo.stats.modifier;
         let statType: EStatType = skillInfo.stats.stat;
@@ -85,7 +89,7 @@ export default class SkillContainer extends React.Component<SkillContainerProps,
                         </div>
                         <div className="SkillField">
                             <span>Remaining: </span>
-                            {this.getTimeText(maxProgress - currentProgress)} 
+                            {this.getTimeText(maxProgress - this.getCurrentProgress())} 
                         </div>
                         <div id="skill_train_button" className="SkillField" onClick={(e) => this.onStopOrTrain()}>
                             {this.props.currentlyTraining ?
@@ -94,7 +98,7 @@ export default class SkillContainer extends React.Component<SkillContainerProps,
                                 "Train"
                             }
                         </div>
-                        <ProgressBar currentProgress={currentProgress} totalProgress={maxProgress}/>
+                        <ProgressBar currentProgress={this.getCurrentProgress} totalProgress={maxProgress}/>
                     </Fragment>
                     : 
                     <Fragment></Fragment>

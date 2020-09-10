@@ -38,13 +38,12 @@ export default class ManufacturingWindow extends React.Component<ManufacturingWi
             isManufacturing: GlobalDataService.getInstance().getPlayerShip().isManufacturing()
         }
         this.tick = this.tick.bind(this);
-
     }
 
     componentDidMount() {
         this.timerID = setInterval(
             () => this.tick(),
-            500
+            1000
         );
     }
 
@@ -86,7 +85,6 @@ export default class ManufacturingWindow extends React.Component<ManufacturingWi
         this.setState({
             manufacturingType: playerShip.getManufacturingType(),
             isManufacturing: playerShip.isManufacturing()
-    
         })
     }
 
