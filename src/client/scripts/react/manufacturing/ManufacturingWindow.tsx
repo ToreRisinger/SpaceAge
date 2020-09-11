@@ -7,6 +7,7 @@ import { GlobalDataService } from "../../modules/GlobalDataService";
 import { ERefinedMineralItemType } from "../../../../shared/data/item/ERefinedMineralItemType";
 import { CCharacter } from "../../game_objects/CCharacter";
 import { IManufacturingType } from "../../../../shared/data/IManufacturingState";
+import ManufacturingFilter from "./ManufacturingFilter";
 
 export interface ManufacturingWindowProps {
     window_open: boolean
@@ -38,6 +39,7 @@ export default class ManufacturingWindow extends React.Component<ManufacturingWi
             isManufacturing: GlobalDataService.getInstance().getPlayerShip().isManufacturing()
         }
         this.tick = this.tick.bind(this);
+        this.onFilterChanged = this.onFilterChanged.bind(this);
     }
 
     componentDidMount() {
@@ -88,6 +90,10 @@ export default class ManufacturingWindow extends React.Component<ManufacturingWi
         })
     }
 
+    onFilterChanged(moduleType: EModuleItemType) {
+
+    }
+
     render() {
         let playerShip : CCharacter = GlobalDataService.getInstance().getPlayerShip();
         let entries = new Array<ManufacturingEntryObject>();
@@ -104,7 +110,7 @@ export default class ManufacturingWindow extends React.Component<ManufacturingWi
                 {this.props.window_open &&
                     <div className="ManufacturingWindow BodyText SidePanelWindow HasBorder PanelBackgroundNoAlpha Unselectable">
                         <WindowHeader text="Manufacturing"/>
-                        <div className="ManufacturingFilter"></div>
+                        <ManufacturingFilter onFilterChanged={this.onFilterChanged}/>
                         <div className="ManufacturingList">
                             {entries.map((obj, i) => <ManufacturingEntry isManufacturing={this.state.isManufacturing} manufacturingType={this.state.manufacturingType} moduleType={this.state.filterModuleType} moduleInfo={obj.moduleInfo} quality={obj.quality} resourceMap={this.state.resourceMap} key={i}/>)}
                         </div>
