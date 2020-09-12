@@ -1273,6 +1273,19 @@ input:focus, textarea:focus, select:focus {
     Manufacturing
 
 */
+.ManufacturingWindow {
+    margin: auto;
+    position: absolute;
+    padding-top: 15px;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-bottom: 25px;
+    left: 50px;
+    top: 0px;
+    bottom: 0px;
+    z-index: 20;
+}
+
 .ManufacturingFilterContainer {
     height: 50px;
     width: calc(100% - 9px); /*  9px is because the entry list has some space for the scroll bar */
@@ -1282,20 +1295,11 @@ input:focus, textarea:focus, select:focus {
 .ManufacturingFilter { 
     width: 608px;
     height: 48px;
-    left: 0px;
-    right: 0px;
-    margin-left: auto;
-    margin-right: auto;
     background-color: rgb(65, 68, 65);
     border: 1px solid rgb(122, 122, 122);
     font-size: 20px;
-    text-align: center;
-    
-    line-height: 48px;
-}
-
-.ManufacturingFilter:hover {
-    background-color: rgb(111, 117, 111);
+    font-family: consolas;
+    color: rgb(199, 199, 199);
 }
 
 .ManufacturingList {
@@ -1311,8 +1315,6 @@ input:focus, textarea:focus, select:focus {
     padding: 4px;
     margin-bottom: 10px;
     border: 1px solid rgb(122, 122, 122);
-    margin-left: auto;
-    margin-right: auto;
     display: flex;
     flex-flow: column;
 }

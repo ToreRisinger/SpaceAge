@@ -140,6 +140,24 @@ export module ItemInfo {
             canStack: false,
             sprite : SPRITES.SHIP_MODULE.sprite
         },
+        [EModuleItemType.WEAPON_RANGE_MODULE] : {
+            image : "assets/sprite/modules/ship_module.png",
+            name: "Weapon Range Module",
+            description: "Description",
+            size: 20,
+            cargoSpace : 1,
+            canStack: false,
+            sprite : SPRITES.SHIP_MODULE.sprite
+        },
+        [EModuleItemType.MINING_RANGE_MODULE] : {
+            image : "assets/sprite/modules/ship_module.png",
+            name: "Weapon Range Module",
+            description: "Description",
+            size: 20,
+            cargoSpace : 1,
+            canStack: false,
+            sprite : SPRITES.SHIP_MODULE.sprite
+        },
 
         /*
             MINERALS

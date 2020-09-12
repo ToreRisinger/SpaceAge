@@ -108,7 +108,7 @@ export default class ManufacturingWindow extends React.Component<ManufacturingWi
             
             <Fragment>
                 {this.props.window_open &&
-                    <div className="ManufacturingWindow BodyText SidePanelWindow HasBorder PanelBackgroundNoAlpha Unselectable">
+                    <div className="ManufacturingWindow BodyText HasBorder PanelBackgroundNoAlpha Unselectable">
                         <WindowHeader text="Manufacturing"/>
                         <ManufacturingFilter onFilterChanged={this.onFilterChanged}/>
                         <div className="ManufacturingList">

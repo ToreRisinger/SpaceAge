@@ -11,7 +11,7 @@ export class ShipModuleWrapper {
     constructor(ship: CShip, thisPlayerShip: boolean) {
         this.modules = new Array();
         ship.getModules().forEach(_module => {
-            if(_module.moduleItem.itemType == EModuleItemType.MINING_LASER_MODULE) {
+            if(_module.moduleItem.itemType == EModuleItemType.MINING_RANGE_MODULE) {
                 this.modules.push(new MiningLaserShipModule(ship, _module, thisPlayerShip));
             } else if(_module.moduleItem.itemType == EModuleItemType.TURRET_MODULE) {
                 this.modules.push(new WeaponShipModule(ship, _module, thisPlayerShip));

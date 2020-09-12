@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { EModuleItemType } from "../../../../shared/data/item/EModuleItemType";
 import { ItemInfo } from "../../../../shared/data/item/ItemInfo";
 
@@ -31,14 +31,24 @@ export default class ManufacturingFilter extends React.Component<ManufacturingFi
     }
 
     render() {
-        let itemInfo = ItemInfo.getItemInfo(this.selectedModuleType);
-        let selectedModuleTypeName = itemInfo.name;
         return (
             <div className="ManufacturingFilterContainer">
-                <div className="ManufacturingFilter" onClick={this.onClickFilterHeader}>
-                    {selectedModuleTypeName}
-                </div> 
+                <select className="ManufacturingFilter">
+                    {this.getOptions()}
+                </select>
             </div> 
         );
+    }
+
+    getOptions() {
+        let optionList : Array<ReactNode> = [];
+        let key = 0;
+        this.moduleTypes.forEach(element => {
+            let itemInfo = ItemInfo.getItemInfo(element);
+            let selectedModuleTypeName = itemInfo.name;
+            optionList.push(<option key={key} value={element}>{selectedModuleTypeName}</option>);
+            key++;
+        });
+        return optionList;
     }
 }
