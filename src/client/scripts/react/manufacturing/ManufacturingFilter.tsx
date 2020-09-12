@@ -11,7 +11,7 @@ export default class ManufacturingFilter extends React.Component<ManufacturingFi
 
     constructor(props : ManufacturingFilterProps) {
         super(props);
-        this.onClickFilterHeader = this.onClickFilterHeader.bind(this);
+        this.onChange = this.onChange.bind(this);
         this.selectedModuleType = EModuleItemType.ARMOR_MODULE;
         this.moduleTypes = [];
         Object.values(EModuleItemType).forEach(value => {
@@ -22,8 +22,8 @@ export default class ManufacturingFilter extends React.Component<ManufacturingFi
         });
     }
 
-    onClickFilterHeader() {
-        
+    onChange(event: any) {
+        this.props.onFilterChanged(event.target.value);
     }
 
     public getSelection(): EModuleItemType {
@@ -33,7 +33,7 @@ export default class ManufacturingFilter extends React.Component<ManufacturingFi
     render() {
         return (
             <div className="ManufacturingFilterContainer">
-                <select className="ManufacturingFilter">
+                <select className="ManufacturingFilter" onChange={this.onChange}>
                     {this.getOptions()}
                 </select>
             </div> 

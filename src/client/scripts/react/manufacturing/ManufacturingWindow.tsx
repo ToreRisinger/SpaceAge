@@ -33,7 +33,7 @@ export default class ManufacturingWindow extends React.Component<ManufacturingWi
     constructor(props : ManufacturingWindowProps) {
         super(props)
         this.state = {
-            filterModuleType: EModuleItemType.ARMOR_MODULE,
+            filterModuleType: EModuleItemType.MAIN_MODULE,
             resourceMap: new Map(),
             manufacturingType: GlobalDataService.getInstance().getPlayerShip().getManufacturingType(),
             isManufacturing: GlobalDataService.getInstance().getPlayerShip().isManufacturing()
@@ -91,7 +91,9 @@ export default class ManufacturingWindow extends React.Component<ManufacturingWi
     }
 
     onFilterChanged(moduleType: EModuleItemType) {
-
+        this.setState({
+            filterModuleType: moduleType
+        })
     }
 
     render() {
