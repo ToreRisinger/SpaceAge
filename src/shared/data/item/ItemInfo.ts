@@ -183,7 +183,7 @@ export module ItemInfo {
             sprite : undefined
         },
         [EMineralItemType.SILVER_ORE] : {
-            image : "assets/image/items/item_gold_ore.png",
+            image : "assets/image/items/item_silver_ore.png",
             name: "Silver Ore",
             description: "description",
             size: 1,
@@ -192,7 +192,7 @@ export module ItemInfo {
             sprite : undefined
         },
         [EMineralItemType.PLATINUM_ORE] : {
-            image : "assets/image/items/item_gold_ore.png",
+            image : "assets/image/items/item_platinum_ore.png",
             name: "Platiunum Ore",
             description: "description",
             size: 1,
@@ -424,7 +424,7 @@ export module ItemInfo {
             sprite : undefined
         },     
         [ERefinedMineralItemType.REFINED_SILVER] : {
-            image : "assets/image/items/item_gold_ore.png",
+            image : "assets/image/items/item_refined_silver.png",
             name: "Refined Silver",
             description: "description",
             size: 1,
@@ -433,7 +433,7 @@ export module ItemInfo {
             sprite : undefined
         },
         [ERefinedMineralItemType.REFINED_PLATINUM] : {
-            image : "assets/image/items/item_gold_ore.png",
+            image : "assets/image/items/item_refined_platinum.png",
             name: "Refined Platiunum",
             description: "description",
             size: 1,

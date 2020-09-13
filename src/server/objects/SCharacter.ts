@@ -40,6 +40,10 @@ export class SCharacter extends SShip {
         items.push(ItemFactory.createItem(ERefinedMineralItemType.REFINED_GOLD, 50));
         items.push(ItemFactory.createItem(ERefinedMineralItemType.REFINED_PLATINUM, 50));
         items.push(ItemFactory.createItem(ERefinedMineralItemType.REFINED_SILVER, 50));
+        items.push(ItemFactory.createItem(EMineralItemType.GOLD_ORE, 50));
+        items.push(ItemFactory.createItem(EMineralItemType.IRON_ORE, 50));
+        items.push(ItemFactory.createItem(EMineralItemType.PLATINUM_ORE, 50));
+        items.push(ItemFactory.createItem(EMineralItemType.SILVER_ORE, 50));
   
         let cargo : ICargo = {
           items : items
